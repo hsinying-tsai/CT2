@@ -1,8 +1,9 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include <QWidget>
+#include<QWidget>
 #include<QLabel>
+#include<QObject>
 #include<QPixmap>
 #include<vector>
 #include<QString>
@@ -13,10 +14,15 @@
 #include<QVector>
 #include<QThread>
 #include<QMutex>
-
+#include"logger.h"
+#include<QComboBox>
+#include<QDir>
+#include<QStringList>
+#include<QTextStream>
+#include<QTextBrowser>
 QT_BEGIN_NAMESPACE
-namespace Ui {
 
+namespace Ui {
 class Widget;
 }
 QT_END_NAMESPACE
@@ -27,8 +33,9 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int num = 1,t = 1,time=0, i =0;
+    int num = 1, time = 0;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false;
+    Logger logger;
     tcp_client *tc;
     QPixmap pix_Ini,pix2;
     std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};
@@ -37,14 +44,12 @@ public:
     QString new_send_data;
     const QByteArray send_data;
 
-
-
     //存文字
     std::vector<QString> matrix_buffer_name = {"DM200", "DM202","DM204", "DM206","R200","R201","R202",
                                                                     "R203","R204","R205","R206","R207"};
-
     //存變數數值
     std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207};
+
     ~Widget();
 
 private slots:
@@ -64,6 +69,7 @@ private slots:
     void on_puB_write_clicked();
     void recv_label_update(const QString message);
     void connect_label_update();
+
 
 private:
     QLabel *label;

@@ -24,6 +24,8 @@ set(PROJECT_SOURCES
         tcp_client.cpp
         my_qlabel.cpp
         my_qlabel.h
+        logger.cpp
+        logger.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

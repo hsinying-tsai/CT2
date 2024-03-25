@@ -13,13 +13,19 @@
 #include<QValidator>
 #include<QLineEdit>
 #include<QThread>
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
+
     ui->setupUi(this);
+    logger.createLogFile();
+    logger.populateCombowithFileName(ui->comboBox,"Log");
     connect(ui->lbl_pic,SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
     connect(ui->lbl_pic, SIGNAL(Mouse_Pos()), this, SLOT(MouseCurrentPos()));
+    connect(ui->comboBox,QOverload<int>::of(&QComboBox::currentIndexChanged),
+            [&](int index){logger.on_comboBox_currentIndexChanged(index, ui->text_log,"Log");});
 
     tc = new tcp_client();
     tc->moveToThread(&clientThread);
@@ -44,6 +50,7 @@ Widget::Widget(QWidget *parent)
 
     clientThread.start();
 }
+
 
 
 Widget::~Widget()
@@ -73,6 +80,8 @@ void Widget::updatelblPic()
 }
 void Widget::on_puB_pre_clicked()
 {
+
+    logger.writeLog(Logger::Info,"User clicled puB_pre.");
     //上一張照片
     num--;
     updatelblPic();
@@ -80,6 +89,7 @@ void Widget::on_puB_pre_clicked()
 
 void Widget::on_puB_next_clicked()
 {
+    logger.writeLog(Logger::Info,"User clicled puB_next.");
     //下一張照片
     num++;
     updatelblPic();
@@ -87,6 +97,7 @@ void Widget::on_puB_next_clicked()
 
 void Widget::recv_label_update(const QString message)
 {
+    int count_num;
     qDebug()<<"12";
     // qDebug()<<message;
 
@@ -131,16 +142,15 @@ void Widget::recv_label_update(const QString message)
         }
     }else if(WritepuB_isPressed == true){
         qDebug()<<"OKWrite";
-        if(i == 8){
+        if(count_num == 8){
             WritepuB_isPressed = false;
-            i = 0;
+            count_num = 0;
         }else if(message == "OK\r\n"){
-            QString buffer_combined = QString("%1 %2%3 %4").arg("WR").arg("DM").arg(200+i).arg(buffer[i/2]);
+            QString buffer_combined = QString("%1 %2%3 %4").arg("WR").arg("DM").arg(200+count_num).arg(buffer[count_num/2]);
             // qDebug()<<buffer_combined;
             WR_command(buffer_combined);
             // qDebug()<<i<<buffer_combined;
-            i++;
-            i++;
+            count_num += 2;
         }
     }
     ui->textRecv->append(message);
@@ -211,6 +221,11 @@ void Widget::connect_label_update()
     }
 }
 
+
+
+
+
+
 void Widget::on_puB_sent_clicked()
 {
     qDebug()<<"user clicked puB_sent";
@@ -218,11 +233,11 @@ void Widget::on_puB_sent_clicked()
     const QByteArray send_data = ui->textSend->toPlainText().toUtf8();
     WR_command(send_data);
     //    if(send_data.isEmpty()){
-//        return;
-//    }
-//    new_send_data = QString("%1\r").arg(send_data);
-//    tc->client->write(new_send_data.toUtf8());
-//    sending_ms=false;
+    //         return;
+    //    }
+    //    new_send_data = QString("%1\r").arg(send_data);
+    //    tc->client->write(new_send_data.toUtf8());
+    //    sending_ms=false;
 
 }
 void Widget::WR_command(QString WR_messenge)

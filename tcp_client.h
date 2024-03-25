@@ -1,7 +1,8 @@
 #ifndef TCP_CLIENT_H
 #define TCP_CLIENT_H
 
-#include <QWidget>
+#include<QWidget>
+#include<QThread>
 #include<QTcpSocket>
 #include<QHostAddress>
 
@@ -16,13 +17,11 @@ public:
     QString send_fromWd;
     QTcpSocket *client;
     QHostAddress address;
-
     unsigned short port;
+
 signals:
     void recv_update(const QString);
     void connect_UIupdate();
-
-private:
 
 };
 
