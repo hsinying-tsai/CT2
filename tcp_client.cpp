@@ -12,14 +12,6 @@ void tcp_client::initClent()
 {
     qDebug()<<"1";
     if(client->state()==QAbstractSocket::ConnectedState){
-        qDebug()<<"2";
-        qDebug()<<"initClient()_unconnect";
-    }else if(client->state()==QAbstractSocket::UnconnectedState){
-        qDebug()<<"3";
-        qDebug()<<"initClient()_connect";
-    }
-
-    if(client->state()==QAbstractSocket::ConnectedState){
         qDebug()<<"4";
         client->abort();
         emit recv_update("Connection terminated");
@@ -49,11 +41,13 @@ void tcp_client::initClent()
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(client, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
             [this](QAbstractSocket::SocketError){
+                logger.writeLog(Logger::Error,"-Socket-" + client->errorString());
                 emit recv_update("Socket Error:"+client->errorString());
             });
 #else
     connect(client,&QAbstractSocket::errorOccurred,[this](QAbstractSocket::SocketError){
         qDebug()<<"18";
+        logger.writeLog(Logger::Error, "-Socket-"+client->errorString());
         emit recv_update("Socket Error:"+client->errorString());
     });
 #endif
@@ -63,16 +57,16 @@ void tcp_client::updateTCP_UI()
 {
     qDebug()<<"9";
     connect(client,&QTcpSocket::connected,[this]{
-        //連線成功
         qDebug()<<"10";
         qDebug()<<"連線成功";
+        logger.writeLog(Logger::Warning, "-Socket- Connnect success.");
         connnect_state =1;
         emit connect_UIupdate();
     });
     connect(client,&QTcpSocket::disconnected,[this]{
-        //連線失敗
         qDebug()<<"11";
         qDebug()<<"連線失敗";
+        logger.writeLog(Logger::Warning, "-Socket- Connnect failure.");
         connnect_state =0;
         emit connect_UIupdate();
     });

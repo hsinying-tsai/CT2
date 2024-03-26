@@ -5,6 +5,7 @@
 #include<QThread>
 #include<QTcpSocket>
 #include<QHostAddress>
+#include"logger.h"
 
 class tcp_client: public QObject
 {
@@ -16,6 +17,7 @@ public:
     int connnect_state = 0;
     QString send_fromWd;
     QTcpSocket *client;
+    Logger logger;
     QHostAddress address;
     unsigned short port;
 

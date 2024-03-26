@@ -13,6 +13,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-mod
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 find_package(OpenCV REQUIRED)
+find_package(iniparser)
 
 
 set(PROJECT_SOURCES
@@ -26,6 +27,8 @@ set(PROJECT_SOURCES
         my_qlabel.h
         logger.cpp
         logger.h
+        ini.h
+        ini.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -78,7 +81,8 @@ set_target_properties(0301_1 PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
-
+#if(iniparser)
+#    include_directories(/home/agx/Desktop/0321_qt/iniparser/src)
 include(GNUInstallDirs)
 install(TARGETS 0301_1
     BUNDLE DESTINATION .

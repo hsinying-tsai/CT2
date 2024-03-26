@@ -2,13 +2,25 @@
 #include<QDebug>
 Logger::Logger(QObject *parent) : QObject(parent)
 {
-    logFile.setFileName(filename);
-    if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
-        qDebug()<<"Failed to open file";
-        return;
+    //check "LOG" exist
+    QDir logDir("Log");
+    if(!logDir.exists()){
+        logDir.mkpath(".");
     }
 
-    m_textstream.setDevice(&logFile);
+    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
+    logFileName = QString("log_%1.log").arg(timestamp);
+    filePath = logDir.filePath(logFileName);
+
+
+    QFile logFile(filePath);
+    if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
+        qDebug()<<"Failed to create log file.";
+        return;
+    }
+    QTextStream m_textstream(&logFile);
+    m_textstream<<"New log file create.\n";
+    logFile.close();
 
 }
 QString Logger::logTypeToString(LogType type)
@@ -26,39 +38,19 @@ QString Logger::logTypeToString(LogType type)
     }
 }
 
-void Logger::createLogFile()
-{
-    QDir logDir("Log");
-    if(!logDir.exists()){
-        logDir.mkpath(".");
-    }
-
-    QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
-
-    QString logFileName = QString("log_%1.log").arg(timestamp);
-    QString filePath = logDir.filePath(logFileName);
-
-
-    QFile logFile(filePath);
-    if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
-        qDebug()<<"Failed to create log file.";
-        return;
-    }
-    out(&logFile);
-    out<<"New log file create.\n";
-//    logFile.close();
-
-
-}
-
-
 
 void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
     QString dataTimeString = currentDateTime.toString("yyyy-MM-dd hh:mm:ss");
-    out<<dataTimeString<<" |"<<logTypeToString(type)<<"| "<<message<<"\n";
-    out.flush();
+    QFile logFile(filePath);
+    if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
+        qDebug()<<"Failed to open log file.";
+        return;
+    }
+    QTextStream m_textstream(&logFile);
+    m_textstream<<dataTimeString<<" |"<<logTypeToString(type)<<"| "<<message<<"\n";;
+    m_textstream.flush();
 }
 
 void Logger::populateCombowithFileName(QComboBox *combobox, const QString directoryPath)
@@ -72,19 +64,18 @@ void Logger::populateCombowithFileName(QComboBox *combobox, const QString direct
     }
 }
 
-void Logger::on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser, const QString &directoryPath)
+void Logger::on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath)
 {
     if(index == -1){
         return;
     }
-
-    QString fileName = QString("%1/%2.log").arg(directoryPath, textBrowser->toPlainText());
-    QFile file(fileName);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+    QString fileName = QString("%1/%2.log").arg(directoryPath).arg(combobox->currentText());
+    QFile logFile(fileName);
+    if(!logFile.open(QIODevice::ReadOnly | QIODevice::Text)){
         textBrowser->setPlainText("Failed to open file");
         return;
     }
-    QTextStream in(&file);
+    QTextStream in(&logFile);
     textBrowser->setPlainText(in.readAll());
-    file.close();
+    logFile.close();
 }

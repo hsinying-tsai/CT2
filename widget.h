@@ -58,7 +58,7 @@ private slots:
     void on_puB_connect_clicked();
     void MouseCurrentPos();
     void updatelblPic();
-    void WR_command(QString WR_messenge);
+    void WR_command(QString WR_message);
     void Qtimer();
     void change_pic2(int index);
 

@@ -10,6 +10,7 @@
 #include<vector>
 #include<opencv2/opencv.hpp>
 #include<QImage>
+#include"logger.h"
 class my_qlabel : public QLabel
 {
     Q_OBJECT
@@ -53,6 +54,7 @@ signals:
 private:
     QList<QRect> rectangles;
     QList<QRectF> rectangles2;
+    Logger logger;
 
 signals:
     void rectangleClicked(int index);

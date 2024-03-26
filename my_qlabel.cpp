@@ -7,7 +7,6 @@
 #include<QToolTip>
 #include<QPixmap>
 
-
 my_qlabel::my_qlabel(QWidget *parent)
     :QLabel(parent){
     paint.width = 200;
@@ -22,6 +21,7 @@ my_qlabel::my_qlabel(QWidget *parent)
     connect(this,&my_qlabel::rectangleClicked,[this](int index){
 //        this->rectangleClicked(index);
         qDebug()<<"recatngle"<<index+1<<"is clicked";
+        logger.writeLog(Logger::Info,"User clicked rectangle number " + QString::number(index+1)+".");
     });
     updateRectangle2();
 
@@ -47,7 +47,6 @@ void my_qlabel::setImage(const QPixmap &image)
 
 void my_qlabel::drawRectangleOnImage(cv::Mat &image)
 {
-    qDebug()<<rectangles2;
     for(const QRect& rect : rectangles){
         cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
         cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
@@ -66,7 +65,6 @@ void my_qlabel::updateRectangle2()
         tmp_rect.setHeight(rect.height()*0.15*magnificationFactor);
         addRectangle2(QRectF(tmp_rect.x(),tmp_rect.y(),tmp_rect.width(),tmp_rect.height()));
     }
-    qDebug()<<rectangles2;
 }
 
 QPixmap my_qlabel::mat2pixmap(const cv::Mat &src)
@@ -81,7 +79,6 @@ QPixmap my_qlabel::mat2pixmap(const cv::Mat &src)
 
 void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
 {
-    // qDebug()<<"Mouse Moving!";
     updateRectangle2();
     this->x = ev->x();
     this->y = ev->y();
@@ -128,9 +125,7 @@ void my_qlabel::mousePressEvent(QMouseEvent *ev)
     updateMousePosition();
     press.x = ev->pos().x();
     press.y = ev->pos().y();
-    // qDebug()<<"mousePressEvent!";
     qDebug()<<"左鍵按下";
-//        for(QRectF&rect : rectangles2){
     for(int i = 0; i<rectangles2.size();i++){
         if(rectangles2[i].contains((ev->pos()))){
             emit rectangleClicked(i);
@@ -176,7 +171,6 @@ void my_qlabel::updateMousePosition()
 
 void my_qlabel::addRectangle(const QRect &rect)
 {
-
     rectangles.append(rect);
     update();
 }
