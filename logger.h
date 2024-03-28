@@ -18,6 +18,7 @@ public:
     void writeLog(LogType type, const QString &message);
     void populateCombowithFileName(QComboBox *combobox, const QString directoryPath);
     void on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
+    void create_file();
     QString filePath,logFileName,timestamp,comboText;
     QFile logFile;
     QTextStream m_textstream;

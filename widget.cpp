@@ -19,6 +19,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    logger.create_file();
     logger.populateCombowithFileName(ui->comboBox,"Log");
     connect(ui->lbl_pic,SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
     connect(ui->lbl_pic, SIGNAL(Mouse_Pos()), this, SLOT(MouseCurrentPos()));

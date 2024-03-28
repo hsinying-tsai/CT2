@@ -13,7 +13,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-mod
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 find_package(OpenCV REQUIRED)
-find_package(iniparser)
 
 
 set(PROJECT_SOURCES
@@ -29,6 +28,8 @@ set(PROJECT_SOURCES
         logger.h
         ini.h
         ini.cpp
+        myFuncts.cpp
+        myFuncts.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -36,12 +37,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         my_qlabel.h my_qlabel.cpp
-
-
-
-
-
-
     )
 
 # Define target properties for Android with Qt 6 as:

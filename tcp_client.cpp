@@ -14,17 +14,15 @@ void tcp_client::initClent()
     if(client->state()==QAbstractSocket::ConnectedState){
         qDebug()<<"4";
         client->abort();
-        emit recv_update("Connection terminated");
         updateTCP_UI();
     }else if(client->state()==QAbstractSocket::UnconnectedState){
         qDebug()<<"5";
         client->connectToHost(address,port);
-        emit recv_update("Connection successful");
         updateTCP_UI();
     }else{
         qDebug()<<"6";
         emit recv_update("It is not ConnectedState");
-        // ui->textRecv->append("It is not ConnectedState");
+//        ui->textRecv->append("It is not ConnectedState");
     }
 
     //recv connect
@@ -42,7 +40,7 @@ void tcp_client::initClent()
     connect(client, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
             [this](QAbstractSocket::SocketError){
                 logger.writeLog(Logger::Error,"-Socket-" + client->errorString());
-                emit recv_update("Socket Error:"+client->errorString());
+                emit recv_update("-Socket- Error:"+client->errorString());
             });
 #else
     connect(client,&QAbstractSocket::errorOccurred,[this](QAbstractSocket::SocketError){
@@ -65,7 +63,7 @@ void tcp_client::updateTCP_UI()
     });
     connect(client,&QTcpSocket::disconnected,[this]{
         qDebug()<<"11";
-        qDebug()<<"連線失敗";
+        qDebug()<<"連線失敗";\
         logger.writeLog(Logger::Warning, "-Socket- Connnect failure.");
         connnect_state =0;
         emit connect_UIupdate();
