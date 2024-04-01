@@ -212,6 +212,7 @@ static int getkeystring(FILE* *fp, const char *Section, const char *Key,
  *
  * \return            the number of characters copied into the supplied buffer
  */
+
 int ini_gets(const char *Section, const char *Key, const char *DefValue,
              char *Buffer, int BufferSize, const char *Filename)
 {

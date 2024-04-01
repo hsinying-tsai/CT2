@@ -10,7 +10,8 @@
 #include<vector>
 #include<opencv2/opencv.hpp>
 #include<QImage>
-#include"logger.h"
+#include"logger.h" 
+#include"myFuncts.h"
 class my_qlabel : public QLabel
 {
     Q_OBJECT

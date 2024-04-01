@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -45,7 +45,7 @@
        <property name="geometry">
         <rect>
          <x>470</x>
-         <y>210</y>
+         <y>230</y>
          <width>421</width>
          <height>281</height>
         </rect>
@@ -135,7 +135,7 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>210</y>
+         <y>230</y>
          <width>421</width>
          <height>281</height>
         </rect>
@@ -223,7 +223,7 @@
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>140</y>
+         <y>110</y>
          <width>93</width>
          <height>28</height>
         </rect>
@@ -257,6 +257,164 @@ background-color: red;</string>
        <property name="text">
         <string/>
        </property>
+      </widget>
+      <widget class="QPushButton" name="puB_changePG">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>160</y>
+         <width>131</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>change pattern</string>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="geometry">
+        <rect>
+         <x>670</x>
+         <y>90</y>
+         <width>221</width>
+         <height>151</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Comment</string>
+       </property>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>120</y>
+          <width>121</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Run state</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbl_plc_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-width: 3px;        
+border-radius: 10px;
+margin:10px;
+padding:20px;
+background-color: green;</string>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhNone</set>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>80</y>
+          <width>121</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Connect state</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbl_plc_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-width: 3px;        
+border-radius: 10px;
+margin:10px;
+padding:20px;
+background-color: red;</string>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhNone</set>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbl_plc_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>70</y>
+          <width>41</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-width: 3px;        
+border-radius: 10px;
+margin:10px;
+padding:20px;
+background-color: yellow;</string>
+        </property>
+        <property name="inputMethodHints">
+         <set>Qt::ImhNone</set>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>40</y>
+          <width>121</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Unconnect state</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
@@ -873,6 +1031,27 @@ background-color: red;</string>
         <string/>
        </property>
       </widget>
+      <widget class="QPushButton" name="puB_save">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>450</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
@@ -934,6 +1113,9 @@ background-color: red;</string>
         </property>
         <property name="frameShadow">
          <enum>QFrame::Plain</enum>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </widget>

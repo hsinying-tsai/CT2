@@ -1,5 +1,6 @@
 #include "myFuncts.h"
-
+#include<QDebug>
+#include"ini.h"
 bool initFuncts(char* _iniFile)
 {
     if(ini_gets("DEBUG","CONFIG","0",buffIni,2,_iniFile))
@@ -42,6 +43,27 @@ bool initFuncts(char* _iniFile)
         puts("Can't set parameter BOND_James");
         return false;
     }
+    if(ini_gets("CAM1","parmeter1","0",buffIni,8,iniFile))
+    {
+        CAM1_parm1=atoi(buffIni);
+    }
+    else
+    {
+        puts("Can't set parameter CAM1_1");
+        return false;
+    }
+    if(ini_gets("CAM1","parmeter2","0",buffIni,2,iniFile))
+    {
+        CAM1_parm2=atoi(buffIni);
+
+    }
+    else
+    {
+        puts("Can't set parameter CAM1_2");
+        return false;
+    }
+
+
 
     return true;
 }

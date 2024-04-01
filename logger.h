@@ -7,7 +7,7 @@
 #include<QComboBox>
 #include<QTextBrowser>
 //Info, Warning, Error, Fatal
-
+extern uint8_t CAM1_parm1;
 class Logger : public QObject
 {
     Q_OBJECT
@@ -23,6 +23,7 @@ public:
     QFile logFile;
     QTextStream m_textstream;
     QDir logDir;
+
 
 private:
     QString logTypeToString(LogType type);

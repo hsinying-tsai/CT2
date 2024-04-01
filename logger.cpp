@@ -12,7 +12,7 @@ QString Logger::logTypeToString(LogType type)
     case Warning:
             return "WARNING";
     case Error:
-        return "ERROR";
+        return "ERROR\t";
     default:
             return "UNKNOWN";
 
@@ -30,7 +30,7 @@ void Logger::writeLog(LogType type, const QString &message)
         return;
     }
     QTextStream m_textstream(&logFile);
-    m_textstream<<dataTimeString<<" |"<<logTypeToString(type)<<"| "<<message<<"\n";;
+    m_textstream<<dataTimeString<<"\t"<<logTypeToString(type)<<" : "<<message<<"\n";;
     m_textstream.flush();
 }
 

@@ -5,7 +5,6 @@
 tcp_client::tcp_client(QWidget *parent)
 {
     this->client = new QTcpSocket(this);
-    // initClent();
 }
 
 void tcp_client::initClent()
@@ -21,9 +20,8 @@ void tcp_client::initClent()
         updateTCP_UI();
     }else{
         qDebug()<<"6";
-        emit recv_update("It is not ConnectedState");
-//        ui->textRecv->append("It is not ConnectedState");
-    }
+        emit recv_update("Socket is not ConnectedState");
+   }
 
     //recv connect
     connect(client,&QTcpSocket::readyRead,[this]{
@@ -39,14 +37,11 @@ void tcp_client::initClent()
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(client, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
             [this](QAbstractSocket::SocketError){
-                logger.writeLog(Logger::Error,"-Socket-" + client->errorString());
-                emit recv_update("-Socket- Error:"+client->errorString());
+                emit recv_update("SocketError");
             });
 #else
     connect(client,&QAbstractSocket::errorOccurred,[this](QAbstractSocket::SocketError){
-        qDebug()<<"18";
-        logger.writeLog(Logger::Error, "-Socket-"+client->errorString());
-        emit recv_update("Socket Error:"+client->errorString());
+        emit recv_update("SocketError");
     });
 #endif
 }
@@ -57,14 +52,14 @@ void tcp_client::updateTCP_UI()
     connect(client,&QTcpSocket::connected,[this]{
         qDebug()<<"10";
         qDebug()<<"連線成功";
-        logger.writeLog(Logger::Warning, "-Socket- Connnect success.");
+        logger.writeLog(Logger::Warning, "Socket connnection successful.");
         connnect_state =1;
         emit connect_UIupdate();
     });
     connect(client,&QTcpSocket::disconnected,[this]{
         qDebug()<<"11";
-        qDebug()<<"連線失敗";\
-        logger.writeLog(Logger::Warning, "-Socket- Connnect failure.");
+        qDebug()<<"連線失敗";
+        logger.writeLog(Logger::Warning, "Socket connnection failed.");
         connnect_state =0;
         emit connect_UIupdate();
     });
