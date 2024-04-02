@@ -25,6 +25,7 @@ QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
 extern uint8_t CAM1_parm1,CAM1_parm2;
+extern bool RUNMODE_autoRun;
 namespace Ui {
 class Widget;
 }
@@ -36,16 +37,19 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1,time = 0,ARM_posX,ARM_posY;
-    bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false;
+    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY;
+    bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
+            ,checking_pos = false,checking_pos1= false,change_PG = false;
     Logger logger;
-    tcp_client *tc;
+    tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};
     QString rev_text, str1;
     QString DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207;
     QString new_send_data;
     const QByteArray send_data;
+    QList<QLineEdit*> lineEdits;
+    QVector<QString> orgi_text,new_text;
 
 
     //存文字
@@ -67,15 +71,16 @@ private slots:
     void Qtimer();
     void change_pic2(int index);
     void StartMicroscopic();
+    void saveText();
+    void comp_text();
 
     //TCP/IP
     void on_puB_sent_clicked();
     void on_puB_start_clicked();
     void on_puB_read_clicked();
     void on_puB_write_clicked();
-    void recv_label_update(const QString message);
+    void recv_label_update(QString message);
     void connect_label_update();
-    void on_puB_changePG_clicked();
 
 private:
     QLabel *label;

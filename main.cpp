@@ -11,7 +11,7 @@
 char buffIni[40];
 char iniFile[20];
 
-bool DEBUG_CONFIG;
+bool DEBUG_CONFIG,RUNMODE_autoRun;
 uint8_t MCP2515_fOsc;
 float CANBUS_SPPos;
 uint16_t BOND_James;
@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
         printf("Setting CANBUS_SPPos %f\n", CANBUS_SPPos);
         printf("BOND_James %i\n", BOND_James);
         printf("Setting CAM1_parm1 %i\n",CAM1_parm1);
+        printf("Setting RUNMODE_autoRun %i\n",RUNMODE_autoRun);
 //        return EXIT_SUCCESS;
     }
     QApplication a(argc, argv);

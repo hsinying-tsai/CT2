@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -222,8 +222,8 @@
       <widget class="QPushButton" name="puB_start">
        <property name="geometry">
         <rect>
-         <x>30</x>
-         <y>110</y>
+         <x>50</x>
+         <y>150</y>
          <width>93</width>
          <height>28</height>
         </rect>
@@ -256,19 +256,6 @@ background-color: red;</string>
        </property>
        <property name="text">
         <string/>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="puB_changePG">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>160</y>
-         <width>131</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>change pattern</string>
        </property>
       </widget>
       <widget class="QGroupBox" name="groupBox">
@@ -1029,27 +1016,6 @@ background-color: yellow;</string>
        </property>
        <property name="text">
         <string/>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="puB_save">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="geometry">
-        <rect>
-         <x>660</x>
-         <y>450</y>
-         <width>121</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Save</string>
        </property>
       </widget>
      </widget>

@@ -12,10 +12,9 @@ QString Logger::logTypeToString(LogType type)
     case Warning:
             return "WARNING";
     case Error:
-        return "ERROR\t";
+        return "ERROR";
     default:
             return "UNKNOWN";
-
     }
 }
 

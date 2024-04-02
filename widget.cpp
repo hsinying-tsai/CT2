@@ -13,6 +13,7 @@
 #include<QValidator>
 #include<QLineEdit>
 #include<QThread>
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -25,41 +26,22 @@ Widget::Widget(QWidget *parent)
 
     connect(ui->comboBox,QOverload<int>::of(&QComboBox::activated),
             [&](int index){logger.on_comboBox_currentIndexChanged(index,ui->text_log,ui->comboBox,"Log");});
-    tc = new tcp_client();
+//    tc = new tcp_client();
     tc->moveToThread(&clientThread);
 
-    connect(&clientThread, &QThread::finished, tc,&QObject::deleteLater);
+    connect(&clientThread, &QThread::finished, tc,&QWidget::deleteLater);
     connect(tc,SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
     connect(tc,SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
-    QList<QLineEdit*> lineEdits = QWidget::findChildren<QLineEdit*>();
-//    QVector<QString> orig_lineEdits[30];
-//    for(auto lineEdit : lineEdits){
-//        orig_lineEdits[i] = lineEdit->text();
-//        i++;
-//    }
-
-    //    for(auto lineEdit : lineEdits){
-//        orig_buffer[i] = lineEdit->text();
-//        i++;
-//    }
-//    connect(ui->puB_save,&QPushButton::clicked,[&](){
-//        orig_buffer[j] = lineEdit->text();
-//    });
-
-//    for(auto lineEdit : lineEdits){
-//        connect(lineEdit,&QLineEdit::textChanged, [=](){
-//            QString newText = lineEdit->text();
-//            if(newText != orig_buffer[j]){
-//                lineEdit->setStyleSheet("color:red");
-//            }else{
-//                lineEdit->setStyleSheet("color:black");
-//            }
-//            j++;
-//        });
-//    }
-
-
-
+    lineEdits = QWidget::findChildren<QLineEdit*>();
+    for(auto lineEdit : lineEdits){
+        new_text.append(lineEdit->text());
+        orgi_text.append(lineEdit->text());
+    }
+    connect(ui->puB_read,&QPushButton::clicked, this, &Widget::saveText);
+    connect(ui->puB_write,&QPushButton::clicked, this, &Widget::saveText);
+    for(auto lineEdit:lineEdits){
+        connect(lineEdit, &QLineEdit::textChanged,this,&Widget::comp_text);
+    }
     pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/"+QString::number(num)+".bmp");
     ui->lbl_pic->setImage(pix_Ini);
     ui->lbl_pattern->setText("Pattern = "+QString::fromStdString(matrix_pattern_name[num-1]));
@@ -68,11 +50,11 @@ Widget::Widget(QWidget *parent)
     ui->puB_sent->setEnabled(false);
 
     QTimer *timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
+//    connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
     timer->start(1000);
-
     qDebug()<<"CAM1_parm1"<<CAM1_parm1;
     qDebug()<<"CAM1_parm2"<<CAM1_parm2;
+    qDebug()<<"RUNMODE_autoRun"<<RUNMODE_autoRun;
     clientThread.start();
 
 }
@@ -92,8 +74,6 @@ void Widget::MouseCurrentPos()
 }
 void Widget::updatelblPic()
 {
-    // WR_command("WR R202 1");
-    // num = buffer[1];
     if(num == 0){
         num = 5;
     }else if(num == 6){
@@ -122,14 +102,13 @@ void Widget::on_puB_next_clicked()
     logger.writeLog(Logger::Info,"User changed pattern to " + QString::number(num) + ".");
 }
 
-void Widget::recv_label_update(const QString message)
+void Widget::recv_label_update(QString message)
 {
     if(message == "SocketError"){
         logger.writeLog(Logger::Warning,"Socket " + tc->client->errorString());
     }else{
         ui->textRecv->append(message);
         logger.writeLog(Logger::Info,"Received message "+message);
-        qDebug()<<"12";
         if(ReadpuB_isPressed== true)
         {
             ui->DM200_Edit->setText(QString(buffer[0]));
@@ -155,7 +134,7 @@ void Widget::recv_label_update(const QString message)
                 buffer[11] = ui->R207_Edit->text();
                 WR_command("RDS DM200 7");
             }else if(str1=="RDS DM200 7"){
-                // qDebug()<<"RDS WD200"<<message;
+                qDebug()<<"RDS WD200"<<message;
                 QStringList parts = message.split(" ");
                 ui->DM200_Edit->setText(parts[0]);
                 ui->DM202_Edit->setText(parts[2]);
@@ -178,47 +157,79 @@ void Widget::recv_label_update(const QString message)
             }else if(message == "OK"){
                 QString buffer_combined = QString("%1 %2%3 %4").arg("WR").arg("DM").arg(200+count_num).arg(buffer[count_num/2]);
                 WR_command(buffer_combined);
-                qDebug()<<"DM20"<<count_num;
                 count_num += 2;
             }
-        }else if(sending_pos == true){
-            if(message == "OK"){
-                qDebug()<<"Sending y ="<<ARM_posY;
+        }else if(message == "OK"){
+            if(sending_pos == true){
+                qDebug()<<"Step_6.Sending y ="<<ARM_posY;
                 QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
                 WR_command(buffer_combined);
                 buffer[10] = "0";
                 buffer[11] = "0";
                 logger.writeLog(Logger::Info,"Edge reset R206 and R207.");
-                qDebug()<<"將R206、R207歸零\n"<<"R206:"<<QString(buffer[10])<<"R207"<<QString(buffer[11]);
+                qDebug()<<"Step_6.將R206、R207歸零\n"<<"R206:"<<QString(buffer[10])<<"R207"<<QString(buffer[11]);
+                message = "null";
                 sending_pos = false;
-            }
+                checking_pos = true;
+
+            }else if(checking_pos1 == true){
+                qDebug()<<"Step_7.Sending y ="<<ARM_posY;
+                QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
+                WR_command(buffer_combined);
+                buffer[10] = "0";
+                buffer[11] = "0";
+                logger.writeLog(Logger::Info,"Edge reset R206 and R207.");
+                qDebug()<<"Step_7.將R206、R207歸零\n"<<"R206:"<<QString(buffer[10])<<"R207"<<QString(buffer[11]);
+            }else if(change_PG ==true){
+                //R202 ON
+                buffer[1] = QString::number(PG_num);
+                qDebug()<<"切換至 pattern = " + buffer[1] + " 的照片";
+                QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(buffer[1]);
+                WR_command(buffer_combined);
+                PG_num++;
+                change_PG =false;
+            }else if(checking_pos == true){
+                if(RUNMODE_autoRun == 1){
+                    WR_command("WR R206 1");
+                    checking_pos1 = true;
+                    checking_pos = false;
+                }
+            }else{}
         }else{
             //receive single command
             QStringList parts = message.split(" ");
-            qDebug()<<parts[0];
-            qDebug()<<parts[1];
-            for(int i = 0;i<12;i++){
-                if(matrix_buffer_name[i] == parts[0]){
-                    buffer[i] = parts[1];
+            if(parts.size() == 2){
+                for(int i = 0;i<12;i++){
+                    if(matrix_buffer_name[i] == parts[0]){
+                        buffer[i] = parts[1];
+                    }
                 }
+            }else{
+                qDebug()<<"Invalid commend";
+                ui->textRecv->append("Invalid commend");
             }
+
         }
         if(buffer[5] == "1"){
             //R200、R201
             buffer[4] = "0";
             buffer[5] = "0";
             logger.writeLog(Logger::Info,"Edge reset R200 and R201.");
-            qDebug()<<"server已回應OK，並已將R200、R201歸零\n"<<"R200:"<<QString(buffer[4])<<"R201:"<<QString(buffer[5]);
-            // WR_commandg("WRS R200 2 0 0");
+            qDebug()<<"Step_2.server已回應OK，並已將R200、R201歸零\n"<<"R200:"<<QString(buffer[4])<<"R201:"<<QString(buffer[5]);
+//             WR_command("WRS R200 2 0 0");
+            if(RUNMODE_autoRun == 1){
+                WR_command("WR R202 1");
+            }
         }
         if(buffer[7]== "1"){
-            //R202、R203 ->change pattern
-            buffer[1] = QString::number(PG_num);
-            qDebug()<<"切換至 pattern = " + buffer[1] + " 的照片";
+            //R202、R203 ->change pattern         
             buffer[6] = "0";
             buffer[7] = "0";
             logger.writeLog(Logger::Info,"Edge reset R202 and R203.");
-            qDebug()<<"server已回應OK，並將R202、R203歸零\n"<<"R202:"<<QString(buffer[6])<<"R203:"<<QString(buffer[7]);
+            qDebug()<<"Step_3.server已回應OK，並將R202、R203歸零\n"<<"R202:"<<QString(buffer[6])<<"R203:"<<QString(buffer[7]);
+            if(RUNMODE_autoRun == 1){
+                WR_command("WR R204 1");
+            }
         }
         if(buffer[9]== "1"){
             //R204、R205 ->open microscopic photography
@@ -226,25 +237,39 @@ void Widget::recv_label_update(const QString message)
             buffer[8] = "0";
             buffer[9] = "0";
             logger.writeLog(Logger::Info,"Edge reset R204 and R205.");
-            qDebug()<<"server已回應OK，並將R204、R205歸零\n"<<"R204:"<<QString(buffer[8])<<"R205"<<QString(buffer[9]);
+            qDebug()<<"Step_4.server已回應OK，並將R204、R205歸零\n"<<"R204:"<<QString(buffer[8])<<"R205"<<QString(buffer[9]);
+            if(PG_num<4){
+                if(RUNMODE_autoRun == 1){
+                   WR_command("WR R202 1");
+                }
+            }else{
+                qDebug()<<"All pattern was changed.";
+                qDebug()<<"Enter step6";
+                if(RUNMODE_autoRun == 1){
+                   WR_command("WR R206 1");
+                }
+            }
         }
         if(buffer[11] == "1"){
             //R207 ON ->record X,Y in DM204,DM206
             ARM_posX = 10;
             ARM_posY = 10;
-            qDebug()<<"Sendind x = "<< ARM_posX;
-            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
-            WR_command(buffer_combined);
-            sending_pos = true;
-            qDebug()<<sending_pos;
+            if(checking_pos1 == true){
+                qDebug()<<"Step_7.Checking x = "<< ARM_posX;
+                QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+                WR_command(buffer_combined);
+            }else{
+                sending_pos = true;
+                qDebug()<<"Step_6.Sending x = "<< ARM_posX;
+                QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+                WR_command(buffer_combined);
+            }
         }
     }
 }
 
 void Widget::connect_label_update()
 {
-    qDebug()<<"13";
-
     if(tc->client->state()==QAbstractSocket::ConnectedState){
         setWindowTitle(QString("Client[%1:%2]")
                            .arg(tc->client->localAddress().toString())
@@ -254,7 +279,7 @@ void Widget::connect_label_update()
     }
     //connect state
     if(tc->connnect_state == 1){
-        qDebug()<<"14";
+        WR_command("WR R200 1");
         ui->textRecv->clear();
         ui->textSend->clear();
         ui->textRecv->setText("Socket connect.");
@@ -272,10 +297,7 @@ void Widget::connect_label_update()
         ui->textSend->setEnabled(true);
         ui->puB_sent->setEnabled(true);
 
-
-
     }else if(tc->connnect_state == 0){
-        qDebug()<<"15";
         PG_num = 1;
         //連線失敗
         ui->textRecv->clear();
@@ -317,25 +339,19 @@ void Widget::WR_command(QString WR_message)
     tc->client->write(new_send_data.toUtf8());
     sending_ms = false;
     if(str1=="WR R202 1"){
-        //R202 ON
-        buffer[1] = QString::number(PG_num);
-        QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(buffer[1]);
-        WR_command(buffer_combined);
-        PG_num++;
+        change_PG = true;
     }
 
 }
 void Widget::on_puB_connect_clicked()
 {
     logger.writeLog(Logger::Info,"User clicked ButtonpuB_connect.");
-    qDebug()<<"17";
     //初始化計時器
     time = 0;
     // 判斷當前是否有連接，連接了就斷開
     if(tc->client->state()==QAbstractSocket::ConnectedState){
-        qDebug()<<"4";
+
     }else if(tc->client->state()==QAbstractSocket::UnconnectedState){
-        qDebug()<<"2";
         tc->address = QHostAddress(ui->AddressEdit->text());
         tc->port= ui->PortEdit->text().toUShort();
     }
@@ -345,9 +361,10 @@ void Widget::on_puB_connect_clicked()
 
 void Widget::Qtimer()
 {
+
      buffer[0] = QString::number(time);
      if(tc->client->state()==QAbstractSocket::ConnectedState)
-     {
+     {       
          if(sending_ms==false){
              QString command = QString("%1 %2").arg("WR DM200").arg(time);
              WR_command(command);
@@ -365,18 +382,34 @@ void Widget::change_pic2(int index)
     logger.writeLog(Logger::Info,"User changed pic2.");
     pix2.load("/home/agx/Desktop/0321_qt/Pictures/"+QString::number(num)+"_"+QString::number(index)+".bmp");
     ui->lbl_pic2->setPixmap(pix2);
-
-}
-
-void Widget::on_puB_changePG_clicked()
-{
-    logger.writeLog(Logger::Info,"User clicked Button puB_changePG.");
-    WR_command("WR R202 1");
 }
 
 void Widget::StartMicroscopic()
 {
     logger.writeLog(Logger::Info,"Start to Microscopic Photography.");
+}
+
+void Widget::saveText()
+{
+    orgi_text.clear();
+    for(auto lineEdit : lineEdits){
+      orgi_text.append(lineEdit->text());
+    }
+}
+
+void Widget::comp_text()
+{
+    new_text.clear();
+    for(auto lineEdit : lineEdits){
+      new_text.append(lineEdit->text());
+    }
+    for(int i = 0; i<14;i++){
+       if(new_text.at(i)!=orgi_text.at(i)){
+           lineEdits.at(i)->setStyleSheet("color:red");
+       }else{
+           lineEdits.at(i)->setStyleSheet("color:black");
+       }
+    }
 }
 
 void Widget::on_puB_start_clicked()
