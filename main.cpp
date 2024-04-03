@@ -18,6 +18,7 @@ uint16_t BOND_James;
 uint8_t CAM1_parm1,CAM1_parm2;
 int main(int argc, char *argv[])
 {
+    //192.168.1.168 8501
     if(argc>1)
     {
         strcpy(iniFile,argv[1]);
