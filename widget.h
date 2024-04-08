@@ -40,12 +40,12 @@ public:
     Widget(QWidget *parent = nullptr);
     int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1,count_PG = 0, time = 0,ARM_posX,ARM_posY,numberPart;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
-            ,checking_pos = false,change_flawPG = false, recevNULL = false,isEnding = false,recevZero = false;
+            ,change_flawPG = false, recevNULL = false,isEnding = false,recevZero = false,sendingTime = false;
     Logger logger;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};
-    QString rev_text, str1, stringPart;
+    QString rev_text, str1, str2,stringPart;
     QString DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207;
     QString new_send_data;
     const QByteArray send_data;
@@ -53,7 +53,7 @@ public:
     QVector<QString> orgi_text,new_text;
     QRegularExpression regex;
     QRegularExpressionMatch match;
-    QStringList parts,parts_R;
+    QStringList parts,parts_R,parts_DM200;
 
 
     //存文字
@@ -85,7 +85,6 @@ private slots:
     void recv_label_update(QString message);
     void connect_label_update();
     void RD(QString part);
-    void WR(QString command);
 
 
 private:

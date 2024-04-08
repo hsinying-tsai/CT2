@@ -25,7 +25,7 @@ void tcp_client::initClent()
             return;
         }
         const QString rev_text = QString::fromUtf8(client->readAll());
-        qDebug()<< rev_text;
+//        qDebug()<< rev_text;
         emit recv_update(rev_text.toUtf8());
     });
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
