@@ -21,6 +21,7 @@
 #include<QTextStream>
 #include<QTextBrowser>
 #include<ini.h>
+#include<QQueue>
 
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
@@ -40,7 +41,7 @@ public:
     Widget(QWidget *parent = nullptr);
     int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1,count_PG = 0, time = 0,ARM_posX,ARM_posY,numberPart;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
-            ,change_flawPG = false, recevNULL = false,isEnding = false,recevZero = false,sendingTime = false;
+            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
     Logger logger;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
@@ -54,6 +55,7 @@ public:
     QRegularExpression regex;
     QRegularExpressionMatch match;
     QStringList parts,parts_R,parts_DM200;
+    QQueue<QString> commandQ;
 
 
     //存文字
