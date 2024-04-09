@@ -260,21 +260,21 @@ void Widget::recv_label_update(QString message)
             }
         }
 
-        if(ReadpuB_isPressed == false){
-            if (buffer[5] == "1") {
-                //R200、R201
-                buffer[4] = "0";
-                buffer[5] = "0";
-                logger.writeLog(Logger::Info, "Edge reset R200 and R201.");
-                qDebug() << "--------------Step_2.server已回應OK，並已將R200、R201歸零\n";
 
-                QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
-                WR_command(buffer_combined);
-                qDebug()<<"--------------Step_3.change PG_num to"<<PG_num;
-                PG_num++;
+        if (buffer[5] == "1") {
+            //R200、R201
+            buffer[4] = "0";
+            buffer[5] = "0";
+            logger.writeLog(Logger::Info, "Edge reset R200 and R201.");
+            qDebug() << "--------------Step_2.server已回應OK，並已將R200、R201歸零\n";
 
-            }
+            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
+            WR_command(buffer_combined);
+            qDebug()<<"--------------Step_3.change PG_num to"<<PG_num;
+            PG_num++;
+
         }
+
 
         if (buffer[7] == "1") {
             //R202、R203 ->change pattern
