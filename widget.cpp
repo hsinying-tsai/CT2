@@ -36,7 +36,7 @@ Widget::Widget(QWidget *parent)
     lineEdits = QWidget::findChildren<QLineEdit *>();
     for (auto lineEdit : lineEdits) {
         new_text.append(lineEdit->text());
-        orgi_text.append(lineEdit->text());
+        orgi_text.append(lineEdit->text()); 
     }
     connect(ui->puB_read, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
@@ -49,6 +49,11 @@ Widget::Widget(QWidget *parent)
     ui->textRecv->setEnabled(false);
     ui->textSend->setEnabled(false);
     ui->puB_sent->setEnabled(false);
+    ui->puB_runMode->setEnabled(false);
+    ui->puB_start->setEnabled(false);
+    ui->DM202_Edit->setPlaceholderText(" Pattern number");
+    ui->DM204_Edit->setPlaceholderText(" X");
+    ui->DM206_Edit->setPlaceholderText(" Y");
 
     QTimer *timer = new QTimer(this);
     QTimer *timer_RD = new QTimer(this);
@@ -64,15 +69,20 @@ Widget::Widget(QWidget *parent)
         if(recevZero==true){
             WR_command(str1);
         }
-
     });
     timer->start(1000);
     timer_RD->start(900);
     timer_WR->start(900);
     qDebug() << "CAM1_parm1" << CAM1_parm1;
     qDebug() << "CAM1_parm2" << CAM1_parm2;
-    qDebug() << "RUNMODE_autoRun" << RUNMODE_autoRun;
     clientThread.start();
+    for(int i = 0;i< vector_PG_flaw.size();i++){
+        qDebug()<<i<<":";
+        for(int j = 0 ; j<vector_PG_flaw[i].size();j++){
+            qDebug()<<vector_PG_flaw[i][j]<<","<<vector_PG_flaw[i][j+1];
+            j++;
+        }
+    }
 }
 
 Widget::~Widget()
@@ -130,8 +140,6 @@ void Widget::recv_label_update(QString message)
 {
     message = message.replace("\r\n","");
     qDebug()<<"received:"<<message<<"\tfrom"<<str1<<"\n";
-    ARM_posX = 10;
-    ARM_posY = 10;
     recevZero = false;
     if (message == "SocketError") {
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString());
@@ -202,10 +210,25 @@ void Widget::recv_label_update(QString message)
             }else if(parts[1] == "R202"){
                 parts_R[1] = "R202";
                 recevNULL = true;
+            }else if(parts[1] == "DM202"){
+                WR_command("WR R202 1");
             }else if(change_flawPG == true){
-                if(RUNMODE_autoRun == 1){
+                if(runMode == 1){
                     // change flaw pattern
-                    QStringList flawPGs = {"3"};
+                    QStringList flawPGs = {"3","5"};
+                    qDebug()<<"count_PG"<<count_PG;
+                    qDebug()<<flawPGs.size();
+
+                    for(int i = 0;i< vector_PG_flaw.size();i++){
+                        qDebug()<<i<<":";
+                        for(int j = 0 ; j<vector_PG_flaw[i].size();j++){
+                            ARM_posX = vector_PG_flaw[i][j];
+                            ARM_posY = vector_PG_flaw[i][j+1];
+                            qDebug()<<vector_PG_flaw[i][j]<<","<<vector_PG_flaw[i][j+1];
+                            j++;
+                        }
+                    }
+
                     if(count_PG<flawPGs.size()){
                         qDebug()<<"--------------Step_5.The falw PG is pattern"<<flawPGs.at(count_PG);
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(flawPGs.at(count_PG));
@@ -217,8 +240,6 @@ void Widget::recv_label_update(QString message)
                     }
                 }
 
-            }else if(parts[1] == "DM202"){
-                WR_command("WR R202 1");
             }else if(parts[1] == "DM204"){
                 if(sending_pos == true){
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
@@ -265,7 +286,7 @@ void Widget::recv_label_update(QString message)
                 buffer[5] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R200 and R201.");
                 qDebug() << "--------------Step_2.server已回應OK.\n";
-                if(RUNMODE_autoRun == 1){
+                if(runMode == 1){
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
                     WR_command(buffer_combined);
                     qDebug()<<"--------------Step_3.change PG_num to"<<PG_num;
@@ -282,14 +303,17 @@ void Widget::recv_label_update(QString message)
             buffer[7] = "0";
             logger.writeLog(Logger::Info, "Edge reset R202 and R203.");
 
-            if(RUNMODE_autoRun == 1){
+            if(runMode == 1){
+
                 if(change_flawPG == true){
+
                     sending_pos = true;
                     qDebug() << "--------------Step_6.server已回應OK.\n";
                     qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                     WR_command(buffer_combined);
                     change_flawPG = false;
+
                 }else{
                     if(PG_num<3){
                         //To the next PG_num
@@ -324,13 +348,13 @@ void Widget::recv_label_update(QString message)
         if(buffer[11] == "1"){
             //R207
             qDebug()<<"--------------Step_7.Finish.";
+            buffer[11] == "0";
         }
     }
 }
 void Widget::RD(QString part)
 {
     if(recevZero == false){
-
         if(recevNULL == true){
             //RD R201、RD R203、RD R205
             QRegularExpression regex("(\\D+)(\\d+)");
@@ -345,7 +369,6 @@ void Widget::RD(QString part)
             }
         }
     }
-
 }
 
 void Widget::connect_label_update()
@@ -371,6 +394,8 @@ void Widget::connect_label_update()
                                    "padding:20px;"
                                    "background-color: green;");
         ui->puB_connect->setText("Disconnect");
+        ui->puB_runMode->setEnabled(true);
+        ui->puB_start->setEnabled(true);
         ui->AddressEdit->setEnabled(false);
         ui->PortEdit->setEnabled(false);
         ui->textRecv->setEnabled(true);
@@ -483,8 +508,10 @@ void Widget::comp_text()
 void Widget::on_puB_start_clicked()
 {
     logger.writeLog(Logger::Info, "User clicked Button puB_start.");
+    ui->puB_runMode->setEnabled(false);
     qDebug() << "--------------Step_2.Run mode start.";
     WR_command("WR R200 1");
+
 }
 void Widget::on_puB_read_clicked()
 {
@@ -529,4 +556,18 @@ void Widget::on_puB_write_clicked()
                                   .arg(buffer[11]);
 
     WR_command(buffer_combined);
+}
+
+void Widget::on_puB_runMode_clicked()
+{
+
+    if(count_runModeclickedtime%2 == 1){
+        ui->puB_runMode->setText("Auto");
+        runMode = 1;
+    }else{
+        ui->puB_runMode->setText("Manual");
+        runMode = 0;
+    }
+    count_runModeclickedtime++;
+
 }

@@ -45,14 +45,6 @@ bool initFuncts(char* _iniFile)
         return false;
     }
 
-    if(ini_gets("RUNMODE","autorun","0",buffIni,2,iniFile)){
-        RUNMODE_autoRun=atoi(buffIni);
-
-    }else{
-        puts("Can't set parameter RUNMODE_autoRun");
-        return false;
-    }
-
 
 
     return true;
