@@ -57,8 +57,8 @@ public:
     QRegularExpressionMatch match;
     QStringList parts,parts_R,parts_DM200;
     QQueue<QString> commandQ;
-    QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20,50,50},{30,30}};
-    QStringList flawPGs = {"3","5"};
+    QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20,50,50},{30,30},{70,70,90,90}};
+    QStringList flawPGs = {"3","5","7"};
 
     //存文字
     std::vector<QString> matrix_buffer_name = {"DM200", "DM202","DM204", "DM206","R200","R201","R202",

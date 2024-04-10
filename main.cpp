@@ -16,6 +16,7 @@ uint8_t MCP2515_fOsc;
 float CANBUS_SPPos;
 uint16_t BOND_James;
 uint8_t CAM1_parm1,CAM1_parm2;
+uint8_t COORDINATE_PTsX,COORDINATE_PTsY;
 int main(int argc, char *argv[])
 {
     //192.168.1.168 8501
@@ -39,6 +40,9 @@ int main(int argc, char *argv[])
         printf("Setting CANBUS_SPPos %f\n", CANBUS_SPPos);
         printf("BOND_James %i\n", BOND_James);
         printf("Setting CAM1_parm1 %i\n",CAM1_parm1);
+        printf("Setting COORDINATE_PTsX %i\n", COORDINATE_PTsX);
+        printf("Setting COORDINATE_PTsY %i\n", COORDINATE_PTsY);
+
 //        return EXIT_SUCCESS;
     }
     QApplication a(argc, argv);

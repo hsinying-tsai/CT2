@@ -135,7 +135,7 @@ void Widget::on_puB_next_clicked()
 void Widget::recv_label_update(QString message)
 {
     message = message.replace("\r\n","");
-    qDebug()<<"received:"<<message<<"\tfrom"<<str1<<"\n";
+    qDebug()<<"received:"<<message<<"\tfrom"<<str1;
     recevZero = false;
     if (message == "SocketError") {
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString());
@@ -207,10 +207,8 @@ void Widget::recv_label_update(QString message)
                 qDebug()<<"-<4>-";
                 parts_R[1] = "R202";
                 recevNULL = true;
-                qDebug()<<"43";
             }else if(parts[1] == "DM202"){
                 qDebug()<<"-<3>-";
-
                 WR_command("WR R202 1");
             }else if(change_flawPG == true){
                 // change flaw pattern
@@ -286,7 +284,7 @@ void Widget::recv_label_update(QString message)
             buffer[6] = "0";
             buffer[7] = "0";
             logger.writeLog(Logger::Info, "Edge reset R202 and R203.");
-            qDebug()<<"234";
+
             if(runMode == 1){
 
                 if(change_flawPG == true){
@@ -312,7 +310,7 @@ void Widget::recv_label_update(QString message)
 
                 }else{
                     //assume 2 pieces of pattern
-                    if(PG_num<3){
+                    if(PG_num<5){
                         //To the next PG_num
                         qDebug() << "--------------Step_3.server已回應OK.\n";
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
@@ -386,7 +384,6 @@ void Widget::recv_label_update(QString message)
 }
 void Widget::RD(QString part)
 {
-    qDebug()<<"123";
     if(recevZero == false){
         if(recevNULL == true){
             //RD R201、RD R203、RD R205、RD R207
@@ -546,7 +543,7 @@ void Widget::on_puB_start_clicked()
     qDebug() << "--------------Step_2.Run mode start.";
     if(runMode == 1){
         WR_command("WR R200 1");
-        ui->puB_start->setText("Stop");
+//        ui->puB_start->setText("Stop");
 
     }
 }

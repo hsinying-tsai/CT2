@@ -45,6 +45,22 @@ bool initFuncts(char* _iniFile)
         return false;
     }
 
+    if(ini_gets("COORDINATE","PT_sizeX","576",buffIni,4,iniFile)){
+        COORDINATE_PTsX=atoi(buffIni);
+
+    }else{
+        puts("Can't set parameter COORDINATE_PTsX");
+        return false;
+    }
+
+
+    if(ini_gets("COORDINATE","PT_sizeY","324",buffIni,4,iniFile)){
+        COORDINATE_PTsY=atoi(buffIni);
+
+    }else{
+        puts("Can't set parameter COORDINATE_PTsY");
+        return false;
+    }
 
 
     return true;
