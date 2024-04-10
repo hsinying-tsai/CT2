@@ -39,8 +39,8 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1,count_PG = 0, time = 0,ARM_posX,ARM_posY,numberPart
-    ,count_runModeclickedtime=1,runMode = 0;
+    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,numberPart
+    ,count_runModeclickedtime=1,runMode = 0, count_runPG=0,count_runPGflaw=0,delta_ARMposX,delta_ARMposY;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
     Logger logger;
@@ -57,8 +57,8 @@ public:
     QRegularExpressionMatch match;
     QStringList parts,parts_R,parts_DM200;
     QQueue<QString> commandQ;
-    QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20},{30,30}};
-
+    QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20,50,50},{30,30}};
+    QStringList flawPGs = {"3","5"};
 
     //存文字
     std::vector<QString> matrix_buffer_name = {"DM200", "DM202","DM204", "DM206","R200","R201","R202",

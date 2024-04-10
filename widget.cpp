@@ -76,13 +76,7 @@ Widget::Widget(QWidget *parent)
     qDebug() << "CAM1_parm1" << CAM1_parm1;
     qDebug() << "CAM1_parm2" << CAM1_parm2;
     clientThread.start();
-    for(int i = 0;i< vector_PG_flaw.size();i++){
-        qDebug()<<i<<":";
-        for(int j = 0 ; j<vector_PG_flaw[i].size();j++){
-            qDebug()<<vector_PG_flaw[i][j]<<","<<vector_PG_flaw[i][j+1];
-            j++;
-        }
-    }
+
 }
 
 Widget::~Widget()
@@ -97,6 +91,7 @@ Widget::~Widget()
 void Widget::MouseCurrentPos()
 {
     ui->lbl_Pos->setText(QString("X = %1, Y = %2").arg(ui->lbl_pic->x).arg(ui->lbl_pic->y));
+
 }
 void Widget::updatelblPic()
 {
@@ -134,6 +129,7 @@ void Widget::on_puB_next_clicked()
     num++;
     updatelblPic();
     logger.writeLog(Logger::Info, "User changed pattern to " + QString::number(num) + ".");
+
 }
 
 void Widget::recv_label_update(QString message)
@@ -208,56 +204,44 @@ void Widget::recv_label_update(QString message)
             if(parts[1]=="DM200"){
 //                qDebug()<<"alive";
             }else if(parts[1] == "R202"){
+                qDebug()<<"-<4>-";
                 parts_R[1] = "R202";
                 recevNULL = true;
+                qDebug()<<"43";
             }else if(parts[1] == "DM202"){
+                qDebug()<<"-<3>-";
+
                 WR_command("WR R202 1");
             }else if(change_flawPG == true){
-                if(runMode == 1){
-                    // change flaw pattern
-                    QStringList flawPGs = {"3","5"};
-                    qDebug()<<"count_PG"<<count_PG;
-                    qDebug()<<flawPGs.size();
-
-                    for(int i = 0;i< vector_PG_flaw.size();i++){
-                        qDebug()<<i<<":";
-                        for(int j = 0 ; j<vector_PG_flaw[i].size();j++){
-                            ARM_posX = vector_PG_flaw[i][j];
-                            ARM_posY = vector_PG_flaw[i][j+1];
-                            qDebug()<<vector_PG_flaw[i][j]<<","<<vector_PG_flaw[i][j+1];
-                            j++;
-                        }
-                    }
-
-                    if(count_PG<flawPGs.size()){
-                        qDebug()<<"--------------Step_5.The falw PG is pattern"<<flawPGs.at(count_PG);
-                        QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(flawPGs.at(count_PG));
-                        WR_command(buffer_combined);
-                        count_PG++;
-                    }else{
-                        qDebug()<<"--------------Step_5.All flaw pattern was changed.";
-                        WR_command("WR R202 1");
-                    }
-                }
-
-            }else if(parts[1] == "DM204"){
-                if(sending_pos == true){
+                // change flaw pattern
+                // step5 step6 step7
+                if(parts[1] == "DM204"){
+                    qDebug()<<"-<6>-";
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
-                    parts[1] = "DM206";
                     WR_command(buffer_combined);
+
+                }else if(parts[1] == "DM206"){
+                    qDebug()<<"-<7>-";
+                    WR_command("WR R206 1");
+
+                }else if(parts[1] == "R206"){
+                    qDebug()<<"-<8>-";
+                    parts_R[1] = "R206";
+                    recevNULL = true;
+                }else{
+                    qDebug()<<"-<2>-";
+                    if(runMode == 1){
+                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(flawPGs.at(count_runPG));
+                        WR_command(buffer_combined);
+                    }
                 }
 
-            }else if(parts[1] == "DM206"){
-                if(sending_pos == true){
-                    sending_pos = false;
-                    WR_command("WR R206 1");
-                }
             }else{
                 if(parts[0]=="RD"){
                     recevNULL = true;
                 }else{
-                    //R201,R203,R205,R207
+                    //R200,R202,R204
                     recevNULL = true;
                     parts_R = str1.split(" ");
                 }
@@ -302,19 +286,32 @@ void Widget::recv_label_update(QString message)
             buffer[6] = "0";
             buffer[7] = "0";
             logger.writeLog(Logger::Info, "Edge reset R202 and R203.");
-
+            qDebug()<<"234";
             if(runMode == 1){
 
                 if(change_flawPG == true){
+                    qDebug()<<"-<5>-";
+                    ARM_posX = vector_PG_flaw[count_runPG][count_runPGflaw];
+                    ARM_posY = vector_PG_flaw[count_runPG][count_runPGflaw+1];
+                    if((count_runPGflaw-2)<0){
+                        //first flaw
+                        qDebug()<<"ARM_posX:"<<ARM_posX;
+                        qDebug()<<"ARM_posY:"<<ARM_posY;
 
-                    sending_pos = true;
+
+                    }else{
+                        qDebug()<<"--ARM_posX"<<vector_PG_flaw[count_runPG][count_runPGflaw] - vector_PG_flaw[count_runPG][count_runPGflaw-2];
+                        qDebug()<<"--ARM_posY"<<vector_PG_flaw[count_runPG][count_runPGflaw+1] - vector_PG_flaw[count_runPG][count_runPGflaw-1];
+                    }
+
                     qDebug() << "--------------Step_6.server已回應OK.\n";
                     qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                     WR_command(buffer_combined);
-                    change_flawPG = false;
+
 
                 }else{
+                    //assume 2 pieces of pattern
                     if(PG_num<3){
                         //To the next PG_num
                         qDebug() << "--------------Step_3.server已回應OK.\n";
@@ -341,22 +338,58 @@ void Widget::recv_label_update(QString message)
                 WR_command("WRS R204 2 0 0");
                 //if change_flawPG==true ->to step.5
                 change_flawPG = true;
+                qDebug()<<"-<1>-";
             }
         }
 
 
         if(buffer[11] == "1"){
             //R207
-            qDebug()<<"--------------Step_7.Finish.";
-            buffer[11] == "0";
+            if(runMode == 1){
+                buffer[11] = "0";
+                count_runPGflaw+=2;
+                if(count_runPGflaw/2 == (vector_PG_flaw[count_runPG].size())/2){
+                    //sent all flaws
+                    count_runPG++;
+                    if((count_runPG)<vector_PG_flaw.size()){
+                        //change next flaw pattern
+                        //iniitailize the number of count_runPGflaw
+                        count_runPGflaw = 0;
+                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(flawPGs.at(count_runPG));
+                        WR_command(buffer_combined);
+
+                    }else{
+                        //change all flaw pattern and sent all flaws->go to step7
+                        change_flawPG = false;
+                        qDebug()<<"--------------Step_7.Finish.";
+                    }
+                }else{
+                    //continue sent flaws
+                    qDebug()<<"-<9>-";
+                    ARM_posX = vector_PG_flaw[count_runPG][count_runPGflaw];
+                    ARM_posY = vector_PG_flaw[count_runPG][count_runPGflaw+1];
+                    if((count_runPGflaw-2)<0){
+                        //first flaw
+                        qDebug()<<"ARM_posX:"<<ARM_posX;
+                        qDebug()<<"ARM_posY:"<<ARM_posY;
+                    }else{
+                        qDebug()<<"--ARM_posX"<<vector_PG_flaw[count_runPG][count_runPGflaw] - vector_PG_flaw[count_runPG][count_runPGflaw-2];
+                        qDebug()<<"--ARM_posY"<<vector_PG_flaw[count_runPG][count_runPGflaw+1] - vector_PG_flaw[count_runPG][count_runPGflaw-1];
+                    }
+                    qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
+                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+                    WR_command(buffer_combined);
+                }
+            }
         }
     }
 }
 void Widget::RD(QString part)
 {
+    qDebug()<<"123";
     if(recevZero == false){
         if(recevNULL == true){
-            //RD R201、RD R203、RD R205
+            //RD R201、RD R203、RD R205、RD R207
             QRegularExpression regex("(\\D+)(\\d+)");
             match = regex.match(part);
             if(match.hasMatch()){
@@ -383,6 +416,7 @@ void Widget::connect_label_update()
     //connect state
     if (tc->connnect_state == 1) {
         qDebug() << "--------------Step_1.Connection Successful";
+        str1.clear();
         ui->textRecv->clear();
         ui->textSend->clear();
         ui->textRecv->setText("Socket connect.");
@@ -510,8 +544,11 @@ void Widget::on_puB_start_clicked()
     logger.writeLog(Logger::Info, "User clicked Button puB_start.");
     ui->puB_runMode->setEnabled(false);
     qDebug() << "--------------Step_2.Run mode start.";
-    WR_command("WR R200 1");
+    if(runMode == 1){
+        WR_command("WR R200 1");
+        ui->puB_start->setText("Stop");
 
+    }
 }
 void Widget::on_puB_read_clicked()
 {
