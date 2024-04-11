@@ -16,7 +16,7 @@ uint8_t MCP2515_fOsc;
 float CANBUS_SPPos;
 uint16_t BOND_James;
 uint8_t CAM1_parm1,CAM1_parm2;
-uint8_t COORDINATE_PTsX,COORDINATE_PTsY;
+uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 int main(int argc, char *argv[])
 {
     //192.168.1.168 8501

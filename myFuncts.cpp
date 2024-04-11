@@ -45,7 +45,7 @@ bool initFuncts(char* _iniFile)
         return false;
     }
 
-    if(ini_gets("COORDINATE","PT_sizeX","576",buffIni,4,iniFile)){
+    if(ini_gets("COORDINATE","PT_sizeX","576",buffIni,5,iniFile)){
         COORDINATE_PTsX=atoi(buffIni);
 
     }else{
@@ -54,7 +54,7 @@ bool initFuncts(char* _iniFile)
     }
 
 
-    if(ini_gets("COORDINATE","PT_sizeY","324",buffIni,4,iniFile)){
+    if(ini_gets("COORDINATE","PT_sizeY","324",buffIni,5,iniFile)){
         COORDINATE_PTsY=atoi(buffIni);
 
     }else{

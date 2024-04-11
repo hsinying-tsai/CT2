@@ -22,12 +22,13 @@
 #include<QTextBrowser>
 #include<ini.h>
 #include<QQueue>
+#include<iostream>
 
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
 extern uint8_t CAM1_parm1,CAM1_parm2;
-extern bool RUNMODE_autoRun;
+extern uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 namespace Ui {
 class Widget;
 }
@@ -39,12 +40,23 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,numberPart
-    ,count_runModeclickedtime=1,runMode = 0, count_runPG=0,count_runPGflaw=0,delta_ARMposX,delta_ARMposY;
+    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,numberPart,count_runModeclickedtime=1
+            ,runMode = 0, count_runPG=0,count_runPGflaw=0,delta_ARMposX,delta_ARMposY,number_flaw_pattern=0,ARM_posX_test,ARM_posY_test;
+    double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
     Logger logger;
     tcp_client *tc= new tcp_client(nullptr);
+    struct Node{
+        int x,y,index;
+        struct Node* next;
+
+
+    };
+    int total_flaw_num = 6;
+    typedef struct Node node;
+    node *first, *current, *previous;
+
     QPixmap pix_Ini,pix2;
     std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};
     QString rev_text, str1, str2,stringPart;
@@ -57,6 +69,7 @@ public:
     QRegularExpressionMatch match;
     QStringList parts,parts_R,parts_DM200;
     QQueue<QString> commandQ;
+    QVector<int> vector_PG_flaw_test = {10,10,20,20,50,50,30,30,70,70,90,90};
     QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20,50,50},{30,30},{70,70,90,90}};
     QStringList flawPGs = {"3","5","7"};
 
@@ -66,7 +79,6 @@ public:
     //存變數數值
     std::vector<QString> orig_buffer;
     std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207};
-
     ~Widget();
 
 private slots:
@@ -90,8 +102,8 @@ private slots:
     void connect_label_update();
     void RD(QString part);
 
-
     void on_puB_runMode_clicked();
+
 
 private:
     QLabel *label;
