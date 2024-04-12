@@ -10,8 +10,6 @@
 #include <QValidator>
 #include <QWheelEvent>
 #include "./ui_widget.h"
-#include "my_qlabel.h"
-#include "tcp_client.h"
 #include <math.h>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -54,29 +52,36 @@ Widget::Widget(QWidget *parent)
     ui->DM204_Edit->setPlaceholderText(" X");
     ui->DM206_Edit->setPlaceholderText(" Y");
 
+    // clock (per second
     QTimer *timer = new QTimer(this);
-    QTimer *timer_RD = new QTimer(this);
-    QTimer *timer_WR = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
+    timer->start(1000);
 
+    // persist send RD until receive 1
+    QTimer *timer_RD = new QTimer(this);
     connect(timer_RD,&QTimer::timeout,this,[this](){
         if(parts_R.size()>1){
             RD(parts_R[1]);
         }
     });
+    timer_RD->start(900);
+
+    // persist send WR until receive OK
+    QTimer *timer_WR = new QTimer(this);
     connect(timer_WR,&QTimer::timeout,this,[this](){
         if(recevZero==true){
             WR_command(str1);
         }
     });
-    timer->start(1000);
-    timer_RD->start(900);
     timer_WR->start(900);
-    qDebug() << "CAM1_parm1" << CAM1_parm1;
-    qDebug() << "CAM1_parm2" << CAM1_parm2;
-    qDebug()<< "COORDINATE_PTsX"<<COORDINATE_PTsX;
-    qDebug()<< "COORDINATE_PTsY"<<COORDINATE_PTsY;
-    //pixel size = 3840X2160
+
+    qDebug()<<"CAM1_parm1 :"<< CAM1_parm1;
+    qDebug()<<"CAM1_parm2 :"<< CAM1_parm2;
+    qDebug()<<"COORDINATE_PTsX :"<<COORDINATE_PTsX;
+    qDebug()<<"COORDINATE_PTsY :"<<COORDINATE_PTsY;
+
+    // pixel size = 3840X2160, label size = 575X324
+    // calculate the factor between pixel and move distance(MD)
     factor_X = COORDINATE_PTsX/576;
     factor_Y = COORDINATE_PTsY/324;
     qDebug()<<"factor_X"<<factor_X;
@@ -86,14 +91,14 @@ Widget::Widget(QWidget *parent)
     clientThread.start();
 
 
-    qDebug()<<"Number of nodes :"<<total_flaw_num;
+    qDebug()<<"Amount of nodes :"<<total_flaw_num;
     for(int i = 0; i<total_flaw_num ; i++){
         current = (node*)malloc(sizeof(node));
-        qDebug()<<"Data for node"<<i+1;
-        current->x = vector_PG_flaw_test[i*2];
-        current->y = vector_PG_flaw_test[(i*2)+1];
+//        qDebug()<<"Data for node"<<i+1;
+        current->x = vector_PG_flaw[i*2];
+        current->y = vector_PG_flaw[(i*2)+1];
 
-        //definition node pattern number
+        //definite node pattern number
         if(i<3){
             current->index = 3;
         }else if(i==3){
@@ -114,8 +119,7 @@ Widget::Widget(QWidget *parent)
 
     }
     current = first;
-
-    //call node3
+    //calculate the amount of flaw(not used)
     node *temp= first;
     for(int i = 1;i<total_flaw_num;i++){
         if(temp->index != temp->next->index){
@@ -123,9 +127,8 @@ Widget::Widget(QWidget *parent)
         }
         temp = temp->next;
     }
-    qDebug()<<"number_flaw_pattern"<<number_flaw_pattern;
-
-}
+//    qDebug()<<"number_flaw_pattern"<<number_flaw_pattern;
+   }
 
 Widget::~Widget()
 {
@@ -263,8 +266,8 @@ void Widget::recv_label_update(QString message)
                 // step5 step6 step7
                 if(parts[1] == "DM204"){
                     qDebug()<<"-<6>-";
-                    qDebug() << "--------------Step_6.Sending y = " << ARM_posY_test;
-                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY_test);
+                    qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
+                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
                     WR_command(buffer_combined);
 
                 }else if(parts[1] == "DM206"){
@@ -278,7 +281,7 @@ void Widget::recv_label_update(QString message)
                 }else{
                     qDebug()<<"-<2>-";
                     if(runMode == 1){
-                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(flawPGs.at(current->index));
+                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(current->index);
                         WR_command(buffer_combined);
                     }
                 }
@@ -336,32 +339,23 @@ void Widget::recv_label_update(QString message)
             if(runMode == 1){
                 if(change_flawPG == true){
                     qDebug()<<"-<5>-";
-                    ARM_posX_test = current->x;
-                    ARM_posY_test = current->y;
-
-
-                    ARM_posX = vector_PG_flaw[count_runPG][count_runPGflaw];
-                    ARM_posY = vector_PG_flaw[count_runPG][count_runPGflaw+1];
-//                    if((count_runPGflaw-2)<0){
-//                        //first flaw
-//                        qDebug()<<"ARM_posX:"<<ARM_posX;
-//                        qDebug()<<"ARM_posY:"<<ARM_posY;
-
-
-//                    }else{
-//                        qDebug()<<"--ARM_posX"<<vector_PG_flaw[count_runPG][count_runPGflaw] - vector_PG_flaw[count_runPG][count_runPGflaw-2];
-//                        qDebug()<<"--ARM_posY"<<vector_PG_flaw[count_runPG][count_runPGflaw+1] - vector_PG_flaw[count_runPG][count_runPGflaw-1];
-//                    }
-
+                    ARM_posX = current->x;
+                    ARM_posY = current->y;
+                    qDebug()<<current->x;
+                    if(current == first){
+                        qDebug()<<"first run need to plus compensate";
+                        ARM_posX+=compe_posX;
+                        ARM_posX+=compe_posY;
+                    }
                     qDebug() << "--------------Step_6.server已回應OK.\n";
-                    qDebug() << "--------------Step_6.Sending x = " << ARM_posX_test;
-                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX_test);
+                    qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
+                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                     WR_command(buffer_combined);
 
 
                 }else{
                     //assume 2 pieces of pattern
-                    if(PG_num<5){
+                    if(PG_num<3){
                         //To the next PG_num
                         qDebug() << "--------------Step_3.server已回應OK.\n";
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
@@ -395,89 +389,27 @@ void Widget::recv_label_update(QString message)
         if(buffer[11] == "1"){
             //R207
             if(runMode == 1){
-                buffer[11] = "0";
-                count_runPGflaw+=2;
-
-
-                node *temp= first;
-                for(int i = 1;i<total_flaw_num;i++){
-                    if(temp->index != temp->next->index){
-                        number_flaw_pattern++;
-                    }
-                    temp = temp->next;
-                }
+                buffer[11] = "0";                
                 if(current->next == NULL){
                     //change all flaw pattern and sent all flaws->go to step7
                     change_flawPG = false;
                     qDebug()<<"--------------Step_7.Finish.";
                 }else{
-                    if(current->index == current->next->index){
-                        // don't change pattern
-                        ARM_posX_test = current->x;
-                        ARM_posY_test = current->y;
-
-                        qDebug() << "--------------Step_6.Sending x = " << ARM_posX_test;
-                        QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX_test);
-                        WR_command(buffer_combined);
-                    }else{
-                        // change pattern
-                        // sent all flaws
-                        count_runPG++;
+                    if(current->next->index == current->index){
                         current = current->next;
-                        if((count_runPG)<vector_PG_flaw.size()){
-                            //change next flaw pattern
-                            //iniitailize the number of count_runPGflaw
-                            count_runPGflaw = 0;
-                            QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(flawPGs.at(count_runPG));
-                            WR_command(buffer_combined);
+                        // don't change pattern
+                        ARM_posX = current->x;
+                        ARM_posY = current->y;
 
-                        }else{
-                            //change all flaw pattern and sent all flaws->go to step7
-                            change_flawPG = false;
-                            qDebug()<<"--------------Step_7.Finish.";
-                        }
-                    }
-                }
-
-
-                if(count_runPGflaw/2 == (vector_PG_flaw[count_runPG].size())/2){
-                    current = current->next;
-                    //continue sent flaws
-                    qDebug()<<"-<9>-";
-
-
-                    ARM_posX = vector_PG_flaw[count_runPG][count_runPGflaw];
-                    ARM_posY = vector_PG_flaw[count_runPG][count_runPGflaw+1];
-
-//                    if((count_runPGflaw-2)<0){
-//                        //first flaw
-//                        qDebug()<<"ARM_posX:"<<ARM_posX;
-//                        qDebug()<<"ARM_posY:"<<ARM_posY;
-//                    }else{
-//                        qDebug()<<"--ARM_posX"<<vector_PG_flaw[count_runPG][count_runPGflaw] - vector_PG_flaw[count_runPG][count_runPGflaw-2];
-//                        qDebug()<<"--ARM_posY"<<vector_PG_flaw[count_runPG][count_runPGflaw+1] - vector_PG_flaw[count_runPG][count_runPGflaw-1];
-//                    }
-
-                    qDebug() << "--------------Step_6.Sending x = " << ARM_posX_test;
-                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX_test);
-                    WR_command(buffer_combined);
-                }else{
-                    //sent all flaws
-                    count_runPG++;
-                    current = current->next;
-                    if((count_runPG)<vector_PG_flaw.size()){
-                        //change next flaw pattern
-                        //iniitailize the number of count_runPGflaw
-                        count_runPGflaw = 0;
-                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(flawPGs.at(count_runPG));
+                        qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
+                        QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                         WR_command(buffer_combined);
-
                     }else{
-                        //change all flaw pattern and sent all flaws->go to step7
-                        change_flawPG = false;
-                        qDebug()<<"--------------Step_7.Finish.";
-                    }
-
+                        current = current->next;
+                        // change pattern
+                        QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(current->index);
+                        WR_command(buffer_combined);
+                   }
                 }
             }
         }
@@ -515,7 +447,8 @@ void Widget::connect_label_update()
     if (tc->connnect_state == 1) {
         qDebug() << "--------------Step_1.Connection Successful";
         str1.clear();
-
+        parts_R.clear();
+        current = first;
         ui->textRecv->clear();
         ui->textSend->clear();
         ui->textRecv->setText("Socket connect.");

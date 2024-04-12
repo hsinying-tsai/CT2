@@ -20,9 +20,9 @@
 #include<QStringList>
 #include<QTextStream>
 #include<QTextBrowser>
-#include<ini.h>
 #include<QQueue>
 #include<iostream>
+#include"defineCoordinate.h"
 
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
@@ -40,12 +40,13 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,numberPart,count_runModeclickedtime=1
-            ,runMode = 0, count_runPG=0,count_runPGflaw=0,delta_ARMposX,delta_ARMposY,number_flaw_pattern=0,ARM_posX_test,ARM_posY_test;
+    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,compe_posX = 0,compe_posY= 0,numberPart,count_runModeclickedtime=1
+            ,runMode = 0, delta_ARMposX,delta_ARMposY,number_flaw_pattern=0;
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
     Logger logger;
+    NodeH node_test;
     tcp_client *tc= new tcp_client(nullptr);
     struct Node{
         int x,y,index;
@@ -69,8 +70,7 @@ public:
     QRegularExpressionMatch match;
     QStringList parts,parts_R,parts_DM200;
     QQueue<QString> commandQ;
-    QVector<int> vector_PG_flaw_test = {10,10,20,20,50,50,30,30,70,70,90,90};
-    QVector<QVector<int>> vector_PG_flaw = {{10,10,20,20,50,50},{30,30},{70,70,90,90}};
+    QVector<int> vector_PG_flaw = {10,10,20,20,50,50,30,30,70,70,90,90};
     QStringList flawPGs = {"3","5","7"};
 
     //存文字
