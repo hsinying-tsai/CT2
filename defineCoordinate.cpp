@@ -7,8 +7,9 @@ void defineCoordinate::defNode(){
     //        qDebug()<<"Data for nodeF"<<i+1;
         current->x = vector_PG_flaw[i*2];
         current->y = vector_PG_flaw[(i*2)+1];
+        current->prev = previous;
+        // definite node pattern number
 
-        //definite node pattern number
         if(i<3){
             current->index = 3;
         }else if(i==3){
@@ -24,10 +25,10 @@ void defineCoordinate::defNode(){
             previous->next = current;
             current->next = NULL;
             previous = current;
+
         }
+    }  
 
-
-    }
     current = first;
     //calculate the amount of flaw(not used)
 

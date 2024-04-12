@@ -48,8 +48,6 @@ public:
     Logger logger;
     defineCoordinate DC;
     typedef struct Node node;
-
-
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};

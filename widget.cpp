@@ -84,13 +84,22 @@ Widget::Widget(QWidget *parent)
     // calculate the factor between pixel and move distance(MD)
     factor_X = COORDINATE_PTsX/576;
     factor_Y = COORDINATE_PTsY/324;
-//    qDebug()<<"factor_X"<<factor_X;
-//    qDebug()<<"factor_Y"<<factor_Y;
+    qDebug()<<"factor_X"<<factor_X;
+    qDebug()<<"factor_Y"<<factor_Y;
     DC.defNode();
     clientThread.start();
 //    qDebug()<<"Amount of nodes :"<<DC.total_flaw_num;
 //    qDebug()<<"number_flaw_pattern"<<DC.number_flaw_pattern;
-   }
+
+    for(int i = 0 ; i< 6;i++){
+
+        qDebug()<<"DC.current->x"<<DC.current->x;
+        qDebug()<<"DC.previous->index"<<DC.previous->index;
+        qDebug()<<"DC.current->prev"<<DC.current->prev;
+        DC.current = DC.current->next;
+
+    }
+}
 
 Widget::~Widget()
 {
@@ -223,15 +232,16 @@ void Widget::recv_label_update(QString message)
                 }else if(parts[1] == "R202"){
                     if(change_flawPG == true){
                         qDebug()<<"-<5>-";
-                        ARM_posX = DC.current->x;
-                        ARM_posY = DC.current->y;
-                        qDebug()<<DC.current->x;
-
                         if(DC.current == DC.first){
                             qDebug()<<"first run need to plus compensate";
-                            ARM_posX+=DC.compe_posX;
+                            qDebug()<<ARM_posX <<"-"<<DC.center_posX;
+                            qDebug()<<ARM_posY <<"-"<<DC.center_posY;
 
-                            ARM_posX+=DC.compe_posY;
+                            ARM_posX =(DC.current->x - DC.center_posX)*factor_X;
+                            ARM_posY =(DC.current->y - DC.center_posY)*factor_Y;
+                        }else{
+                            ARM_posX = (DC.current->x)*factor_X;
+                            ARM_posY = (DC.current->y)*factor_Y;
                         }
                         qDebug() << "--------------Step_6.server已回應OK.\n";
                         qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
@@ -271,8 +281,8 @@ void Widget::recv_label_update(QString message)
                         if(DC.current->next->index == DC.current->index){
                             DC.current = DC.current->next;
                             // don't change pattern
-                            ARM_posX = DC.current->x;
-                            ARM_posY = DC.current->y;
+                            ARM_posX = (DC.current->x)*factor_X;
+                            ARM_posY = (DC.current->y)*factor_Y;
 
                             qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
@@ -284,9 +294,7 @@ void Widget::recv_label_update(QString message)
                             WR_command(buffer_combined);
                        }
                     }
-
                 }
-
             }else if(parts[1]=="DM200"){
 //                qDebug()<<"alive";
             }else if(parts[1] == "R202"){
