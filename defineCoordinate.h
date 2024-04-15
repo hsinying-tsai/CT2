@@ -18,6 +18,8 @@ public:
     typedef struct Node node;
     node *first, *current, *previous = NULL,*temp;
     void defNode();
+    void setupflawpos(QVector<int>);
+
 
 };
 #endif // DEFINECOORDINATE_H

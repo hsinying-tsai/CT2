@@ -27,8 +27,9 @@
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
-extern uint8_t CAM1_parm1,CAM1_parm2;
+extern uint8_t CAM1_exposureTime,CAM2_exposureTime,CAM3_exposureTime;
 extern uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
+extern char picfoldpath[100];
 namespace Ui {
 class Widget;
 }
@@ -94,6 +95,8 @@ private slots:
 
     void on_puB_runMode_clicked();
 
+
+    void on_puB_saveINI_clicked();
 
 private:
     QLabel *label;

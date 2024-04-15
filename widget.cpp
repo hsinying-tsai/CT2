@@ -4,13 +4,13 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMouseEvent>
-#include <QString>
 #include <QThread>
 #include <QTimer>
 #include <QValidator>
 #include <QWheelEvent>
 #include "./ui_widget.h"
 #include <math.h>
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -30,17 +30,17 @@ Widget::Widget(QWidget *parent)
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
     connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
     connect(tc, SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
-    lineEdits = QWidget::findChildren<QLineEdit *>();
-    for (auto lineEdit : lineEdits) {
-        new_text.append(lineEdit->text());
-        orgi_text.append(lineEdit->text()); 
-    }
+    ui->PT_width_Edit->setText(QString("%1").arg(COORDINATE_PTsX));
+    ui->PT_height_Edit->setText(QString("%1").arg(COORDINATE_PTsY));
+    ui->path_Edit->setText(QString("%1").arg(picfoldpath));
+
     connect(ui->puB_read, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
-    for (auto lineEdit : lineEdits) {
-        connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
-    }
-    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
+    connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
+    connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
+
+    pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
+//    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
     ui->lbl_pic->setImage(pix_Ini);
     ui->lbl_pattern->setText("Pattern = " + QString::fromStdString(matrix_pattern_name[num - 1]));
     ui->textRecv->setEnabled(false);
@@ -51,7 +51,17 @@ Widget::Widget(QWidget *parent)
     ui->DM202_Edit->setPlaceholderText(" Pattern number");
     ui->DM204_Edit->setPlaceholderText(" X");
     ui->DM206_Edit->setPlaceholderText(" Y");
-
+    ui->CAM1_exposure_Edit->setText(QString::number(CAM1_exposureTime));
+    ui->CAM2_exposure_Edit->setText(QString::number(CAM2_exposureTime));
+    ui->CAM3_exposure_Edit->setText(QString::number(CAM3_exposureTime));
+    lineEdits = QWidget::findChildren<QLineEdit *>();
+    for (auto lineEdit : lineEdits) {
+        new_text.append(lineEdit->text());
+        orgi_text.append(lineEdit->text());
+    }
+    for (auto lineEdit : lineEdits) {
+        connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
+    }
     // clock (per second
     QTimer *timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
@@ -75,29 +85,29 @@ Widget::Widget(QWidget *parent)
     });
     timer_WR->start(900);
 
-    qDebug()<<"CAM1_parm1 :"<< CAM1_parm1;
-    qDebug()<<"CAM1_parm2 :"<< CAM1_parm2;
-    qDebug()<<"COORDINATE_PTsX :"<<COORDINATE_PTsX;
-    qDebug()<<"COORDINATE_PTsY :"<<COORDINATE_PTsY;
+//    qDebug()<<"CAM1_parm1 :"<< CAM1_parm1;
+//    qDebug()<<"CAM1_parm2 :"<< CAM1_parm2;
+//    qDebug()<<"COORDINATE_PTsX :"<<COORDINATE_PTsX;
+//    qDebug()<<"COORDINATE_PTsY :"<<COORDINATE_PTsY;
 
     // pixel size = 3840X2160, label size = 575X324
     // calculate the factor between pixel and move distance(MD)
     factor_X = COORDINATE_PTsX/576;
     factor_Y = COORDINATE_PTsY/324;
-    qDebug()<<"factor_X"<<factor_X;
-    qDebug()<<"factor_Y"<<factor_Y;
+//    qDebug()<<"factor_X"<<factor_X;
+//    qDebug()<<"factor_Y"<<factor_Y;
     DC.defNode();
     clientThread.start();
 //    qDebug()<<"Amount of nodes :"<<DC.total_flaw_num;
-//    qDebug()<<"number_flaw_pattern"<<DC.number_flaw_pattern;
 
-    for(int i = 0 ; i< 6;i++){
-
+    for(int i = 0 ; i< DC.total_flaw_num;i++){
         qDebug()<<"DC.current->x"<<DC.current->x;
-        qDebug()<<"DC.previous->index"<<DC.previous->index;
-        qDebug()<<"DC.current->prev"<<DC.current->prev;
+        if(DC.current->prev != nullptr){
+            qDebug()<<"DC.current->prev"<<DC.current->prev->index;
+        }else{
+            qDebug()<<"DC.current->prev is empty";
+        }
         DC.current = DC.current->next;
-
     }
 }
 
@@ -123,7 +133,8 @@ void Widget::updatelblPic()
         num = 1;
     }
     ui->lbl_pattern->setText("Pattern = " + QString::fromStdString(matrix_pattern_name[num - 1]));
-    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
+    pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
+//    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
     ui->lbl_pic->setImage(pix_Ini);
 }
 
@@ -156,6 +167,8 @@ void Widget::on_puB_next_clicked()
 
 void Widget::recv_label_update(QString message)
 {
+    factor_X = COORDINATE_PTsX/576;
+    factor_Y = COORDINATE_PTsY/324;
     message = message.replace("\r\n","");
     qDebug()<<"received:"<<message<<"\tfrom"<<str1;
     recevZero = false;
@@ -234,14 +247,13 @@ void Widget::recv_label_update(QString message)
                         qDebug()<<"-<5>-";
                         if(DC.current == DC.first){
                             qDebug()<<"first run need to plus compensate";
-                            qDebug()<<ARM_posX <<"-"<<DC.center_posX;
-                            qDebug()<<ARM_posY <<"-"<<DC.center_posY;
-
                             ARM_posX =(DC.current->x - DC.center_posX)*factor_X;
                             ARM_posY =(DC.current->y - DC.center_posY)*factor_Y;
                         }else{
-                            ARM_posX = (DC.current->x)*factor_X;
-                            ARM_posY = (DC.current->y)*factor_Y;
+                            ARM_posX = (DC.current->x - DC.current->prev->x)*factor_X;
+                            ARM_posY = (DC.current->y - DC.current->prev->y)*factor_Y;
+//                            ARM_posX = (DC.current->x)*factor_X;
+//                            ARM_posY = (DC.current->y)*factor_Y;
                         }
                         qDebug() << "--------------Step_6.server已回應OK.\n";
                         qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
@@ -278,21 +290,38 @@ void Widget::recv_label_update(QString message)
                         change_flawPG = false;
                         qDebug()<<"--------------Step_7.Finish.";
                     }else{
-                        if(DC.current->next->index == DC.current->index){
-                            DC.current = DC.current->next;
-                            // don't change pattern
-                            ARM_posX = (DC.current->x)*factor_X;
-                            ARM_posY = (DC.current->y)*factor_Y;
+                        DC.current = DC.current->next;
 
+                        if(DC.current->index == DC.current->prev->index){
+                            //don't change pattern
+                            ARM_posX = (DC.current->x - DC.current->prev->x)*factor_X;
+                            ARM_posY = (DC.current->y - DC.current->prev->y)*factor_Y;
                             qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                             WR_command(buffer_combined);
                         }else{
-                            DC.current = DC.current->next;
+                            qDebug()<<"DC.current->prev"<<DC.current->prev->index;
                             // change pattern
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
                             WR_command(buffer_combined);
-                       }
+                        }
+
+
+//                        if(DC.current->next->index == DC.current->index){
+//                            DC.current = DC.current->next;
+//                            // don't change pattern
+//                            ARM_posX = (DC.current->x)*factor_X;
+//                            ARM_posY = (DC.current->y)*factor_Y;
+
+//                            qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
+//                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+//                            WR_command(buffer_combined);
+//                        }else{
+//                            DC.current = DC.current->next;
+//                            // change pattern
+//                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
+//                            WR_command(buffer_combined);
+//                       }
                     }
                 }
             }else if(parts[1]=="DM200"){
@@ -512,8 +541,8 @@ void Widget::Qtimer()
 void Widget::change_pic2(int index)
 {
     logger.writeLog(Logger::Info, "User changed pic2.");
-    pix2.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + "_"
-              + QString::number(index) + ".bmp");
+    pix2.load(picfoldpath + QString::number(num) + "_"+ QString::number(index) + ".bmp");
+//    pix2.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + "_"+ QString::number(index) + ".bmp");
     ui->lbl_pic2->setPixmap(pix2);
 }
 
@@ -527,6 +556,7 @@ void Widget::saveText()
     orgi_text.clear();
     for (auto lineEdit : lineEdits) {
         orgi_text.append(lineEdit->text());
+        lineEdit->setStyleSheet("color:black");
     }
 }
 
@@ -536,8 +566,8 @@ void Widget::comp_text()
     for (auto lineEdit : lineEdits) {
         new_text.append(lineEdit->text());
     }
-    for (int i = 0; i < 14; i++) {
-        if (new_text.at(i) != orgi_text.at(i)) {
+    for (int i = 0; i < lineEdits.size(); i++){
+        if (new_text.at(i) != orgi_text.at(i)){
             lineEdits.at(i)->setStyleSheet("color:red");
         } else {
             lineEdits.at(i)->setStyleSheet("color:black");
@@ -614,4 +644,32 @@ void Widget::on_puB_runMode_clicked()
     }
     count_runModeclickedtime++;
 
+}
+
+void Widget::on_puB_saveINI_clicked()
+{
+    QString path = ui->path_Edit->text();
+    QString PT_width = ui->PT_width_Edit->text();
+    QString PT_height = ui->PT_height_Edit->text();
+    bool conversionSuccess = false;
+    unsigned int tempValue = PT_width.toInt(&conversionSuccess);
+    if(conversionSuccess && tempValue <= UINT16_MAX){
+        COORDINATE_PTsX = static_cast<uint16_t>(tempValue);
+        qDebug()<<"COORDINATE_PTsX"<<COORDINATE_PTsX;
+    }else{
+        qDebug()<<"Failed_X";
+    }
+
+    conversionSuccess = false;
+    tempValue = PT_height.toInt(&conversionSuccess);
+    if(conversionSuccess && tempValue <= UINT16_MAX){
+        COORDINATE_PTsY = static_cast<uint16_t>(tempValue);
+        qDebug()<<"COORDINATE_PTsY"<<COORDINATE_PTsY;
+    }else{
+        qDebug()<<"Failed_Y";
+    }
+
+    strncpy(picfoldpath, path.toLocal8Bit().data(), sizeof(picfoldpath) - 1);
+    picfoldpath[sizeof(picfoldpath) - 1] = '\0';
+//    qDebug()<<"picfoldpath"<<picfoldpath;
 }

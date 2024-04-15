@@ -1,5 +1,5 @@
 #include"defineCoordinate.h"
-
+#include <QDebug>
 
 void defineCoordinate::defNode(){
     for(int i = 0; i<total_flaw_num ; i++){
@@ -7,7 +7,6 @@ void defineCoordinate::defNode(){
     //        qDebug()<<"Data for nodeF"<<i+1;
         current->x = vector_PG_flaw[i*2];
         current->y = vector_PG_flaw[(i*2)+1];
-        current->prev = previous;
         // definite node pattern number
 
         if(i<3){
@@ -21,10 +20,13 @@ void defineCoordinate::defNode(){
         if(i==0){
             first = current;
             previous = current;
+            current->prev = NULL;
         }else{
             previous->next = current;
+            current->prev = previous;
             current->next = NULL;
             previous = current;
+
 
         }
     }  
@@ -39,4 +41,12 @@ void defineCoordinate::defNode(){
         }
         temp = temp->next;
     }
+//    setupflawpos({10,10,20,20,50,50,30,30,70,70,90,90});
 }
+
+void defineCoordinate::setupflawpos(QVector<int> vectorflaw)
+{
+    qDebug()<<vectorflaw;
+}
+
+
