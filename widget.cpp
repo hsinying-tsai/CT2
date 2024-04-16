@@ -30,6 +30,7 @@ Widget::Widget(QWidget *parent)
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
     connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
     connect(tc, SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
+
     ui->PT_width_Edit->setText(QString("%1").arg(COORDINATE_PTsX));
     ui->PT_height_Edit->setText(QString("%1").arg(COORDINATE_PTsY));
     ui->path_Edit->setText(QString("%1").arg(picfoldpath));
@@ -100,15 +101,15 @@ Widget::Widget(QWidget *parent)
     clientThread.start();
 //    qDebug()<<"Amount of nodes :"<<DC.total_flaw_num;
 
-    for(int i = 0 ; i< DC.total_flaw_num;i++){
-        qDebug()<<"DC.current->x"<<DC.current->x;
-        if(DC.current->prev != nullptr){
-            qDebug()<<"DC.current->prev"<<DC.current->prev->index;
-        }else{
-            qDebug()<<"DC.current->prev is empty";
-        }
-        DC.current = DC.current->next;
-    }
+//    for(int i = 0 ; i< DC.total_flaw_num;i++){
+//        qDebug()<<"DC.current->x"<<DC.current->x;
+//        if(DC.current->prev != nullptr){
+//            qDebug()<<"DC.current->prev"<<DC.current->prev->index;
+//        }else{
+//            qDebug()<<"DC.current->prev is empty";
+//        }
+//        DC.current = DC.current->next;
+//    }
 }
 
 Widget::~Widget()
@@ -170,6 +171,7 @@ void Widget::recv_label_update(QString message)
     factor_X = COORDINATE_PTsX/576;
     factor_Y = COORDINATE_PTsY/324;
     message = message.replace("\r\n","");
+//    ui->textRecv->append("received:"+message+"\tfrom: "+str1);
     qDebug()<<"received:"<<message<<"\tfrom"<<str1;
     recevZero = false;
     if (message == "SocketError"){
@@ -184,7 +186,7 @@ void Widget::recv_label_update(QString message)
         if (ReadpuB_isPressed == true) {
             ui->DM200_Edit->setText(QString(buffer[0]));
             if (str1 == "RDS R200 8") {
-                QStringList parts = message.split(" ");
+                parts = message.split(" ");
                 ui->R200_Edit->setText(parts[0]);
                 ui->R201_Edit->setText(parts[1]);
                 ui->R202_Edit->setText(parts[2]);
@@ -203,7 +205,7 @@ void Widget::recv_label_update(QString message)
                 buffer[11] = ui->R206_Edit->text();
                 WR_command("RDS DM200 7");
             } else if (str1 == "RDS DM200 7") {
-                QStringList parts = message.split(" ");
+                parts = message.split(" ");
                 ui->DM200_Edit->setText(parts[0]);
                 ui->DM202_Edit->setText(parts[2]);
                 ui->DM204_Edit->setText(parts[4]);
@@ -244,7 +246,6 @@ void Widget::recv_label_update(QString message)
                     PG_num++;
                 }else if(parts[1] == "R202"){
                     if(change_flawPG == true){
-                        qDebug()<<"-<5>-";
                         if(DC.current == DC.first){
                             qDebug()<<"first run need to plus compensate";
                             ARM_posX =(DC.current->x - DC.center_posX)*factor_X;
@@ -279,7 +280,6 @@ void Widget::recv_label_update(QString message)
                 }else if(parts[1] == "R204"){
                     //if change_flawPG==true ->to step.5
                     change_flawPG = true;
-                    qDebug()<<"-<2>-";
                     QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(DC.current->index);
                     WR_command(buffer_combined);
 
@@ -300,54 +300,33 @@ void Widget::recv_label_update(QString message)
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                             WR_command(buffer_combined);
                         }else{
-                            qDebug()<<"DC.current->prev"<<DC.current->prev->index;
                             // change pattern
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
                             WR_command(buffer_combined);
                         }
-
-
-//                        if(DC.current->next->index == DC.current->index){
-//                            DC.current = DC.current->next;
-//                            // don't change pattern
-//                            ARM_posX = (DC.current->x)*factor_X;
-//                            ARM_posY = (DC.current->y)*factor_Y;
-
-//                            qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
-//                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
-//                            WR_command(buffer_combined);
-//                        }else{
-//                            DC.current = DC.current->next;
-//                            // change pattern
-//                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
-//                            WR_command(buffer_combined);
-//                       }
                     }
                 }
+            }else if(parts[0] == "WRS"){
+                //Manual state -> stop the loop.
             }else if(parts[1]=="DM200"){
 //                qDebug()<<"alive";
             }else if(parts[1] == "R202"){
-                qDebug()<<"-<4>-";
                 parts_R[1] = "R202";
                 recevNULL = true;
             }else if(parts[1] == "DM202"){
-                qDebug()<<"-<3>-";
                 WR_command("WR R202 1");
             }else if(change_flawPG == true){
                 // change flaw pattern
                 // step5 step6 step7
                 if(parts[1] == "DM204"){
-                    qDebug()<<"-<6>-";
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
                     WR_command(buffer_combined);
 
                 }else if(parts[1] == "DM206"){
-                    qDebug()<<"-<7>-";
                     WR_command("WR R206 1");
 
                 }else if(parts[1] == "R206"){
-                    qDebug()<<"-<8>-";
                     parts_R[1] = "R206";
                     recevNULL = true;
                 }
@@ -371,7 +350,7 @@ void Widget::recv_label_update(QString message)
                         buffer[i] = message;
                     }
                 }
-            } else {
+            }else {
                 qDebug() <<"Invalid commend";
                 ui->textRecv->append("Invalid commend");
             }
@@ -404,8 +383,7 @@ void Widget::recv_label_update(QString message)
                 buffer[9] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R204 and R205.");
                 qDebug() << "--------------Step_4.server已回應OK，並將R204、R205歸零\n";
-                WR_command("WRS R204 2 0 0");
-                qDebug()<<"-<1>-";
+                WR_command("WRS R204 2 0 0");       
             }
             if(buffer[11] == "1"){
                 //R207 1
@@ -450,6 +428,7 @@ void Widget::connect_label_update()
     //connect state
     if (tc->connnect_state == 1) {
         qDebug() << "--------------Step_1.Connection Successful";
+        change_flawPG = false;
         str1.clear();
         parts_R.clear();
         DC.current = DC.first;
@@ -496,11 +475,26 @@ void Widget::connect_label_update()
 void Widget::WR_command(QString WR_message)
 {
     if (tc->connnect_state == 1) {
+        QStringList tmp_parts;
+        tmp_parts = WR_message.split(" ");
+        if(ARM_posX < 0 || ARM_posY < 0){
+            if(tmp_parts[1]=="DM204" || tmp_parts[1]=="DM206"){
+                QString buffer_combined = QString("%1 %2 %3").arg(tmp_parts[0]).arg(tmp_parts[1]+".S").arg(tmp_parts[2]);
+                qDebug()<<ARM_posX<<buffer_combined;
+                WR_message = buffer_combined;
+                str1 = QString("%1 %2 %3").arg(tmp_parts[0]).arg(tmp_parts[1]).arg(tmp_parts[2]);
+            }else{
+                str1 = WR_message;
+            }
+        }else{
+            str1 = WR_message;
+        }
+
+
 //        qDebug()<<WR_message;
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         sending_ms = true;
-        str1 = WR_message;
-        const QByteArray send_data = str1.toUtf8();
+        const QByteArray send_data = WR_message.toUtf8();
         if (send_data.isEmpty()) {
             return;
         }

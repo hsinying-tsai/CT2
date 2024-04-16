@@ -41,8 +41,8 @@ class Widget : public QWidget
 public:
     Ui::Widget *ui;
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX,ARM_posY,numberPart,count_runModeclickedtime=1
-            ,runMode = 0, delta_ARMposX,delta_ARMposY;
+    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
+            ,runMode = 0;
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
