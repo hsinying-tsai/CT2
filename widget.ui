@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>700</height>
+    <width>1156</width>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="enabled">
@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -44,9 +44,9 @@
       <widget class="QGroupBox" name="groupBox_3">
        <property name="geometry">
         <rect>
-         <x>510</x>
+         <x>440</x>
          <y>240</y>
-         <width>441</width>
+         <width>381</width>
          <height>381</height>
         </rect>
        </property>
@@ -63,7 +63,7 @@
          <rect>
           <x>20</x>
           <y>50</y>
-          <width>401</width>
+          <width>341</width>
           <height>281</height>
          </rect>
         </property>
@@ -79,7 +79,7 @@
        <widget class="QPushButton" name="puB_sent">
         <property name="geometry">
          <rect>
-          <x>320</x>
+          <x>260</x>
           <y>340</y>
           <width>101</width>
           <height>31</height>
@@ -98,7 +98,7 @@
       <widget class="QLineEdit" name="PortEdit">
        <property name="geometry">
         <rect>
-         <x>600</x>
+         <x>530</x>
          <y>70</y>
          <width>111</width>
          <height>35</height>
@@ -110,13 +110,13 @@
         </font>
        </property>
        <property name="text">
-        <string>8501</string>
+        <string>1234</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
-         <x>540</x>
+         <x>470</x>
          <y>78</y>
          <width>71</width>
          <height>20</height>
@@ -136,7 +136,7 @@
         <rect>
          <x>30</x>
          <y>240</y>
-         <width>451</width>
+         <width>381</width>
          <height>381</height>
         </rect>
        </property>
@@ -153,7 +153,7 @@
          <rect>
           <x>20</x>
           <y>50</y>
-          <width>411</width>
+          <width>341</width>
           <height>281</height>
          </rect>
         </property>
@@ -170,7 +170,7 @@
       <widget class="QPushButton" name="puB_connect">
        <property name="geometry">
         <rect>
-         <x>790</x>
+         <x>700</x>
          <y>70</y>
          <width>111</width>
          <height>41</height>
@@ -203,7 +203,7 @@
         </font>
        </property>
        <property name="text">
-        <string>192.168.1.168</string>
+        <string>127.0.0.1</string>
        </property>
       </widget>
       <widget class="QLabel" name="label">
@@ -227,7 +227,7 @@
       <widget class="QPushButton" name="puB_start">
        <property name="geometry">
         <rect>
-         <x>790</x>
+         <x>700</x>
          <y>160</y>
          <width>111</width>
          <height>41</height>
@@ -304,6 +304,148 @@ background-color: red;</string>
         <string>Run Mode：</string>
        </property>
       </widget>
+      <widget class="QGroupBox" name="groupBox_8">
+       <property name="geometry">
+        <rect>
+         <x>860</x>
+         <y>40</y>
+         <width>231</width>
+         <height>571</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>Pattern List</string>
+       </property>
+       <widget class="QListWidget" name="list_Pattern">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>50</y>
+          <width>191</width>
+          <height>371</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>Black</string>
+         </property>
+         <property name="font">
+          <font>
+           <strikeout>false</strikeout>
+           <kerning>true</kerning>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>White</string>
+         </property>
+         <property name="font">
+          <font>
+           <underline>false</underline>
+           <stylestrategy>PreferAntialias</stylestrategy>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Gray</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Red</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Green</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QPushButton" name="puB_save">
+        <property name="geometry">
+         <rect>
+          <x>80</x>
+          <y>530</y>
+          <width>81</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>save</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_remove">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>430</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>remove</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_add">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>430</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>add</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_up">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>370</y>
+          <width>41</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>up</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_down">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>370</y>
+          <width>51</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>down</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -312,8 +454,8 @@ background-color: red;</string>
       <widget class="QPushButton" name="puB_pre">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>520</y>
+         <x>210</x>
+         <y>440</y>
          <width>111</width>
          <height>41</height>
         </rect>
@@ -355,29 +497,11 @@ background-color: red;</string>
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QLabel" name="lbl_pattern">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>470</y>
-         <width>281</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Pattern =</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="puB_next">
        <property name="geometry">
         <rect>
-         <x>400</x>
-         <y>520</y>
+         <x>330</x>
+         <y>440</y>
          <width>111</width>
          <height>41</height>
         </rect>
@@ -394,8 +518,8 @@ background-color: red;</string>
       <widget class="QLabel" name="lbl_pic2">
        <property name="geometry">
         <rect>
-         <x>680</x>
-         <y>110</y>
+         <x>750</x>
+         <y>230</y>
          <width>259</width>
          <height>194</height>
         </rect>
@@ -427,8 +551,8 @@ background-color: red;</string>
       <widget class="QLabel" name="lbl_Pos">
        <property name="geometry">
         <rect>
-         <x>670</x>
-         <y>340</y>
+         <x>50</x>
+         <y>430</y>
          <width>181</width>
          <height>51</height>
         </rect>
@@ -441,6 +565,143 @@ background-color: red;</string>
        <property name="text">
         <string>X = 0 , Y = 0 </string>
        </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_7">
+       <property name="geometry">
+        <rect>
+         <x>700</x>
+         <y>50</y>
+         <width>341</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="title">
+        <string>Defect point:</string>
+       </property>
+       <widget class="QWidget" name="">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>51</y>
+          <width>301</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="lbl_pattern_4">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Coordinate:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_pattern_3">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Type :</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QTableWidget" name="tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>510</y>
+         <width>511</width>
+         <height>192</height>
+        </rect>
+       </property>
+       <row>
+        <property name="text">
+         <string>defect1</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>defect2</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>defect3</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>defect4</string>
+        </property>
+       </row>
+       <row>
+        <property name="text">
+         <string>defect5</string>
+        </property>
+       </row>
+       <column>
+        <property name="text">
+         <string>index</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>coordinate</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>type</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QSplitter" name="splitter">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>30</y>
+         <width>581</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <widget class="QLabel" name="lbl_pattern_2">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>產品名稱 ：</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lbl_pattern">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Pattern :</string>
+        </property>
+       </widget>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_3">
@@ -1120,7 +1381,7 @@ background-color: red;</string>
         <string>OK</string>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>20</x>

@@ -32,6 +32,7 @@ set(PROJECT_SOURCES
         myFuncts.h
         defineCoordinate.h
         defineCoordinate.cpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
