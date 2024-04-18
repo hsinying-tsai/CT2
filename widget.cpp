@@ -13,6 +13,8 @@
 #include <QVBoxLayout>
 #include <QInputDialog>
 #include <QTableWidget>
+#include <QSettings>
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -86,9 +88,50 @@ void Widget::INI_UI()
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
+    QString configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
+    // 检查配置文件是否存在
+    QFile configFile(configFilePath);
+    if (!configFile.exists()) {
+        QSettings settings(configFilePath, QSettings::IniFormat);
+        settings.beginGroup("CAM1");
+        settings.setValue("exposureTime", 1);
+        settings.setValue("parmeter2", 1);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM2");
+        settings.setValue("exposureTime", 2);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM3");
+        settings.setValue("exposureTime", 3);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("COORDINATE");
+        settings.setValue("PT_sizeX", 1152);
+        settings.setValue("PT_sizeY", 648);
+        settings.endGroup();
+
+        settings.beginGroup("PICTURE");
+        settings.setValue("pic_fold_path", "Pictures/");
+        settings.endGroup();
+        qDebug() << "配置文件已创建： " << configFilePath;
+    } else {
+        qDebug() << "配置文件已存在： " << configFilePath;
+    }
 
     pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-//    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
+//    pix_Ini.load("Pictures/" + QString::number(num) + ".bmp");
     ui->lbl_pic->setImage(pix_Ini);
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
 
@@ -102,9 +145,9 @@ void Widget::INI_UI()
     ui->DM202_Edit->setPlaceholderText(" Pattern number");
     ui->DM204_Edit->setPlaceholderText(" X");
     ui->DM206_Edit->setPlaceholderText(" Y");
-    ui->CAM1_exposure_Edit->setText(QString::number(CAM1_exposureTime));
-    ui->CAM2_exposure_Edit->setText(QString::number(CAM2_exposureTime));
-    ui->CAM3_exposure_Edit->setText(QString::number(CAM3_exposureTime));
+    ui->CAM1_exposure_Edit_3->setText(QString::number(CAM1_exposureTime));
+    ui->CAM2_exposure_Edit_3->setText(QString::number(CAM2_exposureTime));
+    ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
 
 }
@@ -124,9 +167,10 @@ void Widget::MouseCurrentPos()
 }
 void Widget::updatelblPic()
 {
+    //revise pic amount
     if (num == 0) {
-        num = 5;
-    } else if (num == 6) {
+        num = 3;
+    } else if (num == 4) {
         num = 1;
     }
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
@@ -501,8 +545,6 @@ void Widget::WR_command(QString WR_message)
         }else{
             str1 = WR_message;
         }
-
-
 //        qDebug()<<WR_message;
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         sending_ms = true;
@@ -705,26 +747,6 @@ void Widget::on_puB_add_clicked()
     }
 }
 
-void Widget::on_puB_up_clicked()
-{
-    int currentRow = ui->list_Pattern->currentRow();
-    if(currentRow>0){
-        QListWidgetItem *selectedItem = ui->list_Pattern->takeItem(currentRow);
-        ui->list_Pattern->insertItem(currentRow-1 ,selectedItem);
-        ui->list_Pattern->setCurrentRow(currentRow-1);
-    }
-}
-
-void Widget::on_puB_down_clicked()
-{
-    int currentRow = ui->list_Pattern->currentRow();
-    if(currentRow < ui->list_Pattern->count()-1){
-        QListWidgetItem *selectedItem = ui->list_Pattern->takeItem(currentRow);
-        ui->list_Pattern->insertItem(currentRow+1 ,selectedItem);
-        ui->list_Pattern->setCurrentRow(currentRow+1);
-    }
-}
-
 
 void Widget::on_puB_save_clicked()
 {
@@ -735,3 +757,5 @@ void Widget::on_puB_save_clicked()
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
 }
+
+

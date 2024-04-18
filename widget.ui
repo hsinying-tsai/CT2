@@ -32,7 +32,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -141,7 +141,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab_6">
         <attribute name="title">
@@ -184,6 +184,15 @@
           <font>
            <pointsize>13</pointsize>
           </font>
+         </property>
+         <property name="dragEnabled">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropOverwriteMode">
+          <bool>true</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::InternalMove</enum>
          </property>
          <item>
           <property name="text">
@@ -229,24 +238,6 @@
           </property>
          </item>
         </widget>
-        <widget class="QPushButton" name="puB_down">
-         <property name="geometry">
-          <rect>
-           <x>210</x>
-           <y>480</y>
-           <width>51</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>down</string>
-         </property>
-        </widget>
         <widget class="QPushButton" name="puB_remove">
          <property name="geometry">
           <rect>
@@ -263,24 +254,6 @@
          </property>
          <property name="text">
           <string>remove</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="puB_up">
-         <property name="geometry">
-          <rect>
-           <x>150</x>
-           <y>480</y>
-           <width>41</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>up</string>
          </property>
         </widget>
         <widget class="QPushButton" name="puB_save">
@@ -901,7 +874,7 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="readOnly">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </widget>
@@ -1148,7 +1121,7 @@
         </font>
        </property>
        <property name="text">
-        <string>1234</string>
+        <string>8501</string>
        </property>
       </widget>
       <widget class="QPushButton" name="puB_connect">
@@ -1231,7 +1204,7 @@ background-color: red;</string>
         </font>
        </property>
        <property name="text">
-        <string>127.0.0.1</string>
+        <string>192.168.1.168</string>
        </property>
       </widget>
      </widget>
@@ -1639,6 +1612,731 @@ background-color: red;</string>
        <property name="text">
         <string>OK</string>
        </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab6">
+      <attribute name="title">
+       <string>AOI</string>
+      </attribute>
+      <widget class="QLineEdit" name="statusbar_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>362</y>
+         <width>383</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openByUserID_1">
+       <property name="geometry">
+        <rect>
+         <x>374</x>
+         <y>86</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open by User ID</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openByUserID_2">
+       <property name="geometry">
+        <rect>
+         <x>772</x>
+         <y>86</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open by User ID</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="pixelFormatLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>478</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Pixel Format</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="close_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>117</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openSelected_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>86</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open Selected</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>424</y>
+         <width>132</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Exposure Time</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="softwareTrigger_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>571</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Execute</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="stop_1">
+       <property name="geometry">
+        <rect>
+         <x>374</x>
+         <y>393</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="close_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>117</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="image_2" native="true">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>148</y>
+         <width>383</width>
+         <height>208</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="editSN_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>117</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Check for a camera serial number in the camera list and enter it here.</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>451</y>
+         <width>132</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Gain</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="triggerMode_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>509</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openSelected_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>86</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open Selected</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="continuous_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>393</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Continuous Shot</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="invertPixel_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>602</y>
+         <width>245</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enable</string>
+       </property>
+      </widget>
+      <widget class="Line" name="line">
+       <property name="geometry">
+        <rect>
+         <x>498</x>
+         <y>86</y>
+         <width>3</width>
+         <height>539</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="triggerSourceLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>540</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Trigger Source</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="singleShot_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>393</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Single Shot</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="triggerSource_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>540</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="statusbar_1">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>362</y>
+         <width>383</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="singleShot_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>393</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Single Shot</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="softwareTriggerLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>571</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Software Trigger</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>451</y>
+         <width>132</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Gain</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="triggerSource_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>540</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="editUserID_2">
+       <property name="geometry">
+        <rect>
+         <x>772</x>
+         <y>117</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Check for a device user ID in the camera list and enter it here. You may need to specify a device user ID in the pylon Viewer first.</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="pixelFormat_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>478</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="continuous_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>393</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Continuous Shot</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="pixelFormatLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>478</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Pixel Format</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="scanButton">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>29</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Discover Cameras</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>424</y>
+         <width>132</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Exposure Time</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="pixelFormat_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>478</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openBySN_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>86</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open by SN</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="openBySN_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>86</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open by SN</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cameraList">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>29</y>
+         <width>643</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="triggerModeLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>509</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Frame Start Trigger</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>107</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QSlider" name="gain_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="gainLabel_2">
+          <property name="text">
+           <string>---</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QLabel" name="triggerModeLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>509</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Frame Start Trigger</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="invertPixelLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>602</y>
+         <width>132</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Invert Pixels</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="stop_2">
+       <property name="geometry">
+        <rect>
+         <x>772</x>
+         <y>393</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="softwareTriggerLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>571</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Software Trigger</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="invertPixel_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>602</y>
+         <width>121</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Enable</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="softwareTrigger_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>571</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Execute</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="editSN_1">
+       <property name="geometry">
+        <rect>
+         <x>247</x>
+         <y>117</y>
+         <width>121</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Check for a camera serial number in the camera list and enter it here.</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="triggerSourceLabel_2">
+       <property name="geometry">
+        <rect>
+         <x>507</x>
+         <y>540</y>
+         <width>132</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Trigger Source</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="invertPixelLabel_1">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>602</y>
+         <width>132</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Invert Pixels</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="triggerMode_2">
+       <property name="geometry">
+        <rect>
+         <x>645</x>
+         <y>509</y>
+         <width>245</width>
+         <height>25</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="editUserID_1">
+       <property name="geometry">
+        <rect>
+         <x>374</x>
+         <y>117</y>
+         <width>118</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="toolTip">
+        <string>Check for a device user ID in the camera list and enter it here. You may need to specify a device user ID in the pylon Viewer first.</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>107</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QSlider" name="gain_1">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="gainLabel_1">
+          <property name="text">
+           <string>---</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="image_1" native="true">
+       <property name="geometry">
+        <rect>
+         <x>109</x>
+         <y>148</y>
+         <width>383</width>
+         <height>208</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>107</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QSlider" name="exposure_1">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="exposureLabel_1">
+          <property name="text">
+           <string>---</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_5">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>20</y>
+         <width>107</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QSlider" name="exposure_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="exposureLabel_2">
+          <property name="text">
+           <string>---</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

@@ -34,11 +34,6 @@ int main(int argc, char *argv[])
         puts("initFuncts error");
         return EXIT_FAILURE;
     }else{
-//        puts("initFuncts OK");
-//        printf("Setting DEBUG_CONFIG %i\n", DEBUG_CONFIG);
-//        printf("Setting MCP2515_fOsc %i\n", MCP2515_fOsc);
-//        printf("Setting CANBUS_SPPos %f\n", CANBUS_SPPos);
-//        printf("BOND_James %i\n", BOND_James);
         printf("Setting CAM1_exposureTime %i\n",CAM1_exposureTime);
         printf("Setting CAM2_exposureTime %i\n",CAM2_exposureTime);
         printf("Setting CAM3_exposureTime %i\n",CAM3_exposureTime);
@@ -49,6 +44,7 @@ int main(int argc, char *argv[])
 //        return EXIT_SUCCESS;
     }
     QApplication a(argc, argv);
+
     Widget w;
     w.show();
     return a.exec();

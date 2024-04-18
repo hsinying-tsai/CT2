@@ -13,6 +13,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake-mod
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 find_package(OpenCV REQUIRED)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widget REQUIRED)
 
 
 set(PROJECT_SOURCES
@@ -32,7 +33,6 @@ set(PROJECT_SOURCES
         myFuncts.h
         defineCoordinate.h
         defineCoordinate.cpp
-
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -60,12 +60,17 @@ else()
     endif()
 endif()
 include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories("/opt/pylon/include")
 message(opencv_INCLUDE_DIRS="${OpenCV_INCLUDE_DIRS}")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(0301_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
 target_link_libraries(0301_1 PRIVATE ${OpenCV_LIBS})
-
-
+target_link_libraries(0301_1 PRIVATE
+    -L"/opt/pylon/lib"
+    -lpylonbase
+    -lpylonutility
+    -lGenApi_gcc_v3_1_Basler_pylon
+    -lGCBase_gcc_v3_1_Basler_pylon)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
