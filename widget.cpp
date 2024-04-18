@@ -12,6 +12,7 @@
 #include <math.h>
 #include <QVBoxLayout>
 #include <QInputDialog>
+#include <QTableWidget>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -91,7 +92,8 @@ void Widget::INI_UI()
     ui->lbl_pic->setImage(pix_Ini);
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
 
-
+    ui->table_defectlist->verticalHeader()->setDefaultSectionSize(30);
+    ui->table_defectlist->horizontalHeader()->setDefaultSectionSize(100);
     ui->textRecv->setEnabled(false);
     ui->textSend->setEnabled(false);
     ui->puB_sent->setEnabled(false);
@@ -104,6 +106,7 @@ void Widget::INI_UI()
     ui->CAM2_exposure_Edit->setText(QString::number(CAM2_exposureTime));
     ui->CAM3_exposure_Edit->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
+
 }
 Widget::~Widget()
 {
@@ -178,7 +181,7 @@ void Widget::recv_label_update(QString message)
         //Read
         if (ReadpuB_isPressed == true) {
             ui->DM200_Edit->setText(QString(buffer[0]));
-            if (str1 == "RDS R200 8") {
+            if (str1 == "RDS R200 10") {
                 parts = message.split(" ");
                 ui->R200_Edit->setText(parts[0]);
                 ui->R201_Edit->setText(parts[1]);
@@ -188,6 +191,8 @@ void Widget::recv_label_update(QString message)
                 ui->R205_Edit->setText(parts[5]);
                 ui->R206_Edit->setText(parts[6]);
                 ui->R207_Edit->setText(parts[7]);
+                ui->R212_Edit->setText(parts[8]);
+                ui->R214_Edit->setText(parts[9]);
                 buffer[4] = ui->R200_Edit->text();
                 buffer[5] = ui->R201_Edit->text();
                 buffer[6] = ui->R202_Edit->text();
@@ -195,7 +200,9 @@ void Widget::recv_label_update(QString message)
                 buffer[8] = ui->R204_Edit->text();
                 buffer[9] = ui->R205_Edit->text();
                 buffer[10] = ui->R206_Edit->text();
-                buffer[11] = ui->R206_Edit->text();
+                buffer[11] = ui->R207_Edit->text();
+                buffer[12] = ui->R212_Edit->text();
+                buffer[13] = ui->R214_Edit->text();
                 WR_command("RDS DM200 7");
             } else if (str1 == "RDS DM200 7") {
                 parts = message.split(" ");
@@ -591,7 +598,7 @@ void Widget::on_puB_read_clicked()
     logger.writeLog(Logger::Info, "User clicked Button puB_read.");
     ReadpuB_isPressed = true;
 
-    WR_command("RDS R200 8");
+    WR_command("RDS R200 10");
 }
 
 void Widget::on_puB_write_clicked()
@@ -610,15 +617,17 @@ void Widget::on_puB_write_clicked()
     buffer[9] = ui->R205_Edit->text();
     buffer[10] = ui->R206_Edit->text();
     buffer[11] = ui->R207_Edit->text();
-    for(int i = 0 ; i<12 ; i++){
+    buffer[12] = ui->R212_Edit->text();
+    buffer[13] = ui->R214_Edit->text();
+    for(int i=0; i<buffer.size(); i++){
         if(buffer[i].isEmpty()){
             buffer[i]="0";
         }
     }
-    QString buffer_combined = QString("%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11")
+    QString buffer_combined = QString("%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13")
                                   .arg("WRS")
                                   .arg("R200")
-                                  .arg("8")
+                                  .arg("10")
                                   .arg(buffer[4])
                                   .arg(buffer[5])
                                   .arg(buffer[6])
@@ -626,7 +635,9 @@ void Widget::on_puB_write_clicked()
                                   .arg(buffer[8])
                                   .arg(buffer[9])
                                   .arg(buffer[10])
-                                  .arg(buffer[11]);
+                                  .arg(buffer[11])
+                                  .arg(buffer[12])
+                                  .arg(buffer[13]);
 
     WR_command(buffer_combined);
 }
