@@ -18,12 +18,12 @@
 #include<QComboBox>
 #include<QDir>
 #include<QStringList>
-#include<QTextStream>
 #include<QTextBrowser>
 #include<QQueue>
 #include<iostream>
 #include"defineCoordinate.h"
 #include <QListWidget>
+#include <QColor>
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -103,15 +103,9 @@ private slots:
     void on_puB_saveINI_clicked();
     void on_puB_remove_clicked();
     void reviseconfigINI(QString section, QString key,QString Value);
-
-
-
     void on_puB_add_clicked();
-
-
     void on_puB_save_clicked();
-
-
+    void LogsetH(const QString& message);
 private:
     QLabel *label;
     QThread clientThread;

@@ -1,5 +1,6 @@
 #include "logger.h"
 #include<QDebug>
+#include <QPalette>
 Logger::Logger(QObject *parent) : QObject(parent)
 {
 
@@ -18,19 +19,27 @@ QString Logger::logTypeToString(LogType type)
     }
 }
 
-
 void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
-    QString dataTimeString = currentDateTime.toString("yyyy-MM-dd hh:mm:ss");
+    dataTimeString = currentDateTime.toString("yyyy-MM-dd hh:mm:ss");
+
     QFile logFile(filePath);
     if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
         qDebug()<<"Failed to open log file.";
         return;
     }
     QTextStream m_textstream(&logFile);
-    m_textstream<<dataTimeString<<"\t"<<logTypeToString(type)<<" : "<<message<<"\n";;
-    m_textstream.flush();
+    formattedMessage = logTypeToString(type);
+    qDebug()<<logTypeToString(type);
+    if(logTypeToString(type) == "INFO"){
+        qDebug()<<"le";
+        formattedMessage.replace("INFO","<span style='background-color: green;'>INFO</span>");
+        emit logchange(message);
+    }
+
+
+
 }
 
 void Logger::populateCombowithFileName(QComboBox *combobox, const QString directoryPath)
@@ -38,7 +47,7 @@ void Logger::populateCombowithFileName(QComboBox *combobox, const QString direct
     QDir directory(directoryPath);
     QStringList fileName = directory.entryList(QStringList()<<"*.log", QDir::Files);
     combobox->clear();
-    foreach (const QString &fileName, fileName) {
+    foreach (const QString &fileName, fileName){
         QString name = fileName.split('.').first();
         combobox->addItem(name);
     }

@@ -19,11 +19,14 @@ public:
     void populateCombowithFileName(QComboBox *combobox, const QString directoryPath);
     void on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
     void create_file();
-    QString filePath,logFileName,timestamp,comboText;
+    QString filePath,logFileName,timestamp,comboText,formattedMessage;
     QFile logFile;
     QTextStream m_textstream;
     QDir logDir;
+    QString dataTimeString;
 
+signals:
+    void logchange(const QString& message);
 
 private:
     QString logTypeToString(LogType type);

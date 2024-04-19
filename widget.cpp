@@ -15,7 +15,8 @@
 #include <QTableWidget>
 #include <QSettings>
 #include <QImage>
-
+#include<QDateTime>
+#include<QTextStream>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -28,6 +29,8 @@ Widget::Widget(QWidget *parent)
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::activated), [&](int index) {
         logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox, "Log");
     });
+    connect(&logger, &Logger::logchange, this, &Widget::LogsetH);
+
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
 
@@ -41,6 +44,7 @@ Widget::Widget(QWidget *parent)
     for (auto lineEdit : lineEdits) {
         connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
     }
+
     // clock (per second
     QTimer *timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
@@ -814,5 +818,16 @@ void Widget::on_puB_save_clicked()
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
 }
+
+
+void Widget::LogsetH(const QString &message)
+{
+    qDebug()<<"got you";
+    QString new_formattedMessage = ui->text_log->setHtml(logger.formattedMessage);
+    logger.m_textstream<<logger.dataTimeString<<"\t"<<new_formattedMessage<<" : "<<message<<"\n";
+    logger.m_textstream.flush();
+}
+
+
 
 
