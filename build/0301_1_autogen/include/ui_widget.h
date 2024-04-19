@@ -11,17 +11,13 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
-#include <QtWidgets/QFrame>
 #include <QtWidgets/QGroupBox>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSlider>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -93,6 +89,13 @@ public:
     QGroupBox *groupBox_12;
     QLineEdit *CAM3_exposure_Edit_3;
     QLabel *lbl_exposure_9;
+    QLineEdit *PT_width_Edit;
+    QLabel *lbl_PT_width;
+    QLineEdit *PT_height_Edit;
+    QLabel *lbl_PT_height;
+    QLineEdit *path_Edit;
+    QLabel *lbl_PT_height_2;
+    QPushButton *puB_saveINI;
     QLabel *label;
     QLabel *label_2;
     QLabel *label_4;
@@ -117,80 +120,6 @@ public:
     QSplitter *splitter;
     QLabel *lbl_pattern_2;
     QLabel *lbl_pattern;
-    QWidget *tab_5;
-    QLabel *lbl_PT_width;
-    QLineEdit *PT_width_Edit;
-    QLineEdit *PT_height_Edit;
-    QLabel *lbl_PT_height;
-    QLabel *lbl_PT_height_2;
-    QLineEdit *path_Edit;
-    QPushButton *puB_saveINI;
-    QWidget *tab6;
-    QLineEdit *statusbar_2;
-    QPushButton *openByUserID_1;
-    QPushButton *openByUserID_2;
-    QLabel *pixelFormatLabel_1;
-    QPushButton *close_1;
-    QPushButton *openSelected_2;
-    QLabel *label_3;
-    QPushButton *softwareTrigger_2;
-    QPushButton *stop_1;
-    QPushButton *close_2;
-    QWidget *image_2;
-    QLineEdit *editSN_2;
-    QLabel *label_5;
-    QComboBox *triggerMode_1;
-    QPushButton *openSelected_1;
-    QPushButton *continuous_2;
-    QCheckBox *invertPixel_1;
-    QFrame *line;
-    QLabel *triggerSourceLabel_1;
-    QPushButton *singleShot_1;
-    QComboBox *triggerSource_1;
-    QLineEdit *statusbar_1;
-    QPushButton *singleShot_2;
-    QLabel *softwareTriggerLabel_1;
-    QLabel *label_6;
-    QComboBox *triggerSource_2;
-    QLineEdit *editUserID_2;
-    QComboBox *pixelFormat_1;
-    QPushButton *continuous_1;
-    QLabel *pixelFormatLabel_2;
-    QPushButton *scanButton;
-    QLabel *label_7;
-    QComboBox *pixelFormat_2;
-    QPushButton *openBySN_1;
-    QPushButton *openBySN_2;
-    QComboBox *cameraList;
-    QLabel *triggerModeLabel_2;
-    QWidget *layoutWidget_2;
-    QHBoxLayout *horizontalLayout_4;
-    QSlider *gain_2;
-    QLabel *gainLabel_2;
-    QLabel *triggerModeLabel_1;
-    QLabel *invertPixelLabel_2;
-    QPushButton *stop_2;
-    QLabel *softwareTriggerLabel_2;
-    QCheckBox *invertPixel_2;
-    QPushButton *softwareTrigger_1;
-    QLineEdit *editSN_1;
-    QLabel *triggerSourceLabel_2;
-    QLabel *invertPixelLabel_1;
-    QComboBox *triggerMode_2;
-    QLineEdit *editUserID_1;
-    QWidget *layoutWidget_3;
-    QHBoxLayout *horizontalLayout_2;
-    QSlider *gain_1;
-    QLabel *gainLabel_1;
-    QWidget *image_1;
-    QWidget *layoutWidget_4;
-    QHBoxLayout *horizontalLayout_3;
-    QSlider *exposure_1;
-    QLabel *exposureLabel_1;
-    QWidget *layoutWidget_5;
-    QHBoxLayout *horizontalLayout_5;
-    QSlider *exposure_2;
-    QLabel *exposureLabel_2;
 
     void setupUi(QWidget *Widget)
     {
@@ -322,7 +251,7 @@ public:
         lbl_R203->setFont(font);
         puB_read = new QPushButton(tab_7);
         puB_read->setObjectName(QString::fromUtf8("puB_read"));
-        puB_read->setGeometry(QRect(90, 580, 121, 41));
+        puB_read->setGeometry(QRect(70, 550, 121, 41));
         puB_read->setFont(font);
         lbl_R204 = new QLabel(tab_7);
         lbl_R204->setObjectName(QString::fromUtf8("lbl_R204"));
@@ -362,7 +291,7 @@ public:
         puB_write = new QPushButton(tab_7);
         puB_write->setObjectName(QString::fromUtf8("puB_write"));
         puB_write->setEnabled(true);
-        puB_write->setGeometry(QRect(240, 580, 121, 41));
+        puB_write->setGeometry(QRect(230, 550, 121, 41));
         puB_write->setFont(font);
         lbl_DM202 = new QLabel(tab_7);
         lbl_DM202->setObjectName(QString::fromUtf8("lbl_DM202"));
@@ -422,7 +351,7 @@ public:
         text_log->setGeometry(QRect(10, 50, 411, 581));
         text_log->setFont(font1);
         text_log->setFrameShadow(QFrame::Plain);
-        text_log->setReadOnly(false);
+        text_log->setReadOnly(true);
         tabWidget_2->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
@@ -459,6 +388,36 @@ public:
         lbl_exposure_9->setObjectName(QString::fromUtf8("lbl_exposure_9"));
         lbl_exposure_9->setGeometry(QRect(16, 32, 161, 41));
         lbl_exposure_9->setFont(font5);
+        PT_width_Edit = new QLineEdit(tab_4);
+        PT_width_Edit->setObjectName(QString::fromUtf8("PT_width_Edit"));
+        PT_width_Edit->setGeometry(QRect(242, 460, 171, 35));
+        PT_width_Edit->setFont(font1);
+        lbl_PT_width = new QLabel(tab_4);
+        lbl_PT_width->setObjectName(QString::fromUtf8("lbl_PT_width"));
+        lbl_PT_width->setGeometry(QRect(52, 456, 191, 41));
+        lbl_PT_width->setFont(font5);
+        PT_height_Edit = new QLineEdit(tab_4);
+        PT_height_Edit->setObjectName(QString::fromUtf8("PT_height_Edit"));
+        PT_height_Edit->setGeometry(QRect(242, 503, 171, 35));
+        PT_height_Edit->setFont(font1);
+        lbl_PT_height = new QLabel(tab_4);
+        lbl_PT_height->setObjectName(QString::fromUtf8("lbl_PT_height"));
+        lbl_PT_height->setGeometry(QRect(42, 500, 201, 41));
+        lbl_PT_height->setFont(font5);
+        path_Edit = new QLineEdit(tab_4);
+        path_Edit->setObjectName(QString::fromUtf8("path_Edit"));
+        path_Edit->setGeometry(QRect(242, 545, 171, 35));
+        path_Edit->setFont(font1);
+        lbl_PT_height_2 = new QLabel(tab_4);
+        lbl_PT_height_2->setObjectName(QString::fromUtf8("lbl_PT_height_2"));
+        lbl_PT_height_2->setGeometry(QRect(6, 541, 241, 41));
+        lbl_PT_height_2->setFont(font5);
+        puB_saveINI = new QPushButton(tab_4);
+        puB_saveINI->setObjectName(QString::fromUtf8("puB_saveINI"));
+        puB_saveINI->setGeometry(QRect(180, 590, 101, 41));
+        QFont font6;
+        font6.setPointSize(15);
+        puB_saveINI->setFont(font6);
         tabWidget_2->addTab(tab_4, QString());
         label = new QLabel(tab);
         label->setObjectName(QString::fromUtf8("label"));
@@ -550,9 +509,9 @@ public:
         lbl_pic2 = new QLabel(groupBox_7);
         lbl_pic2->setObjectName(QString::fromUtf8("lbl_pic2"));
         lbl_pic2->setGeometry(QRect(30, 50, 259, 194));
-        QFont font6;
-        font6.setPointSize(17);
-        lbl_pic2->setFont(font6);
+        QFont font7;
+        font7.setPointSize(17);
+        lbl_pic2->setFont(font7);
         lbl_pic2->setCursor(QCursor(Qt::CrossCursor));
         lbl_pic2->setMouseTracking(false);
         lbl_pic2->setFrameShape(QFrame::Box);
@@ -602,268 +561,14 @@ public:
         lbl_pattern->setFont(font);
         splitter->addWidget(lbl_pattern);
         tabWidget->addTab(tab_2, QString());
-        tab_5 = new QWidget();
-        tab_5->setObjectName(QString::fromUtf8("tab_5"));
-        lbl_PT_width = new QLabel(tab_5);
-        lbl_PT_width->setObjectName(QString::fromUtf8("lbl_PT_width"));
-        lbl_PT_width->setGeometry(QRect(200, 357, 191, 41));
-        lbl_PT_width->setFont(font5);
-        PT_width_Edit = new QLineEdit(tab_5);
-        PT_width_Edit->setObjectName(QString::fromUtf8("PT_width_Edit"));
-        PT_width_Edit->setGeometry(QRect(395, 360, 120, 35));
-        PT_width_Edit->setFont(font1);
-        PT_height_Edit = new QLineEdit(tab_5);
-        PT_height_Edit->setObjectName(QString::fromUtf8("PT_height_Edit"));
-        PT_height_Edit->setGeometry(QRect(395, 423, 120, 35));
-        PT_height_Edit->setFont(font1);
-        lbl_PT_height = new QLabel(tab_5);
-        lbl_PT_height->setObjectName(QString::fromUtf8("lbl_PT_height"));
-        lbl_PT_height->setGeometry(QRect(194, 420, 201, 41));
-        lbl_PT_height->setFont(font5);
-        lbl_PT_height_2 = new QLabel(tab_5);
-        lbl_PT_height_2->setObjectName(QString::fromUtf8("lbl_PT_height_2"));
-        lbl_PT_height_2->setGeometry(QRect(156, 483, 241, 41));
-        lbl_PT_height_2->setFont(font5);
-        path_Edit = new QLineEdit(tab_5);
-        path_Edit->setObjectName(QString::fromUtf8("path_Edit"));
-        path_Edit->setGeometry(QRect(395, 486, 371, 35));
-        path_Edit->setFont(font1);
-        puB_saveINI = new QPushButton(tab_5);
-        puB_saveINI->setObjectName(QString::fromUtf8("puB_saveINI"));
-        puB_saveINI->setGeometry(QRect(430, 570, 101, 41));
-        tabWidget->addTab(tab_5, QString());
-        tab6 = new QWidget();
-        tab6->setObjectName(QString::fromUtf8("tab6"));
-        statusbar_2 = new QLineEdit(tab6);
-        statusbar_2->setObjectName(QString::fromUtf8("statusbar_2"));
-        statusbar_2->setEnabled(false);
-        statusbar_2->setGeometry(QRect(507, 362, 383, 25));
-        statusbar_2->setReadOnly(true);
-        openByUserID_1 = new QPushButton(tab6);
-        openByUserID_1->setObjectName(QString::fromUtf8("openByUserID_1"));
-        openByUserID_1->setGeometry(QRect(374, 86, 118, 25));
-        openByUserID_2 = new QPushButton(tab6);
-        openByUserID_2->setObjectName(QString::fromUtf8("openByUserID_2"));
-        openByUserID_2->setGeometry(QRect(772, 86, 118, 25));
-        pixelFormatLabel_1 = new QLabel(tab6);
-        pixelFormatLabel_1->setObjectName(QString::fromUtf8("pixelFormatLabel_1"));
-        pixelFormatLabel_1->setGeometry(QRect(109, 478, 132, 25));
-        close_1 = new QPushButton(tab6);
-        close_1->setObjectName(QString::fromUtf8("close_1"));
-        close_1->setGeometry(QRect(109, 117, 132, 25));
-        openSelected_2 = new QPushButton(tab6);
-        openSelected_2->setObjectName(QString::fromUtf8("openSelected_2"));
-        openSelected_2->setGeometry(QRect(507, 86, 132, 25));
-        label_3 = new QLabel(tab6);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setGeometry(QRect(109, 424, 132, 21));
-        softwareTrigger_2 = new QPushButton(tab6);
-        softwareTrigger_2->setObjectName(QString::fromUtf8("softwareTrigger_2"));
-        softwareTrigger_2->setGeometry(QRect(645, 571, 121, 25));
-        stop_1 = new QPushButton(tab6);
-        stop_1->setObjectName(QString::fromUtf8("stop_1"));
-        stop_1->setGeometry(QRect(374, 393, 118, 25));
-        close_2 = new QPushButton(tab6);
-        close_2->setObjectName(QString::fromUtf8("close_2"));
-        close_2->setGeometry(QRect(507, 117, 132, 25));
-        image_2 = new QWidget(tab6);
-        image_2->setObjectName(QString::fromUtf8("image_2"));
-        image_2->setGeometry(QRect(507, 148, 383, 208));
-        editSN_2 = new QLineEdit(tab6);
-        editSN_2->setObjectName(QString::fromUtf8("editSN_2"));
-        editSN_2->setGeometry(QRect(645, 117, 121, 25));
-        label_5 = new QLabel(tab6);
-        label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(507, 451, 132, 21));
-        triggerMode_1 = new QComboBox(tab6);
-        triggerMode_1->setObjectName(QString::fromUtf8("triggerMode_1"));
-        triggerMode_1->setGeometry(QRect(247, 509, 245, 25));
-        openSelected_1 = new QPushButton(tab6);
-        openSelected_1->setObjectName(QString::fromUtf8("openSelected_1"));
-        openSelected_1->setGeometry(QRect(109, 86, 132, 25));
-        continuous_2 = new QPushButton(tab6);
-        continuous_2->setObjectName(QString::fromUtf8("continuous_2"));
-        continuous_2->setGeometry(QRect(645, 393, 121, 25));
-        invertPixel_1 = new QCheckBox(tab6);
-        invertPixel_1->setObjectName(QString::fromUtf8("invertPixel_1"));
-        invertPixel_1->setGeometry(QRect(247, 602, 245, 23));
-        line = new QFrame(tab6);
-        line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(498, 86, 3, 539));
-        line->setFrameShape(QFrame::VLine);
-        line->setFrameShadow(QFrame::Sunken);
-        triggerSourceLabel_1 = new QLabel(tab6);
-        triggerSourceLabel_1->setObjectName(QString::fromUtf8("triggerSourceLabel_1"));
-        triggerSourceLabel_1->setGeometry(QRect(109, 540, 132, 25));
-        singleShot_1 = new QPushButton(tab6);
-        singleShot_1->setObjectName(QString::fromUtf8("singleShot_1"));
-        singleShot_1->setGeometry(QRect(109, 393, 132, 25));
-        triggerSource_1 = new QComboBox(tab6);
-        triggerSource_1->setObjectName(QString::fromUtf8("triggerSource_1"));
-        triggerSource_1->setGeometry(QRect(247, 540, 245, 25));
-        statusbar_1 = new QLineEdit(tab6);
-        statusbar_1->setObjectName(QString::fromUtf8("statusbar_1"));
-        statusbar_1->setEnabled(false);
-        statusbar_1->setGeometry(QRect(109, 362, 383, 25));
-        statusbar_1->setReadOnly(true);
-        singleShot_2 = new QPushButton(tab6);
-        singleShot_2->setObjectName(QString::fromUtf8("singleShot_2"));
-        singleShot_2->setGeometry(QRect(507, 393, 132, 25));
-        softwareTriggerLabel_1 = new QLabel(tab6);
-        softwareTriggerLabel_1->setObjectName(QString::fromUtf8("softwareTriggerLabel_1"));
-        softwareTriggerLabel_1->setGeometry(QRect(109, 571, 132, 25));
-        label_6 = new QLabel(tab6);
-        label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setGeometry(QRect(109, 451, 132, 21));
-        triggerSource_2 = new QComboBox(tab6);
-        triggerSource_2->setObjectName(QString::fromUtf8("triggerSource_2"));
-        triggerSource_2->setGeometry(QRect(645, 540, 245, 25));
-        editUserID_2 = new QLineEdit(tab6);
-        editUserID_2->setObjectName(QString::fromUtf8("editUserID_2"));
-        editUserID_2->setGeometry(QRect(772, 117, 118, 25));
-        pixelFormat_1 = new QComboBox(tab6);
-        pixelFormat_1->setObjectName(QString::fromUtf8("pixelFormat_1"));
-        pixelFormat_1->setGeometry(QRect(247, 478, 245, 25));
-        continuous_1 = new QPushButton(tab6);
-        continuous_1->setObjectName(QString::fromUtf8("continuous_1"));
-        continuous_1->setGeometry(QRect(247, 393, 121, 25));
-        pixelFormatLabel_2 = new QLabel(tab6);
-        pixelFormatLabel_2->setObjectName(QString::fromUtf8("pixelFormatLabel_2"));
-        pixelFormatLabel_2->setGeometry(QRect(507, 478, 132, 25));
-        scanButton = new QPushButton(tab6);
-        scanButton->setObjectName(QString::fromUtf8("scanButton"));
-        scanButton->setGeometry(QRect(109, 29, 132, 25));
-        label_7 = new QLabel(tab6);
-        label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(507, 424, 132, 21));
-        pixelFormat_2 = new QComboBox(tab6);
-        pixelFormat_2->setObjectName(QString::fromUtf8("pixelFormat_2"));
-        pixelFormat_2->setGeometry(QRect(645, 478, 245, 25));
-        openBySN_1 = new QPushButton(tab6);
-        openBySN_1->setObjectName(QString::fromUtf8("openBySN_1"));
-        openBySN_1->setGeometry(QRect(247, 86, 121, 25));
-        openBySN_2 = new QPushButton(tab6);
-        openBySN_2->setObjectName(QString::fromUtf8("openBySN_2"));
-        openBySN_2->setGeometry(QRect(645, 86, 121, 25));
-        cameraList = new QComboBox(tab6);
-        cameraList->setObjectName(QString::fromUtf8("cameraList"));
-        cameraList->setGeometry(QRect(247, 29, 643, 25));
-        triggerModeLabel_2 = new QLabel(tab6);
-        triggerModeLabel_2->setObjectName(QString::fromUtf8("triggerModeLabel_2"));
-        triggerModeLabel_2->setGeometry(QRect(507, 509, 132, 25));
-        layoutWidget_2 = new QWidget(tab6);
-        layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(100, 20, 107, 19));
-        horizontalLayout_4 = new QHBoxLayout(layoutWidget_2);
-        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        gain_2 = new QSlider(layoutWidget_2);
-        gain_2->setObjectName(QString::fromUtf8("gain_2"));
-        gain_2->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_4->addWidget(gain_2);
-
-        gainLabel_2 = new QLabel(layoutWidget_2);
-        gainLabel_2->setObjectName(QString::fromUtf8("gainLabel_2"));
-
-        horizontalLayout_4->addWidget(gainLabel_2);
-
-        triggerModeLabel_1 = new QLabel(tab6);
-        triggerModeLabel_1->setObjectName(QString::fromUtf8("triggerModeLabel_1"));
-        triggerModeLabel_1->setGeometry(QRect(109, 509, 132, 25));
-        invertPixelLabel_2 = new QLabel(tab6);
-        invertPixelLabel_2->setObjectName(QString::fromUtf8("invertPixelLabel_2"));
-        invertPixelLabel_2->setGeometry(QRect(507, 602, 132, 23));
-        stop_2 = new QPushButton(tab6);
-        stop_2->setObjectName(QString::fromUtf8("stop_2"));
-        stop_2->setGeometry(QRect(772, 393, 118, 25));
-        softwareTriggerLabel_2 = new QLabel(tab6);
-        softwareTriggerLabel_2->setObjectName(QString::fromUtf8("softwareTriggerLabel_2"));
-        softwareTriggerLabel_2->setGeometry(QRect(507, 571, 132, 25));
-        invertPixel_2 = new QCheckBox(tab6);
-        invertPixel_2->setObjectName(QString::fromUtf8("invertPixel_2"));
-        invertPixel_2->setGeometry(QRect(645, 602, 121, 23));
-        softwareTrigger_1 = new QPushButton(tab6);
-        softwareTrigger_1->setObjectName(QString::fromUtf8("softwareTrigger_1"));
-        softwareTrigger_1->setGeometry(QRect(247, 571, 245, 25));
-        editSN_1 = new QLineEdit(tab6);
-        editSN_1->setObjectName(QString::fromUtf8("editSN_1"));
-        editSN_1->setGeometry(QRect(247, 117, 121, 25));
-        triggerSourceLabel_2 = new QLabel(tab6);
-        triggerSourceLabel_2->setObjectName(QString::fromUtf8("triggerSourceLabel_2"));
-        triggerSourceLabel_2->setGeometry(QRect(507, 540, 132, 25));
-        invertPixelLabel_1 = new QLabel(tab6);
-        invertPixelLabel_1->setObjectName(QString::fromUtf8("invertPixelLabel_1"));
-        invertPixelLabel_1->setGeometry(QRect(109, 602, 132, 23));
-        triggerMode_2 = new QComboBox(tab6);
-        triggerMode_2->setObjectName(QString::fromUtf8("triggerMode_2"));
-        triggerMode_2->setGeometry(QRect(645, 509, 245, 25));
-        editUserID_1 = new QLineEdit(tab6);
-        editUserID_1->setObjectName(QString::fromUtf8("editUserID_1"));
-        editUserID_1->setGeometry(QRect(374, 117, 118, 25));
-        layoutWidget_3 = new QWidget(tab6);
-        layoutWidget_3->setObjectName(QString::fromUtf8("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(100, 20, 107, 19));
-        horizontalLayout_2 = new QHBoxLayout(layoutWidget_3);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        gain_1 = new QSlider(layoutWidget_3);
-        gain_1->setObjectName(QString::fromUtf8("gain_1"));
-        gain_1->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_2->addWidget(gain_1);
-
-        gainLabel_1 = new QLabel(layoutWidget_3);
-        gainLabel_1->setObjectName(QString::fromUtf8("gainLabel_1"));
-
-        horizontalLayout_2->addWidget(gainLabel_1);
-
-        image_1 = new QWidget(tab6);
-        image_1->setObjectName(QString::fromUtf8("image_1"));
-        image_1->setGeometry(QRect(109, 148, 383, 208));
-        layoutWidget_4 = new QWidget(tab6);
-        layoutWidget_4->setObjectName(QString::fromUtf8("layoutWidget_4"));
-        layoutWidget_4->setGeometry(QRect(100, 20, 107, 19));
-        horizontalLayout_3 = new QHBoxLayout(layoutWidget_4);
-        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        horizontalLayout_3->setContentsMargins(0, 0, 0, 0);
-        exposure_1 = new QSlider(layoutWidget_4);
-        exposure_1->setObjectName(QString::fromUtf8("exposure_1"));
-        exposure_1->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_3->addWidget(exposure_1);
-
-        exposureLabel_1 = new QLabel(layoutWidget_4);
-        exposureLabel_1->setObjectName(QString::fromUtf8("exposureLabel_1"));
-
-        horizontalLayout_3->addWidget(exposureLabel_1);
-
-        layoutWidget_5 = new QWidget(tab6);
-        layoutWidget_5->setObjectName(QString::fromUtf8("layoutWidget_5"));
-        layoutWidget_5->setGeometry(QRect(100, 20, 107, 19));
-        horizontalLayout_5 = new QHBoxLayout(layoutWidget_5);
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
-        exposure_2 = new QSlider(layoutWidget_5);
-        exposure_2->setObjectName(QString::fromUtf8("exposure_2"));
-        exposure_2->setOrientation(Qt::Horizontal);
-
-        horizontalLayout_5->addWidget(exposure_2);
-
-        exposureLabel_2 = new QLabel(layoutWidget_5);
-        exposureLabel_2->setObjectName(QString::fromUtf8("exposureLabel_2"));
-
-        horizontalLayout_5->addWidget(exposureLabel_2);
-
-        tabWidget->addTab(tab6, QString());
 
         verticalLayout_3->addWidget(tabWidget);
 
 
         retranslateUi(Widget);
 
-        tabWidget->setCurrentIndex(1);
-        tabWidget_2->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(Widget);
@@ -939,6 +644,13 @@ public:
         groupBox_12->setTitle(QApplication::translate("Widget", "CAM3", nullptr));
         CAM3_exposure_Edit_3->setText(QString());
         lbl_exposure_9->setText(QApplication::translate("Widget", "exposure time :", nullptr));
+        PT_width_Edit->setText(QString());
+        lbl_PT_width->setText(QApplication::translate("Widget", "The width of pattern:", nullptr));
+        PT_height_Edit->setText(QString());
+        lbl_PT_height->setText(QApplication::translate("Widget", "The height of pattern :", nullptr));
+        path_Edit->setText(QString());
+        lbl_PT_height_2->setText(QApplication::translate("Widget", "The path of picture folder :", nullptr));
+        puB_saveINI->setText(QApplication::translate("Widget", "save", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QApplication::translate("Widget", "INI", nullptr));
         label->setText(QApplication::translate("Widget", "Address\357\274\232", nullptr));
         label_2->setText(QApplication::translate("Widget", "Port\357\274\232", nullptr));
@@ -988,64 +700,6 @@ public:
         lbl_pattern_2->setText(QApplication::translate("Widget", "\347\224\242\345\223\201\345\220\215\347\250\261 \357\274\232", nullptr));
         lbl_pattern->setText(QApplication::translate("Widget", "Pattern :", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "Image viewer", nullptr));
-        lbl_PT_width->setText(QApplication::translate("Widget", "The width of pattern :", nullptr));
-        PT_width_Edit->setText(QString());
-        PT_height_Edit->setText(QString());
-        lbl_PT_height->setText(QApplication::translate("Widget", "The height of pattern :", nullptr));
-        lbl_PT_height_2->setText(QApplication::translate("Widget", "The path of picture folder :", nullptr));
-        path_Edit->setText(QString());
-        puB_saveINI->setText(QApplication::translate("Widget", "OK", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("Widget", "INI", nullptr));
-        openByUserID_1->setText(QApplication::translate("Widget", "Open by User ID", nullptr));
-        openByUserID_2->setText(QApplication::translate("Widget", "Open by User ID", nullptr));
-        pixelFormatLabel_1->setText(QApplication::translate("Widget", "Pixel Format", nullptr));
-        close_1->setText(QApplication::translate("Widget", "Close", nullptr));
-        openSelected_2->setText(QApplication::translate("Widget", "Open Selected", nullptr));
-        label_3->setText(QApplication::translate("Widget", "Exposure Time", nullptr));
-        softwareTrigger_2->setText(QApplication::translate("Widget", "Execute", nullptr));
-        stop_1->setText(QApplication::translate("Widget", "Stop", nullptr));
-        close_2->setText(QApplication::translate("Widget", "Close", nullptr));
-#ifndef QT_NO_TOOLTIP
-        editSN_2->setToolTip(QApplication::translate("Widget", "Check for a camera serial number in the camera list and enter it here.", nullptr));
-#endif // QT_NO_TOOLTIP
-        label_5->setText(QApplication::translate("Widget", "Gain", nullptr));
-        openSelected_1->setText(QApplication::translate("Widget", "Open Selected", nullptr));
-        continuous_2->setText(QApplication::translate("Widget", "Continuous Shot", nullptr));
-        invertPixel_1->setText(QApplication::translate("Widget", "Enable", nullptr));
-        triggerSourceLabel_1->setText(QApplication::translate("Widget", "Trigger Source", nullptr));
-        singleShot_1->setText(QApplication::translate("Widget", "Single Shot", nullptr));
-        singleShot_2->setText(QApplication::translate("Widget", "Single Shot", nullptr));
-        softwareTriggerLabel_1->setText(QApplication::translate("Widget", "Software Trigger", nullptr));
-        label_6->setText(QApplication::translate("Widget", "Gain", nullptr));
-#ifndef QT_NO_TOOLTIP
-        editUserID_2->setToolTip(QApplication::translate("Widget", "Check for a device user ID in the camera list and enter it here. You may need to specify a device user ID in the pylon Viewer first.", nullptr));
-#endif // QT_NO_TOOLTIP
-        continuous_1->setText(QApplication::translate("Widget", "Continuous Shot", nullptr));
-        pixelFormatLabel_2->setText(QApplication::translate("Widget", "Pixel Format", nullptr));
-        scanButton->setText(QApplication::translate("Widget", "Discover Cameras", nullptr));
-        label_7->setText(QApplication::translate("Widget", "Exposure Time", nullptr));
-        openBySN_1->setText(QApplication::translate("Widget", "Open by SN", nullptr));
-        openBySN_2->setText(QApplication::translate("Widget", "Open by SN", nullptr));
-        triggerModeLabel_2->setText(QApplication::translate("Widget", "Frame Start Trigger", nullptr));
-        gainLabel_2->setText(QApplication::translate("Widget", "---", nullptr));
-        triggerModeLabel_1->setText(QApplication::translate("Widget", "Frame Start Trigger", nullptr));
-        invertPixelLabel_2->setText(QApplication::translate("Widget", "Invert Pixels", nullptr));
-        stop_2->setText(QApplication::translate("Widget", "Stop", nullptr));
-        softwareTriggerLabel_2->setText(QApplication::translate("Widget", "Software Trigger", nullptr));
-        invertPixel_2->setText(QApplication::translate("Widget", "Enable", nullptr));
-        softwareTrigger_1->setText(QApplication::translate("Widget", "Execute", nullptr));
-#ifndef QT_NO_TOOLTIP
-        editSN_1->setToolTip(QApplication::translate("Widget", "Check for a camera serial number in the camera list and enter it here.", nullptr));
-#endif // QT_NO_TOOLTIP
-        triggerSourceLabel_2->setText(QApplication::translate("Widget", "Trigger Source", nullptr));
-        invertPixelLabel_1->setText(QApplication::translate("Widget", "Invert Pixels", nullptr));
-#ifndef QT_NO_TOOLTIP
-        editUserID_1->setToolTip(QApplication::translate("Widget", "Check for a device user ID in the camera list and enter it here. You may need to specify a device user ID in the pylon Viewer first.", nullptr));
-#endif // QT_NO_TOOLTIP
-        gainLabel_1->setText(QApplication::translate("Widget", "---", nullptr));
-        exposureLabel_1->setText(QApplication::translate("Widget", "---", nullptr));
-        exposureLabel_2->setText(QApplication::translate("Widget", "---", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tab6), QApplication::translate("Widget", "AOI", nullptr));
     } // retranslateUi
 
 };

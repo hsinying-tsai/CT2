@@ -66,8 +66,9 @@ public:
     QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
     QStringList parts,parts_R,run_pattern_name;
     QQueue<QString> commandQ;
+    QString configFilePath;
 
-
+    double calculateMean(const QString &imagepath);
     //存文字
     std::vector<QString> matrix_buffer_name = {"DM200", "DM202","DM204","DM206","R200","R201","R202","R203","R204","R205"
                                                ,"R206","R207","R212","R214"};
@@ -101,6 +102,7 @@ private slots:
     void on_puB_runMode_clicked();
     void on_puB_saveINI_clicked();
     void on_puB_remove_clicked();
+    void reviseconfigINI(QString section, QString key,QString Value);
 
 
 

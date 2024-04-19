@@ -14,6 +14,7 @@
 #include <QInputDialog>
 #include <QTableWidget>
 #include <QSettings>
+#include <QImage>
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -24,7 +25,6 @@ Widget::Widget(QWidget *parent)
     logger.populateCombowithFileName(ui->comboBox, "Log");
     connect(ui->lbl_pic, SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
     connect(ui->lbl_pic, SIGNAL(Mouse_Pos()), this, SLOT(MouseCurrentPos()));
-
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::activated), [&](int index) {
         logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox, "Log");
     });
@@ -76,6 +76,29 @@ Widget::Widget(QWidget *parent)
     DC.defNode();
     clientThread.start();
 }
+
+double Widget::calculateMean(const QString &imagepath)
+{
+    QImage image(imagepath);
+    if(image.isNull()){
+        qWarning()<<"Failed to load image!";
+        return -1;
+    }
+    int width = image.width();
+    int height = image.height();
+    int totalPixels = width*height;
+    int totalGrayValue = 0;
+    for(int y=0; y<height ; y++){
+        for(int x=0; x<width; x++){
+            QColor color = image.pixelColor(x,y);
+            int grayValue = qGray(color.red(), color.green(),color.blue());
+            totalGrayValue += grayValue;
+        }
+    }
+    double mean = static_cast<double>(totalGrayValue) /totalPixels;
+    return mean;
+
+}
 void Widget::INI_UI()
 {
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
@@ -88,7 +111,7 @@ void Widget::INI_UI()
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
-    QString configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
+    configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
     // 检查配置文件是否存在
     QFile configFile(configFilePath);
     if (!configFile.exists()) {
@@ -270,13 +293,33 @@ void Widget::recv_label_update(QString message)
                 count_num = 0;
                 //OK\r\n
             } else if (message == "OK") {
-                QString buffer_combined = QString("%1 %2%3 %4")
-                                              .arg("WR")
-                                              .arg("DM")
-                                              .arg(200 + count_num)
-                                              .arg(buffer[count_num / 2]);
-                WR_command(buffer_combined);
-                count_num += 2;
+                if(count_num == 4 || count_num == 6){
+                    //DM204,DM206
+                    bool ok;
+                    int tmp_buffer= buffer[count_num / 2].toInt(&ok);
+                    if(ok){
+                        if(tmp_buffer<0){
+                            qDebug()<<"got it";
+                            QString buffer_combined = QString("%1 %2%3%4 %5")
+                                                          .arg("WR")
+                                                          .arg("DM")
+                                                          .arg(200 + count_num)
+                                                          .arg(".S")
+                                                          .arg(buffer[count_num / 2]);
+                            WR_command(buffer_combined);
+                            count_num += 2;
+                        }
+                    }
+                }else{
+                    QString buffer_combined = QString("%1 %2%3 %4")
+                                                  .arg("WR")
+                                                  .arg("DM")
+                                                  .arg(200 + count_num)
+                                                  .arg(buffer[count_num / 2]);
+                    WR_command(buffer_combined);
+                    count_num += 2;
+                }
+
             }
         } else if (message == "OK") {
             recevZero = false;
@@ -318,7 +361,6 @@ void Widget::recv_label_update(QString message)
                             WR_command("WR R204 1");
                         }
                     }
-
                 }else if(parts[1] == "R204"){
                     //if change_flawPG==true ->to step.5
                     change_flawPG = true;
@@ -330,7 +372,6 @@ void Widget::recv_label_update(QString message)
                         change_flawPG = false;
                         WR_command("WR R214 1");
                         qDebug()<<"--------------Step_7.send end signal to PLC.";
-
                     }else{
                         DC.current = DC.current->next;
                         if(DC.current->index == DC.current->prev->index){
@@ -348,8 +389,14 @@ void Widget::recv_label_update(QString message)
                     }
                 }else{
                     //receive OK from "WRS DM201 6 0 0 0 0 0 0
-                    qDebug()<<"--------------Step_7.Finish.";
-
+//                    qDebug()<<"--------------Step_7.Finish.";
+                    qDebug()<<"New action";
+                    change_flawPG = false;
+                    str1.clear();
+                    parts_R.clear();
+                    DC.current = DC.first;
+                    PG_num = 1;
+                    WR_command("WR R200 1");
                 }
             }else if(parts[0] == "WRS"){
                 //Manual state -> stop the loop.
@@ -386,10 +433,10 @@ void Widget::recv_label_update(QString message)
                     parts_R = str1.split(" ");
                 }
             }
-        }else{
+        }else {
             recevNULL = false;
             // RD事件
-            QStringList parts = message.split(" ");
+            parts = message.split(" ");
             if (message == "1" || message == "0") {
                 QStringList parts = str1.split(" ");
                 for (int i = 0; i < matrix_buffer_name.size(); i++) {
@@ -402,7 +449,6 @@ void Widget::recv_label_update(QString message)
                 ui->textRecv->append("Invalid commend");
             }
         }
-
         if(ReadpuB_isPressed == false){
             if (buffer[5] == "1") {
                 //R201 1
@@ -549,7 +595,7 @@ void Widget::WR_command(QString WR_message)
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         sending_ms = true;
         const QByteArray send_data = WR_message.toUtf8();
-        if (send_data.isEmpty()) {
+        if (send_data.isEmpty()){
             return;
         }
         new_send_data = QString("%1\r").arg(QString::fromUtf8(send_data));
@@ -632,8 +678,6 @@ void Widget::on_puB_start_clicked()
        WR_command("WR R200 1");
     }
 //        ui->puB_start->setText("Stop");
-
-
 }
 void Widget::on_puB_read_clicked()
 {
@@ -686,7 +730,6 @@ void Widget::on_puB_write_clicked()
 
 void Widget::on_puB_runMode_clicked()
 {
-
     if(count_runModeclickedtime%2 == 1){
         ui->puB_runMode->setText("Auto");
         runMode = 1;
@@ -695,14 +738,17 @@ void Widget::on_puB_runMode_clicked()
         runMode = 0;
     }
     count_runModeclickedtime++;
-
 }
+
 
 void Widget::on_puB_saveINI_clicked()
 {
     QString path = ui->path_Edit->text();
     QString PT_width = ui->PT_width_Edit->text();
     QString PT_height = ui->PT_height_Edit->text();
+    reviseconfigINI("COORDINATE","PT_sizeX",PT_width);
+    reviseconfigINI("COORDINATE","PT_sizeY",PT_height);
+    reviseconfigINI("PICTURE","pic_fold_path",path);
     bool conversionSuccess = false;
     unsigned int tempValue = PT_width.toInt(&conversionSuccess);
     if(conversionSuccess && tempValue <= UINT16_MAX){
@@ -734,9 +780,21 @@ void Widget::on_puB_remove_clicked()
     }
 }
 
+void Widget::reviseconfigINI(QString section, QString key ,QString Value)
+{
+    qDebug()<<configFilePath;
+    QSettings settings(configFilePath, QSettings::IniFormat);
+    int currentValue = settings.value(section + "/" + key).toInt();
+    qDebug()<<"Current:"<< currentValue;
+    settings.setValue(section+"/"+key,Value);
+    settings.sync();
+
+}
+
 
 void Widget::on_puB_add_clicked()
 {
+
     bool ok;
     QString newItemText = QInputDialog::getText(this,"Add Item",
                                                 "Enter new item:",
@@ -750,7 +808,6 @@ void Widget::on_puB_add_clicked()
 
 void Widget::on_puB_save_clicked()
 {
-
     run_pattern_name.clear();
     for(int i=0; i<ui->list_Pattern->count();i++){
         run_pattern_name.append(ui->list_Pattern->item(i)->text());
