@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="0301_1"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\pylon\;CMake Files\..\..\..\..\opt\pylon\share\;CMake Files\..\..\..\..\opt\pylon\share\pylon\;CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/strip">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 install/strip"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install/local">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 install/local"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="install">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 install"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 list_install_components"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="0301_1">
+				<Option output="/home/agx/Desktop/0321_qt/build/0301_1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_NETWORK_LIB"/>
+					<Add directory="/home/agx/Desktop/0321_qt/build/0301_1_autogen/include"/>
+					<Add directory="/home/agx/Desktop/0321_qt"/>
+					<Add directory="/usr/include/opencv4"/>
+					<Add directory="/opt/pylon/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtNetwork"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 0301_1"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="0301_1/fast">
+				<Option output="/home/agx/Desktop/0321_qt/build/0301_1" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option object_output="./"/>
+				<Option type="0"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_NETWORK_LIB"/>
+					<Add directory="/home/agx/Desktop/0321_qt/build/0301_1_autogen/include"/>
+					<Add directory="/home/agx/Desktop/0321_qt"/>
+					<Add directory="/usr/include/opencv4"/>
+					<Add directory="/opt/pylon/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtNetwork"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/aarch64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/aarch64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 0301_1/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="0301_1_autogen">
+				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 0301_1_autogen"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/agx/Desktop/0321_qt/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/agx/Desktop/0321_qt/build/0301_1_autogen/mocs_compilation.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/defineCoordinate.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/defineCoordinate.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/guicamera.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/guicamera.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/ini.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/ini.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/logger.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/logger.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/main.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/myFuncts.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/myFuncts.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/my_qlabel.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/my_qlabel.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/tcp_client.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/tcp_client.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/widget.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/widget.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/widget.ui">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5/Qt5Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Network/Qt5Network_QConnmanEnginePlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Network/Qt5Network_QNetworkManagerEnginePlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/opencv4/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/opencv4/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/opencv4/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/opencv4/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../opt/pylon/share/pylon/cmake/PylonFinder.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../opt/pylon/share/pylon/cmake/PylonVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../opt/pylon/share/pylon/cmake/pylonConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../opt/pylon/share/pylon/cmake/pylonConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
