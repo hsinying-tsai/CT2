@@ -120,6 +120,10 @@ public:
     QSplitter *splitter;
     QLabel *lbl_pattern_2;
     QLabel *lbl_pattern;
+    QWidget *tab_5;
+    QPushButton *puB_bigGrab;
+    QPushButton *puB_samllGrab;
+    QLabel *lbl_Img;
 
     void setupUi(QWidget *Widget)
     {
@@ -564,13 +568,25 @@ public:
         lbl_pattern->setFont(font1);
         splitter->addWidget(lbl_pattern);
         tabWidget->addTab(tab_2, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        puB_bigGrab = new QPushButton(tab_5);
+        puB_bigGrab->setObjectName(QString::fromUtf8("puB_bigGrab"));
+        puB_bigGrab->setGeometry(QRect(210, 130, 131, 81));
+        puB_samllGrab = new QPushButton(tab_5);
+        puB_samllGrab->setObjectName(QString::fromUtf8("puB_samllGrab"));
+        puB_samllGrab->setGeometry(QRect(360, 130, 131, 81));
+        lbl_Img = new QLabel(tab_5);
+        lbl_Img->setObjectName(QString::fromUtf8("lbl_Img"));
+        lbl_Img->setGeometry(QRect(10, 220, 1201, 561));
+        tabWidget->addTab(tab_5, QString());
 
         verticalLayout_3->addWidget(tabWidget);
 
 
         retranslateUi(Widget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
         tabWidget_2->setCurrentIndex(2);
 
 
@@ -703,6 +719,10 @@ public:
         lbl_pattern_2->setText(QApplication::translate("Widget", "\347\224\242\345\223\201\345\220\215\347\250\261 \357\274\232", nullptr));
         lbl_pattern->setText(QApplication::translate("Widget", "Pattern :", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "Image viewer", nullptr));
+        puB_bigGrab->setText(QApplication::translate("Widget", "BIG GRAB", nullptr));
+        puB_samllGrab->setText(QApplication::translate("Widget", "SMALL GRAB", nullptr));
+        lbl_Img->setText(QApplication::translate("Widget", "TextLabel", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("Widget", "\351\240\201\351\235\242", nullptr));
     } // retranslateUi
 
 };

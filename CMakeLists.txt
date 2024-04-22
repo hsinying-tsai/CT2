@@ -14,6 +14,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 find_package(OpenCV REQUIRED)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widget REQUIRED)
+find_package(pylon)
 
 
 set(PROJECT_SOURCES
@@ -33,6 +34,8 @@ set(PROJECT_SOURCES
         myFuncts.h
         defineCoordinate.h
         defineCoordinate.cpp
+        guicamera.h
+        guicamera.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -71,6 +74,7 @@ target_link_libraries(0301_1 PRIVATE
     -lpylonutility
     -lGenApi_gcc_v3_1_Basler_pylon
     -lGCBase_gcc_v3_1_Basler_pylon)
+target_link_libraries(0301_1 PRIVATE pylon::pylon )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.

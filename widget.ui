@@ -37,7 +37,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -1617,6 +1617,50 @@ background-color: red;</string>
          <string>Pattern :</string>
         </property>
        </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>頁面</string>
+      </attribute>
+      <widget class="QPushButton" name="puB_bigGrab">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>130</y>
+         <width>131</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>BIG GRAB</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="puB_samllGrab">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>130</y>
+         <width>131</width>
+         <height>81</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>SMALL GRAB</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_Img">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>220</y>
+         <width>1201</width>
+         <height>561</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
       </widget>
      </widget>
     </widget>

@@ -15,8 +15,7 @@
 #include <QTableWidget>
 #include <QSettings>
 #include <QImage>
-#include<QDateTime>
-#include<QTextStream>
+#include <QMessageBox>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -77,8 +76,61 @@ Widget::Widget(QWidget *parent)
     factor_Y = COORDINATE_PTsY/324;
     DC.defNode();
     clientThread.start();
+
+    cameraInit();
 }
 
+void Widget::cameraInit()
+{
+
+    for (int i = 0; i < MaxCamera; i++)
+    {
+        m_camera[i].SetUserHint( i );
+
+//         Connect signals from CGuiCamera class to this dialog.
+                QObject::connect( &(m_camera[i]), &CGuiCamera::NewGrabResult, this, &Widget::OnNewGrabResult );
+//                QObject::connect( &(m_camera[i]), &CGuiCamera::StateChanged, this, &MainDialog::OnStateChanged );
+//                QObject::connect( &(m_camera[i]), &CGuiCamera::DeviceRemoved, this, &MainDialog::OnDeviceRemoved );
+//                QObject::connect( &(m_camera[i]), &CGuiCamera::NodeUpdated, this, &MainDialog::OnNodeUpdated );
+    }
+
+    Pylon::CDeviceInfo devInfo[2];
+    devInfo[0].SetSerialNumber("40053677");
+    devInfo[1].SetSerialNumber("40067726");
+    try
+    {
+        // Open() may throw exceptions.
+        m_camera[0].Open( devInfo[0] );
+        m_camera[1].Open( devInfo[1] );
+    }
+    catch (const Pylon::GenericException& e)
+    {
+        ShowWarning( QString("Could not open camera!\n") + QString( e.GetDescription() ) );
+
+//        return false;
+    }
+}
+void Widget::OnNewGrabResult( int userHint )
+{
+    if ((userHint == 0) && m_camera[0].IsOpen())
+    {
+
+        QMutexLocker locker( m_camera[0].GetBmpLock() );
+        QImage image = m_camera[0].GetImage();
+        this->ui->lbl_Img->setPixmap(QPixmap::fromImage(image));
+        // Make sure to repaint the image control.
+        // The actual drawing is done in paintEvent.
+//        ui->image_1->repaint();
+    }
+    if ((userHint == 1) && m_camera[1].IsOpen())
+    {
+
+        QMutexLocker locker( m_camera[1].GetBmpLock() );
+        QImage image = m_camera[1].GetImage();
+        this->ui->lbl_Img->setPixmap(QPixmap::fromImage(image));
+    }
+
+}
 double Widget::calculateMean(const QString &imagepath)
 {
     QImage image(imagepath);
@@ -815,6 +867,35 @@ void Widget::on_puB_save_clicked()
         run_pattern_name.append(ui->list_Pattern->item(i)->text());
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
+}
+// Show a warning dialog.
+void Widget::ShowWarning( QString warningText )
+{
+    QMessageBox::warning( this, "GUI Sample", warningText, QMessageBox::Ok );
+}
+
+void Widget::on_puB_bigGrab_clicked()
+{
+    try
+    {
+        m_camera[0].SingleGrab();
+    }
+    catch (const Pylon::GenericException& e)
+    {
+        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
+    }
+}
+
+void Widget::on_puB_samllGrab_clicked()
+{
+    try
+    {
+        m_camera[1].SingleGrab();
+    }
+    catch (const Pylon::GenericException& e)
+    {
+        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
+    }
 }
 
 

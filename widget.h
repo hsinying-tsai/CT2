@@ -24,6 +24,7 @@
 #include"defineCoordinate.h"
 #include <QListWidget>
 #include <QColor>
+#include "guicamera.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -77,6 +78,8 @@ public:
     std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
     ~Widget();
 
+    //camera
+    void ShowWarning( QString warningText );
 private slots:
     void on_puB_pre_clicked();
     void on_puB_next_clicked();
@@ -106,9 +109,20 @@ private slots:
     void on_puB_add_clicked();
     void on_puB_save_clicked();
 
+    // Slots for GuiCamera signals
+    void OnNewGrabResult(int userHint );
+
+    void on_puB_bigGrab_clicked();
+    void on_puB_samllGrab_clicked();
+
 private:
     QLabel *label;
     QThread clientThread;
     QMutex mu;
+    //camera para
+    Pylon::DeviceInfoList_t m_devices;
+    static const int MaxCamera = 3;
+    CGuiCamera m_camera[MaxCamera];
+    void cameraInit();
 };
 #endif // WIDGET_H
