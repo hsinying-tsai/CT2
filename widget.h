@@ -110,8 +110,7 @@ private slots:
     void on_puB_save_clicked();
 
     // Slots for GuiCamera signals
-    void OnNewGrabResult(int userHint );
-
+    void OnNewGrabResult(int userHint);
     void on_puB_bigGrab_clicked();
     void on_puB_samllGrab_clicked();
 
