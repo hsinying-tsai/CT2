@@ -2395,6 +2395,8 @@ CMakeFiles/0301_1.dir/widget.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QListWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QMessageBox
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QPushButton
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QRadioButton
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSpinBox
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSplitter
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTabWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidget
@@ -2425,9 +2427,11 @@ CMakeFiles/0301_1.dir/widget.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qlistwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qmessagebox.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qpushbutton.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qradiobutton.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qrubberband.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qsizepolicy.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qslider.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qspinbox.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qsplitter.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyle.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyleoption.h

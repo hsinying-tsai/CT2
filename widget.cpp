@@ -22,12 +22,13 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     logger.create_file();
-    logger.populateCombowithFileName(ui->comboBox, "Log");
+    logger.populateCombowithFileName(ui->comboBox_logger, "Log");
     connect(ui->lbl_pic, SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
     connect(ui->lbl_pic, SIGNAL(Mouse_Pos()), this, SLOT(MouseCurrentPos()));
-    connect(ui->comboBox, QOverload<int>::of(&QComboBox::activated), [&](int index) {
-        logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox, "Log");
+    connect(ui->comboBox_logger, QOverload<int>::of(&QComboBox::activated), [&](int index) {
+        logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox_logger, "Log");
     });
+
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
 
@@ -447,10 +448,12 @@ void Widget::recv_label_update(QString message)
                     qDebug()<<"New action";
                     change_flawPG = false;
                     str1.clear();
-                    parts_R.clear();
                     DC.current = DC.first;
                     PG_num = 1;
-                    WR_command("WR R200 1");
+//                    WR_command("WR R200 1");
+                    parts_R[1] = "R211";
+                    recevNULL = true;
+                    WR_command("RD R212");
                 }
             }else if(parts[0] == "WRS"){
                 //Manual state -> stop the loop.
@@ -546,6 +549,9 @@ void Widget::recv_label_update(QString message)
                 buffer[12] = "0";
                 qDebug()<<"--------------Step_2.PLC ready to run.";
                 ui->puB_start->setEnabled(true);
+                if(runMode == 1){
+                    WR_command("WR R200 1");
+                }
             }
         }
     }
@@ -674,6 +680,7 @@ void Widget::on_puB_connect_clicked()
 
 void Widget::Qtimer()
 {
+    logger.autoUpdateLog(ui->text_log, ui->comboBox_logger, "Log");
     buffer[0] = QString::number(time);
     time++;
     if (tc->client->state() == QAbstractSocket::ConnectedState) {
