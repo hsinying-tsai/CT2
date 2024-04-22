@@ -105,7 +105,7 @@ private slots:
     void reviseconfigINI(QString section, QString key,QString Value);
     void on_puB_add_clicked();
     void on_puB_save_clicked();
-    void LogsetH(const QString& message);
+
 private:
     QLabel *label;
     QThread clientThread;

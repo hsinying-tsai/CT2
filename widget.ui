@@ -19,6 +19,11 @@
      <property name="enabled">
       <bool>true</bool>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
      <property name="focusPolicy">
       <enum>Qt::TabFocus</enum>
      </property>
@@ -867,7 +872,7 @@
          </property>
          <property name="font">
           <font>
-           <pointsize>12</pointsize>
+           <pointsize>11</pointsize>
           </font>
          </property>
          <property name="frameShadow">

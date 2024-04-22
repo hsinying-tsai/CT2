@@ -29,8 +29,6 @@ Widget::Widget(QWidget *parent)
     connect(ui->comboBox, QOverload<int>::of(&QComboBox::activated), [&](int index) {
         logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox, "Log");
     });
-    connect(&logger, &Logger::logchange, this, &Widget::LogsetH);
-
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
 
@@ -817,15 +815,6 @@ void Widget::on_puB_save_clicked()
         run_pattern_name.append(ui->list_Pattern->item(i)->text());
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
-}
-
-
-void Widget::LogsetH(const QString &message)
-{
-    qDebug()<<"got you";
-    QString new_formattedMessage = ui->text_log->setHtml(logger.formattedMessage);
-    logger.m_textstream<<logger.dataTimeString<<"\t"<<new_formattedMessage<<" : "<<message<<"\n";
-    logger.m_textstream.flush();
 }
 
 

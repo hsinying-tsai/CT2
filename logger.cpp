@@ -25,22 +25,15 @@ void Logger::writeLog(LogType type, const QString &message)
     dataTimeString = currentDateTime.toString("yyyy-MM-dd hh:mm:ss");
 
     QFile logFile(filePath);
-    if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
-        qDebug()<<"Failed to open log file.";
+    if (!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+        qDebug() << "Failed to open log file.";
         return;
     }
     QTextStream m_textstream(&logFile);
-    formattedMessage = logTypeToString(type);
-    qDebug()<<logTypeToString(type);
-    if(logTypeToString(type) == "INFO"){
-        qDebug()<<"le";
-        formattedMessage.replace("INFO","<span style='background-color: green;'>INFO</span>");
-        emit logchange(message);
-    }
-
-
-
+    m_textstream << dataTimeString << "\t" << logTypeToString(type)<<" : " << message << "\n";
+    m_textstream.flush();
 }
+
 
 void Logger::populateCombowithFileName(QComboBox *combobox, const QString directoryPath)
 {
@@ -66,6 +59,45 @@ void Logger::on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowse
     }
     QTextStream in(&logFile);
     textBrowser->setPlainText(in.readAll());
+    QTextCursor cursor(textBrowser->document());
+    cursor.movePosition(QTextCursor::Start);
+    bool isString = false;
+    QString tmp_string;
+    QString htmlText;
+    while (!cursor.atEnd()) {
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        QString character = cursor.selectedText();
+        if (character.at(0).isLetter()) {
+            if(isString == false){
+                isString = true;
+                tmp_string+=character;
+            }else{
+                tmp_string+=character;
+            }
+        }else{
+            if(tmp_string == "INFO"){
+                htmlText += "<span style='background-color: green;'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else if(tmp_string == "WARNING"){
+                htmlText += "<span style='background-color: yellow;'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else if(tmp_string == "ERROR"){
+                htmlText += "<span style='background-color: red;'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else{
+                htmlText += tmp_string;
+            }
+            tmp_string.clear();
+            isString = false;
+            htmlText += character;
+        }
+        cursor.movePosition(QTextCursor::Right);
+    }
+    textBrowser->clear();
+    textBrowser->insertHtml(htmlText);
     logFile.close();
 }
 

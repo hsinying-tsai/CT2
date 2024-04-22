@@ -25,8 +25,7 @@ public:
     QDir logDir;
     QString dataTimeString;
 
-signals:
-    void logchange(const QString& message);
+
 
 private:
     QString logTypeToString(LogType type);
