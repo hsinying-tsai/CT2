@@ -842,7 +842,6 @@ CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtCore/qv
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtCore/qvarlengtharray.h
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtCore/qvector.h
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtCore/qversiontagging.h
-CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtGui/QPalette
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtGui/qbrush.h
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtGui/qcolor.h
 CMakeFiles/0301_1.dir/logger.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtGui/qcursor.h
@@ -2385,6 +2384,7 @@ CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtNetwork
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QApplication
+CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QCheckBox
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QComboBox
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QGroupBox
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QHeaderView
@@ -2410,6 +2410,7 @@ CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qabstractspinbox.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qapplication.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qboxlayout.h
+CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcheckbox.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcombobox.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qdesktopwidget.h
 CMakeFiles/0301_1.dir/widget.cpp.o: /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qdialog.h

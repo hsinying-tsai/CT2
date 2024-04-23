@@ -117,6 +117,8 @@ QImage
 -
 QMessageBox
 -
+QDateTime
+-
 
 /home/agx/Desktop/0321_qt/widget.h
 QWidget
@@ -3068,6 +3070,10 @@ QtNetwork/qtnetwork-config.h
 qapplication.h
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qapplication.h
 
+/usr/include/aarch64-linux-gnu/qt5/QtWidgets/QCheckBox
+qcheckbox.h
+/usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcheckbox.h
+
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QComboBox
 qcombobox.h
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcombobox.h
@@ -3212,6 +3218,12 @@ QtWidgets/qlayout.h
 QtWidgets/qwidget.h
 -
 limits.h
+-
+
+/usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcheckbox.h
+QtWidgets/qtwidgetsglobal.h
+-
+QtWidgets/qabstractbutton.h
 -
 
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcombobox.h
@@ -4548,6 +4560,8 @@ opencv2/core.hpp
 QtCore/QVariant
 -
 QtWidgets/QApplication
+-
+QtWidgets/QCheckBox
 -
 QtWidgets/QComboBox
 -

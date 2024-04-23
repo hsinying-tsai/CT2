@@ -843,7 +843,6 @@ CMakeFiles/0301_1.dir/logger.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qvarlengtharray.h
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qvector.h
  /usr/include/aarch64-linux-gnu/qt5/QtCore/qversiontagging.h
- /usr/include/aarch64-linux-gnu/qt5/QtGui/QPalette
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qbrush.h
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qcolor.h
  /usr/include/aarch64-linux-gnu/qt5/QtGui/qcursor.h
@@ -2386,6 +2385,7 @@ CMakeFiles/0301_1.dir/widget.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h
  /usr/include/aarch64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QApplication
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QCheckBox
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QComboBox
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QGroupBox
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QHeaderView
@@ -2411,6 +2411,7 @@ CMakeFiles/0301_1.dir/widget.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qabstractspinbox.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qapplication.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qboxlayout.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcheckbox.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qcombobox.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qdesktopwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qdialog.h

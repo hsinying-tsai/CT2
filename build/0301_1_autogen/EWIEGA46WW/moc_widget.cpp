@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Widget_t {
-    QByteArrayData data[38];
-    char stringdata0[540];
+    QByteArrayData data[44];
+    char stringdata0[636];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,49 +43,57 @@ QT_MOC_LITERAL(8, 110, 10), // "WR_message"
 QT_MOC_LITERAL(9, 121, 6), // "Qtimer"
 QT_MOC_LITERAL(10, 128, 11), // "change_pic2"
 QT_MOC_LITERAL(11, 140, 5), // "index"
-QT_MOC_LITERAL(12, 146, 16), // "StartMicroscopic"
-QT_MOC_LITERAL(13, 163, 8), // "saveText"
-QT_MOC_LITERAL(14, 172, 9), // "comp_text"
-QT_MOC_LITERAL(15, 182, 19), // "on_puB_sent_clicked"
-QT_MOC_LITERAL(16, 202, 20), // "on_puB_start_clicked"
-QT_MOC_LITERAL(17, 223, 19), // "on_puB_read_clicked"
-QT_MOC_LITERAL(18, 243, 20), // "on_puB_write_clicked"
-QT_MOC_LITERAL(19, 264, 17), // "recv_label_update"
-QT_MOC_LITERAL(20, 282, 7), // "message"
-QT_MOC_LITERAL(21, 290, 20), // "connect_label_update"
-QT_MOC_LITERAL(22, 311, 2), // "RD"
-QT_MOC_LITERAL(23, 314, 4), // "part"
-QT_MOC_LITERAL(24, 319, 6), // "INI_UI"
-QT_MOC_LITERAL(25, 326, 22), // "on_puB_runMode_clicked"
-QT_MOC_LITERAL(26, 349, 22), // "on_puB_saveINI_clicked"
-QT_MOC_LITERAL(27, 372, 21), // "on_puB_remove_clicked"
-QT_MOC_LITERAL(28, 394, 15), // "reviseconfigINI"
-QT_MOC_LITERAL(29, 410, 7), // "section"
-QT_MOC_LITERAL(30, 418, 3), // "key"
-QT_MOC_LITERAL(31, 422, 5), // "Value"
-QT_MOC_LITERAL(32, 428, 18), // "on_puB_add_clicked"
-QT_MOC_LITERAL(33, 447, 19), // "on_puB_save_clicked"
-QT_MOC_LITERAL(34, 467, 15), // "OnNewGrabResult"
-QT_MOC_LITERAL(35, 483, 8), // "userHint"
-QT_MOC_LITERAL(36, 492, 22), // "on_puB_bigGrab_clicked"
-QT_MOC_LITERAL(37, 515, 24) // "on_puB_samllGrab_clicked"
+QT_MOC_LITERAL(12, 146, 8), // "saveText"
+QT_MOC_LITERAL(13, 155, 9), // "comp_text"
+QT_MOC_LITERAL(14, 165, 19), // "on_puB_sent_clicked"
+QT_MOC_LITERAL(15, 185, 20), // "on_puB_start_clicked"
+QT_MOC_LITERAL(16, 206, 19), // "on_puB_read_clicked"
+QT_MOC_LITERAL(17, 226, 20), // "on_puB_write_clicked"
+QT_MOC_LITERAL(18, 247, 17), // "recv_label_update"
+QT_MOC_LITERAL(19, 265, 7), // "message"
+QT_MOC_LITERAL(20, 273, 20), // "connect_label_update"
+QT_MOC_LITERAL(21, 294, 2), // "RD"
+QT_MOC_LITERAL(22, 297, 4), // "part"
+QT_MOC_LITERAL(23, 302, 6), // "INI_UI"
+QT_MOC_LITERAL(24, 309, 22), // "on_puB_runMode_clicked"
+QT_MOC_LITERAL(25, 332, 22), // "on_puB_saveINI_clicked"
+QT_MOC_LITERAL(26, 355, 21), // "on_puB_remove_clicked"
+QT_MOC_LITERAL(27, 377, 15), // "reviseconfigINI"
+QT_MOC_LITERAL(28, 393, 7), // "section"
+QT_MOC_LITERAL(29, 401, 3), // "key"
+QT_MOC_LITERAL(30, 405, 5), // "Value"
+QT_MOC_LITERAL(31, 411, 18), // "on_puB_add_clicked"
+QT_MOC_LITERAL(32, 430, 19), // "on_puB_save_clicked"
+QT_MOC_LITERAL(33, 450, 13), // "updatetextlog"
+QT_MOC_LITERAL(34, 464, 4), // "type"
+QT_MOC_LITERAL(35, 469, 15), // "prettiertextlog"
+QT_MOC_LITERAL(36, 485, 15), // "OnNewGrabResult"
+QT_MOC_LITERAL(37, 501, 8), // "userHint"
+QT_MOC_LITERAL(38, 510, 22), // "on_puB_bigGrab_clicked"
+QT_MOC_LITERAL(39, 533, 24), // "on_puB_samllGrab_clicked"
+QT_MOC_LITERAL(40, 558, 37), // "on_checkBox_onlyThisTime_stat..."
+QT_MOC_LITERAL(41, 596, 5), // "state"
+QT_MOC_LITERAL(42, 602, 14), // "displayLastLog"
+QT_MOC_LITERAL(43, 617, 18) // "updatecombopattern"
 
     },
     "Widget\0on_puB_pre_clicked\0\0"
     "on_puB_next_clicked\0on_puB_connect_clicked\0"
     "MouseCurrentPos\0updatelblPic\0WR_command\0"
     "WR_message\0Qtimer\0change_pic2\0index\0"
-    "StartMicroscopic\0saveText\0comp_text\0"
-    "on_puB_sent_clicked\0on_puB_start_clicked\0"
-    "on_puB_read_clicked\0on_puB_write_clicked\0"
-    "recv_label_update\0message\0"
-    "connect_label_update\0RD\0part\0INI_UI\0"
-    "on_puB_runMode_clicked\0on_puB_saveINI_clicked\0"
-    "on_puB_remove_clicked\0reviseconfigINI\0"
-    "section\0key\0Value\0on_puB_add_clicked\0"
-    "on_puB_save_clicked\0OnNewGrabResult\0"
-    "userHint\0on_puB_bigGrab_clicked\0"
-    "on_puB_samllGrab_clicked"
+    "saveText\0comp_text\0on_puB_sent_clicked\0"
+    "on_puB_start_clicked\0on_puB_read_clicked\0"
+    "on_puB_write_clicked\0recv_label_update\0"
+    "message\0connect_label_update\0RD\0part\0"
+    "INI_UI\0on_puB_runMode_clicked\0"
+    "on_puB_saveINI_clicked\0on_puB_remove_clicked\0"
+    "reviseconfigINI\0section\0key\0Value\0"
+    "on_puB_add_clicked\0on_puB_save_clicked\0"
+    "updatetextlog\0type\0prettiertextlog\0"
+    "OnNewGrabResult\0userHint\0"
+    "on_puB_bigGrab_clicked\0on_puB_samllGrab_clicked\0"
+    "on_checkBox_onlyThisTime_stateChanged\0"
+    "state\0displayLastLog\0updatecombopattern"
 };
 #undef QT_MOC_LITERAL
 
@@ -95,7 +103,7 @@ static const uint qt_meta_data_Widget[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      28,   14, // methods
+      32,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -103,34 +111,38 @@ static const uint qt_meta_data_Widget[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,  154,    2, 0x08 /* Private */,
-       3,    0,  155,    2, 0x08 /* Private */,
-       4,    0,  156,    2, 0x08 /* Private */,
-       5,    0,  157,    2, 0x08 /* Private */,
-       6,    0,  158,    2, 0x08 /* Private */,
-       7,    1,  159,    2, 0x08 /* Private */,
-       9,    0,  162,    2, 0x08 /* Private */,
-      10,    1,  163,    2, 0x08 /* Private */,
-      12,    0,  166,    2, 0x08 /* Private */,
-      13,    0,  167,    2, 0x08 /* Private */,
-      14,    0,  168,    2, 0x08 /* Private */,
-      15,    0,  169,    2, 0x08 /* Private */,
-      16,    0,  170,    2, 0x08 /* Private */,
-      17,    0,  171,    2, 0x08 /* Private */,
-      18,    0,  172,    2, 0x08 /* Private */,
-      19,    1,  173,    2, 0x08 /* Private */,
-      21,    0,  176,    2, 0x08 /* Private */,
-      22,    1,  177,    2, 0x08 /* Private */,
-      24,    0,  180,    2, 0x08 /* Private */,
-      25,    0,  181,    2, 0x08 /* Private */,
-      26,    0,  182,    2, 0x08 /* Private */,
-      27,    0,  183,    2, 0x08 /* Private */,
-      28,    3,  184,    2, 0x08 /* Private */,
-      32,    0,  191,    2, 0x08 /* Private */,
-      33,    0,  192,    2, 0x08 /* Private */,
-      34,    1,  193,    2, 0x08 /* Private */,
-      36,    0,  196,    2, 0x08 /* Private */,
-      37,    0,  197,    2, 0x08 /* Private */,
+       1,    0,  174,    2, 0x08 /* Private */,
+       3,    0,  175,    2, 0x08 /* Private */,
+       4,    0,  176,    2, 0x08 /* Private */,
+       5,    0,  177,    2, 0x08 /* Private */,
+       6,    0,  178,    2, 0x08 /* Private */,
+       7,    1,  179,    2, 0x08 /* Private */,
+       9,    0,  182,    2, 0x08 /* Private */,
+      10,    1,  183,    2, 0x08 /* Private */,
+      12,    0,  186,    2, 0x08 /* Private */,
+      13,    0,  187,    2, 0x08 /* Private */,
+      14,    0,  188,    2, 0x08 /* Private */,
+      15,    0,  189,    2, 0x08 /* Private */,
+      16,    0,  190,    2, 0x08 /* Private */,
+      17,    0,  191,    2, 0x08 /* Private */,
+      18,    1,  192,    2, 0x08 /* Private */,
+      20,    0,  195,    2, 0x08 /* Private */,
+      21,    1,  196,    2, 0x08 /* Private */,
+      23,    0,  199,    2, 0x08 /* Private */,
+      24,    0,  200,    2, 0x08 /* Private */,
+      25,    0,  201,    2, 0x08 /* Private */,
+      26,    0,  202,    2, 0x08 /* Private */,
+      27,    3,  203,    2, 0x08 /* Private */,
+      31,    0,  210,    2, 0x08 /* Private */,
+      32,    0,  211,    2, 0x08 /* Private */,
+      33,    2,  212,    2, 0x08 /* Private */,
+      35,    0,  217,    2, 0x08 /* Private */,
+      36,    1,  218,    2, 0x08 /* Private */,
+      38,    0,  221,    2, 0x08 /* Private */,
+      39,    0,  222,    2, 0x08 /* Private */,
+      40,    1,  223,    2, 0x08 /* Private */,
+      42,    0,  226,    2, 0x08 /* Private */,
+      43,    0,  227,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -147,18 +159,22 @@ static const uint qt_meta_data_Widget[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   19,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   20,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   23,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   22,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString,   29,   30,   31,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString,   28,   29,   30,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   35,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,   34,   19,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   37,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   41,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -179,26 +195,30 @@ void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 5: _t->WR_command((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 6: _t->Qtimer(); break;
         case 7: _t->change_pic2((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: _t->StartMicroscopic(); break;
-        case 9: _t->saveText(); break;
-        case 10: _t->comp_text(); break;
-        case 11: _t->on_puB_sent_clicked(); break;
-        case 12: _t->on_puB_start_clicked(); break;
-        case 13: _t->on_puB_read_clicked(); break;
-        case 14: _t->on_puB_write_clicked(); break;
-        case 15: _t->recv_label_update((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 16: _t->connect_label_update(); break;
-        case 17: _t->RD((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 18: _t->INI_UI(); break;
-        case 19: _t->on_puB_runMode_clicked(); break;
-        case 20: _t->on_puB_saveINI_clicked(); break;
-        case 21: _t->on_puB_remove_clicked(); break;
-        case 22: _t->reviseconfigINI((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
-        case 23: _t->on_puB_add_clicked(); break;
-        case 24: _t->on_puB_save_clicked(); break;
-        case 25: _t->OnNewGrabResult((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 26: _t->on_puB_bigGrab_clicked(); break;
-        case 27: _t->on_puB_samllGrab_clicked(); break;
+        case 8: _t->saveText(); break;
+        case 9: _t->comp_text(); break;
+        case 10: _t->on_puB_sent_clicked(); break;
+        case 11: _t->on_puB_start_clicked(); break;
+        case 12: _t->on_puB_read_clicked(); break;
+        case 13: _t->on_puB_write_clicked(); break;
+        case 14: _t->recv_label_update((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 15: _t->connect_label_update(); break;
+        case 16: _t->RD((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 17: _t->INI_UI(); break;
+        case 18: _t->on_puB_runMode_clicked(); break;
+        case 19: _t->on_puB_saveINI_clicked(); break;
+        case 20: _t->on_puB_remove_clicked(); break;
+        case 21: _t->reviseconfigINI((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 22: _t->on_puB_add_clicked(); break;
+        case 23: _t->on_puB_save_clicked(); break;
+        case 24: _t->updatetextlog((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 25: _t->prettiertextlog(); break;
+        case 26: _t->OnNewGrabResult((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 27: _t->on_puB_bigGrab_clicked(); break;
+        case 28: _t->on_puB_samllGrab_clicked(); break;
+        case 29: _t->on_checkBox_onlyThisTime_stateChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 30: _t->displayLastLog(); break;
+        case 31: _t->updatecombopattern(); break;
         default: ;
         }
     }
@@ -233,13 +253,13 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 28)
+        if (_id < 32)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 28;
+        _id -= 32;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 28)
+        if (_id < 32)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 28;
+        _id -= 32;
     }
     return _id;
 }

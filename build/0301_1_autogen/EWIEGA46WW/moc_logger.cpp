@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Logger_t {
-    QByteArrayData data[3];
-    char stringdata0[18];
+    QByteArrayData data[5];
+    char stringdata0[33];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,11 +32,13 @@ struct qt_meta_stringdata_Logger_t {
 static const qt_meta_stringdata_Logger_t qt_meta_stringdata_Logger = {
     {
 QT_MOC_LITERAL(0, 0, 6), // "Logger"
-QT_MOC_LITERAL(1, 7, 9), // "updateLog"
-QT_MOC_LITERAL(2, 17, 0) // ""
+QT_MOC_LITERAL(1, 7, 11), // "updateUILog"
+QT_MOC_LITERAL(2, 19, 0), // ""
+QT_MOC_LITERAL(3, 20, 4), // "type"
+QT_MOC_LITERAL(4, 25, 7) // "message"
 
     },
-    "Logger\0updateLog\0"
+    "Logger\0updateUILog\0\0type\0message"
 };
 #undef QT_MOC_LITERAL
 
@@ -54,10 +56,10 @@ static const uint qt_meta_data_Logger[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   19,    2, 0x06 /* Public */,
+       1,    2,   19,    2, 0x06 /* Public */,
 
  // signals: parameters
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString,    3,    4,
 
        0        // eod
 };
@@ -68,20 +70,19 @@ void Logger::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         auto *_t = static_cast<Logger *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->updateLog(); break;
+        case 0: _t->updateUILog((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (Logger::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Logger::updateLog)) {
+            using _t = void (Logger::*)(QString , QString );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&Logger::updateUILog)) {
                 *result = 0;
                 return;
             }
         }
     }
-    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject Logger::staticMetaObject = { {
@@ -125,9 +126,10 @@ int Logger::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void Logger::updateLog()
+void Logger::updateUILog(QString _t1, QString _t2)
 {
-    QMetaObject::activate(this, &staticMetaObject, 0, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE
