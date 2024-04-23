@@ -48,13 +48,21 @@ public:
             ,runMode = 0;
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
-            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false;
+            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false;
+    struct pattern_name{
+      QString name;
+      int index;
+      bool BP = false,DP = false;
+      struct BorDpoint;
+    };
+    struct BorDpoint{
+        int thresHigh,thresLow,boundaryHigh,boundaryLow;
+    };
     Logger logger;
     defineCoordinate DC;
     typedef struct Node node;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
-//    std::vector<std::string> matrix_pattern_name = {"Black1", "Black2","Gray1", "Gray2","White"};
     QString rev_text, str1, str2,stringPart;
     QString DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214;
     QString new_send_data;
@@ -64,7 +72,9 @@ public:
     QRegularExpression regex;
     QRegularExpressionMatch match;
     //"Black", "White", "Gray1", "Gray2", "Green"
-    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
+//    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
+
+    QStringList show_pattern_name={ "Black"};
     QStringList parts,parts_R,run_pattern_name;
     QQueue<QString> commandQ;
     QString configFilePath;
@@ -89,7 +99,7 @@ private slots:
     void WR_command(QString WR_message);
     void Qtimer();
     void change_pic2(int index);
-    void StartMicroscopic();
+
     void saveText();
     void comp_text();
     //TCP/IP
@@ -108,11 +118,16 @@ private slots:
     void reviseconfigINI(QString section, QString key,QString Value);
     void on_puB_add_clicked();
     void on_puB_save_clicked();
-
+    void updatetextlog(QString type, QString message);
+    void prettiertextlog();
     // Slots for GuiCamera signals
     void OnNewGrabResult(int userHint);
     void on_puB_bigGrab_clicked();
     void on_puB_samllGrab_clicked();
+
+    void on_checkBox_onlyThisTime_stateChanged(int state);
+    void displayLastLog();
+    void updatecombopattern();
 
 private:
     QLabel *label;

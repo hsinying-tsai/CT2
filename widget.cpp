@@ -16,6 +16,7 @@
 #include <QSettings>
 #include <QImage>
 #include <QMessageBox>
+#include <QDateTime>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -26,8 +27,13 @@ Widget::Widget(QWidget *parent)
     connect(ui->lbl_pic, SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
     connect(ui->lbl_pic, SIGNAL(Mouse_Pos()), this, SLOT(MouseCurrentPos()));
     connect(ui->comboBox_logger, QOverload<int>::of(&QComboBox::activated), [&](int index) {
-        logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox_logger, "Log");
+        if(checkbox_onlyThisTime == false){
+            logger.on_comboBox_currentIndexChanged(index, ui->text_log, ui->comboBox_logger, "Log");
+            prettiertextlog();
+        }
     });
+
+    connect(&logger,&Logger::updateUILog,this,&Widget::updatetextlog);
 
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
@@ -73,12 +79,90 @@ Widget::Widget(QWidget *parent)
 
     // pixel size = 3840X2160, label size = 575X324
     // calculate the factor between pixel and move distance(MD)
-    factor_X = COORDINATE_PTsX/576;
-    factor_Y = COORDINATE_PTsY/324;
+//    factor_X = COORDINATE_PTsX/576;
+//    factor_Y = COORDINATE_PTsY/324;
+    factor_X = 1;
+    factor_Y = 1;
     DC.defNode();
     clientThread.start();
 
     cameraInit();
+}
+void Widget::INI_UI()
+{
+    connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
+    connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
+    connect(tc, SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
+    ui->PT_width_Edit->setText(QString("%1").arg(COORDINATE_PTsX));
+    ui->PT_height_Edit->setText(QString("%1").arg(COORDINATE_PTsY));
+    ui->path_Edit->setText(QString("%1").arg(picfoldpath));
+    connect(ui->puB_read, &QPushButton::clicked, this, &Widget::saveText);
+    connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
+    connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
+    connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
+    configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
+    // 检查配置文件是否存在
+    QFile configFile(configFilePath);
+    if (!configFile.exists()) {
+        QSettings settings(configFilePath, QSettings::IniFormat);
+        settings.beginGroup("CAM1");
+        settings.setValue("exposureTime", 1);
+        settings.setValue("parmeter2", 1);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM2");
+        settings.setValue("exposureTime", 2);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM3");
+        settings.setValue("exposureTime", 3);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("COORDINATE");
+        settings.setValue("PT_sizeX", 1152);
+        settings.setValue("PT_sizeY", 648);
+        settings.endGroup();
+
+        settings.beginGroup("PICTURE");
+        settings.setValue("pic_fold_path", "Pictures/");
+        settings.endGroup();
+        qDebug() << "配置文件已创建： " << configFilePath;
+    } else {
+        qDebug() << "配置文件已存在： " << configFilePath;
+    }
+
+    pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
+//    pix_Ini.load("Pictures/" + QString::number(num) + ".bmp");
+    ui->lbl_pic->setImage(pix_Ini);
+    ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
+
+    ui->table_defectlist->verticalHeader()->setDefaultSectionSize(30);
+    ui->table_defectlist->horizontalHeader()->setDefaultSectionSize(100);
+    ui->textRecv->setEnabled(false);
+    ui->textSend->setEnabled(false);
+    ui->puB_sent->setEnabled(false);
+    ui->puB_runMode->setEnabled(false);
+    ui->puB_start->setEnabled(false);
+    ui->DM202_Edit->setPlaceholderText(" Pattern number");
+    ui->DM204_Edit->setPlaceholderText(" X");
+    ui->DM206_Edit->setPlaceholderText(" Y");
+    ui->CAM1_exposure_Edit_3->setText(QString::number(CAM1_exposureTime));
+    ui->CAM2_exposure_Edit_3->setText(QString::number(CAM2_exposureTime));
+    ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
+    ui->list_Pattern->setSpacing(5);
+    updatecombopattern();
+
 }
 
 void Widget::cameraInit()
@@ -154,87 +238,13 @@ double Widget::calculateMean(const QString &imagepath)
     return mean;
 
 }
-void Widget::INI_UI()
-{
-    connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
-    connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
-    connect(tc, SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
-    ui->PT_width_Edit->setText(QString("%1").arg(COORDINATE_PTsX));
-    ui->PT_height_Edit->setText(QString("%1").arg(COORDINATE_PTsY));
-    ui->path_Edit->setText(QString("%1").arg(picfoldpath));
-    connect(ui->puB_read, &QPushButton::clicked, this, &Widget::saveText);
-    connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
-    connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
-    connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
-    configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
-    // 检查配置文件是否存在
-    QFile configFile(configFilePath);
-    if (!configFile.exists()) {
-        QSettings settings(configFilePath, QSettings::IniFormat);
-        settings.beginGroup("CAM1");
-        settings.setValue("exposureTime", 1);
-        settings.setValue("parmeter2", 1);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
 
-        settings.beginGroup("CAM2");
-        settings.setValue("exposureTime", 2);
-        settings.setValue("parmeter2", 0);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
-
-        settings.beginGroup("CAM3");
-        settings.setValue("exposureTime", 3);
-        settings.setValue("parmeter2", 0);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
-
-        settings.beginGroup("COORDINATE");
-        settings.setValue("PT_sizeX", 1152);
-        settings.setValue("PT_sizeY", 648);
-        settings.endGroup();
-
-        settings.beginGroup("PICTURE");
-        settings.setValue("pic_fold_path", "Pictures/");
-        settings.endGroup();
-        qDebug() << "配置文件已创建： " << configFilePath;
-    } else {
-        qDebug() << "配置文件已存在： " << configFilePath;
-    }
-
-    pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-//    pix_Ini.load("Pictures/" + QString::number(num) + ".bmp");
-    ui->lbl_pic->setImage(pix_Ini);
-    ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
-
-    ui->table_defectlist->verticalHeader()->setDefaultSectionSize(30);
-    ui->table_defectlist->horizontalHeader()->setDefaultSectionSize(100);
-    ui->textRecv->setEnabled(false);
-    ui->textSend->setEnabled(false);
-    ui->puB_sent->setEnabled(false);
-    ui->puB_runMode->setEnabled(false);
-    ui->puB_start->setEnabled(false);
-    ui->DM202_Edit->setPlaceholderText(" Pattern number");
-    ui->DM204_Edit->setPlaceholderText(" X");
-    ui->DM206_Edit->setPlaceholderText(" Y");
-    ui->CAM1_exposure_Edit_3->setText(QString::number(CAM1_exposureTime));
-    ui->CAM2_exposure_Edit_3->setText(QString::number(CAM2_exposureTime));
-    ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
-    ui->list_Pattern->setSpacing(5);
-
-}
 Widget::~Widget()
 {
     tc->client->abort();
     clientThread.quit();
     clientThread.wait();
-    logger.writeLog(Logger::Info, "Ended.");
+    logger.writeLog(Logger::null, "-------------------End-------------------.");
     delete ui;
 }
 
@@ -286,20 +296,23 @@ void Widget::on_puB_next_clicked()
 
 void Widget::recv_label_update(QString message)
 {
-    factor_X = COORDINATE_PTsX/576;
-    factor_Y = COORDINATE_PTsY/324;
+//    factor_X = COORDINATE_PTsX/576;
+//    factor_Y = COORDINATE_PTsY/324;
+    factor_X = 1;
+    factor_Y = 1;
     message = message.replace("\r\n","");
-//    ui->textRecv->append("received:"+message+"\tfrom: "+str1);
+    ui->textRecv->append("received:"+message+"\tfrom: "+str1);
     qDebug()<<"received:"<<message<<"\tfrom"<<str1;
     recevZero = false;
+
     if (message == "SocketError"){
-        logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString());
+        logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
     }else if(message == "0"){
         //0\r\n
         recevZero = true;
     }else {
-        ui->textRecv->append(message);
-        logger.writeLog(Logger::Info, "Received message " + message);
+//        ui->textRecv->append(message);
+        logger.writeLog(Logger::Info, "Received message " + message + ".");
         //Read
         if (ReadpuB_isPressed == true) {
             ui->DM200_Edit->setText(QString(buffer[0]));
@@ -354,7 +367,6 @@ void Widget::recv_label_update(QString message)
                     int tmp_buffer= buffer[count_num / 2].toInt(&ok);
                     if(ok){
                         if(tmp_buffer<0){
-                            qDebug()<<"got it";
                             QString buffer_combined = QString("%1 %2%3%4 %5")
                                                           .arg("WR")
                                                           .arg("DM")
@@ -404,7 +416,7 @@ void Widget::recv_label_update(QString message)
                         WR_command(buffer_combined);
                     }else{
                         //assume 2 pieces of pattern
-                        if(PG_num<3){
+                        if(PG_num<2){
                             //To the next PG_num
                             qDebug() << "--------------Step_3.server已回應OK.\n";
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
@@ -465,6 +477,10 @@ void Widget::recv_label_update(QString message)
                 parts_R[1] = "R202";
                 recevNULL = true;
             }else if(parts[1] == "DM202"){
+                if(change_flawPG == false){
+                    qDebug()<<"拍攝巨觀";
+//                    on_puB_bigGrab_clicked();
+                }
                 WR_command("WR R202 1");
             }else if(change_flawPG == true){
                 // change flaw pattern
@@ -475,6 +491,8 @@ void Widget::recv_label_update(QString message)
                     WR_command(buffer_combined);
 
                 }else if(parts[1] == "DM206"){
+                    qDebug()<<"拍攝微觀";
+//                    on_puB_samllGrab_clicked();
                     WR_command("WR R206 1");
 
                 }else if(parts[1] == "R206"){
@@ -528,7 +546,6 @@ void Widget::recv_label_update(QString message)
             if (buffer[9] == "1"){
                 //R205 1
                 //R204、R205->open microscopic photography
-                StartMicroscopic();
                 buffer[8] = "0";
                 buffer[9] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R204 and R205.");
@@ -625,8 +642,11 @@ void Widget::connect_label_update()
                                    "padding:20px;"
                                    "background-color: red;");
         ui->puB_connect->setText("Connect");
+
         ui->AddressEdit->setEnabled(true);
         ui->PortEdit->setEnabled(true);
+        ui->puB_runMode->setEnabled(false);
+        ui->puB_start->setEnabled(false);
         ui->textRecv->setEnabled(false);
         ui->textSend->setEnabled(false);
         ui->puB_sent->setEnabled(false);
@@ -680,7 +700,6 @@ void Widget::on_puB_connect_clicked()
 
 void Widget::Qtimer()
 {
-    logger.autoUpdateLog(ui->text_log, ui->comboBox_logger, "Log");
     buffer[0] = QString::number(time);
     time++;
     if (tc->client->state() == QAbstractSocket::ConnectedState) {
@@ -699,11 +718,6 @@ void Widget::change_pic2(int index)
     pix2.load(picfoldpath + QString::number(num) + "_"+ QString::number(index) + ".bmp");
 //    pix2.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + "_"+ QString::number(index) + ".bmp");
     ui->lbl_pic2->setPixmap(pix2);
-}
-
-void Widget::StartMicroscopic()
-{
-    logger.writeLog(Logger::Info, "Start to Microscopic Photography.");
 }
 
 void Widget::saveText()
@@ -855,7 +869,6 @@ void Widget::reviseconfigINI(QString section, QString key ,QString Value)
 
 void Widget::on_puB_add_clicked()
 {
-
     bool ok;
     QString newItemText = QInputDialog::getText(this,"Add Item",
                                                 "Enter new item:",
@@ -874,6 +887,74 @@ void Widget::on_puB_save_clicked()
         run_pattern_name.append(ui->list_Pattern->item(i)->text());
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
+    updatecombopattern();
+}
+
+void Widget::updatetextlog(QString type, QString message)
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    QString dataTimeString = currentDateTime.toString("hh:mm:ss");
+    ui->text_log->append(QString("%1 %2 %3").arg(dataTimeString).arg(type).arg(message));
+    prettiertextlog();
+}
+
+void Widget::prettiertextlog()
+{
+    QTextCursor cursor(ui->text_log->document());
+    cursor.movePosition(QTextCursor::Start);
+    bool isString = false;
+    QString tmp_string;
+    QString htmlText;
+    int countCharPos = 0;
+    // 将 RGB 值转换为 QColor 对象
+    QColor color(115,184,57);
+    // 获取十六进制颜色代码
+    QString hexColor = color.name();
+    while (!cursor.atEnd()) {
+        cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
+        QString character = cursor.selectedText();
+        if (character.at(0).isLetter()) {
+            if(isString == false){
+                isString = true;
+                tmp_string+=character;
+            }else{
+                tmp_string+=character;
+            }
+        }else{
+            if(tmp_string == "INFO"){
+                htmlText += "<span style='background-color: "+hexColor+";'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else if(tmp_string == "WARNING"){
+                htmlText += "<span style='background-color: yellow;'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else if(tmp_string == "ERROR"){
+                htmlText += "<span style='background-color: red;'>";
+                htmlText += tmp_string;
+                htmlText += "</span>";
+            }else{
+                htmlText += tmp_string;
+            }
+            tmp_string.clear();
+            isString = false;
+            if(character == "."){
+                countCharPos = -1;
+            }
+            if(countCharPos<9 && countCharPos>-1){
+                htmlText += "<span style='color: blue;'>";
+                htmlText += character;
+                htmlText += "</span>";
+            }else{
+                htmlText += character;
+            }
+            countCharPos++;
+        }
+        cursor.movePosition(QTextCursor::Right);
+    }
+
+    ui->text_log->clear();
+    ui->text_log->insertHtml(htmlText);
 }
 // Show a warning dialog.
 void Widget::ShowWarning( QString warningText )
@@ -889,7 +970,7 @@ void Widget::on_puB_bigGrab_clicked()
     }
     catch (const Pylon::GenericException& e)
     {
-        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
+        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription()));
     }
 }
 
@@ -906,5 +987,44 @@ void Widget::on_puB_samllGrab_clicked()
 }
 
 
+void Widget::on_checkBox_onlyThisTime_stateChanged(int state)
+{
+    if(state == Qt::Checked){
+        checkbox_onlyThisTime = true;
+        displayLastLog();
+        prettiertextlog();
+    }else{
+        checkbox_onlyThisTime = false;
+    }
+}
+void Widget::displayLastLog() {
+    QFile file(logger.filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open log file for reading.";
+        return;
+    }
+    QTextStream in(&file);
+    QString lastLogContent;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        if (line.contains("End")) {
+            lastLogContent.clear();
+        } else {
+            if (!lastLogContent.isEmpty()) {
+                lastLogContent += "\n";
+            }
+            lastLogContent += line;
+        }
+    }
+    file.close();
+    ui->text_log->setText(lastLogContent);
+}
 
-
+void Widget::updatecombopattern()
+{
+    ui->comboBox_pattern->clear();
+    for(int i = 0; i < ui->list_Pattern->count(); ++i) {
+        QListWidgetItem *item = ui->list_Pattern->item(i);
+        ui->comboBox_pattern->addItem(item->text());
+    }
+}

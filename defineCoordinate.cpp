@@ -8,14 +8,14 @@ void defineCoordinate::defNode(){
         current->x = vector_PG_flaw[i*2];
         current->y = vector_PG_flaw[(i*2)+1];
         // definite node pattern number
-
-        if(i<3){
-            current->index = 3;
-        }else if(i==3){
-            current->index = 5;
-        }else{
-            current->index = 7;
-        }
+        current->index = 1;
+//        if(i<3){
+//            current->index = 3;
+//        }else if(i==3){
+//            current->index = 5;
+//        }else{
+//            current->index = 7;
+//        }
 
         if(i==0){
             first = current;
