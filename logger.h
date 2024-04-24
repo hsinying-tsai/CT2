@@ -21,7 +21,6 @@ public:
     void create_file();
     void autoUpdateLog(QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
     QString filePath,logFileName,timestamp,comboText,formattedMessage,currentDate;
-    QFile logFile;
     QTextStream m_textstream;
     QDir logDir;
     QString dataTimeString;

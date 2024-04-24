@@ -17,11 +17,15 @@
 #include <QImage>
 #include <QMessageBox>
 #include <QDateTime>
+
 Widget::Widget(QWidget *parent)
-    : QWidget(parent)
+    : QMainWindow(parent)
     , ui(new Ui::Widget)
 {
+
     ui->setupUi(this);
+    setCentralWidget(ui->tabWidget);
+
     logger.create_file();
     logger.populateCombowithFileName(ui->comboBox_logger, "Log");
     connect(ui->lbl_pic, SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
@@ -162,7 +166,6 @@ void Widget::INI_UI()
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
     updatecombopattern();
-
 }
 
 void Widget::cameraInit()
@@ -255,12 +258,14 @@ void Widget::MouseCurrentPos()
 }
 void Widget::updatelblPic()
 {
+    qDebug()<<"num"<<num;
     //revise pic amount
     if (num == 0) {
         num = 3;
-    } else if (num == 4) {
+    }else if (num == 4) {
         num = 1;
     }
+    // if crashed, checked whether the amounts of show_pattern_name are right
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
     pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
 //    pix_Ini.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + ".bmp");
@@ -902,7 +907,6 @@ void Widget::prettiertextlog()
 {
     QTextCursor cursor(ui->text_log->document());
     cursor.movePosition(QTextCursor::Start);
-    bool isString = false;
     QString tmp_string;
     QString htmlText;
     int countCharPos = 0;
@@ -914,12 +918,7 @@ void Widget::prettiertextlog()
         cursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
         QString character = cursor.selectedText();
         if (character.at(0).isLetter()) {
-            if(isString == false){
-                isString = true;
-                tmp_string+=character;
-            }else{
-                tmp_string+=character;
-            }
+            tmp_string+=character;
         }else{
             if(tmp_string == "INFO"){
                 htmlText += "<span style='background-color: "+hexColor+";'>";
@@ -937,7 +936,6 @@ void Widget::prettiertextlog()
                 htmlText += tmp_string;
             }
             tmp_string.clear();
-            isString = false;
             if(character == "."){
                 countCharPos = -1;
             }
@@ -952,7 +950,6 @@ void Widget::prettiertextlog()
         }
         cursor.movePosition(QTextCursor::Right);
     }
-
     ui->text_log->clear();
     ui->text_log->insertHtml(htmlText);
 }
@@ -1026,5 +1023,27 @@ void Widget::updatecombopattern()
     for(int i = 0; i < ui->list_Pattern->count(); ++i) {
         QListWidgetItem *item = ui->list_Pattern->item(i);
         ui->comboBox_pattern->addItem(item->text());
+    }
+}
+
+void Widget::on_puB_setting_clicked()
+{
+    // 切換至 TabWidget_2 的 tab_6
+    ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->indexOf(ui->tab_6));
+}
+
+void Widget::on_puB_backPreviousPage_clicked()
+{
+    // 切換至 TabWidget_2 的 tab_8
+    ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->indexOf(ui->tab_8));
+}
+
+void Widget::on_puB_gui_clicked()
+{
+//    MainDialog *MD = new MainDialog(this);
+
+    MD = new MainDialog(this);
+    if(MD){
+        MD->show();
     }
 }

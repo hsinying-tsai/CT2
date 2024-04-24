@@ -25,7 +25,11 @@ void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
     dataTimeString = currentDateTime.toString("hh:mm:ss");
+    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
+    logFileName = QString("log_%1.log").arg(timestamp);
+    filePath = logDir.filePath(logFileName);
     QFile logFile(filePath);
+    qDebug()<<filePath;
     emit updateUILog(logTypeToString(type),message);
     if (!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
         qDebug() << "Failed to open log file.";
@@ -34,7 +38,6 @@ void Logger::writeLog(LogType type, const QString &message)
     QTextStream m_textstream(&logFile);
     m_textstream << dataTimeString << "\t" << logTypeToString(type)<<" : " << message << "\n";
     m_textstream.flush();
-
 }
 
 

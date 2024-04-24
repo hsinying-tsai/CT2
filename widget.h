@@ -25,6 +25,9 @@
 #include <QListWidget>
 #include <QColor>
 #include "guicamera.h"
+#include "maindialog.h"
+#include <QMainWindow>
+#include <QPointer>
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -33,16 +36,13 @@ extern uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 extern char picfoldpath[100];
 namespace Ui {
 class Widget;
-class testaddUI;
 }
 QT_END_NAMESPACE
-class Widget : public QWidget
+class Widget : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    Ui::Widget *ui;
-    Ui::testaddUI *uit;
     Widget(QWidget *parent = nullptr);
     int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
             ,runMode = 0;
@@ -60,6 +60,7 @@ public:
     };
     Logger logger;
     defineCoordinate DC;
+
     typedef struct Node node;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
@@ -74,7 +75,7 @@ public:
     //"Black", "White", "Gray1", "Gray2", "Green"
 //    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
 
-    QStringList show_pattern_name={ "Black"};
+    QStringList show_pattern_name={ "Black", "White"};
     QStringList parts,parts_R,run_pattern_name;
     QQueue<QString> commandQ;
     QString configFilePath;
@@ -128,8 +129,17 @@ private slots:
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
+    void on_puB_setting_clicked();
+
+    void on_puB_backPreviousPage_clicked();
+
+    void on_puB_gui_clicked();
 
 private:
+//    QDialog *MD;
+    Ui::Widget *ui;
+    QPointer<MainDialog> MD;
+//    MainDialog MD;
     QLabel *label;
     QThread clientThread;
     QMutex mu;

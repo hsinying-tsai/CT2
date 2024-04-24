@@ -36,6 +36,9 @@ set(PROJECT_SOURCES
         defineCoordinate.cpp
         guicamera.h
         guicamera.cpp
+        maindialog.h
+        maindialog.cpp
+        maindialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

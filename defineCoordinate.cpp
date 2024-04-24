@@ -26,8 +26,6 @@ void defineCoordinate::defNode(){
             current->prev = previous;
             current->next = NULL;
             previous = current;
-
-
         }
     }  
 

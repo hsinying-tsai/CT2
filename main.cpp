@@ -1,13 +1,16 @@
 #include "widget.h"
 #include <QApplication>
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdint.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
 #include "ini.h"
-#include"myFuncts.h"
-
+#include "myFuncts.h"
+#include <QFile>
+#include <QTextStream>
+#include "logger.h"
+#include <QMessageLogContext>
 char buffIni[40];
 char iniFile[20];
 
@@ -18,8 +21,28 @@ uint16_t BOND_James;
 uint8_t CAM1_exposureTime,CAM2_exposureTime,CAM3_exposureTime;
 uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 char picfoldpath[100];
+Logger logger;
+void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
+    qDebug()<<"4";
+    switch (type) {
+    case QtDebugMsg:
+        logger.writeLog(Logger::Info, msg);
+        break;
+    case QtWarningMsg:
+        logger.writeLog(Logger::Warning, msg);
+        break;
+    case QtCriticalMsg:
+        logger.writeLog(Logger::Error, msg);
+        break;
+    case QtFatalMsg:
+        logger.writeLog(Logger::Error, "Fatal error: " + msg);
+        // 調用標準的崩潰處理程序
+        abort();
+    }
+}
 int main(int argc, char *argv[])
 {
+
     //192.168.1.168 8501
     if(argc>1)
     {
@@ -43,9 +66,10 @@ int main(int argc, char *argv[])
 
 //        return EXIT_SUCCESS;
     }
-    QApplication a(argc, argv);
 
+    QApplication a(argc, argv);
     Widget w;
     w.show();
-    return a.exec();
+//    qInstallMessageHandler(customMessageHandler);
+     return a.exec();
 }
