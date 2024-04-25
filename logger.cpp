@@ -25,9 +25,9 @@ void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
     dataTimeString = currentDateTime.toString("hh:mm:ss");
-    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
-    logFileName = QString("log_%1.log").arg(timestamp);
-    filePath = logDir.filePath(logFileName);
+//    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
+//    logFileName = QString("log_%1.log").arg(timestamp);
+//    filePath = logDir.filePath(logFileName);
     QFile logFile(filePath);
     qDebug()<<filePath;
     emit updateUILog(logTypeToString(type),message);

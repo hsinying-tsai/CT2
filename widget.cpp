@@ -22,7 +22,6 @@ Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Widget)
 {
-
     ui->setupUi(this);
     setCentralWidget(ui->tabWidget);
 
@@ -166,6 +165,10 @@ void Widget::INI_UI()
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
     updatecombopattern();
+    ui->list_Pattern->setEnabled(false);
+    ui->puB_add->setEnabled(false);
+    ui->puB_remove->setEnabled(false);
+    ui->puB_save->setEnabled(false);
 }
 
 void Widget::cameraInit()
@@ -1019,31 +1022,33 @@ void Widget::displayLastLog() {
 
 void Widget::updatecombopattern()
 {
-    ui->comboBox_pattern->clear();
     for(int i = 0; i < ui->list_Pattern->count(); ++i) {
-        QListWidgetItem *item = ui->list_Pattern->item(i);
-        ui->comboBox_pattern->addItem(item->text());
+        FP.fpupdatecombopattern(ui->list_Pattern->item(i),i);
     }
 }
 
-void Widget::on_puB_setting_clicked()
-{
-    // 切換至 TabWidget_2 的 tab_6
-    ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->indexOf(ui->tab_6));
-}
-
-void Widget::on_puB_backPreviousPage_clicked()
-{
-    // 切換至 TabWidget_2 的 tab_8
-    ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->indexOf(ui->tab_8));
-}
 
 void Widget::on_puB_gui_clicked()
 {
-//    MainDialog *MD = new MainDialog(this);
+    MD.show();
+}
 
-    MD = new MainDialog(this);
-    if(MD){
-        MD->show();
+void Widget::on_pushButton_func_clicked()
+{
+    FP.show();
+}
+
+void Widget::on_radioButton_clicked(bool checked)
+{
+    if(checked == true){
+        ui->list_Pattern->setEnabled(true);
+        ui->puB_add->setEnabled(true);
+        ui->puB_remove->setEnabled(true);
+        ui->puB_save->setEnabled(true);
+    }else{
+        ui->list_Pattern->setEnabled(false);
+        ui->puB_add->setEnabled(false);
+        ui->puB_remove->setEnabled(false);
+        ui->puB_save->setEnabled(false);
     }
 }

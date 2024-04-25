@@ -28,6 +28,7 @@
 #include "maindialog.h"
 #include <QMainWindow>
 #include <QPointer>
+#include "funcpar.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -129,17 +130,20 @@ private slots:
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
-    void on_puB_setting_clicked();
-
-    void on_puB_backPreviousPage_clicked();
-
     void on_puB_gui_clicked();
 
+
+
+    void on_pushButton_func_clicked();
+
+
+    void on_radioButton_clicked(bool checked);
+
 private:
-//    QDialog *MD;
+
     Ui::Widget *ui;
-    QPointer<MainDialog> MD;
-//    MainDialog MD;
+    MainDialog MD;
+    FuncPar FP;
     QLabel *label;
     QThread clientThread;
     QMutex mu;

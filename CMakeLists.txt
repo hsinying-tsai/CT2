@@ -39,6 +39,10 @@ set(PROJECT_SOURCES
         maindialog.h
         maindialog.cpp
         maindialog.ui
+        funcpar.h
+        funcpar.cpp
+        funcpar.ui
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
