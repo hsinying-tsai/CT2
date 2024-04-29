@@ -771,138 +771,148 @@
         <attribute name="title">
          <string>Pattern List</string>
         </attribute>
-        <widget class="QPushButton" name="puB_add">
+        <widget class="QGroupBox" name="groupBox">
          <property name="geometry">
           <rect>
-           <x>390</x>
-           <y>160</y>
-           <width>111</width>
-           <height>41</height>
+           <x>10</x>
+           <y>39</y>
+           <width>507</width>
+           <height>251</height>
           </rect>
          </property>
          <property name="font">
           <font>
-           <pointsize>14</pointsize>
+           <stylestrategy>NoAntialias</stylestrategy>
           </font>
          </property>
-         <property name="text">
-          <string>add</string>
+         <property name="styleSheet">
+          <string notr="true">groupBox-&gt;setStyleSheet(&quot;background-color: transparent;&quot;); </string>
          </property>
-        </widget>
-        <widget class="QListWidget" name="list_Pattern">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>60</y>
-           <width>361</width>
-           <height>241</height>
-          </rect>
+         <property name="title">
+          <string/>
          </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="dragEnabled">
-          <bool>true</bool>
-         </property>
-         <property name="dragDropOverwriteMode">
-          <bool>true</bool>
-         </property>
-         <property name="dragDropMode">
-          <enum>QAbstractItemView::InternalMove</enum>
-         </property>
-         <item>
-          <property name="text">
-           <string>Black</string>
+         <widget class="QPushButton" name="puB_save">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>189</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
           </property>
           <property name="font">
            <font>
-            <strikeout>false</strikeout>
-            <kerning>true</kerning>
+            <pointsize>14</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
            </font>
           </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
           <property name="text">
-           <string>White</string>
+           <string>save</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="puB_remove">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>40</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
           </property>
           <property name="font">
            <font>
-            <underline>false</underline>
-            <stylestrategy>PreferAntialias</stylestrategy>
+            <pointsize>14</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
            </font>
           </property>
-          <property name="flags">
-           <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-          </property>
-         </item>
-         <item>
           <property name="text">
-           <string>Gray</string>
+           <string>remove</string>
           </property>
-         </item>
-         <item>
+         </widget>
+         <widget class="QListWidget" name="list_Pattern">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>351</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropOverwriteMode">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+          <item>
+           <property name="text">
+            <string>Black</string>
+           </property>
+           <property name="font">
+            <font>
+             <strikeout>false</strikeout>
+             <kerning>true</kerning>
+            </font>
+           </property>
+           <property name="flags">
+            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>White</string>
+           </property>
+           <property name="font">
+            <font>
+             <underline>false</underline>
+             <stylestrategy>PreferAntialias</stylestrategy>
+            </font>
+           </property>
+           <property name="flags">
+            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+           </property>
+          </item>
+         </widget>
+         <widget class="QPushButton" name="puB_add">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>113</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
+           </font>
+          </property>
           <property name="text">
-           <string>Red</string>
+           <string>add</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Green</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QPushButton" name="puB_remove">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>80</y>
-           <width>111</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>remove</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="puB_save">
-         <property name="geometry">
-          <rect>
-           <x>390</x>
-           <y>240</y>
-           <width>111</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>save</string>
-         </property>
+         </widget>
         </widget>
         <widget class="QPushButton" name="pushButton_func">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>360</y>
+           <x>121</x>
+           <y>314</y>
            <width>121</width>
            <height>31</height>
           </rect>
@@ -914,8 +924,8 @@
         <widget class="QRadioButton" name="radioButton">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>30</y>
+           <x>12</x>
+           <y>34</y>
            <width>201</width>
            <height>23</height>
           </rect>
@@ -927,6 +937,50 @@
          </property>
          <property name="text">
           <string>Setting detect pattern</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>320</y>
+           <width>111</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>修改參數：</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="puB_bigGrab">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>380</y>
+           <width>131</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>BIG GRAB</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="puB_samllGrab">
+         <property name="geometry">
+          <rect>
+           <x>190</x>
+           <y>370</y>
+           <width>131</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>SMALL GRAB</string>
          </property>
         </widget>
        </widget>
@@ -1420,10 +1474,10 @@ background-color: red;</string>
       <widget class="QGroupBox" name="groupBox_9">
        <property name="geometry">
         <rect>
-         <x>460</x>
-         <y>10</y>
-         <width>301</width>
-         <height>201</height>
+         <x>450</x>
+         <y>140</y>
+         <width>311</width>
+         <height>71</height>
         </rect>
        </property>
        <property name="title">
@@ -1432,8 +1486,8 @@ background-color: red;</string>
        <widget class="QPushButton" name="puB_gui">
         <property name="geometry">
          <rect>
-          <x>80</x>
-          <y>40</y>
+          <x>70</x>
+          <y>30</y>
           <width>131</width>
           <height>41</height>
          </rect>
@@ -1442,30 +1496,71 @@ background-color: red;</string>
          <string>GUI</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="puB_bigGrab">
+      </widget>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="geometry">
+        <rect>
+         <x>450</x>
+         <y>10</y>
+         <width>311</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>產品資訊</string>
+       </property>
+       <widget class="QLineEdit" name="moduleEdit">
         <property name="geometry">
          <rect>
-          <x>15</x>
-          <y>100</y>
-          <width>131</width>
-          <height>81</height>
+          <x>70</x>
+          <y>30</y>
+          <width>101</width>
+          <height>35</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>BIG GRAB</string>
+         <string>H497_V4</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="puB_samllGrab">
+       <widget class="QLabel" name="label_6">
         <property name="geometry">
          <rect>
-          <x>157</x>
-          <y>100</y>
-          <width>131</width>
-          <height>81</height>
+          <x>10</x>
+          <y>40</y>
+          <width>111</width>
+          <height>20</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>SMALL GRAB</string>
+         <string>產品：</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_load">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>30</y>
+          <width>100</width>
+          <height>36</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Load</string>
         </property>
        </widget>
       </widget>

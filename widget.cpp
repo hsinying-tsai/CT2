@@ -17,6 +17,7 @@
 #include <QImage>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QGroupBox>
 
 Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
@@ -164,11 +165,16 @@ void Widget::INI_UI()
     ui->CAM2_exposure_Edit_3->setText(QString::number(CAM2_exposureTime));
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
-    updatecombopattern();
-    ui->list_Pattern->setEnabled(false);
-    ui->puB_add->setEnabled(false);
-    ui->puB_remove->setEnabled(false);
-    ui->puB_save->setEnabled(false);
+
+    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
+    foreach (QWidget *widget, widgets){
+        widget->setEnabled(false);
+    }
+
+    patternName.clear();
+    for (int i = 0; i < ui->list_Pattern->count(); ++i) {
+        patternName.append(ui->list_Pattern->item(i)->text());
+    }
 }
 
 void Widget::cameraInit()
@@ -896,6 +902,12 @@ void Widget::on_puB_save_clicked()
     }
     qDebug()<<"run_pattern_name:"<<run_pattern_name;
     updatecombopattern();
+    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
+    foreach (QWidget *widget, widgets) {
+        widget->setEnabled(false);
+    }
+    ui->radioButton->setChecked(false);
+
 }
 
 void Widget::updatetextlog(QString type, QString message)
@@ -1040,15 +1052,42 @@ void Widget::on_pushButton_func_clicked()
 
 void Widget::on_radioButton_clicked(bool checked)
 {
-    if(checked == true){
-        ui->list_Pattern->setEnabled(true);
-        ui->puB_add->setEnabled(true);
-        ui->puB_remove->setEnabled(true);
-        ui->puB_save->setEnabled(true);
-    }else{
-        ui->list_Pattern->setEnabled(false);
-        ui->puB_add->setEnabled(false);
-        ui->puB_remove->setEnabled(false);
-        ui->puB_save->setEnabled(false);
+    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
+    foreach (QWidget *widget, widgets){
+        if(checked == true){
+            widget->setEnabled(true);
+        }else{
+            widget->setEnabled(false);
+        }
     }
+}
+
+void Widget::on_puB_load_clicked()
+{
+    QString module = ui->moduleEdit->text();
+    QString modulePath = QCoreApplication::applicationDirPath() + "/" + module + ".ini";
+    // 檢查配置文件是否存在
+    QFile moduleFile(modulePath);
+    if (!moduleFile.exists()) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "確認", "檔案不存在，是否要創建？", QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            if (moduleFile.open(QIODevice::WriteOnly)) {
+                moduleFile.close();
+                QSettings settings(modulePath, QSettings::IniFormat);
+                qDebug() << "配置文件已创建： " << modulePath;
+                FP.receiveFileinfo(module,modulePath,true,patternName);
+                QMessageBox::information(this, "提示", "請先建立新的receipt，再進行連線");
+            } else {
+                qDebug() << "無法打開配置文件： " << modulePath;
+            }
+        } else {
+            qDebug() << "取消創建配置文件。";
+        }
+    } else {
+        qDebug() << "配置文件已存在： " << modulePath;
+        FP.receiveFileinfo(module,modulePath,false,patternName);
+    }
+
+
 }

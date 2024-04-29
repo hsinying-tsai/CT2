@@ -50,15 +50,6 @@ public:
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false;
-    struct pattern_name{
-      QString name;
-      int index;
-      bool BP = false,DP = false;
-      struct BorDpoint;
-    };
-    struct BorDpoint{
-        int thresHigh,thresLow,boundaryHigh,boundaryLow;
-    };
     Logger logger;
     defineCoordinate DC;
 
@@ -77,7 +68,7 @@ public:
 //    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
 
     QStringList show_pattern_name={ "Black", "White"};
-    QStringList parts,parts_R,run_pattern_name;
+    QStringList parts,parts_R,run_pattern_name,patternName;
     QQueue<QString> commandQ;
     QString configFilePath;
 
@@ -138,6 +129,8 @@ private slots:
 
 
     void on_radioButton_clicked(bool checked);
+
+    void on_puB_load_clicked();
 
 private:
 

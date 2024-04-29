@@ -11,5 +11,7 @@ extern uint8_t CAM2_exposureTime,CAM2_parm2,CAM2_parm3,CAM2_parm4,CAM2_parm5;
 extern uint8_t CAM3_exposureTime,CAM3_parm2,CAM3_parm3,CAM3_parm4,CAM3_parm5;
 extern uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 extern char picfoldpath[100];
+
+
 bool initFuncts(char* _iniFile);
 #endif // MYFUNCTS_H
