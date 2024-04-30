@@ -13,6 +13,11 @@
 			"EWIEGA46WW/moc_defineCoordinate.cpp"
 		],
 		[
+			"/home/agx/Desktop/0321_qt/funcpar.h",
+			"MU",
+			"EWIEGA46WW/moc_funcpar.cpp"
+		],
+		[
 			"/home/agx/Desktop/0321_qt/guicamera.h",
 			"MU",
 			"EWIEGA46WW/moc_guicamera.cpp"
@@ -22,6 +27,11 @@
 			"/home/agx/Desktop/0321_qt/logger.h",
 			"MU",
 			"EWIEGA46WW/moc_logger.cpp"
+		],
+		[
+			"/home/agx/Desktop/0321_qt/maindialog.h",
+			"MU",
+			"EWIEGA46WW/moc_maindialog.cpp"
 		],
 		[
 			"/home/agx/Desktop/0321_qt/myFuncts.h",
@@ -98,10 +108,12 @@
 	"SOURCES" : 
 	[
 		[ "/home/agx/Desktop/0321_qt/defineCoordinate.cpp", "MU" ],
+		[ "/home/agx/Desktop/0321_qt/funcpar.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/guicamera.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/ini.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/logger.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/main.cpp", "MU" ],
+		[ "/home/agx/Desktop/0321_qt/maindialog.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/myFuncts.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/my_qlabel.cpp", "MU" ],
 		[ "/home/agx/Desktop/0321_qt/tcp_client.cpp", "MU" ],

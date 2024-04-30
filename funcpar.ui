@@ -23,8 +23,403 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
+   <widget class="QWidget" name="">
+    <attribute name="title">
+     <string>頁面</string>
+    </attribute>
+    <widget class="QRadioButton" name="radioB_exposureTime">
+     <property name="geometry">
+      <rect>
+       <x>19</x>
+       <y>34</y>
+       <width>181</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>exposure Time (s) :</string>
+     </property>
+    </widget>
+    <widget class="QSlider" name="horizontalSlider_exposureTime">
+     <property name="geometry">
+      <rect>
+       <x>33</x>
+       <y>65</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_exposureTime">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>30</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>Point Characteristics</string>
+    </attribute>
+    <widget class="QGroupBox" name="groupBox_13">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>242</width>
+       <height>601</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>BP Characteristics</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="5" column="0">
+       <widget class="QSpinBox" name="spinBox_maxgrayfullnessMin"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioB_elongationMin">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Elongation_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="spinBox_GrayMean_Min"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinBox_fullnessMin"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="radioB_fullnessMin">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>fullness_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_compactnessMin">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Compactness_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_elongationMax">
+        <property name="maximum">
+         <number>9999</number>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QSpinBox" name="spinBox_compactnessMin"/>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_maxgrayfullnessMin">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MaxGray Fullness Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioB_elongationMax">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Elongation_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QSpinBox" name="spinBox_MaxGray_Min"/>
+      </item>
+      <item row="9" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_compactnessMax">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Compactness_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QRadioButton" name="radioB_GrayMean_Min">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>GrayMean_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="spinBox_fullnessMax"/>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="spinBox_MaxGray_Max"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="radioB_fullnessMax">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>fullness_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QSpinBox" name="spinBox_compactnessMax"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QRadioButton" name="radioB_MaxGray_Min">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MaxGray_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBox_elongationMin">
+        <property name="maximum">
+         <number>0</number>
+        </property>
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="lbl_MaxGray_Max">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MaxGray_Max</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_14">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>20</y>
+       <width>241</width>
+       <height>601</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>DP Characteristics</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="radioB_elongationMin_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Elongation_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBox_elongationMin_3"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="radioB_elongationMax_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Elongation_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="spinBox_elongationMax_3"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QRadioButton" name="radioB_fullnessMin_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Fullness_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="spinBox_fullnessMin_3"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QRadioButton" name="radioB_fullnessMax_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Fullness_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="spinBox_fullnessMax_3"/>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_maxgrayfullnessMin_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MaxGray Fullness Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QSpinBox" name="spinBox_maxgrayfullnessMin_3"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QRadioButton" name="radioB_GrayMean_Max">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>GrayMean_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="spinBox_GrayMean_Max"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QRadioButton" name="radioB_MinGray_Max">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MinGray_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QSpinBox" name="spinBox_MinGray_Max"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="lbl_MinGray_Min">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>MinGray_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="spinBox_MinGray_Min"/>
+      </item>
+      <item row="9" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_compactnessMax_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Compactness_Max</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QSpinBox" name="spinBox_compactnessMax_3"/>
+      </item>
+      <item row="11" column="0" colspan="2">
+       <widget class="QRadioButton" name="radioB_compactnessMin_3">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Compactness_Min</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QSpinBox" name="spinBox_compactnessMin_3"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">
      <string>Point</string>
@@ -992,344 +1387,6 @@
      <property name="text">
       <string>Fixed Area</string>
      </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab">
-    <attribute name="title">
-     <string>Point Characteristics</string>
-    </attribute>
-    <widget class="QGroupBox" name="groupBox_13">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>242</width>
-       <height>601</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>BP Characteristics</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="5" column="0">
-       <widget class="QSpinBox" name="spinBox_maxgrayfullnessMin"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="radioB_elongationMin">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Elongation_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QSpinBox" name="spinBox_GrayMean_Min"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBox_fullnessMin"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="radioB_fullnessMin">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>fullness_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_compactnessMin">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Compactness_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_elongationMax"/>
-      </item>
-      <item row="12" column="0">
-       <widget class="QSpinBox" name="spinBox_compactnessMin"/>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_maxgrayfullnessMin">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MaxGray Fullness Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="radioB_elongationMax">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Elongation_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QSpinBox" name="spinBox_MaxGray_Min"/>
-      </item>
-      <item row="9" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_compactnessMax">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Compactness_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QRadioButton" name="radioB_GrayMean_Min">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>GrayMean_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="spinBox_fullnessMax"/>
-      </item>
-      <item row="8" column="1">
-       <widget class="QSpinBox" name="spinBox_MaxGray_Max"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="radioB_fullnessMax">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>fullness_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QSpinBox" name="spinBox_compactnessMax"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QRadioButton" name="radioB_MaxGray_Min">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MaxGray_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="spinBox_elongationMin"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="lbl_MaxGray_Max">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MaxGray_Max</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QGroupBox" name="groupBox_14">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>20</y>
-       <width>241</width>
-       <height>601</height>
-      </rect>
-     </property>
-     <property name="title">
-      <string>DP Characteristics</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
-       <widget class="QRadioButton" name="radioB_elongationMin_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Elongation_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="spinBox_elongationMin_3"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QRadioButton" name="radioB_elongationMax_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Elongation_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="spinBox_elongationMax_3"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QRadioButton" name="radioB_fullnessMin_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Fullness_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="spinBox_fullnessMin_3"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="radioB_fullnessMax_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Fullness_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="spinBox_fullnessMax_3"/>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_maxgrayfullnessMin_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MaxGray Fullness Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QSpinBox" name="spinBox_maxgrayfullnessMin_3"/>
-      </item>
-      <item row="6" column="0">
-       <widget class="QRadioButton" name="radioB_GrayMean_Max">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>GrayMean_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QSpinBox" name="spinBox_GrayMean_Max"/>
-      </item>
-      <item row="7" column="0">
-       <widget class="QRadioButton" name="radioB_MinGray_Max">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MinGray_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QSpinBox" name="spinBox_MinGray_Max"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="lbl_MinGray_Min">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>MinGray_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QSpinBox" name="spinBox_MinGray_Min"/>
-      </item>
-      <item row="9" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_compactnessMax_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Compactness_Max</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0">
-       <widget class="QSpinBox" name="spinBox_compactnessMax_3"/>
-      </item>
-      <item row="11" column="0" colspan="2">
-       <widget class="QRadioButton" name="radioB_compactnessMin_3">
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Compactness_Min</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="0">
-       <widget class="QSpinBox" name="spinBox_compactnessMin_3"/>
-      </item>
-     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="tab_3">

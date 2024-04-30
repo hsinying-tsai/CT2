@@ -236,6 +236,33 @@ defineCoordinate.cpp.s:
 	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/defineCoordinate.cpp.s
 .PHONY : defineCoordinate.cpp.s
 
+funcpar.o: funcpar.cpp.o
+
+.PHONY : funcpar.o
+
+# target to build an object file
+funcpar.cpp.o:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/funcpar.cpp.o
+.PHONY : funcpar.cpp.o
+
+funcpar.i: funcpar.cpp.i
+
+.PHONY : funcpar.i
+
+# target to preprocess a source file
+funcpar.cpp.i:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/funcpar.cpp.i
+.PHONY : funcpar.cpp.i
+
+funcpar.s: funcpar.cpp.s
+
+.PHONY : funcpar.s
+
+# target to generate assembly for a file
+funcpar.cpp.s:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/funcpar.cpp.s
+.PHONY : funcpar.cpp.s
+
 guicamera.o: guicamera.cpp.o
 
 .PHONY : guicamera.o
@@ -343,6 +370,33 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+maindialog.o: maindialog.cpp.o
+
+.PHONY : maindialog.o
+
+# target to build an object file
+maindialog.cpp.o:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/maindialog.cpp.o
+.PHONY : maindialog.cpp.o
+
+maindialog.i: maindialog.cpp.i
+
+.PHONY : maindialog.i
+
+# target to preprocess a source file
+maindialog.cpp.i:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/maindialog.cpp.i
+.PHONY : maindialog.cpp.i
+
+maindialog.s: maindialog.cpp.s
+
+.PHONY : maindialog.s
+
+# target to generate assembly for a file
+maindialog.cpp.s:
+	$(MAKE) -f CMakeFiles/0301_1.dir/build.make CMakeFiles/0301_1.dir/maindialog.cpp.s
+.PHONY : maindialog.cpp.s
 
 myFuncts.o: myFuncts.cpp.o
 
@@ -472,6 +526,9 @@ help:
 	@echo "... defineCoordinate.o"
 	@echo "... defineCoordinate.i"
 	@echo "... defineCoordinate.s"
+	@echo "... funcpar.o"
+	@echo "... funcpar.i"
+	@echo "... funcpar.s"
 	@echo "... guicamera.o"
 	@echo "... guicamera.i"
 	@echo "... guicamera.s"
@@ -484,6 +541,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... maindialog.o"
+	@echo "... maindialog.i"
+	@echo "... maindialog.s"
 	@echo "... myFuncts.o"
 	@echo "... myFuncts.i"
 	@echo "... myFuncts.s"

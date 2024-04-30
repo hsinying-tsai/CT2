@@ -105,7 +105,7 @@ void Widget::INI_UI()
     connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
     configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
-    // 检查配置文件是否存在
+    // 检查config.ini配置文件是否存在
     QFile configFile(configFilePath);
     if (!configFile.exists()) {
         QSettings settings(configFilePath, QSettings::IniFormat);
@@ -165,16 +165,12 @@ void Widget::INI_UI()
     ui->CAM2_exposure_Edit_3->setText(QString::number(CAM2_exposureTime));
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
+    readmodelList(true);
+//    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
+//    foreach (QWidget *widget, widgets){
+//        widget->setEnabled(false);
+//    }
 
-    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
-    foreach (QWidget *widget, widgets){
-        widget->setEnabled(false);
-    }
-
-    patternName.clear();
-    for (int i = 0; i < ui->list_Pattern->count(); ++i) {
-        patternName.append(ui->list_Pattern->item(i)->text());
-    }
 }
 
 void Widget::cameraInit()
@@ -861,11 +857,14 @@ void Widget::on_puB_saveINI_clicked()
 //    qDebug()<<"picfoldpath"<<picfoldpath;
 }
 
-void Widget::on_puB_remove_clicked()
+void Widget::on_puB_remove_p_clicked()
 {
-    QListWidgetItem *selectedItem = ui->list_Pattern->currentItem();
-    if(selectedItem){
-        delete ui->list_Pattern->takeItem(ui->list_Pattern->row(selectedItem));
+    QListWidgetItem *PTselectedItem = ui->list_Pattern->currentItem();
+    QListWidgetItem *MDselectedItem = ui->list_model->currentItem();
+    QString ModelPath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(MDselectedItem->text()).arg(".ini");
+    if(PTselectedItem){
+        FP.removePattern(PTselectedItem->text(),ModelPath);
+        delete ui->list_Pattern->takeItem(ui->list_Pattern->row(PTselectedItem));
     }
 }
 
@@ -877,36 +876,52 @@ void Widget::reviseconfigINI(QString section, QString key ,QString Value)
     qDebug()<<"Current:"<< currentValue;
     settings.setValue(section+"/"+key,Value);
     settings.sync();
-
 }
 
 
-void Widget::on_puB_add_clicked()
+void Widget::on_puB_add_p_clicked()
 {
     bool ok;
-    QString newItemText = QInputDialog::getText(this,"Add Item",
-                                                "Enter new item:",
+    QString newItemText = QInputDialog::getText(this,"新增",
+                                                "請輸入要新增的pattern:",
                                                 QLineEdit::Normal,
                                                 QString(),&ok);
     if(ok && !newItemText.isEmpty()){
         ui->list_Pattern->addItem(newItemText);
     }
+
 }
 
 
-void Widget::on_puB_save_clicked()
+void Widget::on_puB_save_p_clicked()
 {
-    run_pattern_name.clear();
-    for(int i=0; i<ui->list_Pattern->count();i++){
-        run_pattern_name.append(ui->list_Pattern->item(i)->text());
+    QListWidgetItem *selectedItem = ui->list_model->currentItem();
+    QString currentModel = selectedItem->text();
+    QString tmp;
+    bool NewPT = false;
+    for(model_name &model : modelList) {
+        if(model.recipe_name == currentModel){
+            int oldPTnum = model.pattern_names.size();
+            model.pattern_names.clear();
+            for(int i=0; i<ui->list_Pattern->count();i++){
+                model.pattern_names.append(ui->list_Pattern->item(i)->text());
+                tmp = ui->list_Pattern->item(i)->text();
+            }
+            int newPTnum = model.pattern_names.size();
+            if(newPTnum>oldPTnum){
+                NewPT = true;
+            }
+        }
     }
-    qDebug()<<"run_pattern_name:"<<run_pattern_name;
+
+    QStringList tmpStringList;
+    tmpStringList.append(tmp);
+    QString tmpModePath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(currentModel).arg(".ini");
+    FP.INI(tmpStringList, tmpModePath);
     updatecombopattern();
-    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
-    foreach (QWidget *widget, widgets) {
-        widget->setEnabled(false);
+    if(NewPT == true){
+        FP.show();
     }
-    ui->radioButton->setChecked(false);
 
 }
 
@@ -1050,7 +1065,7 @@ void Widget::on_pushButton_func_clicked()
     FP.show();
 }
 
-void Widget::on_radioButton_clicked(bool checked)
+void Widget::on_radioButton_pattern_clicked(bool checked)
 {
     QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
     foreach (QWidget *widget, widgets){
@@ -1064,30 +1079,154 @@ void Widget::on_radioButton_clicked(bool checked)
 
 void Widget::on_puB_load_clicked()
 {
-    QString module = ui->moduleEdit->text();
-    QString modulePath = QCoreApplication::applicationDirPath() + "/" + module + ".ini";
+    QString inputModel = ui->modelEdit->text();
+    QString modelPath = QCoreApplication::applicationDirPath() + "/Recipe/" + inputModel + ".ini";
+    QStringList createNewPattern;
     // 檢查配置文件是否存在
-    QFile moduleFile(modulePath);
-    if (!moduleFile.exists()) {
+    QFile modelFile(modelPath);
+    if (!modelFile.exists()) {
         QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this, "確認", "檔案不存在，是否要創建？", QMessageBox::Yes|QMessageBox::No);
+        reply = QMessageBox::question(this, "確認", "model:"+inputModel+" 不存在，是否要創建？", QMessageBox::Yes|QMessageBox::No);
         if (reply == QMessageBox::Yes) {
-            if (moduleFile.open(QIODevice::WriteOnly)) {
-                moduleFile.close();
-                QSettings settings(modulePath, QSettings::IniFormat);
-                qDebug() << "配置文件已创建： " << modulePath;
-                FP.receiveFileinfo(module,modulePath,true,patternName);
-                QMessageBox::information(this, "提示", "請先建立新的receipt，再進行連線");
+            if (modelFile.open(QIODevice::WriteOnly)) {
+                modelFile.close();
+//                QSettings settings(modelPath, QSettings::IniFormat);
+                qDebug() << "新模型的.ini檔已创建： " << modelPath;
+                FP.receiveFileinfo(inputModel,modelPath,true,createNewPattern);
+                QMessageBox::information(this, "提示", "新的model已新增至recipe，請先建立新的pattern list，再進行連線");
+                ui->lbl_state->setText("新的model已新增至recipe，請先建立新的pattern list");
+                ui->list_model->addItem(inputModel);
             } else {
-                qDebug() << "無法打開配置文件： " << modulePath;
+                qDebug() << "無法打開配置文件： " << modelPath;
             }
         } else {
+            ui->lbl_state->setText("取消創建新model:"+inputModel);
             qDebug() << "取消創建配置文件。";
         }
-    } else {
-        qDebug() << "配置文件已存在： " << modulePath;
-        FP.receiveFileinfo(module,modulePath,false,patternName);
+    } else {       
+        qDebug() << "配置文件已存在： " << modelPath;
+        FP.receiveFileinfo(inputModel,modelPath,false,createNewPattern);
     }
 
+
+}
+
+void Widget::on_puB_remove_m_clicked()
+{
+    QListWidgetItem *selectedItem = ui->list_model->currentItem();
+    QMessageBox::StandardButton removeCheck;
+    removeCheck = QMessageBox::question(this, "確認", "確定要刪除model:"+selectedItem->text()+" ？", QMessageBox::Yes|QMessageBox::No);
+    if (removeCheck == QMessageBox::Yes) {
+        if(selectedItem){
+            // 指定要刪除的檔案路徑
+            QString deleFilePath = QCoreApplication::applicationDirPath()+"/Recipe/"+selectedItem->text()+".ini";
+            qDebug()<<deleFilePath;
+            // 創建 QFile 物件
+            QFile dfile(deleFilePath);
+            // 檢查檔案是否存在
+            if (dfile.exists()) {
+                // 刪除檔案
+                if (dfile.remove()) {
+                    qDebug() << "檔案" << deleFilePath << "已成功刪除";
+                    ui->lbl_state->setText("已刪除model:"+selectedItem->text());
+                    delete ui->list_model->takeItem(ui->list_model->row(selectedItem));
+                } else {
+                    qDebug() << "刪除檔案" << deleFilePath << "失敗";
+                }
+            } else {
+                qDebug() << "檔案" << deleFilePath << "不存在";
+            }
+        }
+    } else {
+        ui->lbl_state->setText("取消刪除model:"+selectedItem->text());
+        qDebug() << "取消刪除model:"<<selectedItem->text();
+    }
+
+
+}
+
+void Widget::on_puB_add_m_clicked()
+{
+    bool ok;
+    QString newItemText = QInputDialog::getText(this,"Add Model",
+                                                "Enter new model:",
+                                                QLineEdit::Normal,
+                                                QString(),&ok);
+    if(ok && !newItemText.isEmpty()){
+        ui->list_model->addItem(newItemText);
+    }
+}
+
+void Widget::readmodelList(bool isFirst)
+{
+    // 檢查當前目錄是否存在 "recipe" 資料夾
+    QDir recipeDir("Recipe");
+    if(!recipeDir.exists()){
+        qDebug()<<"創建新的Recipe資料夾";
+        recipeDir.mkpath(".");
+    }else{
+        qDebug()<<"Recipe資料夾已存在";
+    }
+
+    // 設定要讀取的目錄
+    recipeDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+
+    // 獲取目錄中的所有檔案
+    QStringList recipefileList = recipeDir.entryList();
+
+    // 逐一讀取每個檔案
+    foreach (QString recipefileName, recipefileList) {
+        QString recipefilePath = recipeDir.absoluteFilePath(recipefileName);
+        if (recipefileName.endsWith(".ini")) {
+            QSettings settings(recipefilePath, QSettings::IniFormat);
+            QStringList groups = settings.childGroups();
+            model_name newModel;
+            QString recipeName = recipefileName;
+            recipeName.remove(".ini");
+            newModel.recipe_name = recipeName;
+            // 逐一讀取每個組的內容
+            foreach (QString group, groups) {
+                QStringList patternName = group.split(" ");
+                newModel.pattern_names.append(patternName);
+            }
+            modelList.append(newModel);
+        }
+    }
+    if(isFirst == true){
+        // 輸出Model List結構列表
+        foreach (const model_name &model, modelList) {
+            ui->list_model->addItem(model.recipe_name);
+        }
+    }
+}
+
+void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
+{
+    QString currentModel = item->text();
+    readmodelList(false);
+    foreach (const model_name &model, modelList) {
+        if(model.recipe_name == currentModel){
+            ui->list_Pattern->clear();
+            foreach (const QString &pattern, model.pattern_names) {
+                ui->list_Pattern->addItem(pattern);
+            }
+        }
+    }
+}
+
+void Widget::on_puB_setCur_m_clicked()
+{
+    QListWidgetItem *selectedItem = ui->list_model->currentItem();
+    if (selectedItem) {
+        selectedItem->setForeground(Qt::blue);
+        ui->lbl_state->setText("已將"+selectedItem->text()+"設為當前運轉model");
+    }
+
+    for (int i = 0; i < ui->list_model->count(); ++i) {
+        QListWidgetItem *item = ui->list_model->item(i);
+        if (item != selectedItem) {
+            item->setForeground(Qt::black);
+        }
+    }
 
 }

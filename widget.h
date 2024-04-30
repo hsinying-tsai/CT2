@@ -27,8 +27,8 @@
 #include "guicamera.h"
 #include "maindialog.h"
 #include <QMainWindow>
-#include <QPointer>
 #include "funcpar.h"
+#include "ini.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -52,6 +52,7 @@ public:
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false;
     Logger logger;
     defineCoordinate DC;
+    INI ini;
 
     typedef struct Node node;
     tcp_client *tc= new tcp_client(nullptr);
@@ -68,7 +69,7 @@ public:
 //    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
 
     QStringList show_pattern_name={ "Black", "White"};
-    QStringList parts,parts_R,run_pattern_name,patternName;
+    QStringList parts,parts_R,run_pattern_name;
     QQueue<QString> commandQ;
     QString configFilePath;
 
@@ -79,6 +80,12 @@ public:
     //存變數數值
     std::vector<QString> orig_buffer;
     std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
+    //find model name and pattern name
+    struct model_name{
+      QString recipe_name;
+      QStringList pattern_names;
+    };
+    QList<model_name> modelList;
     ~Widget();
 
     //camera
@@ -107,10 +114,10 @@ private slots:
 
     void on_puB_runMode_clicked();
     void on_puB_saveINI_clicked();
-    void on_puB_remove_clicked();
+    void on_puB_remove_p_clicked();
     void reviseconfigINI(QString section, QString key,QString Value);
-    void on_puB_add_clicked();
-    void on_puB_save_clicked();
+    void on_puB_add_p_clicked();
+    void on_puB_save_p_clicked();
     void updatetextlog(QString type, QString message);
     void prettiertextlog();
     // Slots for GuiCamera signals
@@ -128,9 +135,22 @@ private slots:
     void on_pushButton_func_clicked();
 
 
-    void on_radioButton_clicked(bool checked);
+    void on_radioButton_pattern_clicked(bool checked);
 
     void on_puB_load_clicked();
+
+    void on_puB_remove_m_clicked();
+
+    void on_puB_add_m_clicked();
+
+    void readmodelList(bool isFirst);
+    
+    void on_list_model_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_puB_setCur_m_clicked();
+
+
+
 
 private:
 

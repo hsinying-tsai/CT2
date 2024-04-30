@@ -25,14 +25,11 @@ void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
     dataTimeString = currentDateTime.toString("hh:mm:ss");
-//    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
-//    logFileName = QString("log_%1.log").arg(timestamp);
-//    filePath = logDir.filePath(logFileName);
     QFile logFile(filePath);
-    qDebug()<<filePath;
+//    qDebug()<<filePath;
     emit updateUILog(logTypeToString(type),message);
     if (!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
-        qDebug() << "Failed to open log file.";
+        qDebug() << "|logger|Failed to open log file.";
         return;
     }
     QTextStream m_textstream(&logFile);
@@ -75,7 +72,10 @@ void Logger::create_file()
     //check "LOG" exist
     QDir logDir("Log");
     if(!logDir.exists()){
+        qDebug()<<"|logger|創建新的Log資料夾";
         logDir.mkpath(".");
+    }else{
+        qDebug()<<"|logger|Log資料夾已存在";
     }
 
     timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
@@ -84,7 +84,7 @@ void Logger::create_file()
 
     QFile logFile(filePath);
     if(!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)){
-        qDebug()<<"Failed to create log file.";
+        qDebug()<<"|logger|Failed to create log file.";
         return;
     }
     writeLog(Logger::Info, "New log file create.");

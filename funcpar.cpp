@@ -1,3 +1,4 @@
+
 #include "funcpar.h"
 #include "ui_funcpar.h"
 #include <QDebug>
@@ -29,12 +30,11 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
     ui->comboBox_pattern->addItem(item->text());
 }
 
-void FuncPar::INI(QStringList patternName,QString receiptFilePath)
+void FuncPar::INI(QStringList patternName, QString recipetFilePath)
 {
-    qDebug()<<receiptFilePath;
-    QSettings settings(receiptFilePath, QSettings::IniFormat);
+    QSettings settings(recipetFilePath, QSettings::IniFormat);
     foreach(const QString &name, patternName) {
-        qDebug()<<name;
+//        qDebug()<<name;
         ui->comboBox_pattern->addItem(name);
         settings.beginGroup(name);
         settings.setValue("checkDP", false);
@@ -100,8 +100,8 @@ void FuncPar::INI(QStringList patternName,QString receiptFilePath)
 }
 void FuncPar::reviseconfigINI(QString section, QString key ,QString Value)
 {
-    qDebug()<<receiptFilePath;
-    QSettings settings(receiptFilePath, QSettings::IniFormat);
+    qDebug()<<recipeFilePath;
+    QSettings settings(recipeFilePath, QSettings::IniFormat);
     int currentValue = settings.value(section + "/" + key).toInt();
     qDebug()<<"Current:"<< currentValue;
     settings.setValue(section+"/"+key,Value);
@@ -129,14 +129,46 @@ void FuncPar::onRadioButtonClicked(bool checked)
 
 }
 
-void FuncPar::receiveFileinfo(QString moduleName, QString modulePath ,bool isNew,QStringList patternName)
+void FuncPar::receiveFileinfo(QString modelName, QString modelPath ,bool isNew,QStringList patternName)
 {
-    qDebug()<<patternName;
-    qDebug()<<"moduleName"<<moduleName;
-    qDebug()<<"modulePath"<<modulePath;
+    qDebug()<<"patternName"<<patternName;
+    qDebug()<<"modelName"<<modelName;
+    qDebug()<<"modelPath"<<modelPath;
     if(isNew == true){
-        INI(patternName,modulePath);
+        patternName = defalutPattern;
+        INI(patternName,modelPath);
     }
+}
+
+void FuncPar::removePattern(QString patternName, QString ModelPath)
+{
+    QFile Modelfile(ModelPath);
+    if (!Modelfile.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qDebug() << "Failed to open file for reading and writing.";
+        return;
+    }
+    QTextStream in(&Modelfile);
+    QStringList lines;
+    bool inSection = false;
+    while (!in.atEnd()) {
+        QString line = in.readLine();
+        if (line.startsWith("[" + patternName + "]")) {
+            inSection = true;
+            continue;
+        } else if (inSection && line.startsWith("[")) {
+            inSection = false;
+        }
+
+        if (!inSection) {
+            lines << line;
+        }
+    }
+    Modelfile.resize(0); // 清空文件內容
+    QTextStream out(&Modelfile);
+    for (const QString &line : lines) {
+        out << line << "\n";
+    }
+    Modelfile.close();
 }
 FuncPar::~FuncPar()
 {
@@ -208,3 +240,8 @@ void FuncPar::on_comboBox_pattern_activated()
     }
 }
 
+
+void FuncPar::on_horizontalSlider_exposureTime_valueChanged(int value)
+{
+    ui->spinBox_exposureTime->setValue(value);
+}

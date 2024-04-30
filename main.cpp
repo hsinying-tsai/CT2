@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include "logger.h"
 #include <QMessageLogContext>
+#include <pylon/PylonIncludes.h>
 char buffIni[40];
 char iniFile[20];
 
@@ -23,7 +24,7 @@ uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 char picfoldpath[100];
 Logger logger;
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-    qDebug()<<"4";
+//    qDebug()<<"4";
     switch (type) {
     case QtDebugMsg:
         logger.writeLog(Logger::Info, msg);
@@ -68,6 +69,7 @@ int main(int argc, char *argv[])
     }
 
     QApplication a(argc, argv);
+    Pylon::PylonAutoInitTerm pylonInit;
     Widget w;
     w.show();
 //    qInstallMessageHandler(customMessageHandler);

@@ -22,34 +22,29 @@ public:
     struct BorDpoint{
         int threshlodHigh,threshlodLow,boundaryHigh,boundaryLow;
     };
-    struct spinBox{
-        int inte;
-        double dou;
-    };
     struct pattern_name{
       QString name;
       int index;
       bool BP = false,DP = false;
       BorDpoint BPoint;
       BorDpoint DPoint;
-
+      int exposureT;
     };
-
-    QString receiptFilePath;
-    void INI(QStringList patternName,QString receiptFilePath);
+    QStringList defalutPattern = {"Red","Green"};
+    QString recipeFilePath;
+    void INI(QStringList patternName,QString recipetFilePath);
     void reviseconfigINI(QString section, QString key ,QString Value);
     QStringList spinBoxNames;
     void onRadioButtonClicked(bool checked);
     QList<int> spinBoxValues;
-    void receiveFileinfo(QString moduleName, QString modulePath, bool isNew,QStringList patternName);
-
+    void receiveFileinfo(QString modelName, QString modelPath, bool isNew,QStringList patternName);
+    void removePattern(QString patternName,QString ModelPath);
     ~FuncPar();
 
 private slots:
     void on_puB_save_clicked();
     void on_comboBox_pattern_activated();
-
-
+    void on_horizontalSlider_exposureTime_valueChanged(int value);
 };
 
 #endif // FUNCPAR_H

@@ -169,6 +169,15 @@
 		<Unit filename="/home/agx/Desktop/0321_qt/defineCoordinate.h">
 			<Option target="0301_1"/>
 		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/funcpar.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/funcpar.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/funcpar.ui">
+			<Option target="0301_1"/>
+		</Unit>
 		<Unit filename="/home/agx/Desktop/0321_qt/guicamera.cpp">
 			<Option target="0301_1"/>
 		</Unit>
@@ -188,6 +197,15 @@
 			<Option target="0301_1"/>
 		</Unit>
 		<Unit filename="/home/agx/Desktop/0321_qt/main.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/maindialog.cpp">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/maindialog.h">
+			<Option target="0301_1"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/maindialog.ui">
 			<Option target="0301_1"/>
 		</Unit>
 		<Unit filename="/home/agx/Desktop/0321_qt/myFuncts.cpp">

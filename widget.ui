@@ -775,7 +775,7 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>39</y>
+           <y>370</y>
            <width>507</width>
            <height>251</height>
           </rect>
@@ -791,7 +791,7 @@
          <property name="title">
           <string/>
          </property>
-         <widget class="QPushButton" name="puB_save">
+         <widget class="QPushButton" name="puB_save_p">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -810,7 +810,7 @@
            <string>save</string>
           </property>
          </widget>
-         <widget class="QPushButton" name="puB_remove">
+         <widget class="QPushButton" name="puB_remove_p">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -859,36 +859,8 @@
           <property name="dragDropMode">
            <enum>QAbstractItemView::InternalMove</enum>
           </property>
-          <item>
-           <property name="text">
-            <string>Black</string>
-           </property>
-           <property name="font">
-            <font>
-             <strikeout>false</strikeout>
-             <kerning>true</kerning>
-            </font>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>White</string>
-           </property>
-           <property name="font">
-            <font>
-             <underline>false</underline>
-             <stylestrategy>PreferAntialias</stylestrategy>
-            </font>
-           </property>
-           <property name="flags">
-            <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-           </property>
-          </item>
          </widget>
-         <widget class="QPushButton" name="puB_add">
+         <widget class="QPushButton" name="puB_add_p">
           <property name="geometry">
            <rect>
             <x>380</x>
@@ -911,8 +883,8 @@
         <widget class="QPushButton" name="pushButton_func">
          <property name="geometry">
           <rect>
-           <x>121</x>
-           <y>314</y>
+           <x>120</x>
+           <y>640</y>
            <width>121</width>
            <height>31</height>
           </rect>
@@ -921,11 +893,11 @@
           <string>Func</string>
          </property>
         </widget>
-        <widget class="QRadioButton" name="radioButton">
+        <widget class="QRadioButton" name="radioButton_pattern">
          <property name="geometry">
           <rect>
-           <x>12</x>
-           <y>34</y>
+           <x>13</x>
+           <y>366</y>
            <width>201</width>
            <height>23</height>
           </rect>
@@ -936,14 +908,14 @@
           </font>
          </property>
          <property name="text">
-          <string>Setting detect pattern</string>
+          <string>Pattern設定</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_5">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>320</y>
+           <x>19</x>
+           <y>646</y>
            <width>111</width>
            <height>20</height>
           </rect>
@@ -957,30 +929,112 @@
           <string>修改參數：</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="puB_bigGrab">
+        <widget class="QGroupBox" name="groupBox_5">
          <property name="geometry">
           <rect>
-           <x>30</x>
-           <y>380</y>
-           <width>131</width>
-           <height>81</height>
+           <x>10</x>
+           <y>40</y>
+           <width>507</width>
+           <height>251</height>
           </rect>
          </property>
-         <property name="text">
-          <string>BIG GRAB</string>
+         <property name="font">
+          <font>
+           <stylestrategy>NoAntialias</stylestrategy>
+          </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">groupBox-&gt;setStyleSheet(&quot;background-color: transparent;&quot;); </string>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QPushButton" name="puB_setCur_m">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>150</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
+           </font>
+          </property>
+          <property name="text">
+           <string>setCurrent</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="puB_remove_m">
+          <property name="geometry">
+           <rect>
+            <x>380</x>
+            <y>70</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
+           </font>
+          </property>
+          <property name="text">
+           <string>remove</string>
+          </property>
+         </widget>
+         <widget class="QListWidget" name="list_model">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>351</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <stylestrategy>PreferDefault</stylestrategy>
+           </font>
+          </property>
+          <property name="dragEnabled">
+           <bool>false</bool>
+          </property>
+          <property name="dragDropOverwriteMode">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+         </widget>
         </widget>
-        <widget class="QPushButton" name="puB_samllGrab">
+        <widget class="QLabel" name="label_7">
          <property name="geometry">
           <rect>
-           <x>190</x>
-           <y>370</y>
-           <width>131</width>
-           <height>81</height>
+           <x>13</x>
+           <y>36</y>
+           <width>111</width>
+           <height>20</height>
           </rect>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="text">
-          <string>SMALL GRAB</string>
+          <string>model list：</string>
          </property>
         </widget>
        </widget>
@@ -994,7 +1048,7 @@
            <x>20</x>
            <y>12</y>
            <width>391</width>
-           <height>140</height>
+           <height>91</height>
           </rect>
          </property>
          <property name="title">
@@ -1041,10 +1095,10 @@
         <widget class="QGroupBox" name="groupBox_11">
          <property name="geometry">
           <rect>
-           <x>20</x>
-           <y>159</y>
+           <x>30</x>
+           <y>120</y>
            <width>391</width>
-           <height>140</height>
+           <height>91</height>
           </rect>
          </property>
          <property name="title">
@@ -1091,10 +1145,10 @@
         <widget class="QGroupBox" name="groupBox_12">
          <property name="geometry">
           <rect>
-           <x>16</x>
-           <y>310</y>
+           <x>30</x>
+           <y>220</y>
            <width>391</width>
-           <height>140</height>
+           <height>91</height>
           </rect>
          </property>
          <property name="title">
@@ -1265,6 +1319,32 @@
          </property>
          <property name="text">
           <string>save</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="puB_bigGrab">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>340</y>
+           <width>131</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>BIG GRAB</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="puB_samllGrab">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>330</y>
+           <width>131</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>SMALL GRAB</string>
          </property>
         </widget>
        </widget>
@@ -1509,7 +1589,7 @@ background-color: red;</string>
        <property name="title">
         <string>產品資訊</string>
        </property>
-       <widget class="QLineEdit" name="moduleEdit">
+       <widget class="QLineEdit" name="modelEdit">
         <property name="geometry">
          <rect>
           <x>70</x>
@@ -1563,6 +1643,42 @@ background-color: red;</string>
          <string>Load</string>
         </property>
        </widget>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>230</y>
+         <width>101</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>操作狀態：</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_state">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>226</y>
+         <width>571</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_2">

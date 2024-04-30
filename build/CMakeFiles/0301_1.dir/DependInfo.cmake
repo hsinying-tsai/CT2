@@ -6,10 +6,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/agx/Desktop/0321_qt/build/0301_1_autogen/mocs_compilation.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/0301_1_autogen/mocs_compilation.cpp.o"
   "/home/agx/Desktop/0321_qt/defineCoordinate.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/defineCoordinate.cpp.o"
+  "/home/agx/Desktop/0321_qt/funcpar.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/funcpar.cpp.o"
   "/home/agx/Desktop/0321_qt/guicamera.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/guicamera.cpp.o"
   "/home/agx/Desktop/0321_qt/ini.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/ini.cpp.o"
   "/home/agx/Desktop/0321_qt/logger.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/logger.cpp.o"
   "/home/agx/Desktop/0321_qt/main.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/main.cpp.o"
+  "/home/agx/Desktop/0321_qt/maindialog.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/maindialog.cpp.o"
   "/home/agx/Desktop/0321_qt/myFuncts.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/myFuncts.cpp.o"
   "/home/agx/Desktop/0321_qt/my_qlabel.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/my_qlabel.cpp.o"
   "/home/agx/Desktop/0321_qt/tcp_client.cpp" "/home/agx/Desktop/0321_qt/build/CMakeFiles/0301_1.dir/tcp_client.cpp.o"
