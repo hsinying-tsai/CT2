@@ -32,6 +32,7 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
 
 void FuncPar::INI(QStringList patternName, QString recipetFilePath)
 {
+    recipeFilePath = recipetFilePath;
     QSettings settings(recipetFilePath, QSettings::IniFormat);
     foreach(const QString &name, patternName) {
 //        qDebug()<<name;
@@ -98,14 +99,15 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath)
         settings.endGroup();
     }
 }
-void FuncPar::reviseconfigINI(QString section, QString key ,QString Value)
+void FuncPar::reviseModelINI(QString section, QString key ,QString Value)
 {
-    qDebug()<<recipeFilePath;
+    qDebug()<<"recipeFilePath"<<recipeFilePath;
     QSettings settings(recipeFilePath, QSettings::IniFormat);
     int currentValue = settings.value(section + "/" + key).toInt();
     qDebug()<<"Current:"<< currentValue;
     settings.setValue(section+"/"+key,Value);
     settings.sync();
+    qDebug()<<"//"<<section<<"//"<<key<<"//"<<Value;
 }
 
 void FuncPar::onRadioButtonClicked(bool checked)
@@ -178,9 +180,8 @@ FuncPar::~FuncPar()
 void FuncPar::on_puB_save_clicked()
 {
     QString selectedOption = ui->comboBox_pattern->currentText();
-//    qDebug()<<selectedOption;
+    qDebug()<<selectedOption;
     spinBoxNames.clear();
-
     for (int tabIndex = 0; tabIndex < ui->tabWidget->count(); ++tabIndex) {
         // 获取当前页
         QWidget *currentTab = ui->tabWidget->widget(tabIndex);
@@ -192,8 +193,13 @@ void FuncPar::on_puB_save_clicked()
                 // 去除名稱中的"spinBox_"並只保留後半部分
                 name.remove("spinBox_");
                 spinBoxNames.append(name);
-                qDebug()<<selectedOption<<name<<spinBox->text();
-                reviseconfigINI(selectedOption, name , spinBox->text());
+                if(spinBox->text()==""){
+                    qDebug()<<"empty";
+                    spinBox->text() = "0";
+                }
+                qDebug()<<"--"<<spinBox->text();
+                qDebug()<<"---"<<selectedOption<<name<<spinBox->text();
+                reviseModelINI(selectedOption, name , spinBox->text());
             } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
 //                qDebug() << "RadioButton Name: " << radioButton->objectName();
             } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {

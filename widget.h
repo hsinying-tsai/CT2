@@ -98,6 +98,7 @@ private slots:
     void updatelblPic();
     void WR_command(QString WR_message);
     void Qtimer();
+    void QtimerError();
     void change_pic2(int index);
 
     void saveText();

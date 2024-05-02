@@ -190,15 +190,17 @@ public:
     QComboBox *comboBox_pattern;
     QPushButton *puB_load;
     QPushButton *puB_save;
+    QLabel *lbl;
+    QLabel *lbl_ModelName;
 
     void setupUi(QDialog *FuncPar)
     {
         if (FuncPar->objectName().isEmpty())
             FuncPar->setObjectName(QString::fromUtf8("FuncPar"));
-        FuncPar->resize(545, 769);
+        FuncPar->resize(545, 812);
         tabWidget = new QTabWidget(FuncPar);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
-        tabWidget->setGeometry(QRect(10, 60, 521, 701));
+        tabWidget->setGeometry(QRect(10, 100, 521, 701));
         widget = new QWidget();
         widget->setObjectName(QString::fromUtf8("widget"));
         radioB_exposureTime = new QRadioButton(widget);
@@ -846,7 +848,7 @@ public:
         comboBox_pattern = new QComboBox(FuncPar);
         comboBox_pattern->addItem(QString());
         comboBox_pattern->setObjectName(QString::fromUtf8("comboBox_pattern"));
-        comboBox_pattern->setGeometry(QRect(10, 20, 201, 31));
+        comboBox_pattern->setGeometry(QRect(10, 60, 201, 31));
         QFont font4;
         font4.setPointSize(14);
         comboBox_pattern->setFont(font4);
@@ -854,12 +856,20 @@ public:
         comboBox_pattern->setCurrentText(QString::fromUtf8("select pattern"));
         puB_load = new QPushButton(FuncPar);
         puB_load->setObjectName(QString::fromUtf8("puB_load"));
-        puB_load->setGeometry(QRect(310, 20, 111, 31));
+        puB_load->setGeometry(QRect(310, 60, 111, 31));
         puB_load->setFont(font4);
         puB_save = new QPushButton(FuncPar);
         puB_save->setObjectName(QString::fromUtf8("puB_save"));
-        puB_save->setGeometry(QRect(430, 20, 101, 31));
+        puB_save->setGeometry(QRect(430, 60, 101, 31));
         puB_save->setFont(font4);
+        lbl = new QLabel(FuncPar);
+        lbl->setObjectName(QString::fromUtf8("lbl"));
+        lbl->setGeometry(QRect(10, 20, 101, 21));
+        lbl->setFont(font4);
+        lbl_ModelName = new QLabel(FuncPar);
+        lbl_ModelName->setObjectName(QString::fromUtf8("lbl_ModelName"));
+        lbl_ModelName->setGeometry(QRect(110, 15, 131, 31));
+        lbl_ModelName->setFont(font4);
 
         retranslateUi(FuncPar);
 
@@ -968,6 +978,8 @@ public:
 
         puB_load->setText(QApplication::translate("FuncPar", "load", nullptr));
         puB_save->setText(QApplication::translate("FuncPar", "save", nullptr));
+        lbl->setText(QApplication::translate("FuncPar", "\347\224\242\345\223\201\345\220\215\347\250\261\357\274\232", nullptr));
+        lbl_ModelName->setText(QString());
     } // retranslateUi
 
 };

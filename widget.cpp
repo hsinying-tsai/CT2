@@ -58,6 +58,11 @@ Widget::Widget(QWidget *parent)
     connect(timer,SIGNAL(timeout()),this,SLOT(Qtimer()));
     timer->start(1000);
 
+    // clock (per 0.6 second
+    QTimer *timer_error = new QTimer(this);
+    connect(timer_error,SIGNAL(timeout()),this,SLOT(QtimerError()));
+    timer_error->start(600);
+
     // persist send RD until receive 1
     QTimer *timer_RD = new QTimer(this);
     connect(timer_RD,&QTimer::timeout,this,[this](){
@@ -317,6 +322,10 @@ void Widget::recv_label_update(QString message)
 
     if (message == "SocketError"){
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
+    }else if(str1 == "RD R215"){
+        if(message == "1"){
+            qDebug()<<"ERRRRRRRRRRRRRROR";
+        }
     }else if(message == "0"){
         //0\r\n
         recevZero = true;
@@ -720,6 +729,12 @@ void Widget::Qtimer()
             }
         }
     }
+}
+
+void Widget::QtimerError()
+{
+    //read error signal
+//    WR_command("RD R215");
 }
 
 void Widget::change_pic2(int index)
