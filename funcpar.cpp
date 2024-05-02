@@ -30,10 +30,11 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
     ui->comboBox_pattern->addItem(item->text());
 }
 
-void FuncPar::INI(QStringList patternName, QString recipetFilePath)
+void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString ModelName)
 {
     recipeFilePath = recipetFilePath;
     QSettings settings(recipetFilePath, QSettings::IniFormat);
+    ui->lbl_ModelName->setText(ModelName);
     foreach(const QString &name, patternName) {
 //        qDebug()<<name;
         ui->comboBox_pattern->addItem(name);
@@ -138,7 +139,7 @@ void FuncPar::receiveFileinfo(QString modelName, QString modelPath ,bool isNew,Q
     qDebug()<<"modelPath"<<modelPath;
     if(isNew == true){
         patternName = defalutPattern;
-        INI(patternName,modelPath);
+        INI(patternName,modelPath,modelName);
     }
 }
 
@@ -185,6 +186,7 @@ void FuncPar::on_puB_save_clicked()
     for (int tabIndex = 0; tabIndex < ui->tabWidget->count(); ++tabIndex) {
         // 获取当前页
         QWidget *currentTab = ui->tabWidget->widget(tabIndex);
+        QString tmp_text;
         // 遍历当前页中的所有子控件
         foreach(QWidget *widget, currentTab->findChildren<QWidget *>()) {
             // 判断子控件是否是QSpinBox、QRadioButton或者QCheckBox
@@ -195,11 +197,13 @@ void FuncPar::on_puB_save_clicked()
                 spinBoxNames.append(name);
                 if(spinBox->text()==""){
                     qDebug()<<"empty";
-                    spinBox->text() = "0";
+                    tmp_text = spinBox->text() = "0";
+                }else{
+                    tmp_text = spinBox->text();
                 }
                 qDebug()<<"--"<<spinBox->text();
-                qDebug()<<"---"<<selectedOption<<name<<spinBox->text();
-                reviseModelINI(selectedOption, name , spinBox->text());
+                qDebug()<<"---"<<selectedOption<<name<<tmp_text;
+                reviseModelINI(selectedOption, name , tmp_text);
             } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
 //                qDebug() << "RadioButton Name: " << radioButton->objectName();
             } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {

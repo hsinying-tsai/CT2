@@ -59,7 +59,7 @@
         <string notr="true"/>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab_10">
         <attribute name="title">
@@ -70,7 +70,7 @@
           <rect>
            <x>15</x>
            <y>290</y>
-           <width>481</width>
+           <width>501</width>
            <height>262</height>
           </rect>
          </property>
@@ -87,7 +87,7 @@
            <rect>
             <x>7</x>
             <y>33</y>
-            <width>467</width>
+            <width>491</width>
             <height>221</height>
            </rect>
           </property>
@@ -106,7 +106,7 @@
           <rect>
            <x>14</x>
            <y>50</y>
-           <width>481</width>
+           <width>501</width>
            <height>221</height>
           </rect>
          </property>
@@ -155,7 +155,7 @@
           <rect>
            <x>15</x>
            <y>565</y>
-           <width>481</width>
+           <width>501</width>
            <height>91</height>
           </rect>
          </property>
@@ -172,7 +172,7 @@
            <rect>
             <x>10</x>
             <y>40</y>
-            <width>341</width>
+            <width>371</width>
             <height>41</height>
            </rect>
           </property>
@@ -188,7 +188,7 @@
          <widget class="QPushButton" name="puB_sent">
           <property name="geometry">
            <rect>
-            <x>370</x>
+            <x>390</x>
             <y>43</y>
             <width>101</width>
             <height>31</height>
@@ -1047,7 +1047,7 @@
           <rect>
            <x>20</x>
            <y>12</y>
-           <width>391</width>
+           <width>401</width>
            <height>91</height>
           </rect>
          </property>

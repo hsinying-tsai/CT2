@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="widget">
     <attribute name="title">
@@ -101,6 +101,15 @@
         <property name="text">
          <string>Elongation_Min</string>
         </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="autoRepeat">
+         <bool>false</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="1">
@@ -119,6 +128,9 @@
         <property name="text">
          <string>fullness_Min</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="11" column="0" colspan="2">
@@ -130,6 +142,9 @@
         </property>
         <property name="text">
          <string>Compactness_Min</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -153,6 +168,9 @@
         <property name="text">
          <string>MaxGray Fullness Min</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="0">
@@ -164,6 +182,9 @@
         </property>
         <property name="text">
          <string>Elongation_Max</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -180,6 +201,9 @@
         <property name="text">
          <string>Compactness_Max</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="0">
@@ -191,6 +215,9 @@
         </property>
         <property name="text">
          <string>GrayMean_Min</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -210,6 +237,9 @@
         <property name="text">
          <string>fullness_Max</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="10" column="0">
@@ -224,6 +254,9 @@
         </property>
         <property name="text">
          <string>MaxGray_Min</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -277,6 +310,9 @@
         <property name="text">
          <string>Elongation_Min</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -291,6 +327,9 @@
         </property>
         <property name="text">
          <string>Elongation_Max</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -307,6 +346,9 @@
         <property name="text">
          <string>Fullness_Min</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="2" column="1">
@@ -321,6 +363,9 @@
         </property>
         <property name="text">
          <string>Fullness_Max</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -337,6 +382,9 @@
         <property name="text">
          <string>MaxGray Fullness Min</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="5" column="0">
@@ -352,6 +400,9 @@
         <property name="text">
          <string>GrayMean_Max</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="6" column="1">
@@ -366,6 +417,9 @@
         </property>
         <property name="text">
          <string>MinGray_Max</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -397,6 +451,9 @@
         <property name="text">
          <string>Compactness_Max</string>
         </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item row="10" column="0">
@@ -411,6 +468,9 @@
         </property>
         <property name="text">
          <string>Compactness_Min</string>
+        </property>
+        <property name="autoExclusive">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -464,6 +524,9 @@
       <property name="checked">
        <bool>true</bool>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QRadioButton" name="radioB_BP">
       <property name="geometry">
@@ -484,6 +547,9 @@
       <property name="text">
        <string>檢查BP</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QRadioButton" name="radioB_BPDP">
       <property name="geometry">
@@ -503,6 +569,9 @@
       </property>
       <property name="text">
        <string>檢查DP+BP</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -545,6 +614,9 @@
       <property name="text">
        <string>Threshold High</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_boundaryHigh_2">
       <property name="geometry">
@@ -572,6 +644,9 @@
       </property>
       <property name="text">
        <string>Boundary High</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_threshlodLow_2">
@@ -611,6 +686,9 @@
       <property name="text">
        <string>Boundary Low</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QRadioButton" name="radioB_threshlodLow_2">
       <property name="geometry">
@@ -628,6 +706,9 @@
       </property>
       <property name="text">
        <string>Threshold Low</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -660,6 +741,9 @@
       <property name="text">
        <string>Threshold High</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_threshlodHigh">
       <property name="geometry">
@@ -687,6 +771,9 @@
       </property>
       <property name="text">
        <string>Threshold Low</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_threshlodLow">
@@ -716,6 +803,9 @@
       <property name="text">
        <string>Boundary High</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_boundaryHigh">
       <property name="geometry">
@@ -743,6 +833,9 @@
       </property>
       <property name="text">
        <string>Boundary Low</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_boundaryLow">
@@ -785,6 +878,9 @@
       <property name="text">
        <string>BP Area Max</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_bpAreaMax">
       <property name="geometry">
@@ -822,6 +918,9 @@
       </property>
       <property name="text">
        <string>BP Area Min</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_dpAreaMin_2">
@@ -861,6 +960,9 @@
       <property name="text">
        <string>BP Area Min</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QRadioButton" name="radioB_dpAreaMax">
       <property name="geometry">
@@ -878,6 +980,9 @@
       </property>
       <property name="text">
        <string>BP Area Max</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_byPassX">
@@ -907,6 +1012,9 @@
       <property name="text">
        <string>ByPass X</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_byPassX_2">
       <property name="geometry">
@@ -935,6 +1043,9 @@
       <property name="text">
        <string>ByPass X</string>
       </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QRadioButton" name="radioB_overnum">
       <property name="geometry">
@@ -952,6 +1063,9 @@
       </property>
       <property name="text">
        <string>OverNum</string>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
       </property>
      </widget>
      <widget class="QSpinBox" name="spinBox_overnum">

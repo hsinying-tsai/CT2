@@ -932,12 +932,11 @@ void Widget::on_puB_save_p_clicked()
     QStringList tmpStringList;
     tmpStringList.append(tmp);
     QString tmpModePath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(currentModel).arg(".ini");
-    FP.INI(tmpStringList, tmpModePath);
+    FP.INI(tmpStringList, tmpModePath, currentModel);
     updatecombopattern();
     if(NewPT == true){
         FP.show();
     }
-
 }
 
 void Widget::updatetextlog(QString type, QString message)

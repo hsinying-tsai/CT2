@@ -32,7 +32,7 @@ public:
     };
     QStringList defalutPattern = {"Red","Green"};
     QString recipeFilePath;
-    void INI(QStringList patternName,QString recipetFilePath);
+    void INI(QStringList patternName, QString recipetFilePath, QString ModelName);
     void reviseModelINI(QString section, QString key ,QString Value);
     QStringList spinBoxNames;
     void onRadioButtonClicked(bool checked);
