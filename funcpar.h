@@ -35,7 +35,6 @@ public:
     void INI(QStringList patternName, QString recipetFilePath, QString ModelName);
     void reviseModelINI(QString section, QString key ,QString Value);
     QStringList spinBoxNames;
-    void onRadioButtonClicked(bool checked);
     QList<int> spinBoxValues;
     void receiveFileinfo(QString modelName, QString modelPath, bool isNew,QStringList patternName);
     void removePattern(QString patternName,QString ModelPath);
@@ -43,8 +42,10 @@ public:
 
 private slots:
     void on_puB_save_clicked();
-    void on_comboBox_pattern_activated();
+    void on_comboBox_pattern_activated(const QString &patternName);
     void on_horizontalSlider_exposureTime_valueChanged(int value);
+    void onRadioButtonClicked(bool checked);
+    void on_puB_load_clicked();
 };
 
 #endif // FUNCPAR_H

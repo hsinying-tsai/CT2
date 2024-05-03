@@ -327,6 +327,7 @@ CMakeFiles/0301_1.dir/0301_1_autogen/mocs_compilation.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QListWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QMainWindow
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSlider
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTextBrowser
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
@@ -349,6 +350,8 @@ CMakeFiles/0301_1.dir/0301_1_autogen/mocs_compilation.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyle.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyleoption.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabbar.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtableview.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtablewidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextbrowser.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextedit.h
@@ -1402,6 +1405,7 @@ CMakeFiles/0301_1.dir/main.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QListWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QMainWindow
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSlider
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTextBrowser
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
@@ -1426,6 +1430,8 @@ CMakeFiles/0301_1.dir/main.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyle.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyleoption.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabbar.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtableview.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtablewidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextbrowser.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextedit.h
@@ -2146,6 +2152,7 @@ CMakeFiles/0301_1.dir/my_qlabel.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QListWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QMainWindow
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSlider
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTextBrowser
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QToolTip
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QWidget
@@ -2170,6 +2177,8 @@ CMakeFiles/0301_1.dir/my_qlabel.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyle.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyleoption.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabbar.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtableview.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtablewidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextbrowser.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextedit.h
@@ -2595,6 +2604,7 @@ CMakeFiles/0301_1.dir/tcp_client.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QListWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QMainWindow
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSlider
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTextBrowser
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qabstractitemdelegate.h
@@ -2617,6 +2627,8 @@ CMakeFiles/0301_1.dir/tcp_client.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyle.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qstyleoption.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabbar.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtableview.h
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtablewidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtabwidget.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextbrowser.h
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qtextedit.h
@@ -2962,6 +2974,7 @@ CMakeFiles/0301_1.dir/widget.cpp.o
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSplitter
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTabWidget
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidget
+ /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTableWidgetItem
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QTextBrowser
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QVBoxLayout
  /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QWidget

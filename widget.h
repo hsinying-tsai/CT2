@@ -29,6 +29,7 @@
 #include <QMainWindow>
 #include "funcpar.h"
 #include "ini.h"
+#include <QTableWidgetItem>
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -49,7 +50,8 @@ public:
             ,runMode = 0;
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
-            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false;
+            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false
+            ;
     Logger logger;
     defineCoordinate DC;
     INI ini;
@@ -68,7 +70,7 @@ public:
     //"Black", "White", "Gray1", "Gray2", "Green"
 //    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
 
-    QStringList show_pattern_name={ "Black", "White"};
+    QStringList show_pattern_name={ "Black", "White","Gray"};
     QStringList parts,parts_R,run_pattern_name;
     QQueue<QString> commandQ;
     QString configFilePath;
@@ -149,10 +151,7 @@ private slots:
     void on_list_model_itemDoubleClicked(QListWidgetItem *item);
 
     void on_puB_setCur_m_clicked();
-
-
-
-
+    void on_table_defectlist_cellClicked(int row, int column);
 private:
 
     Ui::Widget *ui;

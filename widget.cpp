@@ -171,11 +171,18 @@ void Widget::INI_UI()
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
     readmodelList(true);
-//    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
-//    foreach (QWidget *widget, widgets){
-//        widget->setEnabled(false);
-//    }
-
+    for(int i=0; i<DC.vector_PG_flaw.size()/2; i++) {
+        qDebug()<<"Pattern num:"<<num;
+        ui->table_defectlist->insertRow(i);
+        QTableWidgetItem *item = new QTableWidgetItem(QString::number(num));
+        QTableWidgetItem *item_PTname = new QTableWidgetItem(QString(show_pattern_name.at(num-1)));
+        QTableWidgetItem *itemX = new QTableWidgetItem(QString::number(DC.vector_PG_flaw.at(i*2)));
+        QTableWidgetItem *itemY = new QTableWidgetItem(QString::number(DC.vector_PG_flaw.at(i*2+1)));
+        ui->table_defectlist->setItem(i, 0, item);
+        ui->table_defectlist->setItem(i, 1, item_PTname);
+        ui->table_defectlist->setItem(i, 2, itemX);
+        ui->table_defectlist->setItem(i, 3, itemY);
+    }
 }
 
 void Widget::cameraInit()
@@ -741,7 +748,6 @@ void Widget::change_pic2(int index)
 {
     logger.writeLog(Logger::Info, "User changed pic2.");
     pix2.load(picfoldpath + QString::number(num) + "_"+ QString::number(index) + ".bmp");
-//    pix2.load("/home/agx/Desktop/0321_qt/Pictures/" + QString::number(num) + "_"+ QString::number(index) + ".bmp");
     ui->lbl_pic2->setPixmap(pix2);
 }
 
@@ -874,12 +880,16 @@ void Widget::on_puB_saveINI_clicked()
 
 void Widget::on_puB_remove_p_clicked()
 {
-    QListWidgetItem *PTselectedItem = ui->list_Pattern->currentItem();
-    QListWidgetItem *MDselectedItem = ui->list_model->currentItem();
-    QString ModelPath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(MDselectedItem->text()).arg(".ini");
-    if(PTselectedItem){
-        FP.removePattern(PTselectedItem->text(),ModelPath);
-        delete ui->list_Pattern->takeItem(ui->list_Pattern->row(PTselectedItem));
+    if(ui->list_Pattern->count() == 0){
+        qDebug()<<"what the hellllll";
+    }else{
+        QListWidgetItem *PTselectedItem = ui->list_Pattern->currentItem();
+        QListWidgetItem *MDselectedItem = ui->list_model->currentItem();
+        QString ModelPath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(MDselectedItem->text()).arg(".ini");
+        if(PTselectedItem){
+            FP.removePattern(PTselectedItem->text(),ModelPath);
+            delete ui->list_Pattern->takeItem(ui->list_Pattern->row(PTselectedItem));
+        }
     }
 }
 
@@ -910,33 +920,39 @@ void Widget::on_puB_add_p_clicked()
 
 void Widget::on_puB_save_p_clicked()
 {
-    QListWidgetItem *selectedItem = ui->list_model->currentItem();
-    QString currentModel = selectedItem->text();
-    QString tmp;
-    bool NewPT = false;
-    for(model_name &model : modelList) {
-        if(model.recipe_name == currentModel){
-            int oldPTnum = model.pattern_names.size();
-            model.pattern_names.clear();
-            for(int i=0; i<ui->list_Pattern->count();i++){
-                model.pattern_names.append(ui->list_Pattern->item(i)->text());
-                tmp = ui->list_Pattern->item(i)->text();
+    if(ui->list_Pattern->count()==0){
+        qDebug()<<"What the hell";
+    }else{
+        QListWidgetItem *selectedItem = ui->list_model->currentItem();
+        QString currentModel = selectedItem->text();
+        QString tmp;
+        bool NewPT = false;
+        for(model_name &model : modelList) {
+            if(model.recipe_name == currentModel){
+                int oldPTnum = model.pattern_names.size();
+                model.pattern_names.clear();
+                for(int i=0; i<ui->list_Pattern->count();i++){
+                    model.pattern_names.append(ui->list_Pattern->item(i)->text());
+                    tmp = ui->list_Pattern->item(i)->text();
+                }
+                int newPTnum = model.pattern_names.size();
+                if(newPTnum>oldPTnum){
+                    NewPT = true;
+                }
             }
-            int newPTnum = model.pattern_names.size();
-            if(newPTnum>oldPTnum){
-                NewPT = true;
-            }
+        }
+
+        QStringList tmpStringList;
+        tmpStringList.append(tmp);
+        QString tmpModePath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(currentModel).arg(".ini");
+        FP.INI(tmpStringList, tmpModePath, currentModel);
+        updatecombopattern();
+        if(NewPT == true){
+            FP.show();
         }
     }
 
-    QStringList tmpStringList;
-    tmpStringList.append(tmp);
-    QString tmpModePath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Recipe/").arg(currentModel).arg(".ini");
-    FP.INI(tmpStringList, tmpModePath, currentModel);
-    updatecombopattern();
-    if(NewPT == true){
-        FP.show();
-    }
+
 }
 
 void Widget::updatetextlog(QString type, QString message)
@@ -1242,5 +1258,12 @@ void Widget::on_puB_setCur_m_clicked()
             item->setForeground(Qt::black);
         }
     }
-
 }
+
+void Widget::on_table_defectlist_cellClicked(int row, int column)
+{
+    QPixmap pic2;
+    pic2.load(picfoldpath + QString::number(num) + "_"+QString::number(row+1)+".bmp");
+    ui->lbl_pic2->setPixmap(pic2);
+}
+

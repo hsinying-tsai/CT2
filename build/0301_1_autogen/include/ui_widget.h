@@ -624,8 +624,8 @@ public:
         lbl_pic2->setFrameShadow(QFrame::Plain);
         lbl_pic2->setScaledContents(true);
         table_defectlist = new QTableWidget(tab_2);
-        if (table_defectlist->columnCount() < 5)
-            table_defectlist->setColumnCount(5);
+        if (table_defectlist->columnCount() < 6)
+            table_defectlist->setColumnCount(6);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
         table_defectlist->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
@@ -636,26 +636,11 @@ public:
         table_defectlist->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
         table_defectlist->setHorizontalHeaderItem(4, __qtablewidgetitem4);
-        if (table_defectlist->rowCount() < 8)
-            table_defectlist->setRowCount(8);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(0, __qtablewidgetitem5);
-        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(1, __qtablewidgetitem6);
-        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(2, __qtablewidgetitem7);
-        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(3, __qtablewidgetitem8);
-        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(4, __qtablewidgetitem9);
-        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(5, __qtablewidgetitem10);
-        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(6, __qtablewidgetitem11);
-        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
-        table_defectlist->setVerticalHeaderItem(7, __qtablewidgetitem12);
+        table_defectlist->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         table_defectlist->setObjectName(QString::fromUtf8("table_defectlist"));
         table_defectlist->setGeometry(QRect(40, 500, 1181, 201));
+        table_defectlist->setEditTriggers(QAbstractItemView::NoEditTriggers);
         splitter = new QSplitter(tab_2);
         splitter->setObjectName(QString::fromUtf8("splitter"));
         splitter->setGeometry(QRect(50, 50, 581, 41));
@@ -675,7 +660,7 @@ public:
 
         retranslateUi(Widget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
         tabWidget_2->setCurrentIndex(2);
 
 
@@ -788,31 +773,17 @@ public:
         lbl_pattern_3->setText(QApplication::translate("Widget", "Type :", nullptr));
         lbl_pic2->setText(QString());
         QTableWidgetItem *___qtablewidgetitem = table_defectlist->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QApplication::translate("Widget", "number", nullptr));
+        ___qtablewidgetitem->setText(QApplication::translate("Widget", "index", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = table_defectlist->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QApplication::translate("Widget", "Pattern", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = table_defectlist->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QApplication::translate("Widget", "Coordinate", nullptr));
+        ___qtablewidgetitem2->setText(QApplication::translate("Widget", "Blob X", nullptr));
         QTableWidgetItem *___qtablewidgetitem3 = table_defectlist->horizontalHeaderItem(3);
-        ___qtablewidgetitem3->setText(QApplication::translate("Widget", "Type", nullptr));
+        ___qtablewidgetitem3->setText(QApplication::translate("Widget", "Blob Y", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = table_defectlist->horizontalHeaderItem(4);
-        ___qtablewidgetitem4->setText(QApplication::translate("Widget", "Mean", nullptr));
-        QTableWidgetItem *___qtablewidgetitem5 = table_defectlist->verticalHeaderItem(0);
-        ___qtablewidgetitem5->setText(QApplication::translate("Widget", "defect1", nullptr));
-        QTableWidgetItem *___qtablewidgetitem6 = table_defectlist->verticalHeaderItem(1);
-        ___qtablewidgetitem6->setText(QApplication::translate("Widget", "defect2", nullptr));
-        QTableWidgetItem *___qtablewidgetitem7 = table_defectlist->verticalHeaderItem(2);
-        ___qtablewidgetitem7->setText(QApplication::translate("Widget", "defect3", nullptr));
-        QTableWidgetItem *___qtablewidgetitem8 = table_defectlist->verticalHeaderItem(3);
-        ___qtablewidgetitem8->setText(QApplication::translate("Widget", "defect4", nullptr));
-        QTableWidgetItem *___qtablewidgetitem9 = table_defectlist->verticalHeaderItem(4);
-        ___qtablewidgetitem9->setText(QApplication::translate("Widget", "defect5", nullptr));
-        QTableWidgetItem *___qtablewidgetitem10 = table_defectlist->verticalHeaderItem(5);
-        ___qtablewidgetitem10->setText(QApplication::translate("Widget", "defect6", nullptr));
-        QTableWidgetItem *___qtablewidgetitem11 = table_defectlist->verticalHeaderItem(6);
-        ___qtablewidgetitem11->setText(QApplication::translate("Widget", "defect7", nullptr));
-        QTableWidgetItem *___qtablewidgetitem12 = table_defectlist->verticalHeaderItem(7);
-        ___qtablewidgetitem12->setText(QApplication::translate("Widget", "defect8", nullptr));
+        ___qtablewidgetitem4->setText(QApplication::translate("Widget", "DefectType", nullptr));
+        QTableWidgetItem *___qtablewidgetitem5 = table_defectlist->horizontalHeaderItem(5);
+        ___qtablewidgetitem5->setText(QApplication::translate("Widget", "Mean", nullptr));
         lbl_pattern_2->setText(QApplication::translate("Widget", "\347\224\242\345\223\201\345\220\215\347\250\261 \357\274\232", nullptr));
         lbl_pattern->setText(QApplication::translate("Widget", "Pattern :", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("Widget", "defect viewer", nullptr));

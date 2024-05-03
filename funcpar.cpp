@@ -88,7 +88,7 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.setValue("dpAreaMin_2", 0);
         settings.setValue("dpAreaMin", 0);
         settings.setValue("byPassX", 0);
-        settings.setValue("byPassX_2", 0);
+        settings.setValue("byPassY", 0);
         settings.setValue("overnum", 0);
         settings.setValue("ifArea", 0);
         settings.setValue("BPBlob", 0);
@@ -102,41 +102,20 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
 }
 void FuncPar::reviseModelINI(QString section, QString key ,QString Value)
 {
-    qDebug()<<"recipeFilePath"<<recipeFilePath;
+//    qDebug()<<"recipeFilePath"<<recipeFilePath;
     QSettings settings(recipeFilePath, QSettings::IniFormat);
     int currentValue = settings.value(section + "/" + key).toInt();
-    qDebug()<<"Current:"<< currentValue;
+//    qDebug()<<"Current:"<< currentValue;
     settings.setValue(section+"/"+key,Value);
     settings.sync();
-    qDebug()<<"//"<<section<<"//"<<key<<"//"<<Value;
-}
-
-void FuncPar::onRadioButtonClicked(bool checked)
-{
-    qDebug()<<checked;
-    // 获取发出信号的 radioButton
-    QRadioButton *radioButton = qobject_cast<QRadioButton*>(sender());
-
-    // 如果没有发出信号的 radioButton，退出
-    if (!radioButton) return;
-
-    // 获取与 radioButton 对应的 spinBox 的对象名
-    QString spinBoxObjectName = radioButton->objectName().replace("radioB_", "spinBox_");
-
-    // 查找与 radioButton 对应的 spinBox
-    QSpinBox *spinBox = findChild<QSpinBox*>(spinBoxObjectName);
-    if (!spinBox) return; // 如果找不到对应的 spinBox，退出
-
-    // 根据 radioButton 的状态设置 spinBox 的 enabled 属性
-    spinBox->setEnabled(checked);
-
+//    qDebug()<<"//"<<section<<"//"<<key<<"//"<<Value;
 }
 
 void FuncPar::receiveFileinfo(QString modelName, QString modelPath ,bool isNew,QStringList patternName)
 {
-    qDebug()<<"patternName"<<patternName;
-    qDebug()<<"modelName"<<modelName;
-    qDebug()<<"modelPath"<<modelPath;
+//    qDebug()<<"patternName"<<patternName;
+//    qDebug()<<"modelName"<<modelName;
+//    qDebug()<<"modelPath"<<modelPath;
     if(isNew == true){
         patternName = defalutPattern;
         INI(patternName,modelPath,modelName);
@@ -196,62 +175,94 @@ void FuncPar::on_puB_save_clicked()
                 name.remove("spinBox_");
                 spinBoxNames.append(name);
                 if(spinBox->text()==""){
-                    qDebug()<<"empty";
-                    tmp_text = spinBox->text() = "0";
+                    tmp_text = "0";
                 }else{
                     tmp_text = spinBox->text();
                 }
-                qDebug()<<"--"<<spinBox->text();
-                qDebug()<<"---"<<selectedOption<<name<<tmp_text;
+//                qDebug()<<selectedOption<<name<<tmp_text;
                 reviseModelINI(selectedOption, name , tmp_text);
             } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
-//                qDebug() << "RadioButton Name: " << radioButton->objectName();
+                if(radioButton->objectName().contains("check")){
+                    bool isChecked = radioButton->isChecked();
+                    QString name = radioButton->objectName();
+                    name.remove("radioB_");
+                    if(isChecked == true){
+                        reviseModelINI(selectedOption,  name, "true");
+                    }else{
+                        reviseModelINI(selectedOption,  name, "false");
+                    }
+//                    qDebug() << "RadioButton Name: " << name <<QString(isChecked);
+                }
+
             } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {
 //                qDebug() << "CheckBox Name: " << checkBox->objectName();
             }
         }
     }
-
-
-    pattern_name newPattern;
-    newPattern.name = selectedOption;
-    newPattern.BPoint.threshlodHigh = ui->spinBox_threshlodHigh->text().toInt();
-    newPattern.BP = ui->radioB_BP;
-    newPattern.DP = ui->radioB_DP;
-    QButtonGroup buttonGroup(this);
-    QList<QRadioButton *> radioButtons = ui->groupBox->findChildren<QRadioButton *>();
-    foreach (QRadioButton *radioButton, radioButtons) {
-        buttonGroup.addButton(radioButton);
-    }
-    // 建立一個 QMap 來存儲單選按鈕的狀態（true 或 false）
-     QMap<QString, bool> radioButtonStates;
-
-     // 遍歷每個單選按鈕，檢查它們的狀態並存儲到 QMap 中
-     foreach(QAbstractButton *button, buttonGroup.buttons()) {
-         radioButtonStates.insert(button->objectName(), button->isChecked());
-     }
-
-     // 輸出 QMap 中存儲的單選按鈕狀態
-     QMapIterator<QString, bool> iter(radioButtonStates);
-     while (iter.hasNext()) {
-         iter.next();
-//         qDebug() << iter.key() << ": " << iter.value();
-     }
-
 }
 
-void FuncPar::on_comboBox_pattern_activated()
+void FuncPar::on_comboBox_pattern_activated(const QString &patternName)
 {
+
     foreach(QWidget *widget, ui->tabWidget->findChildren<QWidget *>()) {
         widget->setEnabled(true);
     }
     foreach(QSpinBox *spinbox, ui->tabWidget->findChildren<QSpinBox *>()) {
         spinbox->setEnabled(false);
     }
+    QSettings openrecipe(recipeFilePath, QSettings::IniFormat);
+    QStringList groups = openrecipe.childGroups();
+    for(const QString &group :groups){
+        if(group.toLower() == patternName.toLower()){
+            openrecipe.beginGroup(group);
+            QStringList keys = openrecipe.allKeys();
+            for (QString &key : keys) {
+                QString value = openrecipe.value(key).toString();
+                 if(value == "true" || value == "false"){
+                    QString controlName = QString("%1%2").arg("radioB_").arg(key);
+                    QRadioButton *radio = findChild<QRadioButton*>(controlName);
+                    if (radio) {
+                        if(value == "true"){
+                            radio->setChecked(true);;
+                        }else{
+                            radio->setChecked(false);
+                        }
+                    }
+                }else{
+                    QString controlName = QString("%1%2").arg("spinBox_").arg(key);
+                    // Assuming QSpinBox for demonstration, you can replace with appropriate UI control
+                    QSpinBox *spinBox = findChild<QSpinBox*>(controlName);
+                    if (spinBox) {
+                        spinBox->setValue(value.toInt());
+                    }
+                }
+            }
+        }
+    }
 }
+void FuncPar::onRadioButtonClicked(bool checked)
+{
+    qDebug()<<"onRadioButtonClicked";
+    // 获取发出信号的 radioButton
+    QRadioButton *radioButton = qobject_cast<QRadioButton*>(sender());
 
+    // 获取与 radioButton 对应的 spinBox 的对象名
+    QString spinBoxObjectName = radioButton->objectName().replace("radioB_", "spinBox_");
+   // 查找与 radioButton 对应的 spinBox
+    QSpinBox *spinBox = findChild<QSpinBox*>(spinBoxObjectName);
+    if(spinBox){
+        spinBox->setEnabled(checked);
+    }
+}
 
 void FuncPar::on_horizontalSlider_exposureTime_valueChanged(int value)
 {
     ui->spinBox_exposureTime->setValue(value);
+}
+
+
+
+void FuncPar::on_puB_load_clicked()
+{
+
 }
