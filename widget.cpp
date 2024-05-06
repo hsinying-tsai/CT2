@@ -92,7 +92,8 @@ Widget::Widget(QWidget *parent)
 //    factor_Y = COORDINATE_PTsY/324;
     factor_X = 1;
     factor_Y = 1;
-    DC.defNode();
+
+
     clientThread.start();
 
     cameraInit();
@@ -171,13 +172,18 @@ void Widget::INI_UI()
     ui->CAM3_exposure_Edit_3->setText(QString::number(CAM3_exposureTime));
     ui->list_Pattern->setSpacing(5);
     readmodelList(true);
-    for(int i=0; i<DC.vector_PG_flaw.size()/2; i++) {
+    //之後要刪掉
+    QVector<QPoint> vector_PG_flaw = {QPoint(-5, 3), QPoint(-106, -33), QPoint(-124, -14)};
+    DC.defNode(vector_PG_flaw);
+    qDebug()<<DC.vector_PG_flaw;
+    for(int i=0; i<DC.vector_PG_flaw.size(); i++) {
+
         qDebug()<<"Pattern num:"<<num;
         ui->table_defectlist->insertRow(i);
         QTableWidgetItem *item = new QTableWidgetItem(QString::number(num));
         QTableWidgetItem *item_PTname = new QTableWidgetItem(QString(show_pattern_name.at(num-1)));
-        QTableWidgetItem *itemX = new QTableWidgetItem(QString::number(DC.vector_PG_flaw.at(i*2)));
-        QTableWidgetItem *itemY = new QTableWidgetItem(QString::number(DC.vector_PG_flaw.at(i*2+1)));
+        QTableWidgetItem *itemX = new QTableWidgetItem(QString::number(DC.vector_PG_flaw[i].x()));
+        QTableWidgetItem *itemY = new QTableWidgetItem(QString::number(DC.vector_PG_flaw[i].y()));
         ui->table_defectlist->setItem(i, 0, item);
         ui->table_defectlist->setItem(i, 1, item_PTname);
         ui->table_defectlist->setItem(i, 2, itemX);
@@ -1264,6 +1270,11 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
 {
     QPixmap pic2;
     pic2.load(picfoldpath + QString::number(num) + "_"+QString::number(row+1)+".bmp");
+    QString DF_X = ui->table_defectlist->item(row, 2)->text();
+    QString DF_Y = ui->table_defectlist->item(row, 3)->text();
+    ui->lbl_DFcoodinate->setText("Coordinate: ("+DF_X+","+DF_Y+")");
+
     ui->lbl_pic2->setPixmap(pic2);
+//    ui->lbl_DFcoodinate.setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 

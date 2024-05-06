@@ -59,7 +59,7 @@
         <string notr="true"/>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab_10">
         <attribute name="title">
@@ -225,7 +225,7 @@
         <widget class="QLabel" name="lbl_DM204">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>50</x>
            <y>170</y>
            <width>121</width>
            <height>41</height>
@@ -243,7 +243,7 @@
         <widget class="QLabel" name="lbl_DM206">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>50</x>
            <y>240</y>
            <width>121</width>
            <height>41</height>
@@ -261,7 +261,7 @@
         <widget class="QLabel" name="lbl_R200">
          <property name="geometry">
           <rect>
-           <x>37</x>
+           <x>70</x>
            <y>310</y>
            <width>121</width>
            <height>41</height>
@@ -279,9 +279,9 @@
         <widget class="QLineEdit" name="R206_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>240</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -297,9 +297,9 @@
         <widget class="QLineEdit" name="DM202_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>100</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -315,9 +315,9 @@
         <widget class="QLineEdit" name="DM200_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>30</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -333,7 +333,7 @@
         <widget class="QLabel" name="lbl_R206">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>240</y>
            <width>121</width>
            <height>41</height>
@@ -351,9 +351,9 @@
         <widget class="QLineEdit" name="R202_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>450</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -369,7 +369,7 @@
         <widget class="QLabel" name="lbl_R203">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>30</y>
            <width>121</width>
            <height>41</height>
@@ -387,8 +387,8 @@
         <widget class="QPushButton" name="puB_read">
          <property name="geometry">
           <rect>
-           <x>70</x>
-           <y>550</y>
+           <x>110</x>
+           <y>580</y>
            <width>121</width>
            <height>41</height>
           </rect>
@@ -405,7 +405,7 @@
         <widget class="QLabel" name="lbl_R204">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>100</y>
            <width>121</width>
            <height>41</height>
@@ -423,9 +423,9 @@
         <widget class="QLineEdit" name="R203_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>30</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -441,9 +441,9 @@
         <widget class="QLineEdit" name="R207_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>310</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -459,9 +459,9 @@
         <widget class="QLineEdit" name="R201_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>380</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -477,7 +477,7 @@
         <widget class="QLabel" name="lbl_DM200">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>50</x>
            <y>30</y>
            <width>121</width>
            <height>41</height>
@@ -496,9 +496,9 @@
         <widget class="QLineEdit" name="R200_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>310</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -514,9 +514,9 @@
         <widget class="QLineEdit" name="R204_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>100</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -532,7 +532,7 @@
         <widget class="QLabel" name="lbl_R205">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>170</y>
            <width>121</width>
            <height>41</height>
@@ -553,8 +553,8 @@
          </property>
          <property name="geometry">
           <rect>
-           <x>230</x>
-           <y>550</y>
+           <x>300</x>
+           <y>580</y>
            <width>121</width>
            <height>41</height>
           </rect>
@@ -571,7 +571,7 @@
         <widget class="QLabel" name="lbl_DM202">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>50</x>
            <y>100</y>
            <width>121</width>
            <height>41</height>
@@ -589,9 +589,9 @@
         <widget class="QLineEdit" name="DM206_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>240</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -607,7 +607,7 @@
         <widget class="QLabel" name="lbl_R202">
          <property name="geometry">
           <rect>
-           <x>37</x>
+           <x>70</x>
            <y>450</y>
            <width>121</width>
            <height>41</height>
@@ -625,7 +625,7 @@
         <widget class="QLabel" name="lbl_R201">
          <property name="geometry">
           <rect>
-           <x>37</x>
+           <x>70</x>
            <y>380</y>
            <width>121</width>
            <height>41</height>
@@ -643,9 +643,9 @@
         <widget class="QLineEdit" name="DM204_Edit">
          <property name="geometry">
           <rect>
-           <x>100</x>
+           <x>130</x>
            <y>170</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -661,9 +661,9 @@
         <widget class="QLineEdit" name="R205_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>170</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -679,7 +679,7 @@
         <widget class="QLabel" name="lbl_R207">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>310</y>
            <width>121</width>
            <height>41</height>
@@ -697,7 +697,7 @@
         <widget class="QLabel" name="lbl_R212">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>380</y>
            <width>121</width>
            <height>41</height>
@@ -715,9 +715,9 @@
         <widget class="QLineEdit" name="R212_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>380</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -733,7 +733,7 @@
         <widget class="QLabel" name="lbl_R214">
          <property name="geometry">
           <rect>
-           <x>230</x>
+           <x>310</x>
            <y>450</y>
            <width>121</width>
            <height>41</height>
@@ -751,9 +751,9 @@
         <widget class="QLineEdit" name="R214_Edit">
          <property name="geometry">
           <rect>
-           <x>293</x>
+           <x>370</x>
            <y>450</y>
-           <width>80</width>
+           <width>100</width>
            <height>41</height>
           </rect>
          </property>
@@ -1795,7 +1795,7 @@ background-color: red;</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QLabel" name="lbl_pattern_4">
+          <widget class="QLabel" name="lbl_DFcoodinate">
            <property name="font">
             <font>
              <pointsize>14</pointsize>
@@ -1807,14 +1807,14 @@ background-color: red;</string>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="lbl_pattern_3">
+          <widget class="QLabel" name="lbl_DFtype">
            <property name="font">
             <font>
              <pointsize>14</pointsize>
             </font>
            </property>
            <property name="text">
-            <string>Type :</string>
+            <string>Defect Type :</string>
            </property>
           </widget>
          </item>
