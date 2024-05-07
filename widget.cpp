@@ -110,53 +110,10 @@ void Widget::INI_UI()
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
-    configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
-    // 检查config.ini配置文件是否存在
-    QFile configFile(configFilePath);
-    if (!configFile.exists()) {
-        QSettings settings(configFilePath, QSettings::IniFormat);
-        settings.beginGroup("CAM1");
-        settings.setValue("exposureTime", 1);
-        settings.setValue("parmeter2", 1);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
-
-        settings.beginGroup("CAM2");
-        settings.setValue("exposureTime", 2);
-        settings.setValue("parmeter2", 0);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
-
-        settings.beginGroup("CAM3");
-        settings.setValue("exposureTime", 3);
-        settings.setValue("parmeter2", 0);
-        settings.setValue("parmeter3", 0);
-        settings.setValue("parmeter4", 0);
-        settings.setValue("parmeter5", 0);
-        settings.endGroup();
-
-        settings.beginGroup("COORDINATE");
-        settings.setValue("PT_sizeX", 1152);
-        settings.setValue("PT_sizeY", 648);
-        settings.endGroup();
-
-        settings.beginGroup("PICTURE");
-        settings.setValue("pic_fold_path", "Pictures/");
-        settings.endGroup();
-        qDebug() << "配置文件已创建： " << configFilePath;
-    } else {
-        qDebug() << "配置文件已存在： " << configFilePath;
-    }
 
     pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-//    pix_Ini.load("Pictures/" + QString::number(num) + ".bmp");
     ui->lbl_pic->setImage(pix_Ini);
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
-
     ui->table_defectlist->verticalHeader()->setDefaultSectionSize(30);
     ui->table_defectlist->horizontalHeader()->setDefaultSectionSize(100);
     ui->textRecv->setEnabled(false);
@@ -1022,7 +979,7 @@ void Widget::prettiertextlog()
 // Show a warning dialog.
 void Widget::ShowWarning( QString warningText )
 {
-    QMessageBox::warning( this, "GUI Sample", warningText, QMessageBox::Ok );
+    QMessageBox::warning( this, "WARNING", warningText, QMessageBox::Ok );
 }
 
 void Widget::on_puB_bigGrab_clicked()
@@ -1113,9 +1070,15 @@ void Widget::on_radioButton_pattern_clicked(bool checked)
     }
 }
 
-void Widget::on_puB_load_clicked()
+void Widget::on_puB_add_m_clicked()
 {
-    QString inputModel = ui->modelEdit->text();
+    bool ok;
+    QString newItemText = QInputDialog::getText(this,"Add Model",
+                                                "Enter new model:",
+                                                QLineEdit::Normal,
+                                                QString(),&ok);
+
+    QString inputModel = newItemText;
     QString modelPath = QCoreApplication::applicationDirPath() + "/Recipe/" + inputModel + ".ini";
     QStringList createNewPattern;
     // 檢查配置文件是否存在
@@ -1126,7 +1089,6 @@ void Widget::on_puB_load_clicked()
         if (reply == QMessageBox::Yes) {
             if (modelFile.open(QIODevice::WriteOnly)) {
                 modelFile.close();
-//                QSettings settings(modelPath, QSettings::IniFormat);
                 qDebug() << "新模型的.ini檔已创建： " << modelPath;
                 FP.receiveFileinfo(inputModel,modelPath,true,createNewPattern);
                 QMessageBox::information(this, "提示", "新的model已新增至recipe，請先建立新的pattern list，再進行連線");
@@ -1139,14 +1101,11 @@ void Widget::on_puB_load_clicked()
             ui->lbl_state->setText("取消創建新model:"+inputModel);
             qDebug() << "取消創建配置文件。";
         }
-    } else {       
+    } else {
+        ShowWarning("Model:"+inputModel+" 已存在");
         qDebug() << "配置文件已存在： " << modelPath;
         FP.receiveFileinfo(inputModel,modelPath,false,createNewPattern);
-    }
-
-
-}
-
+    }}
 void Widget::on_puB_remove_m_clicked()
 {
     QListWidgetItem *selectedItem = ui->list_model->currentItem();
@@ -1177,61 +1136,72 @@ void Widget::on_puB_remove_m_clicked()
         ui->lbl_state->setText("取消刪除model:"+selectedItem->text());
         qDebug() << "取消刪除model:"<<selectedItem->text();
     }
-
-
-}
-
-void Widget::on_puB_add_m_clicked()
-{
-    bool ok;
-    QString newItemText = QInputDialog::getText(this,"Add Model",
-                                                "Enter new model:",
-                                                QLineEdit::Normal,
-                                                QString(),&ok);
-    if(ok && !newItemText.isEmpty()){
-        ui->list_model->addItem(newItemText);
+    QString CurModel = ui->lbl_CurModel->text();
+    if(selectedItem->text() == CurModel){
+        qDebug()<<"!2";
+        ui->lbl_CurModel->setText("(null)");
     }
+
 }
+
+
 
 void Widget::readmodelList(bool isFirst)
 {
-    // 檢查當前目錄是否存在 "recipe" 資料夾
-    QDir recipeDir("Recipe");
-    if(!recipeDir.exists()){
-        qDebug()<<"創建新的Recipe資料夾";
-        recipeDir.mkpath(".");
+    QDir modelDir("Model");
+    if(!modelDir.exists()){
+        modelDir.mkpath(".");
+        qDebug()<<"已創建Model資料夾";
     }else{
-        qDebug()<<"Recipe資料夾已存在";
-    }
+        qDebug()<<"已存在Model資料夾";
+        // 獲取目錄中的所有檔案
+        QStringList FilesinModelfolders = modelDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+        if(FilesinModelfolders.isEmpty()){
+            qDebug()<<"Model資料夾中沒有資料夾";
 
-    // 設定要讀取的目錄
-    recipeDir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+        }else{
+            qDebug()<<"Model資料夾中有資料夾";
 
-    // 獲取目錄中的所有檔案
-    QStringList recipefileList = recipeDir.entryList();
+//            QDateTime curTime = QDateTime::currentDateTime();
+//            cTimeString = curTime.toString("hhmmss");
+            qDebug()<<"現有的Model Name";
+            foreach(QString modelnamefolder,FilesinModelfolders){
+                qDebug()<<modelnamefolder;
+                QDir ModelName("Model/"+modelnamefolder);
 
-    // 逐一讀取每個檔案
-    foreach (QString recipefileName, recipefileList) {
-        QString recipefilePath = recipeDir.absoluteFilePath(recipefileName);
-        if (recipefileName.endsWith(".ini")) {
-            QSettings settings(recipefilePath, QSettings::IniFormat);
-            QStringList groups = settings.childGroups();
-            model_name newModel;
-            QString recipeName = recipefileName;
-            recipeName.remove(".ini");
-            newModel.recipe_name = recipeName;
-            // 逐一讀取每個組的內容
-            foreach (QString group, groups) {
-                QStringList patternName = group.split(" ");
-                newModel.pattern_names.append(patternName);
+                // 設定要讀取的目錄
+                ModelName.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+                QStringList FilesinModelNamefolders = ModelName.entryList(QDir::Files | QDir::NoDotAndDotDot);
+                if(FilesinModelNamefolders.isEmpty()){
+                    qDebug()<<modelnamefolder<<"is empty";
+                }
+                // 逐一讀取每個檔案
+                foreach (QString file, FilesinModelNamefolders) {
+                    qDebug()<<file;
+                    if (file.endsWith(".ini")) {
+                        QString filePath = QCoreApplication::applicationDirPath() + "/Model/"+modelnamefolder+"/"+file;
+                        QSettings settings(filePath, QSettings::IniFormat);
+                        QStringList groups = settings.childGroups();
+                        model_name newModel;
+                        QString recipeName = file;
+                        recipeName.remove(".ini");
+                        newModel.recipe_name = recipeName;
+                        // 逐一讀取每個組的內容
+                        foreach (QString group, groups) {
+                            QStringList patternName = group.split(" ");
+                            newModel.pattern_names.append(patternName);
+                        }
+                        modelList.append(newModel);
+                    }
+                }
             }
-            modelList.append(newModel);
         }
     }
     if(isFirst == true){
         // 輸出Model List結構列表
         foreach (const model_name &model, modelList) {
             ui->list_model->addItem(model.recipe_name);
+
         }
     }
 }
@@ -1252,6 +1222,7 @@ void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
 
 void Widget::on_puB_setCur_m_clicked()
 {
+
     QListWidgetItem *selectedItem = ui->list_model->currentItem();
     if (selectedItem) {
         selectedItem->setForeground(Qt::blue);
@@ -1264,6 +1235,7 @@ void Widget::on_puB_setCur_m_clicked()
             item->setForeground(Qt::black);
         }
     }
+    ui->lbl_CurModel->setText(selectedItem->text());
 }
 
 void Widget::on_table_defectlist_cellClicked(int row, int column)
@@ -1272,9 +1244,52 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
     pic2.load(picfoldpath + QString::number(num) + "_"+QString::number(row+1)+".bmp");
     QString DF_X = ui->table_defectlist->item(row, 2)->text();
     QString DF_Y = ui->table_defectlist->item(row, 3)->text();
-    ui->lbl_DFcoodinate->setText("Coordinate: ("+DF_X+","+DF_Y+")");
+    ui->lbl_DFcoodinate->setText("X = "+DF_X+", Y = "+DF_Y);
 
     ui->lbl_pic2->setPixmap(pic2);
-//    ui->lbl_DFcoodinate.setSelectionBehavior(QAbstractItemView::SelectRows);
+}
+void Widget::createConfig(QString Model,bool isNew)
+{
+    configFilePath = QCoreApplication::applicationDirPath() + "/config.ini";
+    // 检查config.ini配置文件是否存在
+    QFile configFile(configFilePath);
+    if (!configFile.exists()) {
+        QSettings settings(configFilePath, QSettings::IniFormat);
+        settings.beginGroup("CAM1");
+        settings.setValue("exposureTime", 1);
+        settings.setValue("parmeter2", 1);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM2");
+        settings.setValue("exposureTime", 2);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("CAM3");
+        settings.setValue("exposureTime", 3);
+        settings.setValue("parmeter2", 0);
+        settings.setValue("parmeter3", 0);
+        settings.setValue("parmeter4", 0);
+        settings.setValue("parmeter5", 0);
+        settings.endGroup();
+
+        settings.beginGroup("COORDINATE");
+        settings.setValue("PT_sizeX", 1152);
+        settings.setValue("PT_sizeY", 648);
+        settings.endGroup();
+
+        settings.beginGroup("PICTURE");
+        settings.setValue("pic_fold_path", "Pictures/");
+        settings.endGroup();
+        qDebug() << "配置文件已创建： " << configFilePath;
+    } else {
+        qDebug() << "配置文件已存在： " << configFilePath;
+    }
 }
 

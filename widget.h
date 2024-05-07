@@ -88,6 +88,7 @@ public:
       QStringList pattern_names;
     };
     QList<model_name> modelList;
+    QString cTimeString;
     ~Widget();
 
     //camera
@@ -132,6 +133,7 @@ private slots:
     void displayLastLog();
     void updatecombopattern();
     void on_puB_gui_clicked();
+    void createConfig(QString Model, bool isNew);
 
 
 
@@ -139,8 +141,6 @@ private slots:
 
 
     void on_radioButton_pattern_clicked(bool checked);
-
-    void on_puB_load_clicked();
 
     void on_puB_remove_m_clicked();
 
