@@ -30,15 +30,25 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
     ui->comboBox_pattern->addItem(item->text());
 }
 
-void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString ModelName)
+void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString ModelName,bool isNew)
 {
+    if(isNew == true){
+        patternName = defalutPattern;
+    }
     recipeFilePath = recipetFilePath;
     QSettings settings(recipetFilePath, QSettings::IniFormat);
     ui->lbl_ModelName->setText(ModelName);
+    settings.beginGroup("CAM1");
+    settings.setValue("exposureTime", 1);
+    settings.endGroup();
+
+    settings.beginGroup("COORDINATE");
+    settings.setValue("PT_sizeX", 1152);
+    settings.setValue("PT_sizeY", 648);
+    settings.endGroup();
     foreach(const QString &name, patternName) {
-//        qDebug()<<name;
         ui->comboBox_pattern->addItem(name);
-        settings.beginGroup(name);
+        settings.beginGroup(name);     
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", false);
         settings.setValue("checkDPBP", false);
@@ -98,29 +108,18 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.setValue("maxvalue", 0);
         settings.setValue("minvalue", 0);
         settings.endGroup();
+
     }
 }
 void FuncPar::reviseModelINI(QString section, QString key ,QString Value)
 {
-//    qDebug()<<"recipeFilePath"<<recipeFilePath;
     QSettings settings(recipeFilePath, QSettings::IniFormat);
     int currentValue = settings.value(section + "/" + key).toInt();
-//    qDebug()<<"Current:"<< currentValue;
     settings.setValue(section+"/"+key,Value);
     settings.sync();
-//    qDebug()<<"//"<<section<<"//"<<key<<"//"<<Value;
 }
 
-void FuncPar::receiveFileinfo(QString modelName, QString modelPath ,bool isNew,QStringList patternName)
-{
-//    qDebug()<<"patternName"<<patternName;
-//    qDebug()<<"modelName"<<modelName;
-//    qDebug()<<"modelPath"<<modelPath;
-    if(isNew == true){
-        patternName = defalutPattern;
-        INI(patternName,modelPath,modelName);
-    }
-}
+
 
 void FuncPar::removePattern(QString patternName, QString ModelPath)
 {
@@ -128,7 +127,10 @@ void FuncPar::removePattern(QString patternName, QString ModelPath)
     if (!Modelfile.open(QIODevice::ReadWrite | QIODevice::Text)) {
         qDebug() << "Failed to open file for reading and writing.";
         return;
+    }else{
+        qDebug()<<"!2314";
     }
+    qDebug()<<"2453";
     QTextStream in(&Modelfile);
     QStringList lines;
     bool inSection = false;

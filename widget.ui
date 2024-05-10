@@ -52,7 +52,7 @@
          <x>780</x>
          <y>10</y>
          <width>529</width>
-         <height>721</height>
+         <height>711</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -142,11 +142,6 @@
          <item>
           <property name="text">
            <string>select logger</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>1</string>
           </property>
          </item>
         </widget>
@@ -880,7 +875,7 @@
           </property>
          </widget>
         </widget>
-        <widget class="QPushButton" name="pushButton_func">
+        <widget class="QPushButton" name="puB_func">
          <property name="geometry">
           <rect>
            <x>120</x>
@@ -1056,6 +1051,55 @@
           <string>model list：</string>
          </property>
         </widget>
+        <widget class="Line" name="line">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>300</y>
+           <width>361</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>335</y>
+           <width>81</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>model：</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lbl_modelPT">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>330</y>
+           <width>121</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="tab_4">
         <attribute name="title">
@@ -1092,106 +1136,6 @@
           </property>
          </widget>
          <widget class="QLabel" name="lbl_exposure_7">
-          <property name="geometry">
-           <rect>
-            <x>16</x>
-            <y>32</y>
-            <width>161</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-            <stylestrategy>PreferDefault</stylestrategy>
-           </font>
-          </property>
-          <property name="text">
-           <string>exposure time :</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_11">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>120</y>
-           <width>391</width>
-           <height>91</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>CAM2</string>
-         </property>
-         <widget class="QLineEdit" name="CAM2_exposure_Edit_3">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>37</y>
-            <width>131</width>
-            <height>35</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lbl_exposure_8">
-          <property name="geometry">
-           <rect>
-            <x>16</x>
-            <y>32</y>
-            <width>161</width>
-            <height>41</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-            <stylestrategy>PreferDefault</stylestrategy>
-           </font>
-          </property>
-          <property name="text">
-           <string>exposure time :</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_12">
-         <property name="geometry">
-          <rect>
-           <x>30</x>
-           <y>220</y>
-           <width>391</width>
-           <height>91</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>CAM3</string>
-         </property>
-         <widget class="QLineEdit" name="CAM3_exposure_Edit_3">
-          <property name="geometry">
-           <rect>
-            <x>160</x>
-            <y>37</y>
-            <width>131</width>
-            <height>35</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lbl_exposure_9">
           <property name="geometry">
            <rect>
             <x>16</x>
@@ -1285,43 +1229,6 @@
           <string>The height of pattern :</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="path_Edit">
-         <property name="geometry">
-          <rect>
-           <x>242</x>
-           <y>545</y>
-           <width>171</width>
-           <height>35</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-        <widget class="QLabel" name="lbl_PT_height_2">
-         <property name="geometry">
-          <rect>
-           <x>6</x>
-           <y>541</y>
-           <width>241</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <stylestrategy>PreferDefault</stylestrategy>
-          </font>
-         </property>
-         <property name="text">
-          <string>The path of picture folder :</string>
-         </property>
-        </widget>
         <widget class="QPushButton" name="puB_saveINI">
          <property name="geometry">
           <rect>
@@ -1340,32 +1247,6 @@
           <string>save</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="puB_bigGrab">
-         <property name="geometry">
-          <rect>
-           <x>70</x>
-           <y>340</y>
-           <width>131</width>
-           <height>81</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>BIG GRAB</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="puB_samllGrab">
-         <property name="geometry">
-          <rect>
-           <x>230</x>
-           <y>330</y>
-           <width>131</width>
-           <height>81</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>SMALL GRAB</string>
-         </property>
-        </widget>
        </widget>
       </widget>
       <widget class="QGroupBox" name="groupBox_6">
@@ -1374,7 +1255,7 @@
          <x>340</x>
          <y>10</y>
          <width>421</width>
-         <height>201</height>
+         <height>221</height>
         </rect>
        </property>
        <property name="title">
@@ -1655,24 +1536,11 @@ background-color: red;</string>
         <string/>
        </property>
       </widget>
-      <widget class="QPushButton" name="puB_gui">
-       <property name="geometry">
-        <rect>
-         <x>170</x>
-         <y>160</y>
-         <width>131</width>
-         <height>41</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>GUI</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_8">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>170</y>
+         <x>10</x>
+         <y>90</y>
          <width>181</width>
          <height>20</height>
         </rect>
@@ -1683,7 +1551,90 @@ background-color: red;</string>
         </font>
        </property>
        <property name="text">
-        <string>Camera Setting :</string>
+        <string/>
+       </property>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_8">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>311</width>
+         <height>141</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Camera Setting </string>
+       </property>
+       <widget class="QPushButton" name="puB_gui">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>GUI</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_samllGrab">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>80</y>
+          <width>131</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>SMALL GRAB</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_bigGrab">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>131</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>BIG GRAB</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="puB_cameraINI">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>40</y>
+          <width>111</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>INITIAL</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QLabel" name="label_10">
+       <property name="geometry">
+        <rect>
+         <x>1160</x>
+         <y>720</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </widget>
@@ -1777,8 +1728,8 @@ background-color: red;</string>
          <rect>
           <x>20</x>
           <y>40</y>
-          <width>389</width>
-          <height>291</height>
+          <width>440</width>
+          <height>330</height>
          </rect>
         </property>
         <property name="font">
@@ -1809,7 +1760,7 @@ background-color: red;</string>
         <property name="geometry">
          <rect>
           <x>130</x>
-          <y>350</y>
+          <y>370</y>
           <width>299</width>
           <height>52</height>
          </rect>
@@ -1827,7 +1778,7 @@ background-color: red;</string>
         <property name="geometry">
          <rect>
           <x>140</x>
-          <y>400</y>
+          <y>420</y>
           <width>299</width>
           <height>51</height>
          </rect>
@@ -1845,7 +1796,7 @@ background-color: red;</string>
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>350</y>
+          <y>370</y>
           <width>111</width>
           <height>52</height>
          </rect>
@@ -1863,7 +1814,7 @@ background-color: red;</string>
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>400</y>
+          <y>420</y>
           <width>121</width>
           <height>51</height>
          </rect>
@@ -1924,48 +1875,82 @@ background-color: red;</string>
         </property>
        </column>
       </widget>
-      <widget class="QSplitter" name="splitter">
+      <widget class="QComboBox" name="comboBox_model">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>130</x>
          <y>30</y>
-         <width>771</width>
+         <width>161</width>
          <height>41</height>
         </rect>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
        </property>
-       <widget class="QLabel" name="lbl_pattern_2">
-        <property name="font">
-         <font>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
+       <property name="currentText">
+        <string>select model</string>
+       </property>
+       <item>
         <property name="text">
-         <string>產品名稱 ：</string>
+         <string>select model</string>
         </property>
-       </widget>
-       <widget class="QLabel" name="lbl_pattern">
-        <property name="font">
-         <font>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Pattern :</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="lbl_Pos">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>X = 0 , Y = 0 </string>
-        </property>
-       </widget>
+       </item>
+      </widget>
+      <widget class="QLabel" name="lbl_pattern_2">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>40</y>
+         <width>100</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>產品名稱 ：</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_Pos">
+       <property name="geometry">
+        <rect>
+         <x>552</x>
+         <y>40</y>
+         <width>231</width>
+         <height>19</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>X = 0 , Y = 0 </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_pattern">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>40</y>
+         <width>211</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Pattern :</string>
+       </property>
       </widget>
      </widget>
     </widget>

@@ -42,14 +42,12 @@ void Logger::populateCombowithFileName(QComboBox *combobox, const QString direct
 {
 
     QDir directory(directoryPath);
-    QStringList fileName = directory.entryList(QStringList()<<"*.log", QDir::Files);
+    QStringList fileNames = directory.entryList(QStringList()<<"*.log", QDir::Files);
     combobox->clear();
-    foreach (const QString &fileName, fileName){
+    foreach (const QString &fileName, fileNames){
         QString name = fileName.split('.').first();
         combobox->addItem(name);
     }
-
-
 }
 
 void Logger::on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath)
@@ -72,10 +70,11 @@ void Logger::create_file()
     //check "LOG" exist
     QDir logDir("Log");
     if(!logDir.exists()){
-        qDebug()<<"|logger|創建新的Log資料夾";
         logDir.mkpath(".");
+        writeLog(Logger::Info, "|SYSTEM| New log folder create.");
+
     }else{
-        qDebug()<<"|logger|Log資料夾已存在";
+        writeLog(Logger::Info, "|SYSTEM| Log folder exist.");
     }
 
     timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
@@ -87,6 +86,6 @@ void Logger::create_file()
         qDebug()<<"|logger|Failed to create log file.";
         return;
     }
-    writeLog(Logger::Info, "New log file create.");
+    writeLog(Logger::Info, "|SYSTEM| New .log file create.");
 }
 

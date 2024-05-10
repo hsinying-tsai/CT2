@@ -33,9 +33,8 @@
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
-extern uint8_t CAM1_exposureTime,CAM2_exposureTime,CAM3_exposureTime;
+extern uint8_t CAM1_exposureTime;
 extern uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
-extern char picfoldpath[100];
 namespace Ui {
 class Widget;
 }
@@ -51,7 +50,7 @@ public:
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
             ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false
-            ;
+            , revisePatternList= true,addPattern = false;
     Logger logger;
     defineCoordinate DC;
     INI ini;
@@ -84,11 +83,15 @@ public:
     std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
     //find model name and pattern name
     struct model_name{
-      QString recipe_name;
+      QString modelName;
       QStringList pattern_names;
     };
     QList<model_name> modelList;
-    QString cTimeString;
+    QString cTimeString,picfoldpath;
+    QString cdateStamp,pdateStamp; //用於檢查日期是否有更改current,previous
+
+    //GUI
+    QList<QImage> imageListBig,imageListSmall;
     ~Widget();
 
     //camera
@@ -124,34 +127,33 @@ private slots:
     void on_puB_save_p_clicked();
     void updatetextlog(QString type, QString message);
     void prettiertextlog();
-    // Slots for GuiCamera signals
-    void OnNewGrabResult(int userHint);
-    void on_puB_bigGrab_clicked();
-    void on_puB_samllGrab_clicked();
+
 
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
     void on_puB_gui_clicked();
-    void createConfig(QString Model, bool isNew);
-
-
-
-    void on_pushButton_func_clicked();
-
-
+    void on_puB_func_clicked();
     void on_radioButton_pattern_clicked(bool checked);
-
     void on_puB_remove_m_clicked();
-
-    void on_puB_add_m_clicked();
-
-    void readmodelList(bool isFirst);
-    
+    void on_puB_add_m_clicked();    
     void on_list_model_itemDoubleClicked(QListWidgetItem *item);
-
     void on_puB_setCur_m_clicked();
     void on_table_defectlist_cellClicked(int row, int column);
+    void CreateNReadRecipe();
+    void CreateFolder(QString path,QString FolderName);
+    void on_puB_cameraINI_clicked();
+    void dateChange();
+    void updateComboBoxModel();
+
+    // Slots for GuiCamera signals
+    void OnNewGrabResult(int userHint);
+    void on_puB_bigGrab_clicked();
+    void on_puB_samllGrab_clicked();
+    void takeQImagetoList(const QImage &image, int OisBig);
+
+
+
 private:
 
     Ui::Widget *ui;
@@ -165,5 +167,10 @@ private:
     static const int MaxCamera = 3;
     CGuiCamera m_camera[MaxCamera];
     void cameraInit();
+    //About save pic
+    QDateTime RunCurrentDateTime;
+    QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
+    int RunPatternIndex,RunDefectNumber;
+
 };
 #endif // WIDGET_H

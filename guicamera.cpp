@@ -535,6 +535,7 @@ void CGuiCamera::SingleGrab()
     // Grab one image.
     // When the image is received, pylon will call the OnImageGrab() handler.
     m_camera.StartGrabbing( 1, Pylon::GrabStrategy_OneByOne, Pylon::GrabLoop_ProvidedByInstantCamera );
+
 }
 
 

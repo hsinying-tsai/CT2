@@ -32,11 +32,10 @@ public:
     };
     QStringList defalutPattern = {"Red","Green"};
     QString recipeFilePath;
-    void INI(QStringList patternName, QString recipetFilePath, QString ModelName);
+    void INI(QStringList patternName, QString recipetFilePath, QString ModelName, bool isNew);
     void reviseModelINI(QString section, QString key ,QString Value);
     QStringList spinBoxNames;
     QList<int> spinBoxValues;
-    void receiveFileinfo(QString modelName, QString modelPath, bool isNew,QStringList patternName);
     void removePattern(QString patternName,QString ModelPath);
     ~FuncPar();
 
