@@ -87,5 +87,6 @@ void Logger::create_file()
         return;
     }
     writeLog(Logger::Info, "|SYSTEM| New .log file create.");
+    m_lastDateChecked = timestamp;
 }
 

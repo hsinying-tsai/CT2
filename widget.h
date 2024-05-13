@@ -30,6 +30,7 @@
 #include "funcpar.h"
 #include "ini.h"
 #include <QTableWidgetItem>
+#include "structImage.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -45,7 +46,7 @@ class Widget : public QMainWindow
 
 public:
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, PG_num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
+    int i = 0,j = 0,count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
             ,runMode = 0;
     double factor_X,factor_Y;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
@@ -55,7 +56,6 @@ public:
     defineCoordinate DC;
     INI ini;
 
-    typedef struct Node node;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     QString rev_text, str1, str2,stringPart;
@@ -76,19 +76,23 @@ public:
 
     double calculateMean(const QString &imagepath);
     //存文字
-    std::vector<QString> matrix_buffer_name = {"DM200", "DM202","DM204","DM206","R200","R201","R202","R203","R204","R205"
+    QVector<QString> matrix_buffer_name = {"DM200", "DM202","DM204","DM206","R200","R201","R202","R203","R204","R205"
                                                ,"R206","R207","R212","R214"};
     //存變數數值
-    std::vector<QString> orig_buffer;
-    std::vector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
+    QVector<QString> orig_buffer;
+    QVector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
+
     //find model name and pattern name
     struct model_name{
       QString modelName;
       QStringList pattern_names;
     };
+
     QList<model_name> modelList;
     QString cTimeString,picfoldpath;
-    QString cdateStamp,pdateStamp; //用於檢查日期是否有更改current,previous
+
+    QVector<ImageProcess> Images;
+    ImageProcess tmp;
 
     //GUI
     QList<QImage> imageListBig,imageListSmall;
@@ -143,7 +147,6 @@ private slots:
     void CreateNReadRecipe();
     void CreateFolder(QString path,QString FolderName);
     void on_puB_cameraINI_clicked();
-    void dateChange();
     void updateComboBoxModel();
 
     // Slots for GuiCamera signals
@@ -151,6 +154,7 @@ private slots:
     void on_puB_bigGrab_clicked();
     void on_puB_samllGrab_clicked();
     void takeQImagetoList(const QImage &image, int OisBig);
+    void runInit();
 
 
 
@@ -170,7 +174,8 @@ private:
     //About save pic
     QDateTime RunCurrentDateTime;
     QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
-    int RunPatternIndex,RunDefectNumber;
+    int RunPatternIndex,RunDefectNumber,RunPatternAmount;
+    QStringList RunPatternName;
 
 };
 #endif // WIDGET_H

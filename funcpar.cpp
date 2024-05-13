@@ -51,7 +51,6 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.beginGroup(name);     
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", false);
-        settings.setValue("checkDPBP", false);
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);
         settings.setValue("BypassLeftY", 0);
@@ -128,9 +127,8 @@ void FuncPar::removePattern(QString patternName, QString ModelPath)
         qDebug() << "Failed to open file for reading and writing.";
         return;
     }else{
-        qDebug()<<"!2314";
+        qDebug()<<"Success open file to remove!";
     }
-    qDebug()<<"2453";
     QTextStream in(&Modelfile);
     QStringList lines;
     bool inSection = false;

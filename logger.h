@@ -24,6 +24,7 @@ public:
     QTextStream m_textstream;
     QDir logDir;
     QString dataTimeString;
+    QString m_lastDateChecked;
 
 
 

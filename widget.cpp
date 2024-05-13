@@ -39,7 +39,6 @@ Widget::Widget(QWidget *parent)
     connect(ui->list_model, &QListWidget::itemEntered, this, &Widget::updateComboBoxModel);
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
-    pdateStamp = QDateTime::currentDateTime().toString("yyyyMMdd");
     INI_UI();
 
     lineEdits = QWidget::findChildren<QLineEdit *>();
@@ -50,6 +49,11 @@ Widget::Widget(QWidget *parent)
     for (auto lineEdit : lineEdits) {
         connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
     }
+
+    //AUO logo
+    QPixmap pic_logo;
+    pic_logo.load(QCoreApplication::applicationDirPath()+"/auo.jpg");
+    ui->lbl_logo->setPixmap(pic_logo);
 
     // clock (per second
     QTimer *timer = new QTimer(this);
@@ -93,6 +97,16 @@ Widget::Widget(QWidget *parent)
 
     clientThread.start();
     cameraInit();
+
+//    for(int i=0;i<10;i++){
+//        tmp.index = i+1;
+//        tmp.BPenable = true;
+//        Images.push_back(tmp);
+//        qDebug()<<&tmp;
+//        qDebug()<<"------"<<&Images[i];
+//    }
+
+
 }
 void Widget::INI_UI()
 {
@@ -141,9 +155,6 @@ void Widget::INI_UI()
     }
     //定義comboBox_model下拉式選單
     updateComboBoxModel();
-
-    //呼叫的位置要改
-    dateChange();
 }
 
 void Widget::cameraInit()
@@ -162,6 +173,7 @@ void Widget::cameraInit()
 
     Pylon::CDeviceInfo devInfo[2];
 //    devInfo[0].SetSerialNumber("40053677");
+//    devInfo[1].SetSerialNumber("40067726");
 
     devInfo[0].SetSerialNumber("40347555");
     devInfo[1].SetSerialNumber("40067726");
@@ -187,6 +199,7 @@ void Widget::OnNewGrabResult(int userHint)
         QImage image = m_camera[0].GetImage();
         this->ui->lbl_Img->setPixmap(QPixmap::fromImage(image));
         takeQImagetoList(image,0);
+
         // Make sure to repaint the image control.
         // The actual drawing is done in paintEvent.
 //        ui->image_1->repaint();
@@ -219,6 +232,7 @@ double Widget::calculateMean(const QString &imagepath)
         }
     }
     double mean = static_cast<double>(totalGrayValue) /totalPixels;
+    qDebug()<<mean;
     return mean;
 
 }
@@ -385,10 +399,10 @@ void Widget::recv_label_update(QString message)
             parts = str1.split(" ");
             if(runMode == 1 && parts[0]=="WRS"){
                 if(parts[1]== "R200"){
-                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
+                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
                     WR_command(buffer_combined);
-                    qDebug()<<"--------------Step_3.change PG_num to"<<PG_num;
-                    PG_num++;
+                    qDebug()<<"--------------Step_3.1巨觀change PG_num to"<<RunPatternIndex;
+                    RunPatternIndex++;
                 }else if(parts[1] == "R202"){
                     if(change_flawPG == true){
                         if(DC.current == DC.first){
@@ -404,14 +418,14 @@ void Widget::recv_label_update(QString message)
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                         WR_command(buffer_combined);
                     }else{
-                        //assume 2 pieces of pattern
-                        if(PG_num<2){
+                        if(RunPatternIndex<(RunPatternAmount+1)){
                             //To the next PG_num
+
                             qDebug() << "--------------Step_3.server已回應OK.\n";
-                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(PG_num);
+                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
                             WR_command(buffer_combined);
-                            qDebug()<<"--------------Step_3.change PG_num to"<<PG_num;
-                            PG_num++;
+                            qDebug()<<"--------------Step_3.2巨觀change PG_num to"<<RunPatternIndex;
+                            RunPatternIndex++;
                         }else{
                             qDebug() << "--------------Step_3.All pattern was changed.";
                             WR_command("WR R204 1");
@@ -446,11 +460,9 @@ void Widget::recv_label_update(QString message)
                 }else{
                     //receive OK from "WRS DM201 6 0 0 0 0 0 0
 //                    qDebug()<<"--------------Step_7.Finish.";
+                    runInit();
                     qDebug()<<"New action";
-                    change_flawPG = false;
-                    str1.clear();
-                    DC.current = DC.first;
-                    PG_num = 1;
+
                     parts_R[1] = "R211";
                     recevNULL = true;
                     WR_command("RD R212");
@@ -467,8 +479,8 @@ void Widget::recv_label_update(QString message)
             }else if(parts[1] == "DM202"){
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀";
-                    //
-                    RunPatternIndex = 1;
+                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
+
                     on_puB_bigGrab_clicked();
                 }
                 WR_command("WR R202 1");
@@ -523,7 +535,7 @@ void Widget::recv_label_update(QString message)
                 qDebug() << "--------------Step_2.server已回應OK，並將R200、R201歸零\n";
                 qDebug()<< "創Pic資料夾";
                 RunCurrentDateTime = QDateTime::currentDateTime();
-                RundataTimeString = RunCurrentDateTime.toString("hhmm");
+                RundataTimeString = RunCurrentDateTime.toString("yyyyMMdd_hhmm");
                 RunCurrentModel = ui->lbl_CurModel->text();
                 RunTimefolderpath = "/Model/"+RunCurrentModel+"/";
                 CreateFolder(RunTimefolderpath, RundataTimeString);
@@ -626,7 +638,7 @@ void Widget::connect_label_update()
         ui->puB_sent->setEnabled(true);
 
     } else if (tc->connnect_state == 0) {
-        PG_num = 1;
+        RunPatternIndex = 1;
         //連線失敗
         ui->textRecv->clear();
         ui->textSend->clear();
@@ -695,6 +707,15 @@ void Widget::on_puB_connect_clicked()
 
 void Widget::Qtimer()
 {
+    //檢測日期是否有更改
+    //日期改變,需創建新的.log(writeLog->改路徑, 需更新comboBox->logger選單)以及model需創建新的資料夾
+    QString currentDate = QDateTime::currentDateTime().toString("yyyyMMdd");
+    if(currentDate!=logger.m_lastDateChecked){
+        qDebug()<<"<隔天>";
+        logger.create_file();
+        logger.populateCombowithFileName(ui->comboBox_logger, "Log");
+    }
+    //每秒傳送WR DM200
     buffer[0] = QString::number(time);
     time++;
     if (tc->client->state() == QAbstractSocket::ConnectedState) {
@@ -866,7 +887,7 @@ void Widget::on_puB_remove_p_clicked()
             qDebug() << "取消刪除pattern:"<<PTselectedItem->text();
         }
     }else{
-        qDebug()<<"WTH";
+        qDebug()<<"尚未選擇要刪除的pattern！";
         ui->lbl_state->setText("尚未選擇要刪除的pattern！");
     }
 }
@@ -908,7 +929,7 @@ void Widget::on_puB_save_p_clicked()
 {
     revisePatternList = false;
     if(ui->list_Pattern->count()== 0){
-        qDebug()<<"What the hell";
+        qDebug()<<"pattern list不能為空，，請先選擇Model！";
         ui->lbl_state->setText("pattern list不能為空，，請先選擇Model！");
     }else{
         QString currentModel = ui->lbl_modelPT->text();
@@ -1212,11 +1233,21 @@ void Widget::on_puB_setCur_m_clicked()
             }
         }
         ui->lbl_CurModel->setText(selectedItem->text());
+        QString runModelname = ui->lbl_CurModel->text();
+        QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
+        QSettings setting(filePath, QSettings::IniFormat);
+        QStringList groups = setting.childGroups();
+        QStringList keys;
+        // 逐一讀取每個組的內容
+        foreach (QString group, groups) {
+            if(group != "COORDINATE" && group != "CAM1"){
+                RunPatternName.append(group);
+            }
+        }
+        runInit();
     }else{
         ui->lbl_state->setText("尚未選擇model！");
     }
-
-
 }
 
 void Widget::on_table_defectlist_cellClicked(int row, int column)
@@ -1236,7 +1267,7 @@ void Widget::CreateNReadRecipe()
     QDir modelDir("Model");
     if(!modelDir.exists()){
         modelDir.mkpath(".");
-        qDebug()<<"已創建Model資料夾";
+//        qDebug()<<"已創建Model資料夾";
         logger.writeLog(Logger::Info, "|SYSYEM| Model folder create.");
     }else{
         qDebug()<<"已存在Model資料夾";
@@ -1316,19 +1347,6 @@ void Widget::on_puB_cameraINI_clicked()
     cameraInit();
 }
 
-//日期改變,需創建新的.log(writeLog->改路徑, 需更新comboBox->logger選單)以及model需創建新的資料夾
-void Widget::dateChange()
-{
-
-   qDebug()<<cdateStamp;
-   cdateStamp = QDateTime::currentDateTime().toString("yyyyMMdd");
-   if(cdateStamp!=pdateStamp){
-       qDebug()<<"Date Change";
-       logger.create_file();
-       logger.populateCombowithFileName(ui->comboBox_logger, "Log");
-   }
-}
-
 void Widget::updateComboBoxModel()
 {
     //定義comboBox_model下拉式選單
@@ -1337,8 +1355,7 @@ void Widget::updateComboBoxModel()
     ui->comboBox_model->clear();
     QString pathModel = QCoreApplication::applicationDirPath()+"/Model/";
     QDir modeldirectory(pathModel);
-    QStringList ModelName = modeldirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    qDebug()<<"123"<<ModelName;
+    QStringList ModelName = modeldirectory.entryList(QDir::Dirs | QDir::NoDotAndDotDot);;
     foreach (const QString &modelname, ModelName){
         ui->comboBox_model->addItem(modelname);
     }
@@ -1349,14 +1366,15 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
 
     QString folderpath = QCoreApplication::applicationDirPath()+RunTimefolderpath+"/"+RundataTimeString;
     QString imgName,imagePath;
-    if(OisBig == 0){
+
+    if(OisBig == 0){;
         qDebug()<<"got big";
         imageListBig.append(image);
-        imgName = QString("%1%2").arg(QString::number(RunPatternIndex)).arg(".bmp");
+        imgName = QString("%1%2").arg(QString::number(RunPatternIndex-1)).arg(".bmp");
     }else{
         qDebug()<<"got small";
         imageListSmall.append(image);
-        imgName = QString("%1%2%3").arg(QString::number(RunPatternIndex)+"_").arg(QString::number(RunDefectNumber)).arg(".bmp");
+        imgName = QString("%1%2%3").arg(QString::number(RunPatternIndex-1)+"_").arg(QString::number(RunDefectNumber)).arg(".bmp");
     }
     imagePath = folderpath+"/"+imgName;
     if (image.save(imagePath)) {
@@ -1364,5 +1382,54 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
     } else {
         qWarning() << "Failed to save image at:" << imagePath;
     }
+    if(OisBig == 0){
+        tmp.index = RunPatternIndex-1;
+        tmp.image = image;
+        tmp.patternName = RunPatternName.at(RunPatternIndex-2);
+        tmp.meanGray = calculateMean(imagePath);
+        QString runModelname = ui->lbl_CurModel->text();
+        QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
+        QSettings setting(filePath, QSettings::IniFormat);
+        QStringList groups = setting.childGroups();
+        QStringList keys;
+        // 逐一讀取每個組的內容
+        foreach (QString group, groups) {
+            if(group == tmp.patternName){
+                keys = setting.allKeys();
+                foreach(QString key,keys){
+                    if(key==group+"/checkBP"){
+                        tmp.BPenable = setting.value(key).toBool();
+                    }else if(key==group+"/checkDP"){
+                        tmp.DPenable = setting.value(key).toBool();
+                    }
+                }
+            }
+        }
+        qDebug()<<"-------"<<tmp.index<<tmp.patternName<<tmp.meanGray;
+        Images.push_back(tmp);
+    }
+}
 
+void Widget::runInit()
+{
+    qDebug()<<"[SYSTEM]Initial Run parameter";
+    //initial
+    RunPatternName.clear();
+    change_flawPG = false;
+    str1.clear();
+    DC.current = DC.first;
+    RunPatternIndex = 1;
+
+    QString runModelname = ui->lbl_CurModel->text();
+    QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
+    QSettings setting(filePath, QSettings::IniFormat);
+    QStringList groups = setting.childGroups();
+    // 逐一讀取每個組的內容
+    foreach (QString group, groups) {
+        if(group != "COORDINATE" && group != "CAM1"){
+            RunPatternName.append(group);
+        }
+    }
+    RunPatternAmount = RunPatternName.size();
+    qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
 }
