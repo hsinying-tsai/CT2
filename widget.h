@@ -148,6 +148,9 @@ private slots:
     void CreateFolder(QString path,QString FolderName);
     void on_puB_cameraINI_clicked();
     void updateComboBoxModel();
+    void imagesprocess(QList<QImage> BigGrabImages);
+    void CopyRecipe(QString originFilePath,QString CopyFilePath);
+    void CreateMap(QString path);
 
     // Slots for GuiCamera signals
     void OnNewGrabResult(int userHint);
@@ -156,7 +159,7 @@ private slots:
     void takeQImagetoList(const QImage &image, int OisBig);
     void runInit();
 
-
+    void on_comboBox_model_currentIndexChanged(const QString ModelName);
 
 private:
 

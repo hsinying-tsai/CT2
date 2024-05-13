@@ -30,14 +30,11 @@
      <property name="acceptDrops">
       <bool>false</bool>
      </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
      <property name="tabShape">
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -52,7 +49,7 @@
          <x>780</x>
          <y>10</y>
          <width>529</width>
-         <height>701</height>
+         <height>721</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -1056,7 +1053,7 @@
           <rect>
            <x>10</x>
            <y>300</y>
-           <width>361</width>
+           <width>501</width>
            <height>41</height>
           </rect>
          </property>
@@ -1619,32 +1616,20 @@ background-color: red;</string>
         </property>
        </widget>
       </widget>
-      <widget class="QLabel" name="label_10">
-       <property name="geometry">
-        <rect>
-         <x>1200</x>
-         <y>710</y>
-         <width>101</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
       <widget class="QLabel" name="lbl_logo">
        <property name="geometry">
         <rect>
-         <x>1230</x>
-         <y>720</y>
-         <width>80</width>
-         <height>28</height>
+         <x>1260</x>
+         <y>740</y>
+         <width>66</width>
+         <height>23</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string/>
