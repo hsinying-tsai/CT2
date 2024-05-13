@@ -1419,7 +1419,6 @@ void Widget::runInit()
     str1.clear();
     DC.current = DC.first;
     RunPatternIndex = 1;
-
     QString runModelname = ui->lbl_CurModel->text();
     QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
     QSettings setting(filePath, QSettings::IniFormat);
