@@ -86,7 +86,11 @@ void Logger::create_file()
         qDebug()<<"|logger|Failed to create log file.";
         return;
     }
-    writeLog(Logger::Info, "|SYSTEM| New .log file create.");
+    if(!logFile.exists()){
+        qDebug()<<".log file not exist";
+        writeLog(Logger::Info, "|SYSTEM| New .log file create.");
+    }
+
     m_lastDateChecked = timestamp;
 }
 

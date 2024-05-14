@@ -7,9 +7,8 @@ class defineCoordinate
 {
 public:
 
-    int center_posX =0, center_posY = 0, number_flaw_pattern = 0;
+    int center_posX =0, center_posY = 0;
 
-    //assume flaw pattern are pattern3(10,20,50), pattern5(30), pattern7(70,90)
     QVector<QPoint> vector_PG_flaw;
     struct Node{
         int x,y,index;
@@ -18,6 +17,6 @@ public:
     };
     typedef struct Node node;
     node *first, *current, *previous = NULL,*temp;
-    void defNode(QVector<QPoint> flaws);
+    void defNode(QVector<QPoint> flaws, int index, bool isHead);
 };
 #endif // DEFINECOORDINATE_H

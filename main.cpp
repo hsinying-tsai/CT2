@@ -39,7 +39,8 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
 int main(int argc, char *argv[])
 {
 
-    //192.168.1.168 8501
+    //192.168.1.168
+    //8501
     if(argc>1)
     {
         strcpy(iniFile,argv[1]);

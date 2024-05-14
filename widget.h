@@ -158,8 +158,9 @@ private slots:
     void on_puB_samllGrab_clicked();
     void takeQImagetoList(const QImage &image, int OisBig);
     void runInit();
+    void on_comboBox_model_activated(const QString ModelName);
 
-    void on_comboBox_model_currentIndexChanged(const QString ModelName);
+    void on_comboBox_date_activated(const QString TimeDir);
 
 private:
 

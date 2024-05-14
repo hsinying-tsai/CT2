@@ -56,7 +56,7 @@
         <string notr="true"/>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab_10">
         <attribute name="title">
@@ -1273,7 +1273,7 @@
          </font>
         </property>
         <property name="text">
-         <string>192.168.1.168</string>
+         <string>127.0.0.1</string>
         </property>
        </widget>
        <widget class="QLabel" name="label">
@@ -1309,7 +1309,7 @@
          </font>
         </property>
         <property name="text">
-         <string>8501</string>
+         <string>1234</string>
         </property>
        </widget>
        <widget class="QPushButton" name="puB_connect">
@@ -1835,7 +1835,7 @@ background-color: red;</string>
         <rect>
          <x>30</x>
          <y>580</y>
-         <width>1261</width>
+         <width>1181</width>
          <height>161</height>
         </rect>
        </property>
@@ -1845,6 +1845,11 @@ background-color: red;</string>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
+       <column>
+        <property name="text">
+         <string>Model</string>
+        </property>
+       </column>
        <column>
         <property name="text">
          <string>index</string>
@@ -1857,12 +1862,12 @@ background-color: red;</string>
        </column>
        <column>
         <property name="text">
-         <string>Blob X</string>
+         <string>number</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>Blob Y</string>
+         <string>(X,Y)</string>
         </property>
        </column>
        <column>
@@ -1875,13 +1880,23 @@ background-color: red;</string>
          <string>Mean</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>Detect_Date</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Detect_Time</string>
+        </property>
+       </column>
       </widget>
       <widget class="QComboBox" name="comboBox_model">
        <property name="geometry">
         <rect>
          <x>130</x>
          <y>30</y>
-         <width>161</width>
+         <width>91</width>
          <height>41</height>
         </rect>
        </property>
@@ -1903,7 +1918,7 @@ background-color: red;</string>
        <property name="geometry">
         <rect>
          <x>30</x>
-         <y>40</y>
+         <y>35</y>
          <width>100</width>
          <height>29</height>
         </rect>
@@ -1920,10 +1935,10 @@ background-color: red;</string>
       <widget class="QLabel" name="lbl_Pos">
        <property name="geometry">
         <rect>
-         <x>552</x>
-         <y>40</y>
-         <width>231</width>
-         <height>19</height>
+         <x>676</x>
+         <y>39</y>
+         <width>121</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="font">
@@ -1938,10 +1953,10 @@ background-color: red;</string>
       <widget class="QLabel" name="lbl_pattern">
        <property name="geometry">
         <rect>
-         <x>330</x>
-         <y>40</y>
-         <width>211</width>
-         <height>22</height>
+         <x>520</x>
+         <y>35</y>
+         <width>171</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="font">
@@ -1951,6 +1966,47 @@ background-color: red;</string>
        </property>
        <property name="text">
         <string>Pattern :</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_date">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>30</y>
+         <width>161</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="currentText">
+        <string>select date</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>select date</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="lbl_pattern_3">
+       <property name="geometry">
+        <rect>
+         <x>239</x>
+         <y>35</y>
+         <width>100</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>檢測時間：</string>
        </property>
       </widget>
      </widget>
