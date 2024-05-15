@@ -43,6 +43,7 @@ set(PROJECT_SOURCES
         funcpar.cpp
         funcpar.ui
         structImage.h
+        imageprocess.h imageprocess.cpp
 
 )
 

@@ -31,6 +31,7 @@
 #include "ini.h"
 #include <QTableWidgetItem>
 #include "structImage.h"
+#include "imageprocess.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -55,7 +56,7 @@ public:
     Logger logger;
     defineCoordinate DC;
     INI ini;
-
+    imageprocess process;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     QString rev_text, str1, str2,stringPart;
@@ -95,7 +96,7 @@ public:
     ImageProcess tmp;
 
     //GUI
-    QList<QImage> imageListBig,imageListSmall;
+    QVector<QImage> imageVectorBig,imageVectorSmall;
     ~Widget();
 
     //camera
@@ -148,7 +149,7 @@ private slots:
     void CreateFolder(QString path,QString FolderName);
     void on_puB_cameraINI_clicked();
     void updateComboBoxModel();
-    void imagesprocess(QList<QImage> BigGrabImages);
+    void imagesprocess(QVector<QImage> BigGrabImages);
     void CopyRecipe(QString originFilePath,QString CopyFilePath);
     void CreateMap(QString path);
 

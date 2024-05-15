@@ -1847,6 +1847,11 @@ background-color: red;</string>
        </property>
        <column>
         <property name="text">
+         <string>Number</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>Model</string>
         </property>
        </column>
@@ -1858,11 +1863,6 @@ background-color: red;</string>
        <column>
         <property name="text">
          <string>Pattern</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>number</string>
         </property>
        </column>
        <column>

@@ -284,9 +284,17 @@ void Widget::recv_label_update(QString message)
     factor_X = 1;
     factor_Y = 1;
     message = message.replace("\r\n","");
-    ui->textRecv->append("received:"+message+"\tfrom: "+str1);
-    qDebug()<<"received:"<<message<<"\tfrom"<<str1;
+
     recevZero = false;
+
+    //show somethig in textRecv
+    if (message == "SocketError"){
+        ui->textRecv->append(message);
+        qDebug()<<"received:"<<message;
+    }else{
+        ui->textRecv->append("received:"+message+"\tfrom: "+str1);
+        qDebug()<<"received:"<<message<<"\tfrom"<<str1;
+    }
 
     if (message == "SocketError"){
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
@@ -296,10 +304,8 @@ void Widget::recv_label_update(QString message)
         }
     }else if(message == "0"){
         //0\r\n
-
         recevZero = true;
     }else {
-//        ui->textRecv->append(message);
         logger.writeLog(Logger::Info, "Received message " + message + ".");
         //Read
         if (ReadpuB_isPressed == true) {
@@ -385,6 +391,7 @@ void Widget::recv_label_update(QString message)
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
                     WR_command(buffer_combined);
                     qDebug()<<"--------------Step_3.1巨觀change PG_num to"<<RunPatternIndex;
+                    ui->lbl_state->setText("｜巨觀｜切換pattern至"+RunPatternName.at(RunPatternIndex-1));
                     RunPatternIndex++;
                 }else if(parts[1] == "R202"){
                     if(change_flawPG == true){
@@ -402,15 +409,19 @@ void Widget::recv_label_update(QString message)
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
                         WR_command(buffer_combined);
                     }else{
+                        Images.push_back(tmp);
+
+                        qDebug()<<"push";
                         if(RunPatternIndex<(RunPatternAmount+1)){
                             //To the next PG_num
                             qDebug() << "--------------Step_3.server已回應OK.\n";
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
                             WR_command(buffer_combined);
                             qDebug()<<"--------------Step_3.2巨觀change PG_num to"<<RunPatternIndex;
+                            ui->lbl_state->setText("｜巨觀｜切換pattern至"+RunPatternName.at(RunPatternIndex-1));
                             RunPatternIndex++;
                         }else{
-                            imagesprocess(imageListBig);
+                            imagesprocess(imageVectorBig);
                             qDebug() << "--------------Step_3.All pattern was changed.";
                             WR_command("WR R204 1");
                         }
@@ -767,6 +778,7 @@ void Widget::on_puB_start_clicked()
         }else{
             ui->puB_runMode->setEnabled(false);
             if(runMode == 1){
+               runInit();
                WR_command("WR R200 1");
             }
         }
@@ -1245,12 +1257,17 @@ void Widget::on_puB_setCur_m_clicked()
 
 void Widget::on_table_defectlist_cellClicked(int row, int column)
 {
+    QString CurrentDateDir = ui->table_defectlist->item(row, 7)->text();
+    QString CurrentTimeDir = ui->table_defectlist->item(row, 8)->text();
+    QString CurrentModel = ui->table_defectlist->item(row, 1)->text();
+    QString patternIndex =ui->table_defectlist->item(row, 2)->text();
+    QString Number = ui->table_defectlist->item(row, 0)->text();
     QPixmap pic2;
-    pic2.load(picfoldpath + QString::number(num) + "_"+QString::number(row+1)+".bmp");
-    QString DF_X = ui->table_defectlist->item(row, 3)->text();
-    QString DF_Y = ui->table_defectlist->item(row, 4)->text();
-    ui->lbl_DFcoodinate->setText("X = "+DF_X+", Y = "+DF_Y);
+    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number;
+    pic2.load(pic2Path);
     ui->lbl_pic2->setPixmap(pic2);
+    QString DF_XY = ui->table_defectlist->item(row, 3)->text();
+    ui->lbl_DFcoodinate->setText(DF_XY);
 }
 
 void Widget::CreateNReadRecipe()
@@ -1259,19 +1276,19 @@ void Widget::CreateNReadRecipe()
     QDir modelDir("Model");
     if(!modelDir.exists()){
         modelDir.mkpath(".");
-//        qDebug()<<"已創建Model資料夾";
+        qDebug()<<"|Initial|已創建Model資料夾";
         logger.writeLog(Logger::Info, "|SYSYEM| Model folder create.");
     }else{
-        qDebug()<<"已存在Model資料夾";
+        qDebug()<<"|Initial|已存在Model資料夾";
         logger.writeLog(Logger::Info, "|SYSYEM| Model folder exist.");
         // 獲取目錄中的所有檔案
         QStringList FilesinModelfolders = modelDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         if(FilesinModelfolders.isEmpty()){
-            qDebug()<<"Model資料夾中沒有資料夾（沒有Model）";
+            qDebug()<<"|Initial|Model資料夾中沒有資料夾（沒有Model）";
             ui->lbl_state->setText("沒有Model Recipe，請先建立Model Recipe！");
         }else{
-            qDebug()<<"Model資料夾中有資料夾（有Model）";
-            qDebug()<<"現有的Model Name"<<FilesinModelfolders;
+            qDebug()<<"|Initial|Model資料夾中有資料夾（有Model）";
+            qDebug()<<"|Initial|現有的Model Name"<<FilesinModelfolders;
             foreach(QString modelnamefolder,FilesinModelfolders){
 //                qDebug()<<modelnamefolder;
                 // 检查config.ini配置文件是否存在
@@ -1343,7 +1360,6 @@ void Widget::updateComboBoxModel()
 {
     //定義comboBox_model下拉式選單
     //獲取all model name
-
     ui->comboBox_model->clear();
     QString pathModel = QCoreApplication::applicationDirPath()+"/Model/";
     QDir modeldirectory(pathModel);
@@ -1353,22 +1369,43 @@ void Widget::updateComboBoxModel()
     }
 }
 
-void Widget::imagesprocess(QList<QImage> BigGrabImages)
+void Widget::imagesprocess(QVector<QImage> BigGrabImages)
 {
     qDebug()<<"全部巨觀照片一起做image process";
     qDebug()<<"Assume received defect info";
-    //for test
-    tmp.index = 1;
-    tmp.patternName = "White";
-    tmp.meanGray = 0.1;
-    tmp.defectPoint = {QPoint(10, 10), QPoint(20, 20)};
-    Images.push_back(tmp);
 
-    tmp.index = 2;
-    tmp.patternName = "Black";
-    tmp.meanGray = 0.2;
-    tmp.defectPoint = {QPoint(50, 50), QPoint(60, 60)};
-    Images.push_back(tmp);
+
+    //for test
+//    tmp.index = 1;
+//    tmp.patternName = "White";
+//    tmp.meanGray = 0.1;
+//    tmp.defectPoint = {QPoint(10, 10), QPoint(20, 20)};
+
+//    Images.push_back(tmp);
+
+//    tmp.index = 2;
+//    tmp.patternName = "Black";
+//    tmp.meanGray = 0.2;
+//    tmp.defectPoint = {QPoint(50, 50), QPoint(60, 60)};
+//    Images.push_back(tmp);
+    qDebug()<<"顯示";
+    QVector<ImageProcess>::iterator it = Images.begin();
+    for(; it != Images.end(); it++) {
+        if(it->patternName == "White"){
+            QImage imageTest(QCoreApplication::applicationDirPath()+"/EXP45606_WHITE.bmp");
+            it->image = imageTest;
+            qDebug()<<"White";
+        }else{
+            QImage imageTest(QCoreApplication::applicationDirPath()+"/denoise.bmp");
+            it->image = imageTest;
+        }
+    }
+
+
+    process.process(&Images);
+    foreach(const ImageProcess &image, Images){
+        qDebug()<<image.defectPoint;
+    }
 
     bool isHead = true;
     foreach(const ImageProcess &image, Images){
@@ -1437,13 +1474,13 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
 
     QString folderpath = QCoreApplication::applicationDirPath()+RunTimefolderpath+RundataTimeString;
     QString imgName;
-    if(OisBig == 0){;
+    if(OisBig == 0){
         qDebug()<<"got big";
-        imageListBig.append(image);
+        imageVectorBig.append(image);
         imgName = QString("%1%2").arg(QString::number(RunPatternIndex-1)).arg(".bmp");
     }else{
         qDebug()<<"got small";
-        imageListSmall.append(image);
+        imageVectorSmall.append(image);
         imgName = QString("%1%2%3").arg(QString::number(DC.current->index)+"_").arg(QString::number(RunDefectNumber)).arg(".bmp");
         RunDefectNumber++;
     }
@@ -1454,10 +1491,10 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
         qWarning() << "Failed to save image at:" << imagePath;
     }
     if(OisBig == 0){
-//        tmp.index = RunPatternIndex-1;
-//        tmp.image = image;
-//        tmp.patternName = RunPatternName.at(RunPatternIndex-2);
-//        tmp.meanGray = calculateMean(imagePath);
+        tmp.index = RunPatternIndex-1;
+        tmp.image = image;
+        tmp.patternName = RunPatternName.at(RunPatternIndex-2);
+        tmp.meanGray = calculateMean(imagePath);
         QString runModelname = ui->lbl_CurModel->text();
         QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
         QSettings setting(filePath, QSettings::IniFormat);
@@ -1482,11 +1519,11 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
 
 void Widget::runInit()
 {
-    qDebug()<<"[SYSTEM]Initial Run parameter";
+    qDebug()<<"|Initial|Initial Run parameter";
     //initial
     RunPatternName.clear();
     change_flawPG = false;
-
+    Images.clear();
     DC.current = DC.first;
     RunPatternIndex = 1;
     QString runModelname = ui->lbl_CurModel->text();
@@ -1520,31 +1557,38 @@ void Widget::on_comboBox_model_activated(const QString ModelName)
 
 void Widget::on_comboBox_date_activated(const QString TimeDir)
 {
-    qDebug()<<TimeDir;
+    qDebug()<<"--"<<TimeDir;
     QString ModelName = ui->comboBox_model->currentText();
     QString MapPath = "Model/"+ModelName+"/"+TimeDir+"/map.ini";
     QFile MapFile(MapPath);
+    QRegularExpression regex1("(\\d{8})_(\\d{4})"); // 正則表達式，匹配8個數字後跟下劃線，再匹配4個數字
+    QRegularExpressionMatch match1 = regex1.match(TimeDir);
+    QString datePart,timePart;
+    if (match1.hasMatch()) {
+        datePart = match1.captured(1); // 第一個捕獲組，即日期部分
+        timePart = match1.captured(2); // 第二個捕獲組，即時間部分
+    } else {
+        qDebug() << "No match found.";
+    }
+    ui->table_defectlist->clearContents(); // 清除內容
+    ui->table_defectlist->setRowCount(0); // 清除行數
 
     int countDefectAmount = 0;
     if(!MapFile.exists()){
         qDebug()<<MapPath<<"->invalid";
+        ui->table_defectlist->insertRow(0);
+        QTableWidgetItem *item_model = new QTableWidgetItem("NULL");
+        ui->table_defectlist->setItem(0, 0, item_model);
     }else{
         QSettings MapSetting(MapPath, QSettings::IniFormat);
         QStringList MapKeys = MapSetting.allKeys();
         QStringList MapGroups = MapSetting.childGroups();
-        qDebug()<<"MapKeys"<<MapKeys;
-        qDebug()<<"MapGroups"<<MapGroups;
         foreach(const QString mapkey,MapKeys){
             if(mapkey.contains("DefectPoint")){
                 countDefectAmount++;
             }
         }
-        qDebug()<<"創建"<<countDefectAmount<<"個Row";
-        for(int i=0 ;i<countDefectAmount;i++){
-//            ui->table_defectlist->insertRow(i);
-        }
         countDefectAmount = 0;
-
         for(int i=0 ; i<MapGroups.count(); i++){
             QString mapgroupName = MapGroups[i];
             QString MeanGray,index,stringValue;
@@ -1571,29 +1615,31 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                 }
             }
             qDebug()<<MeanGray<<index<<defectList;
+            int defectNumber = 1;
             for(int t=0 ; t<defectList.size();t++){
                 ui->table_defectlist->insertRow(t);
+                QTableWidgetItem *item_number = new QTableWidgetItem(QString::number(defectNumber));
+                QTableWidgetItem *item_patternName = new QTableWidgetItem(mapgroupName);
+                QTableWidgetItem *item_modelName = new QTableWidgetItem(ModelName);
                 QTableWidgetItem *item_index = new QTableWidgetItem(index);
                 QTableWidgetItem *item_XY = new QTableWidgetItem(defectList[t]);
                 QTableWidgetItem *item_meanGray = new QTableWidgetItem(MeanGray);
-                ui->table_defectlist->setItem(t, 1, item_index);
+                QTableWidgetItem *item_Date = new QTableWidgetItem(datePart);
+                QTableWidgetItem *item_Time = new QTableWidgetItem(timePart);
+
+
+                ui->table_defectlist->setItem(t, 0, item_number);
+                ui->table_defectlist->setItem(t, 1, item_modelName);
+                ui->table_defectlist->setItem(t, 2, item_index);
+                ui->table_defectlist->setItem(t, 3, item_patternName);
                 ui->table_defectlist->setItem(t, 4, item_XY);
+
                 ui->table_defectlist->setItem(t, 6, item_meanGray);
+                ui->table_defectlist->setItem(t, 7, item_Date);
+                ui->table_defectlist->setItem(t, 8, item_Time);
+                defectNumber++;
             }
             qDebug()<<"-------------";
         }
     }
-    //    for(int i=0; i<DC.vector_PG_flaw.size(); i++) {
-    //        qDebug()<<"Pattern num:"<<num;
-    //        ui->table_defectlist->insertRow(i);
-    //        QTableWidgetItem *item = new QTableWidgetItem(QString::number(num));
-    //        QTableWidgetItem *item_PTname = new QTableWidgetItem(QString(show_pattern_name.at(num-1)));
-    //        QTableWidgetItem *itemX = new QTableWidgetItem(QString::number(DC.vector_PG_flaw[i].x()));
-    //        QTableWidgetItem *itemY = new QTableWidgetItem(QString::number(DC.vector_PG_flaw[i].y()));
-    //        QTableWidgetItem *item_date = new QTableWidgetItem(QString::number(DC.vector_PG_flaw[i].y()));
-    //        ui->table_defectlist->setItem(i, 0, item);
-    //        ui->table_defectlist->setItem(i, 1, item_PTname);
-    //        ui->table_defectlist->setItem(i, 2, itemX);
-    //        ui->table_defectlist->setItem(i, 3, itemY);
-    //    }
 }
