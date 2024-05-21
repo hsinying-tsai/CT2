@@ -32,6 +32,7 @@
 #include <QTableWidgetItem>
 #include "structImage.h"
 #include "imageprocess.h"
+#include "my_qlabel.h"
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -57,6 +58,7 @@ public:
     defineCoordinate DC;
     INI ini;
     imageprocess process;
+    my_qlabel MQ;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
     QString rev_text, str1, str2,stringPart;

@@ -1,7 +1,6 @@
 #ifndef MY_QLABEL_H
 #define MY_QLABEL_H
 
-#include"widget.h"
 #include<QLabel>
 #include<QObject>
 #include<QWidget>
@@ -17,7 +16,7 @@ class my_qlabel : public QLabel
     Q_OBJECT
 public:
     explicit my_qlabel(QWidget *parent = 0);
-    int x,y,zoomtime;
+    int x,y,zoomtime,labelWidth,labelHeight;
     double zoomfactor = 0.02, magnificationFactor = 1;
     struct frame{
         double x,y;

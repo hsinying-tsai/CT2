@@ -9,8 +9,9 @@
 
 my_qlabel::my_qlabel(QWidget *parent)
     :QLabel(parent){
-    paint.width = 200;
-    paint.height = 200;
+
+    paint.width = 100;
+    paint.height = 100;
     zoom.width = 3840;
     zoom.height = 2160;
     int t = 0;
@@ -19,8 +20,8 @@ my_qlabel::my_qlabel(QWidget *parent)
         t = t + 2;
     }
     connect(this,&my_qlabel::rectangleClicked,[this](int index){
-//        this->rectangleClicked(index);
         qDebug()<<"recatngle"<<index+1<<"is clicked";
+        this->rectangleClicked(index);
         logger.writeLog(Logger::Info,"User clicked rectangle number " + QString::number(index+1)+".");
     });
     updateRectangle2();
@@ -48,14 +49,15 @@ void my_qlabel::setImage(const QPixmap &image)
 void my_qlabel::drawRectangleOnImage(cv::Mat &image)
 {
     for(const QRect& rect : rectangles){
-//        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
-//        cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
+        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
+        cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
     }
     paint.pix = mat2pixmap(image);
 }
 
 void my_qlabel::updateRectangle2()
 {
+    qDebug()<<"1234";
     rectangles2.clear();
     for(const QRect &rect:rectangles){
         QRectF tmp_rect;
@@ -195,8 +197,8 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
             //放大的倍率
             magnificationFactor += zoomfactor;
             qDebug()<<"放大的倍率:"<<magnificationFactor;
-            zoom.x += (3840*zoomfactor)*((x*(3840/576))/(zoom.width));
-            zoom.y += (2160*zoomfactor)*((y*(2160/324))/(zoom.height));
+            zoom.x += (3840*zoomfactor)*((x*(3840/labelWidth))/(zoom.width));
+            zoom.y += (2160*zoomfactor)*((y*(2160/labelHeight))/(zoom.height));
             zoom.width -= 3840*zoomfactor;
             zoom.height -= 2160*zoomfactor;
             // qDebug()<<"放大後的左上角座標:"<<zoom.x<<","<<zoom.y;
@@ -220,8 +222,8 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
             qDebug()<<zoomtime;
             zoom.width += 3840* zoomfactor;
             zoom.height += 2160* zoomfactor;
-            zoom.x -= (3840*zoomfactor)*(1-(x/576));
-            zoom.y -= (2160*zoomfactor)*(1-(y/324));
+            zoom.x -= (3840*zoomfactor)*(1-(x/labelWidth));
+            zoom.y -= (2160*zoomfactor)*(1-(y/labelHeight));
             zoom.pix = paint.pix.copy(zoom.x,zoom.y,zoom.width, zoom.height);
             this->setPixmap(zoom.pix);
             magnificationFactor -= zoomfactor;

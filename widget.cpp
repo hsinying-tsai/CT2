@@ -25,7 +25,9 @@ Widget::Widget(QWidget *parent)
 {
     ui->setupUi(this);
     setCentralWidget(ui->tabWidget);
-
+    //define label size
+    MQ.labelWidth = ui->lbl_pic->width();
+    MQ.labelHeight = ui->lbl_pic->height();
     logger.create_file();
     logger.populateCombowithFileName(ui->comboBox_logger, "Log");
     connect(ui->lbl_pic, SIGNAL(set_pic2(int)), this, SLOT(change_pic2(int)));
@@ -55,6 +57,7 @@ Widget::Widget(QWidget *parent)
     QPixmap pic_logo;
     pic_logo.load(QCoreApplication::applicationDirPath()+"/AUO.jpg");
     ui->lbl_logo->setPixmap(pic_logo);
+    ui->lbl_logo_2->setPixmap(pic_logo);
 
     // clock (per second
     QTimer *timer = new QTimer(this);
