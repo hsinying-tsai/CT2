@@ -1,0 +1,81 @@
+08:45:09	INFO : New log file create.
+08:45:29	 : -------------------End-------------------.
+08:46:48	INFO : New log file create.
+08:48:09	INFO : User clicked Button puB_next.
+08:48:09	INFO : User changed pattern to 2.
+08:48:11	INFO : User clicked Button puB_next.
+08:48:11	INFO : User changed pattern to 3.
+08:48:25	INFO : User clicked Button puB_next.
+08:48:25	INFO : User changed pattern to 1.
+08:49:16	 : -------------------End-------------------.
+08:49:18	INFO : New log file create.
+08:49:22	INFO : User clicked ButtonpuB_connect.
+08:49:43	INFO : User clicked ButtonpuB_connect.
+08:49:43	INFO : Received message Socket is not ConnectedState.
+08:50:23	WARNING : Socket Connection timed out.
+08:50:23	WARNING : Socket Connection timed out.
+08:54:14	 : -------------------End-------------------.
+08:56:42	INFO : New log file create.
+08:56:46	INFO : User clicked ButtonpuB_connect.
+08:56:54	INFO : New log file create.
+08:57:12	INFO : User clicked ButtonpuB_connect.
+08:57:52	INFO : User clicked ButtonpuB_connect.
+08:57:52	INFO : Received message Socket is not ConnectedState.
+08:58:06	INFO : User clicked ButtonpuB_connect.
+08:58:06	INFO : Received message Socket is not ConnectedState.
+08:58:12	WARNING : Socket Connection timed out.
+08:58:12	WARNING : Socket Connection timed out.
+08:58:12	WARNING : Socket Connection timed out.
+08:58:12	 : -------------------End-------------------.
+08:58:13	INFO : New log file create.
+09:01:42	INFO : User clicked ButtonpuB_connect.
+09:01:42	WARNING : Socket Connection refused.
+09:01:59	 : -------------------End-------------------.
+09:35:36	INFO : New log file create.
+09:36:23	 : -------------------End-------------------.
+09:36:24	INFO : New log file create.
+09:36:55	INFO : User clicked ButtonpuB_connect.
+09:36:55	WARNING : Socket Connection refused.
+09:37:39	INFO : User clicked ButtonpuB_connect.
+09:37:39	INFO : User sent Message'RD R212'.
+09:37:39	INFO : User sent Message'RD R212'.
+09:38:16	 : -------------------End-------------------.
+11:01:41	INFO : New log file create.
+11:02:55	INFO : New log file create.
+11:04:09	INFO : New log file create.
+11:05:09	INFO : New log file create.
+11:06:51	INFO : New log file create.
+11:08:20	INFO : New log file create.
+11:08:34	 : -------------------End-------------------.
+11:09:31	INFO : New log file create.
+11:09:46	 : -------------------End-------------------.
+11:11:54	INFO : New log file create.
+11:13:26	 : -------------------End-------------------.
+11:17:40	INFO : New log file create.
+11:17:53	 : -------------------End-------------------.
+11:20:39	INFO : New log file create.
+11:28:08	 : -------------------End-------------------.
+11:33:43	INFO : New log file create.
+11:34:03	 : -------------------End-------------------.
+11:34:46	INFO : New log file create.
+11:34:58	 : -------------------End-------------------.
+11:36:36	INFO : New log file create.
+11:36:46	 : -------------------End-------------------.
+11:37:44	INFO : New log file create.
+11:37:52	 : -------------------End-------------------.
+11:38:28	INFO : New log file create.
+11:38:48	 : -------------------End-------------------.
+11:48:19	INFO : New log file create.
+11:48:31	 : -------------------End-------------------.
+11:51:19	INFO : New log file create.
+11:51:22	 : -------------------End-------------------.
+11:51:46	INFO : New log file create.
+13:35:24	 : -------------------End-------------------.
+13:35:28	INFO : New log file create.
+13:36:24	INFO : User clicked ButtonpuB_connect.
+13:36:24	INFO : User sent Message'RD R212'.
+13:37:22	 : -------------------End-------------------.
+14:51:35	INFO : New log file create.
+14:51:47	 : -------------------End-------------------.
+14:54:20	INFO : New log file create.
+15:09:30	 : -------------------End-------------------.

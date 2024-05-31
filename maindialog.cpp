@@ -19,6 +19,7 @@ MainDialog::MainDialog(QWidget *parent)
     , ui(new Ui::MainDialog)
 {
     ui->setupUi(this);
+    qDebug()<<"678";
     for (int i = 0; i < MaxCamera; i++)
     {
         m_camera[i].SetUserHint( i );

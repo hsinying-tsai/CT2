@@ -49,15 +49,14 @@ void my_qlabel::setImage(const QPixmap &image)
 void my_qlabel::drawRectangleOnImage(cv::Mat &image)
 {
     for(const QRect& rect : rectangles){
-        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
-        cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
+//        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
+//        cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
     }
     paint.pix = mat2pixmap(image);
 }
 
 void my_qlabel::updateRectangle2()
 {
-    qDebug()<<"1234";
     rectangles2.clear();
     for(const QRect &rect:rectangles){
         QRectF tmp_rect;

@@ -33,6 +33,7 @@
 #include "structImage.h"
 #include "imageprocess.h"
 #include "my_qlabel.h"
+#include <QQueue>
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -51,8 +52,8 @@ public:
     int i = 0,j = 0,count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
             ,runMode = 0;
     double factor_X,factor_Y;
-    bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_ms = false,sending_pos = false
-            ,change_flawPG = false, recevNULL = false,recevZero = false,sendingTime = false,checkbox_onlyThisTime = false
+    bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_pos = false
+            ,change_flawPG = false,sendingTime = false,checkbox_onlyThisTime = false
             , revisePatternList= true,addPattern = false;
     Logger logger;
     defineCoordinate DC;
@@ -123,7 +124,6 @@ private slots:
     void on_puB_write_clicked();
     void recv_label_update(QString message);
     void connect_label_update();
-    void RD(QString part);
     void INI_UI();
 
     void on_puB_runMode_clicked();
@@ -183,6 +183,9 @@ private:
     QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
     int RunPatternIndex,RunDefectNumber,RunPatternAmount;
     QStringList RunPatternName;
+    //for command
+    QQueue<QString> commandQueue;
+    void sendCommand(QQueue<QString> command);
 
 };
 #endif // WIDGET_H

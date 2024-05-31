@@ -9,7 +9,7 @@ FuncPar::FuncPar(QWidget *parent) :
     ui(new Ui::FuncPar)
 {
     ui->setupUi(this);
-
+    this->setWindowTitle("Func");
     //未選擇pattern時,不能更改參數
     foreach(QWidget *widget, ui->tabWidget->findChildren<QWidget *>()) {
         widget->setEnabled(false);
@@ -50,7 +50,7 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         ui->comboBox_pattern->addItem(name);
         settings.beginGroup(name);     
         settings.setValue("checkDP", false);
-        settings.setValue("checkBP", false);
+        settings.setValue("checkBP", true);
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);
         settings.setValue("BypassLeftY", 0);
