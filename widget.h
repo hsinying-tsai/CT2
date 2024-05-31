@@ -51,7 +51,7 @@ public:
     Widget(QWidget *parent = nullptr);
     int i = 0,j = 0,count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
             ,runMode = 0;
-    double factor_X,factor_Y;
+    double factor_X=1,factor_Y=1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_pos = false
             ,change_flawPG = false,sendingTime = false,checkbox_onlyThisTime = false
             , revisePatternList= true,addPattern = false;
@@ -71,11 +71,8 @@ public:
     QRegularExpression regex;
     QRegularExpressionMatch match;
     //"Black", "White", "Gray1", "Gray2", "Green"
-//    QStringList show_pattern_name={ "Black", "White", "Gray1", "Gray2", "Green"};
-
     QStringList show_pattern_name={ "Black", "White","Gray"};
-    QStringList parts,parts_R,run_pattern_name;
-    QQueue<QString> commandQ;
+    QStringList parts,run_pattern_name;
     QString configFilePath;
 
     double calculateMean(const QString &imagepath);

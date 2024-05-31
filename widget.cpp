@@ -85,18 +85,6 @@ Widget::Widget(QWidget *parent)
         }
     });
     timer_command->start(200);
-
-
-
-//    qDebug()<<"CAM1_parm1 :"<< CAM1_parm1;
-//    qDebug()<<"COORDINATE_PTsX :"<<COORDINATE_PTsX;
-//    qDebug()<<"COORDINATE_PTsY :"<<COORDINATE_PTsY;
-
-    // pixel size = 3840X2160, label size = 768X432
-
-    // calculate the factor between pixel and move distance(MD)
-//    factor_X = COORDINATE_PTsX/768;
-//    factor_Y = COORDINATE_PTsY/432;
     clientThread.start();
     cameraInit();
 
@@ -631,7 +619,6 @@ void Widget::connect_label_update()
         change_flawPG = false;
         commandQueue.clear();
         str1.clear();
-        parts_R.clear();
         DC.current = DC.first;
         //consist read R212 until receive 1
         commandQueue.enqueue("RD R212");
