@@ -9,26 +9,20 @@
 
 my_qlabel::my_qlabel(QWidget *parent)
     :QLabel(parent){
-
-    paint.width = 100;
-    paint.height = 100;
+    paint.width = 50;
+    paint.height = 50;
     zoom.width = 3840;
     zoom.height = 2160;
-    int t = 0;
-    for(int i=0; i<matrix_coodinate.size()/2;i++){
-        addRectangle(QRect(matrix_coodinate[t],matrix_coodinate[t+1],paint.width,paint.height));
-        t = t + 2;
-    }
     connect(this,&my_qlabel::rectangleClicked,[this](int index){
         qDebug()<<"recatngle"<<index+1<<"is clicked";
-        this->rectangleClicked(index);
+//        this->rectangleClicked(index);
         logger.writeLog(Logger::Info,"User clicked rectangle number " + QString::number(index+1)+".");
     });
     updateRectangle2();
 
 }
 
-void my_qlabel::setImage(const QPixmap &image)
+void my_qlabel::setImage(const QPixmap &image,const QVector<QPoint> DefectCoordinates)
 {
     magnificationFactor = 1;
     zoomtime = 1;
@@ -41,29 +35,42 @@ void my_qlabel::setImage(const QPixmap &image)
     qImage = image.toImage();
     //QImage::Format_RGB32
     cv::Mat cvImage(qImage.height(), qImage.width(), CV_8UC4, const_cast<uchar*>(qImage.bits()), qImage.bytesPerLine());
-    drawRectangleOnImage(cvImage);
+    drawRectangleOnImage(cvImage,DefectCoordinates);
     this->setPixmap(paint.pix);
     paint.pix = paint.pix.copy(0,0,3840,2160);
 }
 
-void my_qlabel::drawRectangleOnImage(cv::Mat &image)
+void my_qlabel::drawRectangleOnImage(cv::Mat &image,const QVector<QPoint> DefectVectors)
 {
+    rectangles.clear();
+    foreach(const QPoint &coodinate,DefectVectors){
+//        qDebug()<<coodinate.x()<<coodinate.y();
+        addRectangle(QRect(coodinate.x()-10,coodinate.y()-10,paint.width,paint.height));
+    }
     for(const QRect& rect : rectangles){
-//        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
-//        cv::rectangle(image, frame, cv::Scalar(255,0,0),5);
+        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
+        cv::rectangle(image, frame, cv::Scalar(255,0,0),3);
     }
     paint.pix = mat2pixmap(image);
+    updateRectangle2();
 }
 
 void my_qlabel::updateRectangle2()
 {
     rectangles2.clear();
+    qDebug()<<"-------------";
+    qDebug()<<"Info:"<<zoom.x+20<<zoom.y+20<<magnificationFactor<<zoomtime;
     for(const QRect &rect:rectangles){
         QRectF tmp_rect;
         tmp_rect.setX((rect.x()-zoom.x) *0.15 *magnificationFactor + magnificationFactor*zoomtime);
         tmp_rect.setY((rect.y()-zoom.y) *0.15 *magnificationFactor + magnificationFactor*zoomtime);
-        tmp_rect.setWidth(rect.width() *0.15 *magnificationFactor);
-        tmp_rect.setHeight(rect.height()*0.15*magnificationFactor);
+//        tmp_rect.setX(zoom.x+rect.x()+20);
+//        tmp_rect.setY(zoom.y+rect.y()+20);
+
+        tmp_rect.setWidth(paint.width+10);
+        tmp_rect.setHeight(paint.height+10);
+//        qDebug()<<(rect.x()-zoom.x) *0.15 *magnificationFactor + magnificationFactor*zoomtime<<(rect.y()-zoom.y) *0.15 *magnificationFactor + magnificationFactor*zoomtime;
+        qDebug()<<tmp_rect;
         addRectangle2(QRectF(tmp_rect.x(),tmp_rect.y(),tmp_rect.width(),tmp_rect.height()));
     }
 }
@@ -83,6 +90,7 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
     updateRectangle2();
     this->x = ev->x();
     this->y = ev->y();
+    qDebug()<<"Mouse"<<ev->x()<<ev->y();
     emit Mouse_Pos();
     for(const QRectF& rect : rectangles2){
         if(rect.contains((ev->pos()))){
@@ -98,7 +106,7 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
         del.y = ev->y() - press.y;
 
         if(magnificationFactor>1){
-            qDebug()<<"delposX"<<del.x<<"delposY"<<del.y;
+//            qDebug()<<"delposX"<<del.x<<"delposY"<<del.y;
             if(del.x>zoom.x){
                 del.x = zoom.x;
             }else if(del.x>0){
@@ -127,12 +135,14 @@ void my_qlabel::mousePressEvent(QMouseEvent *ev)
     press.x = ev->pos().x();
     press.y = ev->pos().y();
     qDebug()<<"左鍵按下";
+    qDebug()<<ev->pos();
     for(int i = 0; i<rectangles2.size();i++){
         if(rectangles2[i].contains((ev->pos()))){
             emit rectangleClicked(i);
             emit set_pic2(i+1);
         }
     }
+
 }
 
 void my_qlabel::mouseReleaseEvent(QMouseEvent *ev)

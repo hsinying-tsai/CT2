@@ -49,12 +49,10 @@ class Widget : public QMainWindow
 
 public:
     Widget(QWidget *parent = nullptr);
-    int i = 0,j = 0,count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,numberPart,count_runModeclickedtime=1
-            ,runMode = 0;
+    int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0;
     double factor_X=1,factor_Y=1;
-    bool ReadpuB_isPressed = false, WritepuB_isPressed=false, sending_pos = false
-            ,change_flawPG = false,sendingTime = false,checkbox_onlyThisTime = false
-            , revisePatternList= true,addPattern = false;
+    bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
+            , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false;
     Logger logger;
     defineCoordinate DC;
     INI ini;
@@ -70,10 +68,15 @@ public:
     QVector<QString> orgi_text,new_text;
     QRegularExpression regex;
     QRegularExpressionMatch match;
-    //"Black", "White", "Gray1", "Gray2", "Green"
-    QStringList show_pattern_name={ "Black", "White","Gray"};
-    QStringList parts,run_pattern_name;
+    QStringList parts,run_pattern_name,show_pattern_name;
     QString configFilePath;
+
+    //save thew defect point and pattern in order to draw rectangle,[0]->patternName,[...]->defectPoint
+    struct defectInfo{
+      QString PatternName;
+      QVector<QPoint> defectPoint;
+    };
+    QList<defectInfo> DrawRectangle;
 
     double calculateMean(const QString &imagepath);
     //存文字
@@ -133,6 +136,7 @@ private slots:
     void prettiertextlog();
 
 
+
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
@@ -182,7 +186,5 @@ private:
     QStringList RunPatternName;
     //for command
     QQueue<QString> commandQueue;
-    void sendCommand(QQueue<QString> command);
-
 };
 #endif // WIDGET_H

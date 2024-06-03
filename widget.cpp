@@ -1,4 +1,4 @@
-#include "widget.h"
+﻿#include "widget.h"
 #include <QCursor>
 #include <QDebug>
 #include <QLabel>
@@ -72,15 +72,49 @@ Widget::Widget(QWidget *parent)
     connect(timer_error,SIGNAL(timeout()),this,SLOT(QtimerError()));
     timer_error->start(1000);
 
-    // dequeue commandQueue
+    // do reschedule and send command
     QTimer *timer_command = new QTimer(this);
     connect(timer_command,&QTimer::timeout,this,[this](){
         //連線狀態下才需check
         if(tc->connnect_state == 1){
             qDebug()<<"check"<<commandQueue;
             if(!commandQueue.isEmpty()){
+                int valueIndex = -1;
+                //DM200,R215的指令優先傳送
+                qDebug()<<"ori："<<commandQueue;
+                for(int i = 0; i < commandQueue.size(); ++i){
+                    if (commandQueue[i].contains("DM200") || commandQueue[i].contains("R215")) {
+                        valueIndex = i;
+                    }
+                    if (valueIndex != -1) {
+                        QString InsertCommand = commandQueue.takeAt(valueIndex);
+                        qDebug()<<"Insert"<<InsertCommand<<"to the head";
+                        commandQueue.prepend(InsertCommand);
+                        valueIndex=-1;
+                    }
+                }
+                //error狀態閃黃燈
+                if(error == true){
+                    qDebug()<<"blink";
+                    LightBlink++;
+                    if(LightBlink%2 == 1){
+                        qDebug()<<"YELLOW";
+                        ui->lbl_plc->setStyleSheet("border-width: 3px;"
+                                                   "border-radius: 20px;"
+                                                   "margin:10px;"
+                                                   "padding:20px;"
+                                                   "background-color: gold;");
+                    }else{
+                        qDebug()<<"TRANSPARTENT";
+                        ui->lbl_plc->setStyleSheet("border-width: 3px;"
+                                                   "border-radius: 20px;"
+                                                   "margin:10px;"
+                                                   "padding:20px;"
+                                                   "background-color: transparent;");
+                    }
+                }
+                qDebug()<<"fixed："<<commandQueue;
                 WR_command(commandQueue.head());
-//                sendCommand(commandQueue);
             }
         }
     });
@@ -91,6 +125,7 @@ Widget::Widget(QWidget *parent)
 }
 void Widget::INI_UI()
 {
+
     CreateNReadRecipe();
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
     connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
@@ -101,7 +136,6 @@ void Widget::INI_UI()
     connect(ui->puB_write, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_saveINI, &QPushButton::clicked, this, &Widget::saveText);
     connect(ui->puB_connect, &QPushButton::clicked, this, &Widget::saveText);
-    //0530
 
     ui->table_defectlist->verticalHeader()->setDefaultSectionSize(30);
     ui->table_defectlist->horizontalHeader()->setDefaultSectionSize(100);
@@ -118,9 +152,6 @@ void Widget::INI_UI()
 
     //定義comboBox_model下拉式選單
     updateComboBoxModel();
-
-
-
 }
 
 void Widget::cameraInit()
@@ -231,14 +262,18 @@ void Widget::updatelblPic()
     // if crashed, checked whether the amounts of show_pattern_name are right
     ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
     pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-    ui->lbl_pic->setImage(pix_Ini);
+    for(defectInfo &Pattern : DrawRectangle){
+        if(Pattern.PatternName == show_pattern_name.at(num - 1)){
+            ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
+        }
+    }
 }
 
 void Widget::on_puB_sent_clicked()
 {
     logger.writeLog(Logger::Info, "User clicled Button puB_sent.");
     const QByteArray send_data = ui->textSend->toPlainText().toUtf8();
-    WR_command(send_data);
+    commandQueue.enqueue(send_data);
 }
 void Widget::on_puB_pre_clicked()
 {
@@ -278,9 +313,24 @@ void Widget::recv_label_update(QString message)
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
     }else if(str1 == "RD R215"){
         commandQueue.dequeue();
-        qDebug()<<"dequeue R215";
         if(message == "1"){
+            error = true;
+            ui->lbl_state->setText("！！出現異常事件,檢測流程暫停！！");
+            for(int i = 0 ; i<commandQueue.size();i++){
+                if(!commandQueue[i].contains("R215") && !commandQueue[i].contains("DM200")){
+                    qDebug()<<"clear:"<<commandQueue[i];
+                    commandQueue[i].clear();
+                }
+            }
             qDebug()<<"ERRRRRRRRRRRRRROR";
+        }else{
+            error = false;
+            ui->lbl_state->setText(" ");
+            ui->lbl_plc->setStyleSheet("border-width: 3px;"
+                                       "border-radius: 20px;"
+                                       "margin:10px;"
+                                       "padding:20px;"
+                                       "background-color: green;");
         }
     }else {
         logger.writeLog(Logger::Info, "Received message " + message + ".");
@@ -503,7 +553,6 @@ void Widget::recv_label_update(QString message)
                     commandQueue.enqueue("RD R207");
                 }
             }else{
-                qDebug()<<"???";
                 if(parts[0]=="RD"){
                    qDebug()<<"keep Read";
                 }else{
@@ -619,9 +668,10 @@ void Widget::connect_label_update()
         change_flawPG = false;
         commandQueue.clear();
         str1.clear();
+        if(!commandQueue.contains("RD R212")){
+            commandQueue.enqueue("RD R212");
+        }
         DC.current = DC.first;
-        //consist read R212 until receive 1
-        commandQueue.enqueue("RD R212");
         ui->textRecv->clear();
         ui->textSend->clear();
         ui->textRecv->setText("Socket connect.");
@@ -667,6 +717,7 @@ void Widget::connect_label_update()
 void Widget::WR_command(QString WR_message)
 {
     if (tc->connnect_state == 1) {
+        qDebug()<<"-----";
         //將負值加上.S
         QStringList tmp_parts;
         tmp_parts = WR_message.split(" ");
@@ -681,10 +732,6 @@ void Widget::WR_command(QString WR_message)
         }else{
             str1 = WR_message;
         }
-        qDebug()<<"----------";
-        qDebug()<<"should send command(Head):"<<commandQueue.head();
-        qDebug()<<"actually send command:"<<WR_message;
-
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         const QByteArray send_data = WR_message.toUtf8();
         if (send_data.isEmpty()){
@@ -722,14 +769,11 @@ void Widget::Qtimer()
     }
     if(tc->connnect_state == 1){
         if(ReadpuB_isPressed == false){
-            if(runMode == 1){
-                //每秒傳送WR DM200
-                buffer[0] = QString::number(time);
-                time++;
-                QString command = QString("%1 %2").arg("WR DM200").arg(time);
-    //                commandQueue.enqueue(command);
-                qDebug()<<"join "<<command;
-            }
+            //每秒傳送WR DM200
+            buffer[0] = QString::number(time);
+            time++;
+            QString command = QString("%1 %2").arg("WR DM200").arg(time);
+            commandQueue.enqueue(command);
         }
     }
 }
@@ -738,10 +782,7 @@ void Widget::QtimerError()
 {
     //read error signal
     if(tc->connnect_state == 1){
-        if(runMode == 1){
-            //        commandQueue.enqueue("RD R215");
-                    qDebug()<<"join R215";
-        }
+        commandQueue.enqueue("RD R215");
     }
 }
 
@@ -1275,8 +1316,8 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
     QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number;
     pic2.load(pic2Path);
     ui->lbl_pic2->setPixmap(pic2);
-    QString DF_XY = ui->table_defectlist->item(row, 3)->text();
-    QString DF_type = ui->table_defectlist->item(row, 4)->text();
+    QString DF_XY = ui->table_defectlist->item(row, 4)->text();
+    QString DF_type = ui->table_defectlist->item(row, 5)->text();
     ui->lbl_DFcoodinate->setText(DF_XY);
     ui->lbl_DFtype->setText(DF_type);
 }
@@ -1424,7 +1465,6 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
         isHead = false;
     }
     DC.current = DC.first;
-
     QString MapPath = QCoreApplication::applicationDirPath()+RunTimefolderpath+RundataTimeString;
     CreateMap(MapPath+"/map.ini");
 
@@ -1584,14 +1624,14 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
     }
     ui->table_defectlist->clearContents(); // 清除內容
     ui->table_defectlist->setRowCount(0); // 清除行數
-
-    int countDefectAmount = 0;
     if(!MapFile.exists()){
         qDebug()<<MapPath<<"->invalid";
+        defectPointisNull = true;
         ui->table_defectlist->insertRow(0);
         QTableWidgetItem *item_model = new QTableWidgetItem("NULL");
         ui->table_defectlist->setItem(0, 0, item_model);
     }else{
+        defectPointisNull = false;
         QSettings MapSetting(MapPath, QSettings::IniFormat);
         QStringList MapKeys = MapSetting.allKeys();
         QStringList MapGroups = MapSetting.childGroups();
@@ -1599,22 +1639,18 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
         //show Big pic
         picfoldpath = QCoreApplication::applicationDirPath()+"/Model/"+ModelName+"/"+TimeDir+"/";
         pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-        ui->lbl_pic->setImage(pix_Ini);
+
         ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
 
-        foreach(const QString mapkey,MapKeys){
-            if(mapkey.contains("DefectPoint")){
-                countDefectAmount++;
-            }
-        }
-        countDefectAmount = 0;
+        //MapGroups ("ABlack", "ARed", "AWhite")
         for(int i=0 ; i<MapGroups.count(); i++){
             QString mapgroupName = MapGroups[i];
             QString MeanGray,index,stringValue;
             QStringList defectList;
-            //MapGroups ("ABlack", "ARed", "AWhite")
-
             qDebug()<<"["<<mapgroupName<<"]";
+            defectInfo newPattern;
+            newPattern.PatternName = mapgroupName;
+
             for(int j=0 ;j<MapKeys.count() ; j++){
                 QString mapkey = MapKeys[j];
                 //MapKeys ("ABlack/DefectPoint_1", "ABlack/DefectPoint_2", "ABlack/MeanGray", "ABlack/index", "ARed/DefectPoint_1", "ARed/DefectPoint_2", "ARed/MeanGray", "ARed/index", "AWhite/DefectPoint_1", "AWhite/DefectPoint_2", "AWhite/MeanGray", "AWhite/index")
@@ -1623,6 +1659,12 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                     if(mapkey.contains("DefectPoint")){
                         stringValue = MapSetting.value(mapgroupName+"/"+mapkey).toString();
                         defectList.append(stringValue);
+                        QString trimmedStr = stringValue.mid(1, stringValue.length() - 2);
+                        QStringList parts = trimmedStr.split(',');
+                        int x = parts[0].toInt();
+                        int y = parts[1].toInt();
+                        QPoint coordinate =QPoint(x, y);
+                        newPattern.defectPoint.append(coordinate);
                     }else if(mapkey.contains("MeanGray")){
                         // value is like 0.2(double)
                         MeanGray = MapSetting.value(mapgroupName+"/"+mapkey).toString();
@@ -1634,7 +1676,9 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                     }
                 }
             }
-            qDebug()<<MeanGray<<index<<defectList;
+            DrawRectangle.append(newPattern);
+            qDebug()<<MeanGray<<index<<defectList<<num;
+
             int defectNumber = 1;
             for(int t=0 ; t<defectList.size();t++){
                 ui->table_defectlist->insertRow(t);
@@ -1662,5 +1706,13 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
             }
             qDebug()<<"-------------";
         }
+        for(defectInfo &Pattern : DrawRectangle){
+            if(Pattern.PatternName == show_pattern_name.at(num - 1)){
+                ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
+            }
+        }
+//        for(defectInfo &Pattern : DrawRectangle){
+//            qDebug()<<Pattern.PatternName<<Pattern.defectPoint;
+//        }
     }
 }

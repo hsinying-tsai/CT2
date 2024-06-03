@@ -30,10 +30,8 @@ public:
     QPixmap orig_pic;
     QPixmap mat2pixmap(cv::Mat const& src);
     QPoint numDegrees;
-    QVector<int> matrix_coodinate = {500,700, 800,1000, 1100,1300 , 1400,1600};
-
     bool m_isDragging = false;
-    void setImage(const QPixmap &image);
+    void setImage(const QPixmap &image,const QVector<QPoint> DefectCoordinates);
     void mouseMoveEvent(QMouseEvent *ev);
     void mousePressEvent(QMouseEvent *ev);
     void mouseReleaseEvent(QMouseEvent *ev);
@@ -44,7 +42,7 @@ public:
     void addRectangle(const QRect &rect);
     void addRectangle2(const QRectF &rect);
     void updateBoxPosition();
-    void drawRectangleOnImage(cv::Mat& image);
+    void drawRectangleOnImage(cv::Mat& image,const QVector<QPoint> DefectVectors);
     void updateRectangle2();
 
 signals:
