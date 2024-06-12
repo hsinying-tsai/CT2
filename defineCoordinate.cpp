@@ -3,7 +3,6 @@
 
 void defineCoordinate::defNode(QVector<QPoint> flaws,int index,bool isHead)
 {
-    qDebug()<<"123->"<<flaws<<"->"<<index;
     if(isHead == true){
         vector_PG_flaw.clear();
     }
@@ -15,9 +14,7 @@ void defineCoordinate::defNode(QVector<QPoint> flaws,int index,bool isHead)
 
         // definite node pattern number
         current->index = index;
-        qDebug()<<"--"<<i;
         if(isHead == true){
-            qDebug()<<"First"<<flaws[i].x()<<flaws[i].y();
             first = current;
             previous = current;
             current->prev = NULL;
@@ -28,7 +25,6 @@ void defineCoordinate::defNode(QVector<QPoint> flaws,int index,bool isHead)
             current->next = NULL;
             previous = current;
         }
-        qDebug()<<"vector_PG_flaw"<<vector_PG_flaw;
     }
 //    current = first;
 }

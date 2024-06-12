@@ -34,6 +34,7 @@
 #include "imageprocess.h"
 #include "my_qlabel.h"
 #include <QQueue>
+#include <QTimer>
 QT_BEGIN_NAMESPACE
 extern char buffIni[40];
 extern char iniFile[20];
@@ -52,7 +53,7 @@ public:
     int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0;
     double factor_X=1,factor_Y=1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
-            , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false;
+            , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false,closeSocketAlarm = true,clearCommand = true;
     Logger logger;
     defineCoordinate DC;
     INI ini;
@@ -163,8 +164,8 @@ private slots:
     void takeQImagetoList(const QImage &image, int OisBig);
     void runInit();
     void on_comboBox_model_activated(const QString ModelName);
-
     void on_comboBox_date_activated(const QString TimeDir);
+
 
 private:
 
@@ -186,5 +187,17 @@ private:
     QStringList RunPatternName;
     //for command
     QQueue<QString> commandQueue;
+
+    QTimer *timer_connect = new QTimer(this);
+
+
+
+
+private slots:
+    //Alarm
+    void showAlarm(bool isSocketError, QString command);
+    void onConnectTimeout();
+    void onStateChanged();
+
 };
 #endif // WIDGET_H

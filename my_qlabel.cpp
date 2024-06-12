@@ -13,12 +13,14 @@ my_qlabel::my_qlabel(QWidget *parent)
     paint.height = 50;
     zoom.width = 3840;
     zoom.height = 2160;
+    labelWidth = 768;
+    labelHeight = 432;
     connect(this,&my_qlabel::rectangleClicked,[this](int index){
         qDebug()<<"recatngle"<<index+1<<"is clicked";
-//        this->rectangleClicked(index);
+        this->rectangleClicked(index);
         logger.writeLog(Logger::Info,"User clicked rectangle number " + QString::number(index+1)+".");
     });
-    updateRectangle2();
+//    updateRectangle2();
 
 }
 
@@ -44,33 +46,32 @@ void my_qlabel::drawRectangleOnImage(cv::Mat &image,const QVector<QPoint> Defect
 {
     rectangles.clear();
     foreach(const QPoint &coodinate,DefectVectors){
-//        qDebug()<<coodinate.x()<<coodinate.y();
-        addRectangle(QRect(coodinate.x()-10,coodinate.y()-10,paint.width,paint.height));
+        addRectangle(QRect(coodinate.x()-25,coodinate.y()-25,paint.width,paint.height));
     }
+    updateRectangle2();
     for(const QRect& rect : rectangles){
         cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
         cv::rectangle(image, frame, cv::Scalar(255,0,0),3);
     }
     paint.pix = mat2pixmap(image);
-    updateRectangle2();
 }
 
 void my_qlabel::updateRectangle2()
 {
     rectangles2.clear();
     qDebug()<<"-------------";
-    qDebug()<<"Info:"<<zoom.x+20<<zoom.y+20<<magnificationFactor<<zoomtime;
     for(const QRect &rect:rectangles){
         QRectF tmp_rect;
-        tmp_rect.setX((rect.x()-zoom.x) *0.15 *magnificationFactor + magnificationFactor*zoomtime);
-        tmp_rect.setY((rect.y()-zoom.y) *0.15 *magnificationFactor + magnificationFactor*zoomtime);
-//        tmp_rect.setX(zoom.x+rect.x()+20);
-//        tmp_rect.setY(zoom.y+rect.y()+20);
 
-        tmp_rect.setWidth(paint.width+10);
-        tmp_rect.setHeight(paint.height+10);
-//        qDebug()<<(rect.x()-zoom.x) *0.15 *magnificationFactor + magnificationFactor*zoomtime<<(rect.y()-zoom.y) *0.15 *magnificationFactor + magnificationFactor*zoomtime;
-        qDebug()<<tmp_rect;
+//        tmp_rect.setX((rect.x()-zoom.x) *0.2 *magnificationFactor + magnificationFactor*zoomtime);
+//        tmp_rect.setY((rect.y()-zoom.y) *0.2 *magnificationFactor + magnificationFactor*zoomtime);
+        tmp_rect.setX((rect.x()-zoom.x)*(labelWidth/zoom.width));
+        tmp_rect.setY((rect.y()-zoom.y)*(labelHeight/zoom.height));
+
+        tmp_rect.setWidth(5+0.875*(zoomtime-1));
+        tmp_rect.setHeight(5+0.875*(zoomtime-1));
+        qDebug()<<"3840X2160"<<rect;
+        qDebug()<<"768X432"<<tmp_rect;
         addRectangle2(QRectF(tmp_rect.x(),tmp_rect.y(),tmp_rect.width(),tmp_rect.height()));
     }
 }
@@ -90,10 +91,11 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
     updateRectangle2();
     this->x = ev->x();
     this->y = ev->y();
-    qDebug()<<"Mouse"<<ev->x()<<ev->y();
     emit Mouse_Pos();
     for(const QRectF& rect : rectangles2){
+        qDebug()<<"Move"<<rect<<x<<y;
         if(rect.contains((ev->pos()))){
+            qDebug()<<"In";
             QToolTip::showText(ev->globalPos(),"點選放大");
         }else{
             QToolTip::hideText();
@@ -124,7 +126,6 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
             zoom.pix = paint.pix.copy(zoom.x-del.x, zoom.y-del.y, zoom.width, zoom.height);
             this->setPixmap(zoom.pix);
         }
-
     }
 }
 
@@ -153,6 +154,7 @@ void my_qlabel::mouseReleaseEvent(QMouseEvent *ev)
 
     m_isDragging = false;
     qDebug()<<"左鍵放掉";
+
     updateMousePosition();
 }
 
@@ -177,7 +179,7 @@ void my_qlabel::updateMousePosition()
     }else if(zoom.y>2160){
         zoom.y = 2160;
     }
-
+    qDebug()<<"左上:("<<zoom.x<<","<<zoom.y<<")";
 }
 
 void my_qlabel::addRectangle(const QRect &rect)
@@ -198,19 +200,28 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
     qDebug()<<"magnificationFactor"<<magnificationFactor;
     numDegrees = ev->angleDelta();
     if(numDegrees.y()>0){
-        if(zoomtime == 40){
-            zoom.pix = paint.pix.copy(zoom.x, zoom.y, zoom.width, zoom.height);
+        if(zoomtime > 39){
             this->setPixmap(zoom.pix);
+            qDebug()<<"已顯示最大畫面";
+            zoomtime = 40;
         }else{
             qDebug()<<"forward";
             //放大的倍率
             magnificationFactor += zoomfactor;
             qDebug()<<"放大的倍率:"<<magnificationFactor;
+
             zoom.x += (3840*zoomfactor)*((x*(3840/labelWidth))/(zoom.width));
             zoom.y += (2160*zoomfactor)*((y*(2160/labelHeight))/(zoom.height));
+
+            deltaX = 0;
+            deltaY = 0;
+            deltaX = (3840*zoomfactor)*((x*(3840/labelWidth))/(zoom.width));
+            deltaY = (2160*zoomfactor)*((y*(2160/labelHeight))/(zoom.height));
+
             zoom.width -= 3840*zoomfactor;
             zoom.height -= 2160*zoomfactor;
-            // qDebug()<<"放大後的左上角座標:"<<zoom.x<<","<<zoom.y;
+//            qDebug()<<"放大後的左上角座標:"<<zoom.x<<","<<zoom.y;
+//            qDebug()<<zoom.width<<zoom.height;
             zoom.pix = paint.pix.copy(zoom.x, zoom.y, zoom.width, zoom.height);
             this->setPixmap(zoom.pix);
             zoomtime++;
@@ -218,7 +229,7 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
     }else{
         qDebug()<<"backward";
         // 圖片最小是原圖大小
-        if(zoomtime<0){
+        if(zoomtime<2){
             qDebug()<<"已縮至原大小";
             zoom.x = 0;
             zoom.y = 0;
@@ -239,6 +250,6 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
             zoomtime--;
         }
     }
-    updateRectangle2();
+//    updateRectangle2();
 }
 

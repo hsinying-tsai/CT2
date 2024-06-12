@@ -532,6 +532,7 @@ public:
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(90, 244, 101, 41));
         label_3->setFont(font1);
+        label_3->setStyleSheet(QString::fromUtf8(""));
         lbl_state = new QLabel(tab);
         lbl_state->setObjectName(QString::fromUtf8("lbl_state"));
         lbl_state->setGeometry(QRect(190, 240, 571, 51));
@@ -676,7 +677,7 @@ public:
         retranslateUi(Widget);
 
         tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(Widget);

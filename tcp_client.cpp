@@ -1,7 +1,6 @@
 #include "tcp_client.h"
 #include<QDebug>
 #include"widget.h"
-
 tcp_client::tcp_client(QWidget *parent)
 {
     this->client = new QTcpSocket(this);
@@ -11,13 +10,17 @@ void tcp_client::initClent()
 {
     if(client->state()==QAbstractSocket::ConnectedState){
         client->abort();
-        updateTCP_UI();
+        qDebug()<<"234"<<client->state();
     }else if(client->state()==QAbstractSocket::UnconnectedState){
+        qDebug()<<"try to connect";
         client->connectToHost(address,port);
-        updateTCP_UI();
     }else{
         emit recv_update("Socket is not ConnectedState");
-   }
+    }
+    qRegisterMetaType<QAbstractSocket::SocketState>("QAbstractSocket::SocketState");
+
+    disconnect(client, &QTcpSocket::stateChanged, this, &tcp_client::onStateChanged);
+    connect(client, &QTcpSocket::stateChanged, this, &tcp_client::onStateChanged);
 
     //recv connect
     connect(client,&QTcpSocket::readyRead,[this]{
@@ -28,30 +31,37 @@ void tcp_client::initClent()
 //        qDebug()<< rev_text;
         emit recv_update(rev_text.toUtf8());
     });
+
 #if QT_VERSION < QT_VERSION_CHECK(5,15,0)
     connect(client, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
             [this](QAbstractSocket::SocketError){
-                emit recv_update("SocketError");
+//                emit recv_update("SocketError");
+
             });
 #else
     connect(client,&QAbstractSocket::errorOccurred,[this](QAbstractSocket::SocketError){
-        emit recv_update("SocketError");
+        emit recv_update("Socket");
     });
 #endif
 }
 
 void tcp_client::updateTCP_UI()
 {
-    connect(client,&QTcpSocket::connected,[this]{
-        logger.writeLog(Logger::Warning, "Socket connnection successful.");
-        connnect_state =1;
-        emit connect_UIupdate();
-    });
-    connect(client,&QTcpSocket::disconnected,[this]{
-        logger.writeLog(Logger::Warning, "Socket connnection failed.");
-        connnect_state =0;
-        emit connect_UIupdate();
-    });
+    emit connect_UIupdate();
 }
+void tcp_client::onStateChanged(QAbstractSocket::SocketState state) {
+    if(state == QAbstractSocket::ConnectedState){
+        logger.writeLog(Logger::Info, "Socket connection successful.");
+        connnect_state = 1;
+        qDebug() << "TCP1";
+    }else if(state == QAbstractSocket::UnconnectedState){
+        logger.writeLog(Logger::Warning, "Socket connection failed.");
+        connnect_state = 0;
+        qDebug() << "TCP2";
+        if(client->errorString() == "The remote host closed the connection"){
+            emit recv_update("SocketError");
+        }
 
-
+    }
+    updateTCP_UI();
+}

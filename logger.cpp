@@ -25,7 +25,14 @@ void Logger::writeLog(LogType type, const QString &message)
 {
     QDateTime currentDateTime = QDateTime::currentDateTime();
     dataTimeString = currentDateTime.toString("hh:mm:ss");
+
+    //如果沒有下三行->QFSFileEngine::open: No file name specified
+    timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");
+    logFileName = QString("log_%1.log").arg(timestamp);
+    QDir logDir("Log");
+    filePath = logDir.filePath(logFileName);
     QFile logFile(filePath);
+
 //    qDebug()<<filePath;
     emit updateUILog(logTypeToString(type),message);
     if (!logFile.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {

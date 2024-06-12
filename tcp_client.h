@@ -15,16 +15,14 @@ public:
     void initClent();
     void updateTCP_UI();
     int connnect_state = 0;
-    QString send_fromWd;
     QTcpSocket *client;
     Logger logger;
     QHostAddress address;
     unsigned short port;
-
+    void onStateChanged(QAbstractSocket::SocketState state);
 signals:
     void recv_update(const QString);
     void connect_UIupdate();
 
 };
-
 #endif // TCP_CLIENT_H

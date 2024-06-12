@@ -151,6 +151,7 @@ void FuncPar::removePattern(QString patternName, QString ModelPath)
         out << line << "\n";
     }
     Modelfile.close();
+    qDebug()<<"clear the pattern info";
 }
 FuncPar::~FuncPar()
 {

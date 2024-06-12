@@ -157,8 +157,6 @@ QMouseEvent
 -
 QThread
 -
-QTimer
--
 QValidator
 -
 QWheelEvent
@@ -250,6 +248,8 @@ imageprocess.h
 my_qlabel.h
 /home/agx/Desktop/0321_qt/my_qlabel.h
 QQueue
+-
+QTimer
 -
 
 /opt/pylon/include/Base/GCArray.h

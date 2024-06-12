@@ -16,8 +16,8 @@ class my_qlabel : public QLabel
     Q_OBJECT
 public:
     explicit my_qlabel(QWidget *parent = 0);
-    int x,y,zoomtime,labelWidth,labelHeight;
-    double zoomfactor = 0.02, magnificationFactor = 1;
+    int x,y,zoomtime = 1,labelWidth,labelHeight;
+    double zoomfactor = 0.02, magnificationFactor = 1,deltaX,deltaY;
     struct frame{
         double x,y;
         qreal width, height;

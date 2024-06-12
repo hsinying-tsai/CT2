@@ -5,7 +5,6 @@
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QThread>
-#include <QTimer>
 #include <QValidator>
 #include <QWheelEvent>
 #include "./ui_widget.h"
@@ -42,6 +41,8 @@ Widget::Widget(QWidget *parent)
     });
 
     connect(ui->list_model, &QListWidget::itemEntered, this, &Widget::updateComboBoxModel);
+    connect(tc->client, &QTcpSocket::stateChanged, this, &Widget::onStateChanged);
+
     //    tc = new tcp_client();
     tc->moveToThread(&clientThread);
     INI_UI();
@@ -72,40 +73,41 @@ Widget::Widget(QWidget *parent)
     connect(timer_error,SIGNAL(timeout()),this,SLOT(QtimerError()));
     timer_error->start(1000);
 
+    // clock to check socket connect alarm
+    timer_connect->setInterval(5000);
+    timer_connect->setSingleShot(true);
+    connect(timer_connect,SIGNAL(timeout()),this,SLOT(onConnectTimeout()));
+
     // do reschedule and send command
     QTimer *timer_command = new QTimer(this);
     connect(timer_command,&QTimer::timeout,this,[this](){
         //連線狀態下才需check
         if(tc->connnect_state == 1){
-            qDebug()<<"check"<<commandQueue;
             if(!commandQueue.isEmpty()){
                 int valueIndex = -1;
                 //DM200,R215的指令優先傳送
-                qDebug()<<"ori："<<commandQueue;
+//                qDebug()<<"ori："<<commandQueue;
                 for(int i = 0; i < commandQueue.size(); ++i){
                     if (commandQueue[i].contains("DM200") || commandQueue[i].contains("R215")) {
                         valueIndex = i;
                     }
                     if (valueIndex != -1) {
                         QString InsertCommand = commandQueue.takeAt(valueIndex);
-                        qDebug()<<"Insert"<<InsertCommand<<"to the head";
+//                        qDebug()<<"Insert"<<InsertCommand<<"to the head";
                         commandQueue.prepend(InsertCommand);
                         valueIndex=-1;
                     }
                 }
                 //error狀態閃黃燈
                 if(error == true){
-                    qDebug()<<"blink";
                     LightBlink++;
                     if(LightBlink%2 == 1){
-                        qDebug()<<"YELLOW";
                         ui->lbl_plc->setStyleSheet("border-width: 3px;"
                                                    "border-radius: 20px;"
                                                    "margin:10px;"
                                                    "padding:20px;"
                                                    "background-color: gold;");
                     }else{
-                        qDebug()<<"TRANSPARTENT";
                         ui->lbl_plc->setStyleSheet("border-width: 3px;"
                                                    "border-radius: 20px;"
                                                    "margin:10px;"
@@ -113,9 +115,10 @@ Widget::Widget(QWidget *parent)
                                                    "background-color: transparent;");
                     }
                 }
-                qDebug()<<"fixed："<<commandQueue;
+//                qDebug()<<"fixed："<<commandQueue;
                 WR_command(commandQueue.head());
-            }
+                qDebug()<<"check"<<commandQueue;
+            }   
         }
     });
     timer_command->start(200);
@@ -130,6 +133,7 @@ void Widget::INI_UI()
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
     connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
     connect(tc, SIGNAL(connect_UIupdate()), this, SLOT(connect_label_update()));
+
     ui->PT_width_Edit->setText(QString("%1").arg(COORDINATE_PTsX));
     ui->PT_height_Edit->setText(QString("%1").arg(COORDINATE_PTsY));
     connect(ui->puB_read, &QPushButton::clicked, this, &Widget::saveText);
@@ -152,6 +156,8 @@ void Widget::INI_UI()
 
     //定義comboBox_model下拉式選單
     updateComboBoxModel();
+
+
 }
 
 void Widget::cameraInit()
@@ -188,12 +194,83 @@ void Widget::cameraInit()
     }
 }
 
+void Widget::showAlarm(bool isSocketError, QString command)
+{
+    clearCommand = false;
+    QMessageBox AlarmCheck;
+    //true  -> socket connection error
+    //false -> detect flow error
+    if(isSocketError == true){
+        AlarmCheck.setWindowTitle("通訊異常");
+        AlarmCheck.setText("偵測到socket通訊異常,請再嘗試連接或中斷連接.");
+        QPushButton *tryButton = AlarmCheck.addButton(tr("Try"), QMessageBox::ActionRole);
+        QPushButton *abortButton = AlarmCheck.addButton(QMessageBox::Abort);
+        AlarmCheck.setIcon(QMessageBox::Critical);
+        if(closeSocketAlarm == true){
+            AlarmCheck.close();
+        }else{
+            AlarmCheck.exec();
+            if (AlarmCheck.clickedButton() == tryButton) {
+                qDebug()<<"try";
+                tc->client->abort();
+                tc->address = QHostAddress(ui->AddressEdit->text());
+                tc->port = ui->PortEdit->text().toUShort();
+                tc->initClent();
+                ui->lbl_state->setText("等待連接");
+                timer_connect->start();
+            }else if (AlarmCheck.clickedButton() == abortButton) {
+                closeSocketAlarm = true;
+                qDebug()<<"clicked absort";
+                tc->client->abort();
+            }
+            AlarmCheck.close();
+        }
+
+    }
+}
+
+void Widget::onConnectTimeout()
+{
+    if (tc->client->state() != QAbstractSocket::ConnectedState) {
+         ui->lbl_state->setText("重新連接失敗");
+    }
+}
+
+void Widget::onStateChanged()
+{
+    if (tc->client->state() == QAbstractSocket::ConnectedState) {
+        //確認是否為斷線後重新連接
+        if(closeSocketAlarm == false){
+            timer_connect->stop();  // 成功連接，停止計時器
+            ui->lbl_state->setText("重新連接成功");
+            qDebug()<<"onStateChange:"<<commandQueue;
+            QString message = QString("目前流程為: %1 是否要繼續流程？").arg("|測試|");
+            QMessageBox::StandardButton checkContinueRun;
+            checkContinueRun = QMessageBox::question(this, "確認", message, QMessageBox::Yes | QMessageBox::No);
+            if (checkContinueRun == QMessageBox::Yes) {
+                ui->lbl_state->setText("｜繼續運行檢測流程｜");
+            }else{
+                ui->lbl_state->setText("請確認是否重新運行");
+                QMessageBox::StandardButton checkClearCommand;
+                QString message = QString("將重新運行檢測流程");
+                checkClearCommand = QMessageBox::question(this, "重新運行" , message, QMessageBox::Yes| QMessageBox::No);
+                if (checkClearCommand == QMessageBox::Yes) {
+                    ui->lbl_state->setText("｜重新運行檢測流程｜");
+                    clearCommand = true;
+                }else{
+                    qDebug()<<"回到上個問題";
+                }
+            }
+            connect_label_update();
+        }
+    }
+}
+
 
 void Widget::OnNewGrabResult(int userHint)
 {
     if ((userHint == 0) && m_camera[0].IsOpen())
     {
-
         QMutexLocker locker( m_camera[0].GetBmpLock() );
         QImage image = m_camera[0].GetImage();
         this->ui->lbl_Img->setPixmap(QPixmap::fromImage(image));
@@ -298,19 +375,14 @@ void Widget::on_puB_next_clicked()
 void Widget::recv_label_update(QString message)
 {
     message = message.replace("\r\n","");
-    //show somethig in textRecv
-    if (message == "SocketError"){
+    if(message.contains("SocketError")){
         ui->textRecv->append(message);
         qDebug()<<"received:"<<message;
-    }else{
-        ui->textRecv->append("received:"+message+"\tfrom: "+str1);
-        qDebug()<<"received:"<<message<<"\tfrom"<<str1;
-    }
-
-    if (commandQueue.isEmpty()){
-        qDebug()<<"prevent crushed";
-    }else if(message == "SocketError"){
+        closeSocketAlarm = false;
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
+        showAlarm(true,"NULL");
+    }else if (str1.isEmpty()){
+        qDebug()<<"prevent crushed";
     }else if(str1 == "RD R215"){
         commandQueue.dequeue();
         if(message == "1"){
@@ -333,6 +405,9 @@ void Widget::recv_label_update(QString message)
                                        "background-color: green;");
         }
     }else {
+        closeSocketAlarm = true;
+        ui->textRecv->append("received:"+message+"\tfrom: "+str1);
+        qDebug()<<"received:"<<message<<"\tfrom"<<str1;
         logger.writeLog(Logger::Info, "Received message " + message + ".");
         //Read
         if (ReadpuB_isPressed == true) {
@@ -360,7 +435,6 @@ void Widget::recv_label_update(QString message)
                 buffer[11] = ui->R207_Edit->text();
                 buffer[12] = ui->R212_Edit->text();
                 buffer[13] = ui->R214_Edit->text();
-
                 commandQueue.enqueue("RDS DM200 7");
             } else if (str1 == "RDS DM200 7") {
                 parts = message.split(" ");
@@ -462,7 +536,7 @@ void Widget::recv_label_update(QString message)
                 }else if(parts[1] == "R204"){
                     commandQueue.dequeue();
                     //if change_flawPG == true ->to step.5
-                    qDebug()<<DC.vector_PG_flaw;
+
                     if(!DC.vector_PG_flaw.isEmpty()){
                         change_flawPG = true;
                         QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(DC.current->index);
@@ -470,6 +544,7 @@ void Widget::recv_label_update(QString message)
                         commandQueue.enqueue(buffer_combined);
                     }else{
                         qDebug()<<"no flaws";
+                        ui->lbl_state->setText("未檢測出瑕疵點");
                         commandQueue.enqueue("WR R214 1");
                     }
 
@@ -517,7 +592,6 @@ void Widget::recv_label_update(QString message)
 
             }else if(parts[1]=="DM200"){
                 commandQueue.dequeue();
-                qDebug()<<"dequeue DM200";
 //              qDebug()<<"alive";
             }else if(parts[1] == "R202"){
                 commandQueue.dequeue();
@@ -532,20 +606,18 @@ void Widget::recv_label_update(QString message)
                 }
                 commandQueue.enqueue("WR R202 1");
             }else if(change_flawPG == true){
-                qDebug()<<"！！！";
                 // change flaw pattern
                 // step5 step6 step7
-
-                if(parts[1] == "DM204"){
+                if(parts[1].contains("DM204")){
                     commandQueue.dequeue();
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
                     commandQueue.enqueue(buffer_combined);
-                }else if(parts[1] == "DM206"){
+                }else if(parts[1].contains("DM206")){
                     commandQueue.dequeue();
                     qDebug()<<"拍攝微觀";
                     qDebug()<<"目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片";
-                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
+                    ui->lbl_state->setText("|微觀|目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
                     on_puB_samllGrab_clicked();
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
@@ -590,7 +662,6 @@ void Widget::recv_label_update(QString message)
                 //R201 1
                 //R200、R201 ->successful connection
                 commandQueue.dequeue();
-                qDebug()<<"dequeue R201";
                 buffer[4] = "0";
                 buffer[5] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R200 and R201.");
@@ -612,7 +683,6 @@ void Widget::recv_label_update(QString message)
                 buffer[7] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R202 and R203.");
                 qDebug() << "--------------Step_2.server已回應OK，並將R202、R203歸零\n";
-                qDebug()<<"dequeue RD R203";
                 commandQueue.enqueue("WRS R202 2 0 0");
             }
             if (buffer[9] == "1"){
@@ -624,7 +694,6 @@ void Widget::recv_label_update(QString message)
                 logger.writeLog(Logger::Info, "Edge reset R204 and R205.");
                 qDebug() << "--------------Step_4.server已回應OK，並將R204、R205歸零\n";
                 ui->lbl_state->setText("｜微觀｜開始拍攝微觀");
-                qDebug()<<"dequeue RD R205";
                 commandQueue.enqueue("WRS R204 2 0 0");
             }
             if(buffer[11] == "1"){
@@ -635,13 +704,11 @@ void Widget::recv_label_update(QString message)
                 buffer[11] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R206 and R207.");
                 qDebug() << "--------------Step_4.server已回應OK，並將R206、R207歸零\n";
-                qDebug()<<"dequeue RD R207";
                 commandQueue.enqueue("WRS R206 2 0 0");
             }
             if(buffer[12] == "1"){
                 //R212 1
                 commandQueue.dequeue();
-                qDebug()<<"dequeue RD R212";
                 buffer[12] = "0";
                 qDebug()<<"--------------Step_2.PLC ready to run.";
                 ui->puB_start->setEnabled(true);
@@ -655,6 +722,7 @@ void Widget::recv_label_update(QString message)
 
 void Widget::connect_label_update()
 {
+
     if (tc->client->state() == QAbstractSocket::ConnectedState) {
         setWindowTitle(QString("CT2[%1:%2]")
                            .arg(tc->client->localAddress().toString())
@@ -664,32 +732,37 @@ void Widget::connect_label_update()
     }
     //connect state
     if (tc->connnect_state == 1) {
-        qDebug() << "--------------Step_1.Connection Successful";
-        change_flawPG = false;
-        commandQueue.clear();
-        str1.clear();
-        if(!commandQueue.contains("RD R212")){
-            commandQueue.enqueue("RD R212");
+        if(tc->client->errorString() !="The remote host closed the connection"){
+            qDebug() << "--------------Step_1.Connection Successful";
+            change_flawPG = false;
+            qDebug()<<"clearCommand:"<<clearCommand;
+            if(clearCommand){
+                qDebug()<<"Clear commandQueue:"<<commandQueue;
+                commandQueue.clear();
+                str1.clear();
+            }
+            if(!commandQueue.contains("RD R212")){
+                commandQueue.enqueue("RD R212");
+            }
+            DC.current = DC.first;
+            ui->textRecv->clear();
+            ui->textSend->clear();
+            ui->textRecv->setText("Socket connect.");
+
+            //連線成功
+            ui->lbl_plc->setStyleSheet("border-width: 3px;"
+                                       "border-radius: 20px;"
+                                       "margin:10px;"
+                                       "padding:20px;"
+                                       "background-color: green;");
+            ui->puB_connect->setText("Disconnect");
+            ui->puB_runMode->setEnabled(true);
+            ui->AddressEdit->setEnabled(false);
+            ui->PortEdit->setEnabled(false);
+            ui->textRecv->setEnabled(true);
+            ui->textSend->setEnabled(true);
+            ui->puB_sent->setEnabled(true);
         }
-        DC.current = DC.first;
-        ui->textRecv->clear();
-        ui->textSend->clear();
-        ui->textRecv->setText("Socket connect.");
-
-        //連線成功
-        ui->lbl_plc->setStyleSheet("border-width: 3px;"
-                                   "border-radius: 20px;"
-                                   "margin:10px;"
-                                   "padding:20px;"
-                                   "background-color: green;");
-        ui->puB_connect->setText("Disconnect");
-        ui->puB_runMode->setEnabled(true);
-        ui->AddressEdit->setEnabled(false);
-        ui->PortEdit->setEnabled(false);
-        ui->textRecv->setEnabled(true);
-        ui->textSend->setEnabled(true);
-        ui->puB_sent->setEnabled(true);
-
     } else if (tc->connnect_state == 0) {
         RunPatternIndex = 1;
         //連線失敗
@@ -717,21 +790,19 @@ void Widget::connect_label_update()
 void Widget::WR_command(QString WR_message)
 {
     if (tc->connnect_state == 1) {
-        qDebug()<<"-----";
         //將負值加上.S
         QStringList tmp_parts;
         tmp_parts = WR_message.split(" ");
         if(ARM_posX < 0 || ARM_posY < 0){
             if(tmp_parts[1]=="DM204" || tmp_parts[1]=="DM206"){
+                commandQueue.dequeue();
                 QString buffer_combined = QString("%1 %2 %3").arg(tmp_parts[0]).arg(tmp_parts[1]+".S").arg(tmp_parts[2]);
                 WR_message = buffer_combined;
-                str1 = QString("%1 %2 %3").arg(tmp_parts[0]).arg(tmp_parts[1]).arg(tmp_parts[2]);
-            }else{
-                str1 = WR_message;
+                commandQueue.enqueue(WR_message);
             }
-        }else{
-            str1 = WR_message;
         }
+        str1 = WR_message;
+
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         const QByteArray send_data = WR_message.toUtf8();
         if (send_data.isEmpty()){
@@ -919,7 +990,6 @@ void Widget::on_puB_saveINI_clicked()
     }else{
         qDebug()<<"Failed_Y";
     }
-
 }
 
 void Widget::on_puB_remove_p_clicked()
@@ -933,9 +1003,13 @@ void Widget::on_puB_remove_p_clicked()
             QString ModelName = ui->lbl_modelPT->text();
             QString ModelPath = QString("%1%2%3").arg(QCoreApplication::applicationDirPath()+"/Model/").arg(ModelName).arg("/recipe.ini");
             FP.removePattern(PTselectedItem->text(),ModelPath);
-            delete ui->list_Pattern->takeItem(ui->list_Pattern->row(PTselectedItem));
             qDebug()<<"已刪除pattern:"<<PTselectedItem->text();
             ui->lbl_state->setText("已刪除pattern:"+PTselectedItem->text());
+            delete ui->list_Pattern->takeItem(ui->list_Pattern->row(PTselectedItem));
+            //如果正在修改設為運行的model,需重新setCurrent
+            if(ModelName == ui->lbl_CurModel->text()){
+                ui->lbl_CurModel->setText("(null)");
+            }
         } else {
             ui->lbl_state->setText("取消刪除pattern:"+PTselectedItem->text());
             qDebug() << "取消刪除pattern:"<<PTselectedItem->text();
@@ -959,23 +1033,43 @@ void Widget::reviseconfigINI(QString section, QString key ,QString Value)
 
 void Widget::on_puB_add_p_clicked()
 {
-    revisePatternList = true;
 
-    if(ui->list_Pattern->count() == 0){
-        qDebug()<<"未選擇Model";
-        ui->lbl_state->setText("尚未選擇Model！");
-    }else{
+    revisePatternList = true;
+    if(!ui->lbl_modelPT->text().isEmpty()){
         bool ok;
         QString newItemText = QInputDialog::getText(this,"新增",
                                                     "請輸入要新增的pattern:",
                                                     QLineEdit::Normal,
                                                     QString(),&ok);
         if(ok && !newItemText.isEmpty()){
-            addPattern = true;
-            ui->list_Pattern->addItem(newItemText);
-        }
-    }
+            //check pattern exist
+           addPattern = true;
+           for(model_name &model : modelList) {
+               if(model.modelName == ui->lbl_modelPT->text()){
+                    for(QString &patternName:model.pattern_names){
+                        if(newItemText == patternName){
+                            addPattern = false;
+                            ShowWarning("Pattern:"+newItemText+" 已存在");
+                            ui->lbl_state->setText("輸入的"+newItemText+" 已存在");
+                        }
+                    }
 
+               }
+           }
+
+           if(addPattern == true){
+                ui->list_Pattern->addItem(newItemText);
+                //如果正在修改設為運行的model,需重新setCurrent
+                if(ui->lbl_modelPT->text() == ui->lbl_CurModel->text()){
+                    ui->lbl_CurModel->setText("(null)");
+                }
+           }
+        }
+
+    }else{
+        qDebug()<<"未選擇Model";
+        ui->lbl_state->setText("尚未選擇Model！");
+    }
 }
 
 
@@ -988,15 +1082,18 @@ void Widget::on_puB_save_p_clicked()
     }else{
         QString currentModel = ui->lbl_modelPT->text();
         QString tmp;
+
         for(model_name &model : modelList) {
              if(model.modelName == currentModel){
                 model.pattern_names.clear();
                 for(int i=0; i<ui->list_Pattern->count();i++){
+                    qDebug()<<i<<":"<<ui->list_Pattern->item(i)->text();
                     model.pattern_names.append(ui->list_Pattern->item(i)->text());
                     tmp = ui->list_Pattern->item(i)->text();
                 }
             }
         }
+
         QStringList tmpStringList;
         tmpStringList.append(tmp);
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
@@ -1006,6 +1103,11 @@ void Widget::on_puB_save_p_clicked()
             FP.show();
             addPattern = false;
         }
+        //如果正在修改設為運行的model,需重新setCurren
+        if(ui->lbl_modelPT->text() == ui->lbl_CurModel->text()){
+            ui->lbl_CurModel->setText("(null)");
+        }
+
     }
 }
 
@@ -1177,7 +1279,7 @@ void Widget::on_puB_add_m_clicked()
                                                 QString(),&ok);
 
     QString inputModel = newItemText;
-    QString modelPath= "/Model/";
+    QString modelPath= QCoreApplication::applicationDirPath()+"/Model/";
     QStringList createNewPattern;
     QDir modelFolder(modelPath);
     QMessageBox::StandardButton doublecheck;
@@ -1243,7 +1345,6 @@ void Widget::on_puB_remove_m_clicked()
                     ui->lbl_state->setText("刪除資料夾"+ deleDirPath + "失敗");
                 }
             } else {
-
                 qDebug() << "資料夾" << deleDirPath << "不存在";
             }
 
@@ -1313,8 +1414,9 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
     QString patternIndex =ui->table_defectlist->item(row, 2)->text();
     QString Number = ui->table_defectlist->item(row, 0)->text();
     QPixmap pic2;
-    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number;
+    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".bmp";
     pic2.load(pic2Path);
+    qDebug()<<"pic2Path"<<pic2Path;
     ui->lbl_pic2->setPixmap(pic2);
     QString DF_XY = ui->table_defectlist->item(row, 4)->text();
     QString DF_type = ui->table_defectlist->item(row, 5)->text();
@@ -1427,37 +1529,48 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
     qDebug()<<"Assume received defect info";
 
 
+    Images.clear();
     //for test
-//    tmp.index = 1;
-//    tmp.patternName = "White";
-//    tmp.meanGray = 0.1;
-//    tmp.defectPoint = {QPoint(10, 10), QPoint(20, 20)};
+    tmp.index = 1;
+    tmp.patternName = "White";
+    tmp.meanGray = 0.1;
+    tmp.BPenable = true;
+    tmp.defectPoint = {QPoint(10, 10), QPoint(20, 20)};
 
-//    Images.push_back(tmp);
+    Images.push_back(tmp);
 
-//    tmp.index = 2;
-//    tmp.patternName = "Black";
-//    tmp.meanGray = 0.2;
-//    tmp.defectPoint = {QPoint(50, 50), QPoint(60, 60)};
-//    Images.push_back(tmp);
+    tmp.index = 2;
+    tmp.patternName = "Black";
+    tmp.meanGray = 0.2;
+    tmp.BPenable = true;
+    tmp.defectPoint = {QPoint(-50, -50), QPoint(-60, -60)};
+    Images.push_back(tmp);
+
+    tmp.index = 3;
+    tmp.patternName = "Red";
+    tmp.meanGray = 0.2;
+    tmp.BPenable = true;
+    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
+    Images.push_back(tmp);
+
     qDebug()<<"顯示";
-    QVector<ImageProcess>::iterator it = Images.begin();
-    for(; it != Images.end(); it++) {
-        if(it->patternName == "White"){
-            QImage imageTest(QCoreApplication::applicationDirPath()+"/EXP45606_WHITE.bmp");
-            it->image = imageTest;
-            qDebug()<<"White";
-        }else{
-            QImage imageTest(QCoreApplication::applicationDirPath()+"/denoise.bmp");
-            it->image = imageTest;
-        }
-    }
+    //for test
+//    QVector<ImageProcess>::iterator it = Images.begin();
+//    for(; it != Images.end(); it++) {
+//        if(it->patternName == "White"){
+//            QImage imageTest(QCoreApplication::applicationDirPath()+"/EXP45606_WHITE.bmp");
+//            it->image = imageTest;
+//        }else{
+//            QImage imageTest(QCoreApplication::applicationDirPath()+"/denoise.bmp");
+//            it->image = imageTest;
+//        }
+//    }
 
 
-    process.process(&Images);
-    foreach(const ImageProcess &image, Images){
-        qDebug()<<image.defectPoint;
-    }
+//    process.process(&Images);
+//    foreach(const ImageProcess &image, Images){
+//        qDebug()<<image.defectPoint;
+//    }
 
     bool isHead = true;
     foreach(const ImageProcess &image, Images){
@@ -1573,20 +1686,21 @@ void Widget::runInit()
     qDebug()<<"|Initial|Initial Run parameter";
     //initial
 
+    //0612新增
+    clearCommand = true;
+
     RunPatternName.clear();
     change_flawPG = false;
     Images.clear();
     DC.current = DC.first;
     RunPatternIndex = 1;
     QString runModelname = ui->lbl_CurModel->text();
-    QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
-    QSettings setting(filePath, QSettings::IniFormat);
-    QStringList groups = setting.childGroups();
-    // 逐一讀取每個組的內容
-    foreach (QString group, groups) {
-        if(group != "COORDINATE" && group != "CAM1"){
-            RunPatternName.append(group);
-        }
+    for(model_name &model : modelList) {
+        if(model.modelName == runModelname){
+            for(QString &patternName : model.pattern_names){
+                RunPatternName.append(patternName);
+            }
+         }
     }
     RunPatternAmount = RunPatternName.size();
     qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
@@ -1609,7 +1723,6 @@ void Widget::on_comboBox_model_activated(const QString ModelName)
 
 void Widget::on_comboBox_date_activated(const QString TimeDir)
 {
-    qDebug()<<"--"<<TimeDir;
     QString ModelName = ui->comboBox_model->currentText();
     QString MapPath = "Model/"+ModelName+"/"+TimeDir+"/map.ini";
     QFile MapFile(MapPath);
@@ -1709,6 +1822,9 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
         for(defectInfo &Pattern : DrawRectangle){
             if(Pattern.PatternName == show_pattern_name.at(num - 1)){
                 ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
+//                QVector<QPoint> test = {QPoint(382,531)};
+//                ui->lbl_pic->setImage(pix_Ini,test);
+
             }
         }
 //        for(defectInfo &Pattern : DrawRectangle){
@@ -1716,3 +1832,5 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
 //        }
     }
 }
+
+
