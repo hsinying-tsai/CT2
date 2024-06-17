@@ -206,9 +206,19 @@ void Widget::showAlarm(bool isSocketError, QString command)
         QPushButton *tryButton = AlarmCheck.addButton(tr("Try"), QMessageBox::ActionRole);
         QPushButton *abortButton = AlarmCheck.addButton(QMessageBox::Abort);
         AlarmCheck.setIcon(QMessageBox::Critical);
-        if(closeSocketAlarm == true){
-            AlarmCheck.close();
+        //第一次中斷->嘗試自動重新連線
+        if(firstTryReconnect){
+            timer_connect->start();
+
+            qDebug()<<"Auto reconnect";
+            tc->client->abort();
+            tc->address = QHostAddress(ui->AddressEdit->text());
+            tc->port = ui->PortEdit->text().toUShort();
+            tc->initClent();
+            ui->lbl_state->setText("監測到socket中斷,自動嘗試連接...");
+
         }else{
+            //其餘讓user決定 try or abort
             AlarmCheck.exec();
             if (AlarmCheck.clickedButton() == tryButton) {
                 qDebug()<<"try";
@@ -216,52 +226,86 @@ void Widget::showAlarm(bool isSocketError, QString command)
                 tc->address = QHostAddress(ui->AddressEdit->text());
                 tc->port = ui->PortEdit->text().toUShort();
                 tc->initClent();
-                ui->lbl_state->setText("等待連接");
+                ui->lbl_state->setText("等待連接...");
                 timer_connect->start();
             }else if (AlarmCheck.clickedButton() == abortButton) {
-                closeSocketAlarm = true;
+                everOccurSocketError = false;
                 qDebug()<<"clicked absort";
                 tc->client->abort();
+                ui->lbl_state->setText("已手動中斷通訊");
             }
             AlarmCheck.close();
         }
-
     }
 }
 
 void Widget::onConnectTimeout()
 {
+    qDebug()<<"onConnectTimeout"<<tc->client->state();
     if (tc->client->state() != QAbstractSocket::ConnectedState) {
-         ui->lbl_state->setText("重新連接失敗");
+        if(firstTryReconnect){
+            firstTryReconnect = false;
+            showAlarm(true,"NULL");
+
+        }
+        ui->lbl_state->setText("重新連接失敗");
     }
 }
 
 void Widget::onStateChanged()
 {
-    if (tc->client->state() == QAbstractSocket::ConnectedState) {
+    if (tc->client->state() == QAbstractSocket::ConnectedState) { 
+
+        ui->lbl_plc->setStyleSheet("border-width: 3px;"
+                                   "border-radius: 20px;"
+                                   "margin:10px;"
+                                   "padding:20px;"
+                                   "background-color: green;");
+
         //確認是否為斷線後重新連接
-        if(closeSocketAlarm == false){
-            timer_connect->stop();  // 成功連接，停止計時器
-            ui->lbl_state->setText("重新連接成功");
-            qDebug()<<"onStateChange:"<<commandQueue;
-            QString message = QString("目前流程為: %1 是否要繼續流程？").arg("|測試|");
-            QMessageBox::StandardButton checkContinueRun;
-            checkContinueRun = QMessageBox::question(this, "確認", message, QMessageBox::Yes | QMessageBox::No);
-            if (checkContinueRun == QMessageBox::Yes) {
-                ui->lbl_state->setText("｜繼續運行檢測流程｜");
+        if(everOccurSocketError){
+            if(firstTryReconnect){
+                qDebug()<<"Auto";
+                ui->lbl_state->setText("自動重新連接成功");
             }else{
-                ui->lbl_state->setText("請確認是否重新運行");
-                QMessageBox::StandardButton checkClearCommand;
-                QString message = QString("將重新運行檢測流程");
-                checkClearCommand = QMessageBox::question(this, "重新運行" , message, QMessageBox::Yes| QMessageBox::No);
-                if (checkClearCommand == QMessageBox::Yes) {
-                    ui->lbl_state->setText("｜重新運行檢測流程｜");
-                    clearCommand = true;
+                qDebug()<<"manual";
+                ui->lbl_state->setText("重新連接成功");
+                qDebug()<<"onStateChange:"<<commandQueue;
+                //找出檢測指令
+                QString CurrentStep;
+                for(int i=0;i<commandQueue.count();i++){
+                    if(CurrentStep.isEmpty()){
+                        if(!commandQueue[i].contains("R215") && !commandQueue[i].contains("DM200")){
+                            CurrentStep = commandQueue[i];
+                            qDebug()<<CurrentStep;
+                        }
+                    }
+                }
+
+                QString message = QString("目前流程為: %1 ，是否要繼續流程？").arg(CurrentStep);
+                QMessageBox::StandardButton checkContinueRun;
+                checkContinueRun = QMessageBox::question(this, "確認", message, QMessageBox::Yes | QMessageBox::No);
+                if (checkContinueRun == QMessageBox::Yes) {
+                    ui->lbl_state->setText("｜繼續運行檢測流程｜");
                 }else{
-                    qDebug()<<"回到上個問題";
+                    ui->lbl_state->setText("請確認是否重新運行");
+                    QMessageBox::StandardButton checkClearCommand;
+                    QString message = QString("將重新運行檢測流程");
+                    checkClearCommand = QMessageBox::question(this, "重新運行" , message, QMessageBox::Yes| QMessageBox::No);
+                    if (checkClearCommand == QMessageBox::Yes) {
+                        ui->lbl_state->setText("｜重新運行檢測流程｜");
+                        clearCommand = true;
+                        //去刪除comandQueue
+                        connect_label_update();
+                    }else{
+                        //回到上個問題
+                        onStateChanged();
+                    }
                 }
             }
-            connect_label_update();
+            everOccurSocketError = false;
+            firstTryReconnect = true;
+            timer_connect->stop();  // 成功連接，停止計時器
         }
     }
 }
@@ -378,7 +422,7 @@ void Widget::recv_label_update(QString message)
     if(message.contains("SocketError")){
         ui->textRecv->append(message);
         qDebug()<<"received:"<<message;
-        closeSocketAlarm = false;
+        everOccurSocketError = true;
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
         showAlarm(true,"NULL");
     }else if (str1.isEmpty()){
@@ -405,7 +449,6 @@ void Widget::recv_label_update(QString message)
                                        "background-color: green;");
         }
     }else {
-        closeSocketAlarm = true;
         ui->textRecv->append("received:"+message+"\tfrom: "+str1);
         qDebug()<<"received:"<<message<<"\tfrom"<<str1;
         logger.writeLog(Logger::Info, "Received message " + message + ".");
@@ -732,6 +775,7 @@ void Widget::connect_label_update()
     }
     //connect state
     if (tc->connnect_state == 1) {
+        firstTryReconnect = true;
         if(tc->client->errorString() !="The remote host closed the connection"){
             qDebug() << "--------------Step_1.Connection Successful";
             change_flawPG = false;
@@ -740,6 +784,7 @@ void Widget::connect_label_update()
                 qDebug()<<"Clear commandQueue:"<<commandQueue;
                 commandQueue.clear();
                 str1.clear();
+                clearCommand = false;
             }
             if(!commandQueue.contains("RD R212")){
                 commandQueue.enqueue("RD R212");

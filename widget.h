@@ -53,7 +53,8 @@ public:
     int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0;
     double factor_X=1,factor_Y=1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
-            , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false,closeSocketAlarm = true,clearCommand = true;
+            , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false,everOccurSocketError = false
+            ,clearCommand = true, firstTryReconnect = true;
     Logger logger;
     defineCoordinate DC;
     INI ini;
