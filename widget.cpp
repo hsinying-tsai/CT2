@@ -556,6 +556,7 @@ void Widget::recv_label_update(QString message)
                         qDebug() << "--------------Step_6.server已回應OK.\n";
                         qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                         QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+                        ui->lbl_state->setText("｜微觀｜移動至X="+QString::number(ARM_posX));
                         commandQueue.enqueue(buffer_combined);
                     }else{
                         Images.push_back(tmp);
@@ -608,6 +609,7 @@ void Widget::recv_label_update(QString message)
                             ARM_posY = (DC.current->y - DC.current->prev->y)*factor_Y;
                             qDebug() << "--------------Step_6.Sending x = " << ARM_posX;
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM204").arg(ARM_posX);
+                            ui->lbl_state->setText("｜微觀｜移動至X="+QString::number(ARM_posX));
                             commandQueue.enqueue(buffer_combined);
                         }else{
                             // change pattern
@@ -624,6 +626,7 @@ void Widget::recv_label_update(QString message)
                     runInit();
                     commandQueue.dequeue();
                     qDebug()<<"New action";
+                    ui->lbl_state->setText("檢測流程結束");
                     str1.clear();
                     commandQueue.enqueue("RD R212");
                 }
@@ -644,7 +647,7 @@ void Widget::recv_label_update(QString message)
                 commandQueue.dequeue();
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀"<<RunPatternName.at(RunPatternIndex-2);
-                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
+//                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
                     on_puB_bigGrab_clicked();
                 }
                 commandQueue.enqueue("WR R202 1");
@@ -655,13 +658,15 @@ void Widget::recv_label_update(QString message)
                     commandQueue.dequeue();
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
+                    ui->lbl_state->setText("｜微觀｜移動至Y="+QString::number(ARM_posY));
                     commandQueue.enqueue(buffer_combined);
                 }else if(parts[1].contains("DM206")){
                     commandQueue.dequeue();
                     qDebug()<<"拍攝微觀";
                     qDebug()<<"目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片";
-                    ui->lbl_state->setText("|微觀|目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
+//                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
                     on_puB_samllGrab_clicked();
+
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
                     commandQueue.dequeue();
@@ -736,7 +741,7 @@ void Widget::recv_label_update(QString message)
                 buffer[9] = "0";
                 logger.writeLog(Logger::Info, "Edge reset R204 and R205.");
                 qDebug() << "--------------Step_4.server已回應OK，並將R204、R205歸零\n";
-                ui->lbl_state->setText("｜微觀｜開始拍攝微觀");
+                ui->lbl_state->setText("開始拍攝微觀");
                 commandQueue.enqueue("WRS R204 2 0 0");
             }
             if(buffer[11] == "1"){
@@ -1580,7 +1585,7 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
     tmp.patternName = "White";
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(10, 10), QPoint(20, 20)};
+    tmp.defectPoint = {QPoint(100, 100)};
 
     Images.push_back(tmp);
 
@@ -1588,15 +1593,15 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
     tmp.patternName = "Black";
     tmp.meanGray = 0.2;
     tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(-50, -50), QPoint(-60, -60)};
+    tmp.defectPoint = {QPoint(160, 160)};
     Images.push_back(tmp);
 
-    tmp.index = 3;
-    tmp.patternName = "Red";
-    tmp.meanGray = 0.2;
-    tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
-    Images.push_back(tmp);
+//    tmp.index = 3;
+//    tmp.patternName = "Red";
+//    tmp.meanGray = 0.2;
+//    tmp.BPenable = true;
+//    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
+//    Images.push_back(tmp);
 
     qDebug()<<"顯示";
     //for test
