@@ -1,0 +1,100 @@
+14:21:15	INFO : |SYSTEM| Log folder exist.
+14:21:15	INFO : |SYSYEM| Model folder exist.
+14:21:35	 : -------------------End-------------------.
+14:37:49	INFO : |SYSTEM| Log folder exist.
+14:37:49	INFO : |SYSYEM| Model folder exist.
+14:49:54	INFO : User clicked ButtonpuB_connect.
+14:49:54	INFO : Socket connection successful.
+14:49:54	INFO : User sent Message'RD R212'.
+14:49:54	INFO : Received message 1.
+14:49:55	INFO : User sent Message'RD R215'.
+14:49:55	INFO : User sent Message'WR DM200 1'.
+14:49:55	INFO : Received message OK.
+14:49:56	INFO : User sent Message'RD R215'.
+14:49:56	INFO : User sent Message'WR DM200 2'.
+14:49:56	INFO : Received message OK.
+14:49:57	INFO : User sent Message'RD R215'.
+14:49:57	INFO : User sent Message'WR DM200 3'.
+14:49:57	INFO : Received message OK.
+14:49:58	INFO : User sent Message'RD R215'.
+14:49:58	INFO : User sent Message'WR DM200 4'.
+14:49:58	INFO : Received message OK.
+14:49:59	INFO : User sent Message'RD R215'.
+14:49:59	INFO : User sent Message'WR DM200 5'.
+14:49:59	INFO : Received message OK.
+14:50:00	INFO : User sent Message'RD R215'.
+14:50:00	INFO : User sent Message'WR DM200 6'.
+14:50:00	INFO : Received message OK.
+14:50:01	INFO : User sent Message'RD R215'.
+14:50:01	INFO : User sent Message'WR DM200 7'.
+14:50:01	INFO : Received message OK.
+14:50:02	INFO : User sent Message'RD R215'.
+14:50:02	INFO : User sent Message'WR DM200 8'.
+14:50:02	INFO : Received message OK.
+14:50:03	INFO : User sent Message'RD R215'.
+14:50:03	INFO : User sent Message'WR DM200 9'.
+14:50:03	INFO : Received message OK.
+14:50:04	INFO : User sent Message'RD R215'.
+14:50:04	INFO : User sent Message'WR DM200 10'.
+14:50:04	INFO : Received message OK.
+14:50:05	INFO : User sent Message'RD R215'.
+14:50:05	INFO : User sent Message'WR DM200 11'.
+14:50:05	INFO : Received message OK.
+14:50:05	WARNING : Socket connection failed.
+14:50:05	WARNING : Socket The remote host closed the connection.
+14:50:05	WARNING : Socket connection failed.
+14:50:25	 : -------------------End-------------------.
+14:51:59	INFO : |SYSTEM| Log folder exist.
+14:51:59	INFO : |SYSYEM| Model folder exist.
+14:54:01	INFO : User clicked ButtonpuB_connect.
+14:54:01	INFO : Socket connection successful.
+14:54:01	INFO : User sent Message'RD R212'.
+14:54:01	INFO : Received message 1.
+14:54:02	INFO : User sent Message'RD R215'.
+14:54:02	INFO : User sent Message'WR DM200 1'.
+14:54:02	INFO : Received message OK.
+14:54:03	INFO : User sent Message'RD R215'.
+14:54:03	INFO : User sent Message'WR DM200 2'.
+14:54:03	INFO : Received message OK.
+14:54:04	INFO : User sent Message'RD R215'.
+14:54:04	INFO : User sent Message'WR DM200 3'.
+14:54:04	INFO : Received message OK.
+14:54:04	INFO : |SYSYEM| Model folder exist.
+14:54:05	INFO : User sent Message'RD R215'.
+14:54:05	INFO : User sent Message'WR DM200 4'.
+14:54:05	INFO : Received message OK.
+14:54:06	INFO : User sent Message'RD R215'.
+14:54:06	INFO : User sent Message'WR DM200 5'.
+14:54:06	INFO : Received message OK.
+14:54:07	INFO : User sent Message'RD R215'.
+14:54:07	INFO : User sent Message'WR DM200 6'.
+14:54:07	INFO : Received message OK.
+14:54:08	INFO : User sent Message'RD R215'.
+14:54:08	INFO : User sent Message'WR DM200 7'.
+14:54:08	INFO : Received message OK.
+14:54:09	INFO : User sent Message'RD R215'.
+14:54:09	INFO : User sent Message'WR DM200 8'.
+14:54:09	INFO : Received message OK.
+14:54:10	INFO : User sent Message'RD R215'.
+14:54:10	INFO : User sent Message'WR DM200 9'.
+14:54:10	INFO : Received message OK.
+14:54:11	INFO : User sent Message'RD R215'.
+14:54:11	INFO : User sent Message'WR DM200 10'.
+14:54:11	INFO : Received message OK.
+14:54:12	INFO : User sent Message'RD R215'.
+14:54:12	INFO : User sent Message'WR DM200 11'.
+14:54:12	INFO : Received message OK.
+14:54:13	INFO : User sent Message'RD R215'.
+14:54:13	INFO : User sent Message'WR DM200 12'.
+14:54:13	INFO : Received message OK.
+14:54:14	INFO : User sent Message'RD R215'.
+14:54:14	INFO : User sent Message'WR DM200 13'.
+14:54:14	INFO : Received message OK.
+14:54:15	INFO : User sent Message'RD R215'.
+14:54:15	INFO : User sent Message'WR DM200 14'.
+14:515:43:40	INFO : |SYSTEM| Log folder exist.
+15:43:40	INFO : |SYSYEM| Model folder exist.
+15:43:45	 : -------------------End-------------------.
+16:15:04	INFO : |SYSTEM| Log folder exist.
+16:15:04	INFO : |SYSYEM| Model folder exist.
+16:15:09	 : -------------------End-------------------.
