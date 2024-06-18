@@ -1428,7 +1428,7 @@ void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
 
 void Widget::on_puB_setCur_m_clicked()
 {
-
+    //123
     QListWidgetItem *selectedItem = ui->list_model->currentItem();
     if (selectedItem) {
         selectedItem->setForeground(Qt::blue);
