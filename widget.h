@@ -137,8 +137,6 @@ private slots:
     void updatetextlog(QString type, QString message);
     void prettiertextlog();
 
-
-
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
@@ -196,7 +194,7 @@ private:
 
 private slots:
     //Alarm
-    void showAlarm(bool isSocketError, QString command);
+    void showAlarm(bool isSocketError);
     void onConnectTimeout();
     void onStateChanged();
 

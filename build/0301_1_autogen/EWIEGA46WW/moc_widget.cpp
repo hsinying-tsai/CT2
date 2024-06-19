@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Widget_t {
-    QByteArrayData data[82];
-    char stringdata0[1250];
+    QByteArrayData data[81];
+    char stringdata0[1242];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -111,9 +111,8 @@ QT_MOC_LITERAL(75, 1151, 26), // "on_comboBox_date_activated"
 QT_MOC_LITERAL(76, 1178, 7), // "TimeDir"
 QT_MOC_LITERAL(77, 1186, 9), // "showAlarm"
 QT_MOC_LITERAL(78, 1196, 13), // "isSocketError"
-QT_MOC_LITERAL(79, 1210, 7), // "command"
-QT_MOC_LITERAL(80, 1218, 16), // "onConnectTimeout"
-QT_MOC_LITERAL(81, 1235, 14) // "onStateChanged"
+QT_MOC_LITERAL(79, 1210, 16), // "onConnectTimeout"
+QT_MOC_LITERAL(80, 1227, 14) // "onStateChanged"
 
     },
     "Widget\0on_puB_pre_clicked\0\0"
@@ -147,8 +146,8 @@ QT_MOC_LITERAL(81, 1235, 14) // "onStateChanged"
     "takeQImagetoList\0image\0OisBig\0runInit\0"
     "on_comboBox_model_activated\0ModelName\0"
     "on_comboBox_date_activated\0TimeDir\0"
-    "showAlarm\0isSocketError\0command\0"
-    "onConnectTimeout\0onStateChanged"
+    "showAlarm\0isSocketError\0onConnectTimeout\0"
+    "onStateChanged"
 };
 #undef QT_MOC_LITERAL
 
@@ -217,9 +216,9 @@ static const uint qt_meta_data_Widget[] = {
       72,    0,  376,    2, 0x08 /* Private */,
       73,    1,  377,    2, 0x08 /* Private */,
       75,    1,  380,    2, 0x08 /* Private */,
-      77,    2,  383,    2, 0x08 /* Private */,
-      80,    0,  388,    2, 0x08 /* Private */,
-      81,    0,  389,    2, 0x08 /* Private */,
+      77,    1,  383,    2, 0x08 /* Private */,
+      79,    0,  386,    2, 0x08 /* Private */,
+      80,    0,  387,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -273,7 +272,7 @@ static const uint qt_meta_data_Widget[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,   74,
     QMetaType::Void, QMetaType::QString,   76,
-    QMetaType::Void, QMetaType::Bool, QMetaType::QString,   78,   79,
+    QMetaType::Void, QMetaType::Bool,   78,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -337,7 +336,7 @@ void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 48: _t->runInit(); break;
         case 49: _t->on_comboBox_model_activated((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         case 50: _t->on_comboBox_date_activated((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 51: _t->showAlarm((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 51: _t->showAlarm((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 52: _t->onConnectTimeout(); break;
         case 53: _t->onStateChanged(); break;
         default: ;

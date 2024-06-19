@@ -1421,6 +1421,9 @@
        <property name="text">
         <string/>
        </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QLabel" name="lbl_plc">
        <property name="geometry">

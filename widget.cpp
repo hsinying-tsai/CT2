@@ -99,7 +99,7 @@ Widget::Widget(QWidget *parent)
                     }
                 }
                 //error狀態閃黃燈
-                if(error == true){
+                if(error){
                     LightBlink++;
                     if(LightBlink%2 == 1){
                         ui->lbl_plc->setStyleSheet("border-width: 3px;"
@@ -115,7 +115,7 @@ Widget::Widget(QWidget *parent)
                                                    "background-color: transparent;");
                     }
                 }
-//                qDebug()<<"fixed："<<commandQueue;
+//                qDebug()<<"fixed："<<commandQueue;                
                 WR_command(commandQueue.head());
                 qDebug()<<"check"<<commandQueue;
             }   
@@ -194,13 +194,13 @@ void Widget::cameraInit()
     }
 }
 
-void Widget::showAlarm(bool isSocketError, QString command)
+void Widget::showAlarm(bool isSocketError)
 {
     clearCommand = false;
     QMessageBox AlarmCheck;
     //true  -> socket connection error
     //false -> detect flow error
-    if(isSocketError == true){
+    if(isSocketError){
         AlarmCheck.setWindowTitle("通訊異常");
         AlarmCheck.setText("偵測到socket通訊異常,請再嘗試連接或中斷連接.");
         QPushButton *tryButton = AlarmCheck.addButton(tr("Try"), QMessageBox::ActionRole);
@@ -209,14 +209,12 @@ void Widget::showAlarm(bool isSocketError, QString command)
         //第一次中斷->嘗試自動重新連線
         if(firstTryReconnect){
             timer_connect->start();
-
             qDebug()<<"Auto reconnect";
             tc->client->abort();
             tc->address = QHostAddress(ui->AddressEdit->text());
             tc->port = ui->PortEdit->text().toUShort();
             tc->initClent();
             ui->lbl_state->setText("監測到socket中斷,自動嘗試連接...");
-
         }else{
             //其餘讓user決定 try or abort
             AlarmCheck.exec();
@@ -236,6 +234,8 @@ void Widget::showAlarm(bool isSocketError, QString command)
             }
             AlarmCheck.close();
         }
+    }else{
+        ShowWarning("接收到R215異常訊號,請解除異常再按OK.");
     }
 }
 
@@ -245,8 +245,7 @@ void Widget::onConnectTimeout()
     if (tc->client->state() != QAbstractSocket::ConnectedState) {
         if(firstTryReconnect){
             firstTryReconnect = false;
-            showAlarm(true,"NULL");
-
+            showAlarm(true);
         }
         ui->lbl_state->setText("重新連接失敗");
     }
@@ -424,9 +423,15 @@ void Widget::recv_label_update(QString message)
         qDebug()<<"received:"<<message;
         everOccurSocketError = true;
         logger.writeLog(Logger::Warning, "Socket " + tc->client->errorString()+".");
-        showAlarm(true,"NULL");
+        showAlarm(true);
     }else if (str1.isEmpty()){
         qDebug()<<"prevent crushed";
+        for(int i=0;i<commandQueue.count();i++){
+            if(commandQueue[i].isNull()){
+                //解決check ("RD R215", "")的問題
+                commandQueue.removeAt(i);
+            }
+        }
     }else if(str1 == "RD R215"){
         commandQueue.dequeue();
         if(message == "1"){
@@ -438,6 +443,7 @@ void Widget::recv_label_update(QString message)
                     commandQueue[i].clear();
                 }
             }
+            showAlarm(false);
             qDebug()<<"ERRRRRRRRRRRRRROR";
         }else{
             error = false;
@@ -453,7 +459,7 @@ void Widget::recv_label_update(QString message)
         qDebug()<<"received:"<<message<<"\tfrom"<<str1;
         logger.writeLog(Logger::Info, "Received message " + message + ".");
         //Read
-        if (ReadpuB_isPressed == true) {
+        if (ReadpuB_isPressed == true){
             commandQueue.dequeue();
             ui->DM200_Edit->setText(QString(buffer[0]));
             if (str1 == "RDS R200 10") {
@@ -495,8 +501,12 @@ void Widget::recv_label_update(QString message)
             }
         //Write
         } else if (WritepuB_isPressed == true){
-            qDebug()<<"Write";
-            commandQueue.dequeue();
+            qDebug()<<"Write"<<str1;
+            for(int i = 0;i<commandQueue.count();i++){
+                if(commandQueue[i] == str1){
+                    commandQueue.removeAt(i);
+                }
+            }
             if (count_num == 8) {
                 WritepuB_isPressed = false;
                 logger.writeLog(Logger::Info, "Wrote PLC index.");
@@ -516,8 +526,6 @@ void Widget::recv_label_update(QString message)
 
                     commandQueue.enqueue(buffer_combined);
                     count_num += 2;
-
-
                 }else{
                     QString buffer_combined = QString("%1 %2%3 %4")
                                                   .arg("WR")
@@ -594,6 +602,7 @@ void Widget::recv_label_update(QString message)
 
                 }else if(parts[1] == "R206"){
                     commandQueue.dequeue();
+
                     if(DC.current->next == NULL){
                         //change all flaw pattern and sent all flaws->go to step7
                         change_flawPG = false;
@@ -615,7 +624,6 @@ void Widget::recv_label_update(QString message)
                             // change pattern
                             RunDefectNumber = 1;
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
-
                             commandQueue.enqueue(buffer_combined);
                         }     
                         ui->lbl_state->setText("|微觀|已將pattern切換至"+RunPatternName.at(DC.current->index-1));
@@ -686,6 +694,15 @@ void Widget::recv_label_update(QString message)
                     }else if(parts[1]=="R204"){
                         commandQueue.dequeue();
                         commandQueue.enqueue("RD R205");
+                    }else{
+                        //WRITE DM204 DM206
+                        for(int i = 0;i<commandQueue.count();i++){
+                            if(commandQueue[i] == str1){
+                                qDebug()<<"remove"<<commandQueue[i];
+                                commandQueue.removeAt(i);
+
+                            }
+                        }
                     }
 
                 }
@@ -852,7 +869,6 @@ void Widget::WR_command(QString WR_message)
             }
         }
         str1 = WR_message;
-
         logger.writeLog(Logger::Info, "User sent Message'" + WR_message + "'.");
         const QByteArray send_data = WR_message.toUtf8();
         if (send_data.isEmpty()){
@@ -894,8 +910,12 @@ void Widget::Qtimer()
             buffer[0] = QString::number(time);
             time++;
             QString command = QString("%1 %2").arg("WR DM200").arg(time);
-            commandQueue.enqueue(command);
+//            commandQueue.enqueue(command);
         }
+    }
+    if(timer_connect->isActive()){
+        qDebug()<<"----------";
+        tc->initClent();
     }
 }
 
@@ -903,7 +923,7 @@ void Widget::QtimerError()
 {
     //read error signal
     if(tc->connnect_state == 1){
-        commandQueue.enqueue("RD R215");
+//        commandQueue.enqueue("RD R215");
     }
 }
 
@@ -1219,6 +1239,7 @@ void Widget::prettiertextlog()
     ui->text_log->clear();
     ui->text_log->insertHtml(htmlText);
 }
+
 // Show a warning dialog.
 void Widget::ShowWarning( QString warningText )
 {
@@ -1227,27 +1248,33 @@ void Widget::ShowWarning( QString warningText )
 
 void Widget::on_puB_bigGrab_clicked()
 {
-    try
-    {
-        m_camera[0].SingleGrab();
+    QPixmap test;
+    test.load(QCoreApplication::QCoreApplication::applicationDirPath()+"/EXP45606_WHITE.bmp");
+    ui->lbl_Img->setPixmap(test);
+//    try
+//    {
+//        m_camera[0].SingleGrab();
 
-    }
-    catch (const Pylon::GenericException& e)
-    {
-        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription()));
-    }
+//    }
+//    catch (const Pylon::GenericException& e)
+//    {
+//        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription()));
+//    }
 }
 
 void Widget::on_puB_samllGrab_clicked()
 {
-    try
-    {
-        m_camera[1].SingleGrab();
-    }
-    catch (const Pylon::GenericException& e)
-    {
-        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
-    }
+    QPixmap test;
+    test.load(QCoreApplication::QCoreApplication::applicationDirPath()+"/defect.png");
+    ui->lbl_Img->setPixmap(test);
+//    try
+//    {
+//        m_camera[1].SingleGrab();
+//    }
+//    catch (const Pylon::GenericException& e)
+//    {
+//        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
+//    }
 }
 
 
@@ -1585,16 +1612,16 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
     tmp.patternName = "White";
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(100, 100)};
+    tmp.defectPoint = {QPoint(2308, 1560)};
 
     Images.push_back(tmp);
 
-    tmp.index = 2;
-    tmp.patternName = "Black";
-    tmp.meanGray = 0.2;
-    tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(160, 160)};
-    Images.push_back(tmp);
+//    tmp.index = 2;
+//    tmp.patternName = "Black";
+//    tmp.meanGray = 0.2;
+//    tmp.BPenable = true;
+//    tmp.defectPoint = {QPoint(160, 160)};
+//    Images.push_back(tmp);
 
 //    tmp.index = 3;
 //    tmp.patternName = "Red";
