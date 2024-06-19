@@ -265,6 +265,7 @@ void Widget::onStateChanged()
         if(everOccurSocketError){
             if(firstTryReconnect){
                 qDebug()<<"Auto";
+                firstTryReconnectsuccess = true;
                 ui->lbl_state->setText("自動重新連接成功");
             }else{
                 qDebug()<<"manual";
@@ -602,7 +603,6 @@ void Widget::recv_label_update(QString message)
 
                 }else if(parts[1] == "R206"){
                     commandQueue.dequeue();
-
                     if(DC.current->next == NULL){
                         //change all flaw pattern and sent all flaws->go to step7
                         change_flawPG = false;
@@ -610,9 +610,10 @@ void Widget::recv_label_update(QString message)
                         qDebug()<<"--------------Step_7.send end signal to PLC.";
                     }else{
                         DC.current = DC.current->next;
+                        //如果只有定義一個node,會在這crashed,DC.current->next = 0X18
                         qDebug()<<"change pattern";
-//                        commandQueue.dequeue();
-                        if(DC.current->index == DC.current->prev->index){
+                        //DC.current->index == DC.current->prev->index
+                        if(true){
                             //don't change pattern
                             ARM_posX = (DC.current->x - DC.current->prev->x)*factor_X;
                             ARM_posY = (DC.current->y - DC.current->prev->y)*factor_Y;
@@ -653,6 +654,7 @@ void Widget::recv_label_update(QString message)
 
             }else if(parts[1] == "DM202"){
                 commandQueue.dequeue();
+
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀"<<RunPatternName.at(RunPatternIndex-2);
 //                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
@@ -797,6 +799,11 @@ void Widget::connect_label_update()
     }
     //connect state
     if (tc->connnect_state == 1) {
+        if(firstTryReconnectsuccess){
+            firstTryReconnectsuccess = false;
+            qDebug()<<"Auto"<<RunPatternName;
+            return ;
+        }
         firstTryReconnect = true;
         if(tc->client->errorString() !="The remote host closed the connection"){
             qDebug() << "--------------Step_1.Connection Successful";
@@ -910,7 +917,7 @@ void Widget::Qtimer()
             buffer[0] = QString::number(time);
             time++;
             QString command = QString("%1 %2").arg("WR DM200").arg(time);
-//            commandQueue.enqueue(command);
+            commandQueue.enqueue(command);
         }
     }
     if(timer_connect->isActive()){
@@ -923,7 +930,7 @@ void Widget::QtimerError()
 {
     //read error signal
     if(tc->connnect_state == 1){
-//        commandQueue.enqueue("RD R215");
+        commandQueue.enqueue("RD R215");
     }
 }
 
@@ -1491,7 +1498,7 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
     QString patternIndex =ui->table_defectlist->item(row, 2)->text();
     QString Number = ui->table_defectlist->item(row, 0)->text();
     QPixmap pic2;
-    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".bmp";
+    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".png";
     pic2.load(pic2Path);
     qDebug()<<"pic2Path"<<pic2Path;
     ui->lbl_pic2->setPixmap(pic2);
@@ -1613,22 +1620,14 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
     tmp.defectPoint = {QPoint(2308, 1560)};
-
     Images.push_back(tmp);
 
-//    tmp.index = 2;
-//    tmp.patternName = "Black";
-//    tmp.meanGray = 0.2;
-//    tmp.BPenable = true;
-//    tmp.defectPoint = {QPoint(160, 160)};
-//    Images.push_back(tmp);
-
-//    tmp.index = 3;
-//    tmp.patternName = "Red";
-//    tmp.meanGray = 0.2;
-//    tmp.BPenable = true;
-//    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
-//    Images.push_back(tmp);
+    tmp.index = 2;
+    tmp.patternName = "Black";
+    tmp.meanGray = 0.2;
+    tmp.BPenable = true;
+    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
+    Images.push_back(tmp);
 
     qDebug()<<"顯示";
     //for test
@@ -1763,7 +1762,7 @@ void Widget::runInit()
     qDebug()<<"|Initial|Initial Run parameter";
     //initial
 
-    //0612新增
+
     clearCommand = true;
 
     RunPatternName.clear();

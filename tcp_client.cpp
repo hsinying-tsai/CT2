@@ -10,7 +10,6 @@ void tcp_client::initClent()
 {
     if(client->state()==QAbstractSocket::ConnectedState){
         client->abort();
-        qDebug()<<"234"<<client->state();
     }else if(client->state()==QAbstractSocket::UnconnectedState){
         qDebug()<<"try to connect";
         client->connectToHost(address,port);
@@ -61,7 +60,6 @@ void tcp_client::onStateChanged(QAbstractSocket::SocketState state) {
         if(client->errorString() == "The remote host closed the connection"){
             emit recv_update("SocketError");
         }
-
     }
     updateTCP_UI();
 }

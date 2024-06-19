@@ -130,6 +130,14 @@ myFuncts.h
 QImage
 -
 
+/home/agx/Desktop/0321_qt/tcp_client.cpp
+tcp_client.h
+/home/agx/Desktop/0321_qt/tcp_client.h
+QDebug
+-
+widget.h
+/home/agx/Desktop/0321_qt/widget.h
+
 /home/agx/Desktop/0321_qt/tcp_client.h
 QWidget
 -

@@ -506,7 +506,7 @@ public:
         lbl_Img = new QLabel(tab);
         lbl_Img->setObjectName(QString::fromUtf8("lbl_Img"));
         lbl_Img->setGeometry(QRect(20, 300, 741, 431));
-        lbl_Img->setFrameShape(QFrame::Box);
+        lbl_Img->setFrameShape(QFrame::NoFrame);
         lbl_Img->setScaledContents(true);
         lbl_plc = new QLabel(tab);
         lbl_plc->setObjectName(QString::fromUtf8("lbl_plc"));

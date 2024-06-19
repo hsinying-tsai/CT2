@@ -54,7 +54,7 @@ public:
     double factor_X=1,factor_Y=1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
             , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false,everOccurSocketError = false
-            ,clearCommand = true, firstTryReconnect = true;
+            ,clearCommand = true, firstTryReconnect = true,firstTryReconnectsuccess = false;
     Logger logger;
     defineCoordinate DC;
     INI ini;
