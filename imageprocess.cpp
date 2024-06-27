@@ -5,7 +5,7 @@
 imageprocess::imageprocess() {}
 
 void imageprocess::process(QVector<ImageStruct>* x){
-
+    qDebug()<<"imageprocess::process";
     cv::Mat wimage,PerspectiveTransform ;
     // structure + iterator 的用法
     QVector<ImageStruct>::iterator it = x->begin();

@@ -51,6 +51,7 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.beginGroup(name);     
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", true);
+        settings.setValue("checkLine", false);
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);
         settings.setValue("BypassLeftY", 0);
@@ -164,12 +165,10 @@ void FuncPar::on_puB_save_clicked()
     qDebug()<<selectedOption;
     spinBoxNames.clear();
     for (int tabIndex = 0; tabIndex < ui->tabWidget->count(); ++tabIndex) {
-        // 获取当前页
         QWidget *currentTab = ui->tabWidget->widget(tabIndex);
         QString tmp_text;
-        // 遍历当前页中的所有子控件
         foreach(QWidget *widget, currentTab->findChildren<QWidget *>()) {
-            // 判断子控件是否是QSpinBox、QRadioButton或者QCheckBox
+            // 判斷子控件是否是QSpinBox、QRadioButton或者QCheckBox
             if (QSpinBox *spinBox = qobject_cast<QSpinBox*>(widget)) {
                 QString name = spinBox->objectName();
                 // 去除名稱中的"spinBox_"並只保留後半部分
@@ -192,7 +191,7 @@ void FuncPar::on_puB_save_clicked()
                     }else{
                         reviseModelINI(selectedOption,  name, "false");
                     }
-//                    qDebug() << "RadioButton Name: " << name <<QString(isChecked);
+                    qDebug() << "RadioButton Name: " << name <<isChecked;
                 }
 
             } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {

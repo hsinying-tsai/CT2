@@ -56,7 +56,7 @@
         <string notr="true"/>
        </property>
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab_10">
         <attribute name="title">
@@ -767,9 +767,9 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>370</y>
+           <y>360</y>
            <width>507</width>
-           <height>251</height>
+           <height>261</height>
           </rect>
          </property>
          <property name="font">
@@ -842,6 +842,9 @@
             <stylestrategy>PreferDefault</stylestrategy>
            </font>
           </property>
+          <property name="autoScroll">
+           <bool>false</bool>
+          </property>
           <property name="dragEnabled">
            <bool>true</bool>
           </property>
@@ -850,6 +853,9 @@
           </property>
           <property name="dragDropMode">
            <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
           </property>
          </widget>
          <widget class="QPushButton" name="puB_add_p">
@@ -871,6 +877,24 @@
            <string>add</string>
           </property>
          </widget>
+         <widget class="QLabel" name="label_10">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>-10</y>
+            <width>111</width>
+            <height>41</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>pattern list：</string>
+          </property>
+         </widget>
         </widget>
         <widget class="QPushButton" name="puB_func">
          <property name="geometry">
@@ -883,24 +907,6 @@
          </property>
          <property name="text">
           <string>Func</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="radioButton_pattern">
-         <property name="geometry">
-          <rect>
-           <x>13</x>
-           <y>366</y>
-           <width>201</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>13</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Pattern設定</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_5">

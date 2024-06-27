@@ -21,7 +21,6 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextBrowser>
@@ -83,8 +82,8 @@ public:
     QPushButton *puB_remove_p;
     QListWidget *list_Pattern;
     QPushButton *puB_add_p;
+    QLabel *label_10;
     QPushButton *puB_func;
-    QRadioButton *radioButton_pattern;
     QLabel *label_5;
     QGroupBox *groupBox_5;
     QPushButton *puB_setCur_m;
@@ -345,7 +344,7 @@ public:
         tab_6->setObjectName(QString::fromUtf8("tab_6"));
         groupBox = new QGroupBox(tab_6);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
-        groupBox->setGeometry(QRect(10, 370, 507, 251));
+        groupBox->setGeometry(QRect(10, 360, 507, 261));
         QFont font5;
         font5.setStyleStrategy(QFont::NoAntialias);
         groupBox->setFont(font5);
@@ -370,20 +369,22 @@ public:
         font6.setPointSize(13);
         font6.setStyleStrategy(QFont::PreferDefault);
         list_Pattern->setFont(font6);
+        list_Pattern->setAutoScroll(false);
         list_Pattern->setDragEnabled(true);
         list_Pattern->setDragDropOverwriteMode(true);
         list_Pattern->setDragDropMode(QAbstractItemView::InternalMove);
+        list_Pattern->setSortingEnabled(true);
         puB_add_p = new QPushButton(groupBox);
         puB_add_p->setObjectName(QString::fromUtf8("puB_add_p"));
         puB_add_p->setGeometry(QRect(380, 40, 111, 41));
         puB_add_p->setFont(font4);
+        label_10 = new QLabel(groupBox);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+        label_10->setGeometry(QRect(0, -10, 111, 41));
+        label_10->setFont(font1);
         puB_func = new QPushButton(tab_6);
         puB_func->setObjectName(QString::fromUtf8("puB_func"));
         puB_func->setGeometry(QRect(120, 640, 121, 31));
-        radioButton_pattern = new QRadioButton(tab_6);
-        radioButton_pattern->setObjectName(QString::fromUtf8("radioButton_pattern"));
-        radioButton_pattern->setGeometry(QRect(13, 366, 201, 23));
-        radioButton_pattern->setFont(font3);
         label_5 = new QLabel(tab_6);
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setGeometry(QRect(19, 646, 111, 20));
@@ -678,7 +679,7 @@ public:
         retranslateUi(Widget);
 
         tabWidget->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(2);
+        tabWidget_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(Widget);
@@ -730,8 +731,8 @@ public:
         puB_save_p->setText(QApplication::translate("Widget", "save", nullptr));
         puB_remove_p->setText(QApplication::translate("Widget", "remove", nullptr));
         puB_add_p->setText(QApplication::translate("Widget", "add", nullptr));
+        label_10->setText(QApplication::translate("Widget", "pattern list\357\274\232", nullptr));
         puB_func->setText(QApplication::translate("Widget", "Func", nullptr));
-        radioButton_pattern->setText(QApplication::translate("Widget", "Pattern\350\250\255\345\256\232", nullptr));
         label_5->setText(QApplication::translate("Widget", "\344\277\256\346\224\271\345\217\203\346\225\270\357\274\232", nullptr));
         groupBox_5->setTitle(QString());
         puB_setCur_m->setText(QApplication::translate("Widget", "setCurrent", nullptr));

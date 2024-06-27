@@ -20,7 +20,6 @@
 #include<QStringList>
 #include<QTextBrowser>
 #include<QQueue>
-#include<iostream>
 #include"defineCoordinate.h"
 #include <QListWidget>
 #include <QColor>
@@ -50,7 +49,7 @@ class Widget : public QMainWindow
 
 public:
     Widget(QWidget *parent = nullptr);
-    int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0;
+    int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0,count = 1;
     double factor_X=1,factor_Y=1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
             , revisePatternList= true,addPattern = false,error = false,defectPointisNull = false,everOccurSocketError = false
@@ -62,9 +61,7 @@ public:
     my_qlabel MQ;
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
-    QString rev_text, str1, str2,stringPart;
-    QString DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214;
-    QString new_send_data;
+    QString rev_text, new_send_data, str1;
     const QByteArray send_data;
     QList<QLineEdit*> lineEdits;
     QVector<QString> orgi_text,new_text;
@@ -86,7 +83,8 @@ public:
                                                ,"R206","R207","R212","R214"};
     //存變數數值
     QVector<QString> orig_buffer;
-    QVector<QString> buffer = {DM200,DM202,DM204,DM206,R200,R201,R202,R203,R204,R205,R206,R207,R212,R214};
+    QVector<QString> buffer = {"DM200", "DM202","DM204","DM206","R200","R201","R202","R203","R204","R205"
+                               ,"R206","R207","R212","R214"};
 
     //find model name and pattern name
     struct model_name{
@@ -142,7 +140,6 @@ private slots:
     void updatecombopattern();
     void on_puB_gui_clicked();
     void on_puB_func_clicked();
-    void on_radioButton_pattern_clicked(bool checked);
     void on_puB_remove_m_clicked();
     void on_puB_add_m_clicked();    
     void on_list_model_itemDoubleClicked(QListWidgetItem *item);
@@ -152,7 +149,7 @@ private slots:
     void CreateFolder(QString path,QString FolderName);
     void on_puB_cameraINI_clicked();
     void updateComboBoxModel();
-    void imagesprocess(QVector<QImage> BigGrabImages);
+    void imagesprocess();
     void CopyRecipe(QString originFilePath,QString CopyFilePath);
     void CreateMap(QString path);
 

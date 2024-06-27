@@ -2,12 +2,13 @@
 #define STRUCTIMAGE_H
 #include <QImage>
 typedef struct ImageStruct{
-    bool BPenable,DPenable,isProcessedFlag;
+    bool BPenable,DPenable,LINEenabel,isProcessedFlag;
     int index;
     double meanGray;
     QString patternName;
     QImage image;
-    QVector<QPoint> defectPoint;//如果沒有瑕疵座標->null,size()為0
+    //QString type : BP, DP, VLine, VShort, HLine, HShort
+    QVector<QPair<QString,QPoint>> defectPoint;
 } ImageProcess;
 
 #endif // STRUCTIMAGE_H

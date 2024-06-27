@@ -130,14 +130,6 @@ myFuncts.h
 QImage
 -
 
-/home/agx/Desktop/0321_qt/tcp_client.cpp
-tcp_client.h
-/home/agx/Desktop/0321_qt/tcp_client.h
-QDebug
--
-widget.h
-/home/agx/Desktop/0321_qt/widget.h
-
 /home/agx/Desktop/0321_qt/tcp_client.h
 QWidget
 -
@@ -228,8 +220,6 @@ QStringList
 QTextBrowser
 -
 QQueue
--
-iostream
 -
 defineCoordinate.h
 /home/agx/Desktop/0321_qt/defineCoordinate.h
@@ -3224,10 +3214,6 @@ qmessagebox.h
 qpushbutton.h
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qpushbutton.h
 
-/usr/include/aarch64-linux-gnu/qt5/QtWidgets/QRadioButton
-qradiobutton.h
-/usr/include/aarch64-linux-gnu/qt5/QtWidgets/qradiobutton.h
-
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/QSlider
 qslider.h
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qslider.h
@@ -3491,12 +3477,6 @@ QtWidgets/qdialog.h
 -
 
 /usr/include/aarch64-linux-gnu/qt5/QtWidgets/qpushbutton.h
-QtWidgets/qtwidgetsglobal.h
--
-QtWidgets/qabstractbutton.h
--
-
-/usr/include/aarch64-linux-gnu/qt5/QtWidgets/qradiobutton.h
 QtWidgets/qtwidgetsglobal.h
 -
 QtWidgets/qabstractbutton.h
@@ -4694,8 +4674,6 @@ QtWidgets/QLineEdit
 QtWidgets/QListWidget
 -
 QtWidgets/QPushButton
--
-QtWidgets/QRadioButton
 -
 QtWidgets/QTabWidget
 -

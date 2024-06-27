@@ -25,7 +25,6 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     setCentralWidget(ui->tabWidget);
     this->setWindowTitle("CT2");
-
     //define label size
     MQ.labelWidth = ui->lbl_pic->width();
     MQ.labelHeight = ui->lbl_pic->height();
@@ -236,6 +235,8 @@ void Widget::showAlarm(bool isSocketError)
         }
     }else{
         ShowWarning("接收到R215異常訊號,請解除異常再按OK.");
+        logger.writeLog(Logger::Warning, "R215 signal detected.");
+
     }
 }
 
@@ -581,7 +582,7 @@ void Widget::recv_label_update(QString message)
                             ui->lbl_state->setText("｜巨觀｜切換pattern至"+RunPatternName.at(RunPatternIndex-1));
                             RunPatternIndex++;
                         }else{
-                            imagesprocess(imageVectorBig);
+                            imagesprocess();
                             qDebug() << "--------------Step_3.All pattern was changed.";
                             commandQueue.enqueue("WR R204 1");
                         }
@@ -612,8 +613,8 @@ void Widget::recv_label_update(QString message)
                         DC.current = DC.current->next;
                         //如果只有定義一個node,會在這crashed,DC.current->next = 0X18
                         qDebug()<<"change pattern";
-                        //DC.current->index == DC.current->prev->index
-                        if(true){
+
+                        if(DC.current->index == DC.current->prev->index){
                             //don't change pattern
                             ARM_posX = (DC.current->x - DC.current->prev->x)*factor_X;
                             ARM_posY = (DC.current->y - DC.current->prev->y)*factor_Y;
@@ -637,7 +638,7 @@ void Widget::recv_label_update(QString message)
                     qDebug()<<"New action";
                     ui->lbl_state->setText("檢測流程結束");
                     str1.clear();
-                    commandQueue.enqueue("RD R212");
+//                    commandQueue.enqueue("RD R212");
                 }
             }else if(parts[0] == "WRS"){
                 //Manual state -> stop the loop.
@@ -938,6 +939,7 @@ void Widget::change_pic2(int index)
 {
     logger.writeLog(Logger::Info, "User changed pic2.");
     pix2.load(picfoldpath + QString::number(num) + "_"+ QString::number(index) + ".bmp");
+    qDebug()<<"pic2:"<<picfoldpath + QString::number(num) + "_"+ QString::number(index) + ".bmp";
     ui->lbl_pic2->setPixmap(pix2);
 }
 
@@ -1170,7 +1172,7 @@ void Widget::on_puB_save_p_clicked()
                 }
             }
         }
-
+        qDebug()<<"tmp:"<<tmp;
         QStringList tmpStringList;
         tmpStringList.append(tmp);
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
@@ -1180,11 +1182,10 @@ void Widget::on_puB_save_p_clicked()
             FP.show();
             addPattern = false;
         }
-        //如果正在修改設為運行的model,需重新setCurren
+        //如果正在修改設為運行的model,需重新setCurrent
         if(ui->lbl_modelPT->text() == ui->lbl_CurModel->text()){
             ui->lbl_CurModel->setText("(null)");
         }
-
     }
 }
 
@@ -1255,33 +1256,27 @@ void Widget::ShowWarning( QString warningText )
 
 void Widget::on_puB_bigGrab_clicked()
 {
-    QPixmap test;
-    test.load(QCoreApplication::QCoreApplication::applicationDirPath()+"/EXP45606_WHITE.bmp");
-    ui->lbl_Img->setPixmap(test);
-//    try
-//    {
-//        m_camera[0].SingleGrab();
+    try
+    {
+        m_camera[0].SingleGrab();
 
-//    }
-//    catch (const Pylon::GenericException& e)
-//    {
-//        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription()));
-//    }
+    }
+    catch (const Pylon::GenericException& e)
+    {
+        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription()));
+    }
 }
 
 void Widget::on_puB_samllGrab_clicked()
 {
-    QPixmap test;
-    test.load(QCoreApplication::QCoreApplication::applicationDirPath()+"/defect.png");
-    ui->lbl_Img->setPixmap(test);
-//    try
-//    {
-//        m_camera[1].SingleGrab();
-//    }
-//    catch (const Pylon::GenericException& e)
-//    {
-//        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
-//    }
+    try
+    {
+        m_camera[1].SingleGrab();
+    }
+    catch (const Pylon::GenericException& e)
+    {
+        ShowWarning( QString( "Could not start grab!\n" ) + QString( e.GetDescription() ) );
+    }
 }
 
 
@@ -1335,23 +1330,12 @@ void Widget::on_puB_gui_clicked()
 void Widget::on_puB_func_clicked()
 {
     if(revisePatternList == true){
-        ui->lbl_state->setText("請先點選save，在進行參數設置！");
+        ui->lbl_state->setText("請先點選save，再進行參數設置！");
     }else{
         FP.show();
     }
 }
 
-void Widget::on_radioButton_pattern_clicked(bool checked)
-{
-    QList<QWidget *> widgets = ui->groupBox->findChildren<QWidget *>();
-    foreach (QWidget *widget, widgets){
-        if(checked == true){
-            widget->setEnabled(true);
-        }else{
-            widget->setEnabled(false);
-        }
-    }
-}
 
 void Widget::on_puB_add_m_clicked()
 {
@@ -1462,7 +1446,6 @@ void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
 
 void Widget::on_puB_setCur_m_clicked()
 {
-    //123
     QListWidgetItem *selectedItem = ui->list_model->currentItem();
     if (selectedItem) {
         selectedItem->setForeground(Qt::blue);
@@ -1498,7 +1481,7 @@ void Widget::on_table_defectlist_cellClicked(int row, int column)
     QString patternIndex =ui->table_defectlist->item(row, 2)->text();
     QString Number = ui->table_defectlist->item(row, 0)->text();
     QPixmap pic2;
-    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".png";
+    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".bmp";
     pic2.load(pic2Path);
     qDebug()<<"pic2Path"<<pic2Path;
     ui->lbl_pic2->setPixmap(pic2);
@@ -1525,8 +1508,7 @@ void Widget::CreateNReadRecipe()
             qDebug()<<"|Initial|Model資料夾中沒有資料夾（沒有Model）";
             ui->lbl_state->setText("沒有Model Recipe，請先建立Model Recipe！");
         }else{
-            qDebug()<<"|Initial|Model資料夾中有資料夾（有Model）";
-            qDebug()<<"|Initial|現有的Model Name"<<FilesinModelfolders;
+            qDebug()<<"|Initial|Model資料夾中有資料夾（有Model）："<<FilesinModelfolders;
             foreach(QString modelnamefolder,FilesinModelfolders){
 //                qDebug()<<modelnamefolder;
                 // 检查config.ini配置文件是否存在
@@ -1607,29 +1589,26 @@ void Widget::updateComboBoxModel()
     }
 }
 
-void Widget::imagesprocess(QVector<QImage> BigGrabImages)
+void Widget::imagesprocess()
 {
     qDebug()<<"全部巨觀照片一起做image process";
-    qDebug()<<"Assume received defect info";
 
-
-    Images.clear();
     //for test
-    tmp.index = 1;
-    tmp.patternName = "White";
-    tmp.meanGray = 0.1;
-    tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(2308, 1560)};
-    Images.push_back(tmp);
+//    Images.clear();
+//    tmp.index = 1;
+//    tmp.patternName = "White";
+//    tmp.meanGray = 0.1;
+//    tmp.BPenable = true;
+//    tmp.defectPoint = {QPoint(70, 80),QPoint(100, 20),QPoint(190, 80)};
+//    Images.push_back(tmp);
 
-    tmp.index = 2;
-    tmp.patternName = "Black";
-    tmp.meanGray = 0.2;
-    tmp.BPenable = true;
-    tmp.defectPoint = {QPoint(80, 80), QPoint(90, 90)};
-    Images.push_back(tmp);
+//    tmp.index = 2;
+//    tmp.patternName = "Black";
+//    tmp.meanGray = 0.2;
+//    tmp.BPenable = true;
+//    tmp.defectPoint = {QPoint(240, 150), QPoint(100, 160)};
+//    Images.push_back(tmp);
 
-    qDebug()<<"顯示";
     //for test
 //    QVector<ImageProcess>::iterator it = Images.begin();
 //    for(; it != Images.end(); it++) {
@@ -1643,13 +1622,15 @@ void Widget::imagesprocess(QVector<QImage> BigGrabImages)
 //    }
 
 
-//    process.process(&Images);
-//    foreach(const ImageProcess &image, Images){
-//        qDebug()<<image.defectPoint;
-//    }
+    process.process(&Images);
+    foreach(const ImageProcess &image, Images){
+        qDebug()<<image.defectPoint;
+    }
 
     bool isHead = true;
     foreach(const ImageProcess &image, Images){
+//   defNode(QVector<QPoint> flaws,int index,bool isHead)
+
         DC.defNode(image.defectPoint,image.index,isHead);
         isHead = false;
     }
@@ -1749,6 +1730,8 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
                         tmp.BPenable = setting.value(key).toBool();
                     }else if(key==group+"/checkDP"){
                         tmp.DPenable = setting.value(key).toBool();
+                    }else if(key==group+"/checkLine"){
+                        tmp.LINEenabel = setting.value(key).toBool();
                     }
                 }
             }
@@ -1761,10 +1744,7 @@ void Widget::runInit()
 {
     qDebug()<<"|Initial|Initial Run parameter";
     //initial
-
-
     clearCommand = true;
-
     RunPatternName.clear();
     change_flawPG = false;
     Images.clear();
@@ -1779,6 +1759,11 @@ void Widget::runInit()
          }
     }
     RunPatternAmount = RunPatternName.size();
+    QString List2String;
+    foreach(QString pattern, RunPatternName){
+        List2String += pattern + ",";
+    }
+    ui->lbl_state->setText("已將"+runModelname+"設為當前運轉model , 檢測順序為"+List2String);
     qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
 }
 

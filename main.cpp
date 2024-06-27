@@ -19,7 +19,6 @@ uint8_t CAM1_exposureTime;
 uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 Logger logger;
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
-//    qDebug()<<"4";
     switch (type) {
     case QtDebugMsg:
         logger.writeLog(Logger::Info, msg);

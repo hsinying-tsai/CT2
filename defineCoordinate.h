@@ -3,6 +3,7 @@
 #include <QVector>
 #include <QString>
 #include <QPoint>
+
 class defineCoordinate
 {
 public:

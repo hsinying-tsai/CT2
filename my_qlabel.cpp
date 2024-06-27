@@ -6,7 +6,6 @@
 #include<QColor>
 #include<QToolTip>
 #include<QPixmap>
-
 my_qlabel::my_qlabel(QWidget *parent)
     :QLabel(parent){
     paint.width = 50;
@@ -17,11 +16,10 @@ my_qlabel::my_qlabel(QWidget *parent)
     labelHeight = 432;
     connect(this,&my_qlabel::rectangleClicked,[this](int index){
         qDebug()<<"recatngle"<<index+1<<"is clicked";
-        this->rectangleClicked(index);
+//        this->rectangleClicked(index);
         logger.writeLog(Logger::Info,"User clicked rectangle number " + QString::number(index+1)+".");
     });
-//    updateRectangle2();
-
+    updateRectangle2();
 }
 
 void my_qlabel::setImage(const QPixmap &image,const QVector<QPoint> DefectCoordinates)
@@ -33,6 +31,7 @@ void my_qlabel::setImage(const QPixmap &image,const QVector<QPoint> DefectCoordi
     zoom.x = 0;
     zoom.y = 0;
     orig_pic = image;
+
     //Qpixmap to QImage
     qImage = image.toImage();
     //QImage::Format_RGB32
@@ -40,6 +39,7 @@ void my_qlabel::setImage(const QPixmap &image,const QVector<QPoint> DefectCoordi
     drawRectangleOnImage(cvImage,DefectCoordinates);
     this->setPixmap(paint.pix);
     paint.pix = paint.pix.copy(0,0,3840,2160);
+
 }
 
 void my_qlabel::drawRectangleOnImage(cv::Mat &image,const QVector<QPoint> DefectVectors)
@@ -50,8 +50,8 @@ void my_qlabel::drawRectangleOnImage(cv::Mat &image,const QVector<QPoint> Defect
     }
     updateRectangle2();
     for(const QRect& rect : rectangles){
-//        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
-//        cv::rectangle(image, frame, cv::Scalar(255,0,0),3);
+        cv::Rect frame(rect.x(),rect.y(),paint.width,paint.height);
+        cv::rectangle(image, frame, cv::Scalar(0,255,0),3);
     }
     paint.pix = mat2pixmap(image);
 }
@@ -79,7 +79,10 @@ void my_qlabel::updateRectangle2()
 QPixmap my_qlabel::mat2pixmap(const cv::Mat &src)
 {
     cv::Mat tmp;
+    qDebug()<<"1";
+
     cv::cvtColor(src, tmp,cv::COLOR_BGR2RGB);
+    qDebug()<<"2";
     QImage dest((const uchar *) tmp.data,tmp.cols,tmp.rows,tmp.step,QImage::Format_RGB888);
     dest.bits();
     return QPixmap::fromImage(dest);
@@ -93,13 +96,10 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
     this->y = ev->y();
     emit Mouse_Pos();
     for(const QRectF& rect : rectangles2){
-        qDebug()<<"Move"<<rect<<x<<y;
         if(rect.contains((ev->pos()))){
-            qDebug()<<"In";
             QToolTip::showText(ev->globalPos(),"點選放大");
         }else{
             QToolTip::hideText();
-
         }
     }
     updateMousePosition();
@@ -135,8 +135,7 @@ void my_qlabel::mousePressEvent(QMouseEvent *ev)
     updateMousePosition();
     press.x = ev->pos().x();
     press.y = ev->pos().y();
-    qDebug()<<"左鍵按下";
-    qDebug()<<ev->pos();
+    qDebug()<<"左鍵按下"<<ev->pos();
     for(int i = 0; i<rectangles2.size();i++){
         if(rectangles2[i].contains((ev->pos()))){
             emit rectangleClicked(i);
@@ -250,6 +249,6 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
             zoomtime--;
         }
     }
-//    updateRectangle2();
+    updateRectangle2();
 }
 

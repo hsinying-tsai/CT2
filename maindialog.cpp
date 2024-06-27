@@ -19,7 +19,6 @@ MainDialog::MainDialog(QWidget *parent)
     , ui(new Ui::MainDialog)
 {
     ui->setupUi(this);
-    qDebug()<<"678";
     for (int i = 0; i < MaxCamera; i++)
     {
         m_camera[i].SetUserHint( i );
@@ -30,7 +29,7 @@ MainDialog::MainDialog(QWidget *parent)
         QObject::connect( &(m_camera[i]), &CGuiCamera::NodeUpdated, this, &MainDialog::OnNodeUpdated );
     }
     // Remove question mark from the title bar.
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+//    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 

@@ -186,6 +186,8 @@ public:
     QSpinBox *spinBox_DL_threshlodLow;
     QCheckBox *checkBox_DLine_3;
     QCheckBox *checkBox_DLine_4;
+    QGroupBox *groupBox_6;
+    QRadioButton *radioB_checkLine;
     QComboBox *comboBox_pattern;
     QPushButton *puB_load;
     QPushButton *puB_save;
@@ -800,7 +802,7 @@ public:
         spinBox_BlockOverNum->setGeometry(QRect(170, 345, 61, 31));
         checkBox_BLine = new QCheckBox(tab_3);
         checkBox_BLine->setObjectName(QString::fromUtf8("checkBox_BLine"));
-        checkBox_BLine->setGeometry(QRect(12, 20, 141, 31));
+        checkBox_BLine->setGeometry(QRect(12, 140, 141, 31));
         groupBox_17 = new QGroupBox(tab_3);
         groupBox_17->setObjectName(QString::fromUtf8("groupBox_17"));
         groupBox_17->setGeometry(QRect(270, 50, 251, 171));
@@ -820,7 +822,7 @@ public:
         pushButton->setGeometry(QRect(140, 130, 101, 31));
         groupBox_15 = new QGroupBox(tab_3);
         groupBox_15->setObjectName(QString::fromUtf8("groupBox_15"));
-        groupBox_15->setGeometry(QRect(12, 50, 251, 171));
+        groupBox_15->setGeometry(QRect(12, 170, 251, 171));
         radioB_BL_threshlodHigh = new QRadioButton(groupBox_15);
         radioB_BL_threshlodHigh->setObjectName(QString::fromUtf8("radioB_BL_threshlodHigh"));
         radioB_BL_threshlodHigh->setGeometry(QRect(10, 34, 181, 23));
@@ -847,16 +849,16 @@ public:
         spinBox_BL_threshlodLow->setGeometry(QRect(177, 105, 61, 31));
         checkBox_DLine_2 = new QCheckBox(tab_3);
         checkBox_DLine_2->setObjectName(QString::fromUtf8("checkBox_DLine_2"));
-        checkBox_DLine_2->setGeometry(QRect(20, 470, 181, 31));
+        checkBox_DLine_2->setGeometry(QRect(20, 560, 181, 31));
         checkBox_DLine = new QCheckBox(tab_3);
         checkBox_DLine->setObjectName(QString::fromUtf8("checkBox_DLine"));
-        checkBox_DLine->setGeometry(QRect(10, 250, 141, 31));
+        checkBox_DLine->setGeometry(QRect(10, 350, 141, 31));
         checkBox_halfscreen = new QCheckBox(tab_3);
         checkBox_halfscreen->setObjectName(QString::fromUtf8("checkBox_halfscreen"));
         checkBox_halfscreen->setGeometry(QRect(272, 20, 171, 31));
         groupBox_16 = new QGroupBox(tab_3);
         groupBox_16->setObjectName(QString::fromUtf8("groupBox_16"));
-        groupBox_16->setGeometry(QRect(10, 280, 251, 171));
+        groupBox_16->setGeometry(QRect(10, 380, 251, 171));
         radioB_DL_threshlodHigh = new QRadioButton(groupBox_16);
         radioB_DL_threshlodHigh->setObjectName(QString::fromUtf8("radioB_DL_threshlodHigh"));
         radioB_DL_threshlodHigh->setGeometry(QRect(10, 34, 181, 23));
@@ -883,10 +885,20 @@ public:
         spinBox_DL_threshlodLow->setGeometry(QRect(177, 105, 61, 31));
         checkBox_DLine_3 = new QCheckBox(tab_3);
         checkBox_DLine_3->setObjectName(QString::fromUtf8("checkBox_DLine_3"));
-        checkBox_DLine_3->setGeometry(QRect(20, 520, 181, 31));
+        checkBox_DLine_3->setGeometry(QRect(20, 610, 181, 31));
         checkBox_DLine_4 = new QCheckBox(tab_3);
         checkBox_DLine_4->setObjectName(QString::fromUtf8("checkBox_DLine_4"));
         checkBox_DLine_4->setGeometry(QRect(340, 620, 161, 31));
+        groupBox_6 = new QGroupBox(tab_3);
+        groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
+        groupBox_6->setGeometry(QRect(10, 10, 231, 111));
+        groupBox_6->setFont(font1);
+        radioB_checkLine = new QRadioButton(groupBox_6);
+        radioB_checkLine->setObjectName(QString::fromUtf8("radioB_checkLine"));
+        radioB_checkLine->setGeometry(QRect(10, 50, 112, 23));
+        radioB_checkLine->setFont(font2);
+        radioB_checkLine->setChecked(true);
+        radioB_checkLine->setAutoExclusive(false);
         tabWidget->addTab(tab_3, QString());
         comboBox_pattern = new QComboBox(FuncPar);
         comboBox_pattern->addItem(QString());
@@ -916,7 +928,7 @@ public:
 
         retranslateUi(FuncPar);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(FuncPar);
@@ -1015,6 +1027,8 @@ public:
         radioB_DL_threshlodLow->setText(QApplication::translate("FuncPar", "DL_Threshold Low", nullptr));
         checkBox_DLine_3->setText(QApplication::translate("FuncPar", "Y-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
         checkBox_DLine_4->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Enable", nullptr));
+        groupBox_6->setTitle(QApplication::translate("FuncPar", "Line Mode\357\274\232", nullptr));
+        radioB_checkLine->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Line", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("FuncPar", "Line", nullptr));
         comboBox_pattern->setItemText(0, QApplication::translate("FuncPar", "select pattern", nullptr));
 

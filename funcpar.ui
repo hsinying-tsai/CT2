@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="widget">
     <attribute name="title">
@@ -1746,7 +1746,7 @@
      <property name="geometry">
       <rect>
        <x>12</x>
-       <y>20</y>
+       <y>140</y>
        <width>141</width>
        <height>31</height>
       </rect>
@@ -1826,7 +1826,7 @@
      <property name="geometry">
       <rect>
        <x>12</x>
-       <y>50</y>
+       <y>170</y>
        <width>251</width>
        <height>171</height>
       </rect>
@@ -1927,7 +1927,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>470</y>
+       <y>560</y>
        <width>181</width>
        <height>31</height>
       </rect>
@@ -1940,7 +1940,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>250</y>
+       <y>350</y>
        <width>141</width>
        <height>31</height>
       </rect>
@@ -1966,7 +1966,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>280</y>
+       <y>380</y>
        <width>251</width>
        <height>171</height>
       </rect>
@@ -2067,7 +2067,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>520</y>
+       <y>610</y>
        <width>181</width>
        <height>31</height>
       </rect>
@@ -2088,6 +2088,51 @@
      <property name="text">
       <string>檢查Enable</string>
      </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>231</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="title">
+      <string>Line Mode：</string>
+     </property>
+     <widget class="QRadioButton" name="radioB_checkLine">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>112</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>檢查Line</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
