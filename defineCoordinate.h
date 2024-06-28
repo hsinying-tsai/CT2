@@ -18,6 +18,6 @@ public:
     };
     typedef struct Node node;
     node *first, *current, *previous = NULL,*temp;
-    void defNode(QVector<QPoint> flaws, int index, bool isHead);
+    void defNode(QPoint flaws, int index, bool isHead);
 };
 #endif // DEFINECOORDINATE_H

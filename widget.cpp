@@ -156,7 +156,6 @@ void Widget::INI_UI()
     //定義comboBox_model下拉式選單
     updateComboBoxModel();
 
-
 }
 
 void Widget::cameraInit()
@@ -1594,20 +1593,22 @@ void Widget::imagesprocess()
     qDebug()<<"全部巨觀照片一起做image process";
 
     //for test
-//    Images.clear();
-//    tmp.index = 1;
-//    tmp.patternName = "White";
-//    tmp.meanGray = 0.1;
-//    tmp.BPenable = true;
-//    tmp.defectPoint = {QPoint(70, 80),QPoint(100, 20),QPoint(190, 80)};
-//    Images.push_back(tmp);
+    Images.clear();
 
-//    tmp.index = 2;
-//    tmp.patternName = "Black";
-//    tmp.meanGray = 0.2;
-//    tmp.BPenable = true;
-//    tmp.defectPoint = {QPoint(240, 150), QPoint(100, 160)};
-//    Images.push_back(tmp);
+    tmp.index = 1;
+    tmp.patternName = "White";
+    tmp.meanGray = 0.1;
+    tmp.BPenable = true;
+    tmp.DPenable = true;
+    tmp.defectPoint = {{"BP",{QPoint(10, 10)}},{"DP",{QPoint(20, 20),QPoint(30, 30)}}};
+    Images.push_back(tmp);
+
+    tmp.index = 2;
+    tmp.patternName = "Gray";
+    tmp.meanGray = 0.2;
+    tmp.LINEenable = true;
+    tmp.defectPoint = {{"LINE",{QPoint(40, 40),QPoint(50,50)}}};
+    Images.push_back(tmp);
 
     //for test
 //    QVector<ImageProcess>::iterator it = Images.begin();
@@ -1622,17 +1623,17 @@ void Widget::imagesprocess()
 //    }
 
 
-    process.process(&Images);
-    foreach(const ImageProcess &image, Images){
-        qDebug()<<image.defectPoint;
-    }
+//    process.process(&Images);
 
     bool isHead = true;
     foreach(const ImageProcess &image, Images){
-//   defNode(QVector<QPoint> flaws,int index,bool isHead)
-
-        DC.defNode(image.defectPoint,image.index,isHead);
-        isHead = false;
+        foreach(QPair pairList , image.defectPoint){
+            foreach(QPoint point , pairList.second){
+                qDebug()<<point;
+                DC.defNode(point,image.index,isHead);
+                isHead = false;
+            }
+        }
     }
     DC.current = DC.first;
     QString MapPath = QCoreApplication::applicationDirPath()+RunTimefolderpath+RundataTimeString;
@@ -1678,7 +1679,7 @@ void Widget::CreateMap(QString path)
         settings.setValue("index",image.index);
         settings.setValue("MeanGray",image.meanGray);
         int DefectAmount = 1;
-        foreach(const QPoint &point, image.defectPoint) {
+        foreach(const QPoint &point, image.defectPoint.constData()->second) {
             QString tmp = QString("%1_%2").arg("DefectPoint").arg(QString::number(DefectAmount));
             QString tmpPoint = QString("(%1,%2)").arg(point.x()).arg(point.y());
             settings.setValue(tmp,tmpPoint);
@@ -1731,7 +1732,7 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
                     }else if(key==group+"/checkDP"){
                         tmp.DPenable = setting.value(key).toBool();
                     }else if(key==group+"/checkLine"){
-                        tmp.LINEenabel = setting.value(key).toBool();
+                        tmp.LINEenable = setting.value(key).toBool();
                     }
                 }
             }

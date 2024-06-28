@@ -103,7 +103,7 @@ public:
     ~Widget();
 
     //camera
-    void ShowWarning( QString warningText );
+    void ShowWarning(QString warningText);
 private slots:
     void on_puB_pre_clicked();
     void on_puB_next_clicked();

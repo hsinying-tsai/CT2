@@ -34,7 +34,9 @@ void imageprocess::process(QVector<ImageStruct>* x){
 
         if(it->BPenable){
             try{
-                it->defectPoint = calBrightPoint(this->QImageToCvMat(it->image),PerspectiveTransform);
+                //0628 修改structImage定義
+//                it->defectPoint = calBrightPoint(this->QImageToCvMat(it->image),PerspectiveTransform);
+
             }
             catch(const std::exception &e){
                 qDebug()<< "BP ERROR";
