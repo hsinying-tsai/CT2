@@ -27,8 +27,8 @@
 /home/agx/Desktop/0321_qt/main.cpp
 /home/agx/Desktop/0321_qt/my_qlabel.cpp
 /home/agx/Desktop/0321_qt/guicamera.cpp
-/home/agx/Desktop/0321_qt/imageprocess.h
 /home/agx/Desktop/0321_qt/defineCoordinate.h
+/home/agx/Desktop/0321_qt/imageprocess.h
 /home/agx/Desktop/0321_qt/maindialog.h
  mmc:Q_OBJECT
 /home/agx/Desktop/0321_qt/guicamera.h

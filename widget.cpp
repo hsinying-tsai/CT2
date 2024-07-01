@@ -1171,7 +1171,6 @@ void Widget::on_puB_save_p_clicked()
                 }
             }
         }
-        qDebug()<<"tmp:"<<tmp;
         QStringList tmpStringList;
         tmpStringList.append(tmp);
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
@@ -1339,50 +1338,38 @@ void Widget::on_puB_func_clicked()
 void Widget::on_puB_add_m_clicked()
 {
     revisePatternList = true;
-    bool ok;
-    QString newItemText = QInputDialog::getText(this,"Add Model",
-                                                "Enter new model:",
-                                                QLineEdit::Normal,
-                                                QString(),&ok);
+        bool ok;
+        QString newItemText = QInputDialog::getText(this,"Add Model",
+                                                    "Enter new model:",
+                                                    QLineEdit::Normal,
+                                                    QString(),&ok);
 
-    QString inputModel = newItemText;
-    QString modelPath= QCoreApplication::applicationDirPath()+"/Model/";
-    QStringList createNewPattern;
-    QDir modelFolder(modelPath);
-    QMessageBox::StandardButton doublecheck;
-    if (ok == true) {
-        doublecheck = QMessageBox::question(this, "確認", "創建model:"+inputModel+"？", QMessageBox::Yes|QMessageBox::No);
-        if(doublecheck == QMessageBox::Yes){
-            // 檢查Model是否存在
-           if (!modelFolder.exists()) {
-               CreateFolder(modelPath, inputModel);
-               CreateNReadRecipe();
-               modelPath += inputModel+"/recipe.ini";
-               QFile modelFile(modelPath);
-               if (modelFile.open(QIODevice::WriteOnly)) {
-                   modelFile.close();
-                   QStringList tmp_b;
-                   FP.INI(tmp_b, modelPath, inputModel,true);
-                   qDebug() << "新模型的.ini檔已创建： " << modelPath;
-                   QMessageBox::information(this, "提示", "新的model已新增至recipe，請先建立新的pattern list，再進行連線");
-                   ui->lbl_state->setText("新的model已新增至recipe，請先建立新的pattern list");
-               } else {
-                   qDebug() << "無法打開配置文件： " << modelPath;
+        QString inputModel = newItemText;
+        QString modelPath = "/Model/";
+        QStringList createNewPattern;
+        QDir modelFolder("Model/"+inputModel);
+        QMessageBox::StandardButton doublecheck;
+        if (ok == true) {
+            doublecheck = QMessageBox::question(this, "確認", "創建model:"+inputModel+"？", QMessageBox::Yes|QMessageBox::No);
+            if(doublecheck == QMessageBox::Yes){
+                // 檢查Model是否存在
+               if (!modelFolder.exists()) {
+                   CreateFolder(modelPath, inputModel);
+                   CreateNReadRecipe();
+               }else{
+                   ShowWarning("Model:"+inputModel+" 已存在");
+                   qDebug() << "配置文件已存在： " << modelPath;
+                   FP.INI(createNewPattern,modelPath,inputModel,false);
                }
-           }else{
-               ShowWarning("Model:"+inputModel+" 已存在");
-               qDebug() << "配置文件已存在： " << modelPath;
-               FP.INI(createNewPattern,modelPath,inputModel,false);
-           }
+            }else{
+                ui->lbl_state->setText("取消創建新model:"+inputModel);
+                qDebug() << "取消創建配置文件。";
+            }
         }else{
             ui->lbl_state->setText("取消創建新model:"+inputModel);
             qDebug() << "取消創建配置文件。";
         }
-    }else{
-        ui->lbl_state->setText("取消創建新model:"+inputModel);
-        qDebug() << "取消創建配置文件。";
-    }
-    updateComboBoxModel();
+        updateComboBoxModel();
 }
 void Widget::on_puB_remove_m_clicked()
 {
@@ -1510,7 +1497,7 @@ void Widget::CreateNReadRecipe()
             qDebug()<<"|Initial|Model資料夾中有資料夾（有Model）："<<FilesinModelfolders;
             foreach(QString modelnamefolder,FilesinModelfolders){
 //                qDebug()<<modelnamefolder;
-                // 检查config.ini配置文件是否存在
+                // recipe.ini配置文件是否存在
                 configFilePath = QCoreApplication::applicationDirPath() + "/Model/"+modelnamefolder+"/recipe.ini";
                 QFile configFile(configFilePath);
                 if (!configFile.exists()) {
@@ -1600,14 +1587,14 @@ void Widget::imagesprocess()
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
     tmp.DPenable = true;
-    tmp.defectPoint = {{"BP",{QPoint(10, 10)}},{"DP",{QPoint(20, 20),QPoint(30, 30)}}};
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(20, 20),QPoint(30, 30)}}};
     Images.push_back(tmp);
 
     tmp.index = 2;
-    tmp.patternName = "Gray";
+    tmp.patternName = "Black";
     tmp.meanGray = 0.2;
     tmp.LINEenable = true;
-    tmp.defectPoint = {{"LINE",{QPoint(40, 40),QPoint(50,50)}}};
+    tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(40, 40),QPoint(50,50)}}};
     Images.push_back(tmp);
 
     //for test
@@ -1674,16 +1661,24 @@ void Widget::CreateMap(QString path)
     }
     QSettings settings(path, QSettings::IniFormat);
     //save all info
+    QString curDefectType;
+    qDebug()<<"SAVE";
+
     foreach(const ImageProcess &image, Images){
         settings.beginGroup(image.patternName);
         settings.setValue("index",image.index);
         settings.setValue("MeanGray",image.meanGray);
+        qDebug()<<image.patternName;
         int DefectAmount = 1;
-        foreach(const QPoint &point, image.defectPoint.constData()->second) {
-            QString tmp = QString("%1_%2").arg("DefectPoint").arg(QString::number(DefectAmount));
-            QString tmpPoint = QString("(%1,%2)").arg(point.x()).arg(point.y());
-            settings.setValue(tmp,tmpPoint);
-            DefectAmount++;
+        foreach(QPair pairList , image.defectPoint){
+            curDefectType = pairList.first;
+            foreach(QPoint point , pairList.second){
+                qDebug()<<curDefectType<<point.x()<<point.y();
+                QString tmp = QString("%1_%2_%3").arg(curDefectType).arg("Defect").arg(QString::number(DefectAmount));
+                QString tmpPoint = QString("(%1,%2)").arg(point.x()).arg(point.y());
+                settings.setValue(tmp,tmpPoint);
+                DefectAmount++;
+            }
         }
         settings.endGroup();
     }
@@ -1801,12 +1796,11 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
     ui->table_defectlist->setRowCount(0); // 清除行數
     if(!MapFile.exists()){
         qDebug()<<MapPath<<"->invalid";
-        defectPointisNull = true;
         ui->table_defectlist->insertRow(0);
         QTableWidgetItem *item_model = new QTableWidgetItem("NULL");
         ui->table_defectlist->setItem(0, 0, item_model);
     }else{
-        defectPointisNull = false;
+        qDebug()<<"on_comboBox_date_activated";
         QSettings MapSetting(MapPath, QSettings::IniFormat);
         QStringList MapKeys = MapSetting.allKeys();
         QStringList MapGroups = MapSetting.childGroups();
@@ -1814,24 +1808,28 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
         //show Big pic
         picfoldpath = QCoreApplication::applicationDirPath()+"/Model/"+ModelName+"/"+TimeDir+"/";
         pix_Ini.load(picfoldpath + QString::number(num) + ".bmp");
-
         ui->lbl_pattern->setText("Pattern = " + QString(show_pattern_name.at(num - 1)));
-
-        //MapGroups ("ABlack", "ARed", "AWhite")
+        //MapGroups ("Black", "Red", "White")
         for(int i=0 ; i<MapGroups.count(); i++){
             QString mapgroupName = MapGroups[i];
             QString MeanGray,index,stringValue;
-            QStringList defectList;
+            QStringList defectList,defectType;
             qDebug()<<"["<<mapgroupName<<"]";
             defectInfo newPattern;
             newPattern.PatternName = mapgroupName;
-
+            QStringList defectName;
             for(int j=0 ;j<MapKeys.count() ; j++){
                 QString mapkey = MapKeys[j];
-                //MapKeys ("ABlack/DefectPoint_1", "ABlack/DefectPoint_2", "ABlack/MeanGray", "ABlack/index", "ARed/DefectPoint_1", "ARed/DefectPoint_2", "ARed/MeanGray", "ARed/index", "AWhite/DefectPoint_1", "AWhite/DefectPoint_2", "AWhite/MeanGray", "AWhite/index")
+                //MapKeys ("White/BP_Defect1", "White/BP_Defect2", "Gray/HOpen_Defect1")
                 if(mapkey.contains(mapgroupName)){
-                    QString key = mapkey.remove(mapgroupName+"/");
-                    if(mapkey.contains("DefectPoint")){
+                    mapkey.remove(mapgroupName+"/");
+                    //mapkey:HOpen_Defect_1
+                    qDebug()<<mapkey;
+                    if(mapkey.contains("_Defect")){
+                        //to figure out defect type
+                        defectName = mapkey.split('_');
+                        defectType.append(defectName[0]);
+                        //to figure out value
                         stringValue = MapSetting.value(mapgroupName+"/"+mapkey).toString();
                         defectList.append(stringValue);
                         QString trimmedStr = stringValue.mid(1, stringValue.length() - 2);
@@ -1840,10 +1838,11 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                         int y = parts[1].toInt();
                         QPoint coordinate =QPoint(x, y);
                         newPattern.defectPoint.append(coordinate);
-                    }else if(mapkey.contains("MeanGray")){
+                    }else if(mapkey == "MeanGray"){
                         // value is like 0.2(double)
+                        qDebug()<<"1:"<<mapkey;
                         MeanGray = MapSetting.value(mapgroupName+"/"+mapkey).toString();
-                    }else if(mapkey.contains("index")){
+                    }else if(mapkey == "index"){
                         // value is like 1(int)
                         index = MapSetting.value(mapgroupName+"/"+mapkey).toString();
                     }else{
@@ -1865,8 +1864,7 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                 QTableWidgetItem *item_meanGray = new QTableWidgetItem(MeanGray);
                 QTableWidgetItem *item_Date = new QTableWidgetItem(datePart);
                 QTableWidgetItem *item_Time = new QTableWidgetItem(timePart);
-                //要改
-                QTableWidgetItem *item_defectType = new QTableWidgetItem("BP");
+                QTableWidgetItem *item_defectType = new QTableWidgetItem(defectType[t]);
 
                 ui->table_defectlist->setItem(t, 0, item_number);
                 ui->table_defectlist->setItem(t, 1, item_modelName);

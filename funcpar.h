@@ -44,7 +44,6 @@ private slots:
     void on_comboBox_pattern_activated(const QString &patternName);
     void on_horizontalSlider_exposureTime_valueChanged(int value);
     void onRadioButtonClicked(bool checked);
-    void on_puB_load_clicked();
 };
 
 #endif // FUNCPAR_H

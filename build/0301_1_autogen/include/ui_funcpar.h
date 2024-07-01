@@ -39,32 +39,32 @@ public:
     QRadioButton *radioB_checkDP;
     QRadioButton *radioB_checkBP;
     QGroupBox *groupBox_5;
-    QSpinBox *spinBox_threshlodHigh_2;
-    QRadioButton *radioB_threshlodHigh_2;
-    QSpinBox *spinBox_boundaryHigh_2;
-    QRadioButton *radioB_boundaryHigh_2;
-    QSpinBox *spinBox_threshlodLow_2;
-    QSpinBox *spinBox_boundaryLow_2;
-    QRadioButton *radioB_boundaryLow_2;
-    QRadioButton *radioB_threshlodLow_2;
+    QSpinBox *spinBox_DPthreshlodHigh;
+    QRadioButton *radioB_DPthreshlodHigh;
+    QSpinBox *spinBox_DPboundaryHigh;
+    QRadioButton *radioB_DPboundaryHigh;
+    QSpinBox *spinBox_DPthreshlodLow;
+    QSpinBox *spinBox_DPboundaryLow;
+    QRadioButton *radioB_DPboundaryLow;
+    QRadioButton *radioB_DPthreshlodLow;
     QGroupBox *groupBox_4;
-    QRadioButton *radioB_threshlodHigh;
-    QSpinBox *spinBox_threshlodHigh;
-    QRadioButton *radioB_threshlodLow;
-    QSpinBox *spinBox_threshlodLow;
-    QRadioButton *radioB_boundaryHigh;
-    QSpinBox *spinBox_boundaryHigh;
-    QRadioButton *radioB_boundaryLow;
-    QSpinBox *spinBox_boundaryLow;
+    QRadioButton *radioB_BPthreshlodHigh;
+    QSpinBox *spinBox_BPthreshlodHigh;
+    QRadioButton *radioB_BPthreshlodLow;
+    QSpinBox *spinBox_BPthreshlodLow;
+    QRadioButton *radioB_BPboundaryHigh;
+    QSpinBox *spinBox_BPboundaryHigh;
+    QRadioButton *radioB_BPboundaryLow;
+    QSpinBox *spinBox_BPboundaryLow;
     QGroupBox *groupBox_8;
-    QRadioButton *radioB_bpAreaMax;
-    QSpinBox *spinBox_bpAreaMax;
-    QSpinBox *spinBox_bpAreaMin;
-    QRadioButton *radioB_bpAreaMin;
-    QSpinBox *spinBox_dpAreaMin_2;
-    QSpinBox *spinBox_dpAreaMin;
-    QRadioButton *radioB_dpAreaMin;
-    QRadioButton *radioB_dpAreaMax;
+    QRadioButton *radioB_BPAreaMax;
+    QSpinBox *spinBox_BPAreaMax;
+    QSpinBox *spinBox_BPAreaMin;
+    QRadioButton *radioB_BPAreaMin;
+    QSpinBox *spinBox_DPAreaMin;
+    QSpinBox *spinBox_DPAreaMax;
+    QRadioButton *radioB_DPAreaMin;
+    QRadioButton *radioB_DPAreaMax;
     QSpinBox *spinBox_byPassX;
     QRadioButton *radioB_byPassX;
     QSpinBox *spinBox_byPassY;
@@ -101,48 +101,48 @@ public:
     QWidget *tab;
     QGroupBox *groupBox_13;
     QGridLayout *gridLayout_2;
-    QSpinBox *spinBox_maxgrayfullnessMin;
-    QRadioButton *radioB_elongationMin;
-    QSpinBox *spinBox_GrayMean_Min;
-    QSpinBox *spinBox_fullnessMin;
-    QRadioButton *radioB_fullnessMin;
-    QRadioButton *radioB_compactnessMin;
-    QSpinBox *spinBox_elongationMax;
-    QSpinBox *spinBox_compactnessMin;
-    QRadioButton *radioB_maxgrayfullnessMin;
-    QRadioButton *radioB_elongationMax;
-    QSpinBox *spinBox_MaxGray_Min;
-    QRadioButton *radioB_compactnessMax;
-    QRadioButton *radioB_GrayMean_Min;
-    QSpinBox *spinBox_fullnessMax;
-    QSpinBox *spinBox_MaxGray_Max;
-    QRadioButton *radioB_fullnessMax;
-    QSpinBox *spinBox_compactnessMax;
-    QRadioButton *radioB_MaxGray_Min;
-    QLabel *lbl_MaxGray_Max;
-    QSpinBox *spinBox_elongationMin;
+    QSpinBox *spinBox_BPmaxgrayfullnessMin;
+    QRadioButton *radioB_BPelongationMin;
+    QSpinBox *spinBox_BPGrayMean_Min;
+    QSpinBox *spinBox_BPfullnessMin;
+    QRadioButton *radioB_BPfullnessMin;
+    QRadioButton *radioB_BPcompactnessMin;
+    QSpinBox *spinBox_BPelongationMax;
+    QSpinBox *spinBox_BPcompactnessMin;
+    QRadioButton *radioB_BPmaxgrayfullnessMin;
+    QRadioButton *radioB_BPelongationMax;
+    QSpinBox *spinBox_BPMaxGray_Min;
+    QRadioButton *radioB_BPcompactnessMax;
+    QRadioButton *radioB_BPGrayMean_Min;
+    QSpinBox *spinBox_BPfullnessMax;
+    QSpinBox *spinBox_BPMaxGray_Max;
+    QRadioButton *radioB_BPfullnessMax;
+    QSpinBox *spinBox_BPcompactnessMax;
+    QRadioButton *radioB_BPMaxGray_Min;
+    QLabel *lbl_BPMaxGray_Max;
+    QSpinBox *spinBox_BPelongationMin;
     QGroupBox *groupBox_14;
     QGridLayout *gridLayout_3;
-    QRadioButton *radioB_elongationMin_3;
-    QSpinBox *spinBox_elongationMin_3;
-    QRadioButton *radioB_elongationMax_3;
-    QSpinBox *spinBox_elongationMax_3;
-    QRadioButton *radioB_fullnessMin_3;
-    QSpinBox *spinBox_fullnessMin_3;
-    QRadioButton *radioB_fullnessMax_3;
-    QSpinBox *spinBox_fullnessMax_3;
-    QRadioButton *radioB_maxgrayfullnessMin_3;
-    QSpinBox *spinBox_maxgrayfullnessMin_3;
-    QRadioButton *radioB_GrayMean_Max;
-    QSpinBox *spinBox_GrayMean_Max;
-    QRadioButton *radioB_MinGray_Max;
-    QSpinBox *spinBox_MinGray_Max;
+    QRadioButton *radioB_DPelongationMin;
+    QSpinBox *spinBox_DPelongationMin;
+    QRadioButton *radioB_DPelongationMax;
+    QSpinBox *spinBox_DPelongationMax;
+    QRadioButton *radioB_DPfullnessMin;
+    QSpinBox *spinBox_DPfullnessMin;
+    QRadioButton *radioB_DPfullnessMax;
+    QSpinBox *spinBox_DPfullnessMax;
+    QRadioButton *radioB_DPmaxgrayfullnessMin;
+    QSpinBox *spinBox_DPmaxgrayfullnessMin;
+    QRadioButton *radioB_DPGrayMean_Max;
+    QSpinBox *spinBox_DPGrayMean_Max;
+    QRadioButton *radioB_DPMinGray_Max;
+    QSpinBox *spinBox_DPMinGray_Max;
     QLabel *lbl_MinGray_Min;
-    QSpinBox *spinBox_MinGray_Min;
-    QRadioButton *radioB_compactnessMax_3;
-    QSpinBox *spinBox_compactnessMax_3;
-    QRadioButton *radioB_compactnessMin_3;
-    QSpinBox *spinBox_compactnessMin_3;
+    QSpinBox *spinBox_DPMinGray_Min;
+    QRadioButton *radioB_DPcompactnessMax;
+    QSpinBox *spinBox_DPcompactnessMax;
+    QRadioButton *radioB_DPcompactnessMin;
+    QSpinBox *spinBox_DPcompactnessMin;
     QWidget *tab_3;
     QGroupBox *groupBox_18;
     QRadioButton *radioB_BypassUpH;
@@ -174,7 +174,7 @@ public:
     QRadioButton *radioB_BL_threshlodLow;
     QSlider *horizontalSlider_BL_threshlodLow;
     QSpinBox *spinBox_BL_threshlodLow;
-    QCheckBox *checkBox_DLine_2;
+    QCheckBox *checkBox_HLine;
     QCheckBox *checkBox_DLine;
     QCheckBox *checkBox_halfscreen;
     QGroupBox *groupBox_16;
@@ -184,8 +184,8 @@ public:
     QRadioButton *radioB_DL_threshlodLow;
     QSlider *horizontalSlider_DL_threshlodLow;
     QSpinBox *spinBox_DL_threshlodLow;
-    QCheckBox *checkBox_DLine_3;
-    QCheckBox *checkBox_DLine_4;
+    QCheckBox *checkBox_VLine;
+    QCheckBox *checkBox_checkEnable;
     QGroupBox *groupBox_6;
     QRadioButton *radioB_checkLine;
     QComboBox *comboBox_pattern;
@@ -245,108 +245,108 @@ public:
         groupBox_5 = new QGroupBox(tab_2);
         groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
         groupBox_5->setGeometry(QRect(260, 130, 241, 166));
-        spinBox_threshlodHigh_2 = new QSpinBox(groupBox_5);
-        spinBox_threshlodHigh_2->setObjectName(QString::fromUtf8("spinBox_threshlodHigh_2"));
-        spinBox_threshlodHigh_2->setGeometry(QRect(157, 26, 61, 31));
-        radioB_threshlodHigh_2 = new QRadioButton(groupBox_5);
-        radioB_threshlodHigh_2->setObjectName(QString::fromUtf8("radioB_threshlodHigh_2"));
-        radioB_threshlodHigh_2->setGeometry(QRect(13, 30, 161, 23));
-        radioB_threshlodHigh_2->setFont(font);
-        radioB_threshlodHigh_2->setAutoExclusive(false);
-        spinBox_boundaryHigh_2 = new QSpinBox(groupBox_5);
-        spinBox_boundaryHigh_2->setObjectName(QString::fromUtf8("spinBox_boundaryHigh_2"));
-        spinBox_boundaryHigh_2->setGeometry(QRect(157, 94, 61, 31));
-        radioB_boundaryHigh_2 = new QRadioButton(groupBox_5);
-        radioB_boundaryHigh_2->setObjectName(QString::fromUtf8("radioB_boundaryHigh_2"));
-        radioB_boundaryHigh_2->setGeometry(QRect(13, 97, 161, 23));
-        radioB_boundaryHigh_2->setFont(font);
-        radioB_boundaryHigh_2->setAutoExclusive(false);
-        spinBox_threshlodLow_2 = new QSpinBox(groupBox_5);
-        spinBox_threshlodLow_2->setObjectName(QString::fromUtf8("spinBox_threshlodLow_2"));
-        spinBox_threshlodLow_2->setGeometry(QRect(156, 60, 61, 31));
-        spinBox_boundaryLow_2 = new QSpinBox(groupBox_5);
-        spinBox_boundaryLow_2->setObjectName(QString::fromUtf8("spinBox_boundaryLow_2"));
-        spinBox_boundaryLow_2->setGeometry(QRect(157, 128, 61, 31));
-        radioB_boundaryLow_2 = new QRadioButton(groupBox_5);
-        radioB_boundaryLow_2->setObjectName(QString::fromUtf8("radioB_boundaryLow_2"));
-        radioB_boundaryLow_2->setGeometry(QRect(13, 132, 161, 23));
-        radioB_boundaryLow_2->setFont(font);
-        radioB_boundaryLow_2->setAutoExclusive(false);
-        radioB_threshlodLow_2 = new QRadioButton(groupBox_5);
-        radioB_threshlodLow_2->setObjectName(QString::fromUtf8("radioB_threshlodLow_2"));
-        radioB_threshlodLow_2->setGeometry(QRect(13, 64, 161, 23));
-        radioB_threshlodLow_2->setFont(font);
-        radioB_threshlodLow_2->setAutoExclusive(false);
+        spinBox_DPthreshlodHigh = new QSpinBox(groupBox_5);
+        spinBox_DPthreshlodHigh->setObjectName(QString::fromUtf8("spinBox_DPthreshlodHigh"));
+        spinBox_DPthreshlodHigh->setGeometry(QRect(157, 26, 61, 31));
+        radioB_DPthreshlodHigh = new QRadioButton(groupBox_5);
+        radioB_DPthreshlodHigh->setObjectName(QString::fromUtf8("radioB_DPthreshlodHigh"));
+        radioB_DPthreshlodHigh->setGeometry(QRect(13, 30, 161, 23));
+        radioB_DPthreshlodHigh->setFont(font);
+        radioB_DPthreshlodHigh->setAutoExclusive(false);
+        spinBox_DPboundaryHigh = new QSpinBox(groupBox_5);
+        spinBox_DPboundaryHigh->setObjectName(QString::fromUtf8("spinBox_DPboundaryHigh"));
+        spinBox_DPboundaryHigh->setGeometry(QRect(157, 94, 61, 31));
+        radioB_DPboundaryHigh = new QRadioButton(groupBox_5);
+        radioB_DPboundaryHigh->setObjectName(QString::fromUtf8("radioB_DPboundaryHigh"));
+        radioB_DPboundaryHigh->setGeometry(QRect(13, 97, 161, 23));
+        radioB_DPboundaryHigh->setFont(font);
+        radioB_DPboundaryHigh->setAutoExclusive(false);
+        spinBox_DPthreshlodLow = new QSpinBox(groupBox_5);
+        spinBox_DPthreshlodLow->setObjectName(QString::fromUtf8("spinBox_DPthreshlodLow"));
+        spinBox_DPthreshlodLow->setGeometry(QRect(156, 60, 61, 31));
+        spinBox_DPboundaryLow = new QSpinBox(groupBox_5);
+        spinBox_DPboundaryLow->setObjectName(QString::fromUtf8("spinBox_DPboundaryLow"));
+        spinBox_DPboundaryLow->setGeometry(QRect(157, 128, 61, 31));
+        radioB_DPboundaryLow = new QRadioButton(groupBox_5);
+        radioB_DPboundaryLow->setObjectName(QString::fromUtf8("radioB_DPboundaryLow"));
+        radioB_DPboundaryLow->setGeometry(QRect(13, 132, 161, 23));
+        radioB_DPboundaryLow->setFont(font);
+        radioB_DPboundaryLow->setAutoExclusive(false);
+        radioB_DPthreshlodLow = new QRadioButton(groupBox_5);
+        radioB_DPthreshlodLow->setObjectName(QString::fromUtf8("radioB_DPthreshlodLow"));
+        radioB_DPthreshlodLow->setGeometry(QRect(13, 64, 161, 23));
+        radioB_DPthreshlodLow->setFont(font);
+        radioB_DPthreshlodLow->setAutoExclusive(false);
         groupBox_4 = new QGroupBox(tab_2);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
         groupBox_4->setGeometry(QRect(20, 130, 231, 165));
-        radioB_threshlodHigh = new QRadioButton(groupBox_4);
-        radioB_threshlodHigh->setObjectName(QString::fromUtf8("radioB_threshlodHigh"));
-        radioB_threshlodHigh->setGeometry(QRect(10, 30, 161, 23));
-        radioB_threshlodHigh->setFont(font);
-        radioB_threshlodHigh->setAutoExclusive(false);
-        spinBox_threshlodHigh = new QSpinBox(groupBox_4);
-        spinBox_threshlodHigh->setObjectName(QString::fromUtf8("spinBox_threshlodHigh"));
-        spinBox_threshlodHigh->setGeometry(QRect(157, 26, 61, 31));
-        radioB_threshlodLow = new QRadioButton(groupBox_4);
-        radioB_threshlodLow->setObjectName(QString::fromUtf8("radioB_threshlodLow"));
-        radioB_threshlodLow->setGeometry(QRect(10, 64, 161, 23));
-        radioB_threshlodLow->setFont(font);
-        radioB_threshlodLow->setAutoExclusive(false);
-        spinBox_threshlodLow = new QSpinBox(groupBox_4);
-        spinBox_threshlodLow->setObjectName(QString::fromUtf8("spinBox_threshlodLow"));
-        spinBox_threshlodLow->setGeometry(QRect(157, 60, 61, 31));
-        radioB_boundaryHigh = new QRadioButton(groupBox_4);
-        radioB_boundaryHigh->setObjectName(QString::fromUtf8("radioB_boundaryHigh"));
-        radioB_boundaryHigh->setGeometry(QRect(10, 97, 161, 23));
-        radioB_boundaryHigh->setFont(font);
-        radioB_boundaryHigh->setAutoExclusive(false);
-        spinBox_boundaryHigh = new QSpinBox(groupBox_4);
-        spinBox_boundaryHigh->setObjectName(QString::fromUtf8("spinBox_boundaryHigh"));
-        spinBox_boundaryHigh->setGeometry(QRect(157, 94, 61, 31));
-        radioB_boundaryLow = new QRadioButton(groupBox_4);
-        radioB_boundaryLow->setObjectName(QString::fromUtf8("radioB_boundaryLow"));
-        radioB_boundaryLow->setGeometry(QRect(12, 131, 161, 23));
-        radioB_boundaryLow->setFont(font);
-        radioB_boundaryLow->setAutoExclusive(false);
-        spinBox_boundaryLow = new QSpinBox(groupBox_4);
-        spinBox_boundaryLow->setObjectName(QString::fromUtf8("spinBox_boundaryLow"));
-        spinBox_boundaryLow->setGeometry(QRect(157, 128, 61, 31));
+        radioB_BPthreshlodHigh = new QRadioButton(groupBox_4);
+        radioB_BPthreshlodHigh->setObjectName(QString::fromUtf8("radioB_BPthreshlodHigh"));
+        radioB_BPthreshlodHigh->setGeometry(QRect(10, 30, 161, 23));
+        radioB_BPthreshlodHigh->setFont(font);
+        radioB_BPthreshlodHigh->setAutoExclusive(false);
+        spinBox_BPthreshlodHigh = new QSpinBox(groupBox_4);
+        spinBox_BPthreshlodHigh->setObjectName(QString::fromUtf8("spinBox_BPthreshlodHigh"));
+        spinBox_BPthreshlodHigh->setGeometry(QRect(157, 26, 61, 31));
+        radioB_BPthreshlodLow = new QRadioButton(groupBox_4);
+        radioB_BPthreshlodLow->setObjectName(QString::fromUtf8("radioB_BPthreshlodLow"));
+        radioB_BPthreshlodLow->setGeometry(QRect(10, 64, 161, 23));
+        radioB_BPthreshlodLow->setFont(font);
+        radioB_BPthreshlodLow->setAutoExclusive(false);
+        spinBox_BPthreshlodLow = new QSpinBox(groupBox_4);
+        spinBox_BPthreshlodLow->setObjectName(QString::fromUtf8("spinBox_BPthreshlodLow"));
+        spinBox_BPthreshlodLow->setGeometry(QRect(157, 60, 61, 31));
+        radioB_BPboundaryHigh = new QRadioButton(groupBox_4);
+        radioB_BPboundaryHigh->setObjectName(QString::fromUtf8("radioB_BPboundaryHigh"));
+        radioB_BPboundaryHigh->setGeometry(QRect(10, 97, 161, 23));
+        radioB_BPboundaryHigh->setFont(font);
+        radioB_BPboundaryHigh->setAutoExclusive(false);
+        spinBox_BPboundaryHigh = new QSpinBox(groupBox_4);
+        spinBox_BPboundaryHigh->setObjectName(QString::fromUtf8("spinBox_BPboundaryHigh"));
+        spinBox_BPboundaryHigh->setGeometry(QRect(157, 94, 61, 31));
+        radioB_BPboundaryLow = new QRadioButton(groupBox_4);
+        radioB_BPboundaryLow->setObjectName(QString::fromUtf8("radioB_BPboundaryLow"));
+        radioB_BPboundaryLow->setGeometry(QRect(12, 131, 161, 23));
+        radioB_BPboundaryLow->setFont(font);
+        radioB_BPboundaryLow->setAutoExclusive(false);
+        spinBox_BPboundaryLow = new QSpinBox(groupBox_4);
+        spinBox_BPboundaryLow->setObjectName(QString::fromUtf8("spinBox_BPboundaryLow"));
+        spinBox_BPboundaryLow->setGeometry(QRect(157, 128, 61, 31));
         groupBox_8 = new QGroupBox(tab_2);
         groupBox_8->setObjectName(QString::fromUtf8("groupBox_8"));
         groupBox_8->setGeometry(QRect(20, 310, 231, 271));
-        radioB_bpAreaMax = new QRadioButton(groupBox_8);
-        radioB_bpAreaMax->setObjectName(QString::fromUtf8("radioB_bpAreaMax"));
-        radioB_bpAreaMax->setGeometry(QRect(13, 29, 161, 23));
-        radioB_bpAreaMax->setFont(font);
-        radioB_bpAreaMax->setAutoExclusive(false);
-        spinBox_bpAreaMax = new QSpinBox(groupBox_8);
-        spinBox_bpAreaMax->setObjectName(QString::fromUtf8("spinBox_bpAreaMax"));
-        spinBox_bpAreaMax->setGeometry(QRect(160, 25, 61, 31));
-        spinBox_bpAreaMin = new QSpinBox(groupBox_8);
-        spinBox_bpAreaMin->setObjectName(QString::fromUtf8("spinBox_bpAreaMin"));
-        spinBox_bpAreaMin->setGeometry(QRect(160, 59, 61, 31));
-        radioB_bpAreaMin = new QRadioButton(groupBox_8);
-        radioB_bpAreaMin->setObjectName(QString::fromUtf8("radioB_bpAreaMin"));
-        radioB_bpAreaMin->setGeometry(QRect(13, 65, 161, 23));
-        radioB_bpAreaMin->setFont(font);
-        radioB_bpAreaMin->setAutoExclusive(false);
-        spinBox_dpAreaMin_2 = new QSpinBox(groupBox_8);
-        spinBox_dpAreaMin_2->setObjectName(QString::fromUtf8("spinBox_dpAreaMin_2"));
-        spinBox_dpAreaMin_2->setGeometry(QRect(160, 127, 61, 31));
-        spinBox_dpAreaMin = new QSpinBox(groupBox_8);
-        spinBox_dpAreaMin->setObjectName(QString::fromUtf8("spinBox_dpAreaMin"));
-        spinBox_dpAreaMin->setGeometry(QRect(160, 93, 61, 31));
-        radioB_dpAreaMin = new QRadioButton(groupBox_8);
-        radioB_dpAreaMin->setObjectName(QString::fromUtf8("radioB_dpAreaMin"));
-        radioB_dpAreaMin->setGeometry(QRect(13, 131, 161, 23));
-        radioB_dpAreaMin->setFont(font);
-        radioB_dpAreaMin->setAutoExclusive(false);
-        radioB_dpAreaMax = new QRadioButton(groupBox_8);
-        radioB_dpAreaMax->setObjectName(QString::fromUtf8("radioB_dpAreaMax"));
-        radioB_dpAreaMax->setGeometry(QRect(13, 98, 161, 23));
-        radioB_dpAreaMax->setFont(font);
-        radioB_dpAreaMax->setAutoExclusive(false);
+        radioB_BPAreaMax = new QRadioButton(groupBox_8);
+        radioB_BPAreaMax->setObjectName(QString::fromUtf8("radioB_BPAreaMax"));
+        radioB_BPAreaMax->setGeometry(QRect(13, 29, 161, 23));
+        radioB_BPAreaMax->setFont(font);
+        radioB_BPAreaMax->setAutoExclusive(false);
+        spinBox_BPAreaMax = new QSpinBox(groupBox_8);
+        spinBox_BPAreaMax->setObjectName(QString::fromUtf8("spinBox_BPAreaMax"));
+        spinBox_BPAreaMax->setGeometry(QRect(160, 25, 61, 31));
+        spinBox_BPAreaMin = new QSpinBox(groupBox_8);
+        spinBox_BPAreaMin->setObjectName(QString::fromUtf8("spinBox_BPAreaMin"));
+        spinBox_BPAreaMin->setGeometry(QRect(160, 59, 61, 31));
+        radioB_BPAreaMin = new QRadioButton(groupBox_8);
+        radioB_BPAreaMin->setObjectName(QString::fromUtf8("radioB_BPAreaMin"));
+        radioB_BPAreaMin->setGeometry(QRect(13, 65, 161, 23));
+        radioB_BPAreaMin->setFont(font);
+        radioB_BPAreaMin->setAutoExclusive(false);
+        spinBox_DPAreaMin = new QSpinBox(groupBox_8);
+        spinBox_DPAreaMin->setObjectName(QString::fromUtf8("spinBox_DPAreaMin"));
+        spinBox_DPAreaMin->setGeometry(QRect(160, 130, 61, 31));
+        spinBox_DPAreaMax = new QSpinBox(groupBox_8);
+        spinBox_DPAreaMax->setObjectName(QString::fromUtf8("spinBox_DPAreaMax"));
+        spinBox_DPAreaMax->setGeometry(QRect(160, 93, 61, 31));
+        radioB_DPAreaMin = new QRadioButton(groupBox_8);
+        radioB_DPAreaMin->setObjectName(QString::fromUtf8("radioB_DPAreaMin"));
+        radioB_DPAreaMin->setGeometry(QRect(13, 131, 161, 23));
+        radioB_DPAreaMin->setFont(font);
+        radioB_DPAreaMin->setAutoExclusive(false);
+        radioB_DPAreaMax = new QRadioButton(groupBox_8);
+        radioB_DPAreaMax->setObjectName(QString::fromUtf8("radioB_DPAreaMax"));
+        radioB_DPAreaMax->setGeometry(QRect(13, 98, 161, 23));
+        radioB_DPAreaMax->setFont(font);
+        radioB_DPAreaMax->setAutoExclusive(false);
         spinBox_byPassX = new QSpinBox(groupBox_8);
         spinBox_byPassX->setObjectName(QString::fromUtf8("spinBox_byPassX"));
         spinBox_byPassX->setGeometry(QRect(160, 162, 61, 31));
@@ -482,218 +482,218 @@ public:
         groupBox_13->setGeometry(QRect(20, 20, 242, 601));
         gridLayout_2 = new QGridLayout(groupBox_13);
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        spinBox_maxgrayfullnessMin = new QSpinBox(groupBox_13);
-        spinBox_maxgrayfullnessMin->setObjectName(QString::fromUtf8("spinBox_maxgrayfullnessMin"));
+        spinBox_BPmaxgrayfullnessMin = new QSpinBox(groupBox_13);
+        spinBox_BPmaxgrayfullnessMin->setObjectName(QString::fromUtf8("spinBox_BPmaxgrayfullnessMin"));
 
-        gridLayout_2->addWidget(spinBox_maxgrayfullnessMin, 5, 0, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPmaxgrayfullnessMin, 5, 0, 1, 1);
 
-        radioB_elongationMin = new QRadioButton(groupBox_13);
-        radioB_elongationMin->setObjectName(QString::fromUtf8("radioB_elongationMin"));
-        radioB_elongationMin->setFont(font);
-        radioB_elongationMin->setChecked(true);
-        radioB_elongationMin->setAutoRepeat(false);
-        radioB_elongationMin->setAutoExclusive(false);
+        radioB_BPelongationMin = new QRadioButton(groupBox_13);
+        radioB_BPelongationMin->setObjectName(QString::fromUtf8("radioB_BPelongationMin"));
+        radioB_BPelongationMin->setFont(font);
+        radioB_BPelongationMin->setChecked(true);
+        radioB_BPelongationMin->setAutoRepeat(false);
+        radioB_BPelongationMin->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_elongationMin, 0, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPelongationMin, 0, 0, 1, 1);
 
-        spinBox_GrayMean_Min = new QSpinBox(groupBox_13);
-        spinBox_GrayMean_Min->setObjectName(QString::fromUtf8("spinBox_GrayMean_Min"));
+        spinBox_BPGrayMean_Min = new QSpinBox(groupBox_13);
+        spinBox_BPGrayMean_Min->setObjectName(QString::fromUtf8("spinBox_BPGrayMean_Min"));
 
-        gridLayout_2->addWidget(spinBox_GrayMean_Min, 6, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPGrayMean_Min, 6, 1, 1, 1);
 
-        spinBox_fullnessMin = new QSpinBox(groupBox_13);
-        spinBox_fullnessMin->setObjectName(QString::fromUtf8("spinBox_fullnessMin"));
+        spinBox_BPfullnessMin = new QSpinBox(groupBox_13);
+        spinBox_BPfullnessMin->setObjectName(QString::fromUtf8("spinBox_BPfullnessMin"));
 
-        gridLayout_2->addWidget(spinBox_fullnessMin, 2, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPfullnessMin, 2, 1, 1, 1);
 
-        radioB_fullnessMin = new QRadioButton(groupBox_13);
-        radioB_fullnessMin->setObjectName(QString::fromUtf8("radioB_fullnessMin"));
-        radioB_fullnessMin->setFont(font);
-        radioB_fullnessMin->setAutoExclusive(false);
+        radioB_BPfullnessMin = new QRadioButton(groupBox_13);
+        radioB_BPfullnessMin->setObjectName(QString::fromUtf8("radioB_BPfullnessMin"));
+        radioB_BPfullnessMin->setFont(font);
+        radioB_BPfullnessMin->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_fullnessMin, 2, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPfullnessMin, 2, 0, 1, 1);
 
-        radioB_compactnessMin = new QRadioButton(groupBox_13);
-        radioB_compactnessMin->setObjectName(QString::fromUtf8("radioB_compactnessMin"));
-        radioB_compactnessMin->setFont(font);
-        radioB_compactnessMin->setAutoExclusive(false);
+        radioB_BPcompactnessMin = new QRadioButton(groupBox_13);
+        radioB_BPcompactnessMin->setObjectName(QString::fromUtf8("radioB_BPcompactnessMin"));
+        radioB_BPcompactnessMin->setFont(font);
+        radioB_BPcompactnessMin->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_compactnessMin, 11, 0, 1, 2);
+        gridLayout_2->addWidget(radioB_BPcompactnessMin, 11, 0, 1, 2);
 
-        spinBox_elongationMax = new QSpinBox(groupBox_13);
-        spinBox_elongationMax->setObjectName(QString::fromUtf8("spinBox_elongationMax"));
-        spinBox_elongationMax->setMaximum(9999);
+        spinBox_BPelongationMax = new QSpinBox(groupBox_13);
+        spinBox_BPelongationMax->setObjectName(QString::fromUtf8("spinBox_BPelongationMax"));
+        spinBox_BPelongationMax->setMaximum(9999);
 
-        gridLayout_2->addWidget(spinBox_elongationMax, 1, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPelongationMax, 1, 1, 1, 1);
 
-        spinBox_compactnessMin = new QSpinBox(groupBox_13);
-        spinBox_compactnessMin->setObjectName(QString::fromUtf8("spinBox_compactnessMin"));
+        spinBox_BPcompactnessMin = new QSpinBox(groupBox_13);
+        spinBox_BPcompactnessMin->setObjectName(QString::fromUtf8("spinBox_BPcompactnessMin"));
 
-        gridLayout_2->addWidget(spinBox_compactnessMin, 12, 0, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPcompactnessMin, 12, 0, 1, 1);
 
-        radioB_maxgrayfullnessMin = new QRadioButton(groupBox_13);
-        radioB_maxgrayfullnessMin->setObjectName(QString::fromUtf8("radioB_maxgrayfullnessMin"));
-        radioB_maxgrayfullnessMin->setFont(font);
-        radioB_maxgrayfullnessMin->setAutoExclusive(false);
+        radioB_BPmaxgrayfullnessMin = new QRadioButton(groupBox_13);
+        radioB_BPmaxgrayfullnessMin->setObjectName(QString::fromUtf8("radioB_BPmaxgrayfullnessMin"));
+        radioB_BPmaxgrayfullnessMin->setFont(font);
+        radioB_BPmaxgrayfullnessMin->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_maxgrayfullnessMin, 4, 0, 1, 2);
+        gridLayout_2->addWidget(radioB_BPmaxgrayfullnessMin, 4, 0, 1, 2);
 
-        radioB_elongationMax = new QRadioButton(groupBox_13);
-        radioB_elongationMax->setObjectName(QString::fromUtf8("radioB_elongationMax"));
-        radioB_elongationMax->setFont(font);
-        radioB_elongationMax->setAutoExclusive(false);
+        radioB_BPelongationMax = new QRadioButton(groupBox_13);
+        radioB_BPelongationMax->setObjectName(QString::fromUtf8("radioB_BPelongationMax"));
+        radioB_BPelongationMax->setFont(font);
+        radioB_BPelongationMax->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_elongationMax, 1, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPelongationMax, 1, 0, 1, 1);
 
-        spinBox_MaxGray_Min = new QSpinBox(groupBox_13);
-        spinBox_MaxGray_Min->setObjectName(QString::fromUtf8("spinBox_MaxGray_Min"));
+        spinBox_BPMaxGray_Min = new QSpinBox(groupBox_13);
+        spinBox_BPMaxGray_Min->setObjectName(QString::fromUtf8("spinBox_BPMaxGray_Min"));
 
-        gridLayout_2->addWidget(spinBox_MaxGray_Min, 7, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPMaxGray_Min, 7, 1, 1, 1);
 
-        radioB_compactnessMax = new QRadioButton(groupBox_13);
-        radioB_compactnessMax->setObjectName(QString::fromUtf8("radioB_compactnessMax"));
-        radioB_compactnessMax->setFont(font);
-        radioB_compactnessMax->setAutoExclusive(false);
+        radioB_BPcompactnessMax = new QRadioButton(groupBox_13);
+        radioB_BPcompactnessMax->setObjectName(QString::fromUtf8("radioB_BPcompactnessMax"));
+        radioB_BPcompactnessMax->setFont(font);
+        radioB_BPcompactnessMax->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_compactnessMax, 9, 0, 1, 2);
+        gridLayout_2->addWidget(radioB_BPcompactnessMax, 9, 0, 1, 2);
 
-        radioB_GrayMean_Min = new QRadioButton(groupBox_13);
-        radioB_GrayMean_Min->setObjectName(QString::fromUtf8("radioB_GrayMean_Min"));
-        radioB_GrayMean_Min->setFont(font);
-        radioB_GrayMean_Min->setAutoExclusive(false);
+        radioB_BPGrayMean_Min = new QRadioButton(groupBox_13);
+        radioB_BPGrayMean_Min->setObjectName(QString::fromUtf8("radioB_BPGrayMean_Min"));
+        radioB_BPGrayMean_Min->setFont(font);
+        radioB_BPGrayMean_Min->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_GrayMean_Min, 6, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPGrayMean_Min, 6, 0, 1, 1);
 
-        spinBox_fullnessMax = new QSpinBox(groupBox_13);
-        spinBox_fullnessMax->setObjectName(QString::fromUtf8("spinBox_fullnessMax"));
+        spinBox_BPfullnessMax = new QSpinBox(groupBox_13);
+        spinBox_BPfullnessMax->setObjectName(QString::fromUtf8("spinBox_BPfullnessMax"));
 
-        gridLayout_2->addWidget(spinBox_fullnessMax, 3, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPfullnessMax, 3, 1, 1, 1);
 
-        spinBox_MaxGray_Max = new QSpinBox(groupBox_13);
-        spinBox_MaxGray_Max->setObjectName(QString::fromUtf8("spinBox_MaxGray_Max"));
+        spinBox_BPMaxGray_Max = new QSpinBox(groupBox_13);
+        spinBox_BPMaxGray_Max->setObjectName(QString::fromUtf8("spinBox_BPMaxGray_Max"));
 
-        gridLayout_2->addWidget(spinBox_MaxGray_Max, 8, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPMaxGray_Max, 8, 1, 1, 1);
 
-        radioB_fullnessMax = new QRadioButton(groupBox_13);
-        radioB_fullnessMax->setObjectName(QString::fromUtf8("radioB_fullnessMax"));
-        radioB_fullnessMax->setFont(font);
-        radioB_fullnessMax->setAutoExclusive(false);
+        radioB_BPfullnessMax = new QRadioButton(groupBox_13);
+        radioB_BPfullnessMax->setObjectName(QString::fromUtf8("radioB_BPfullnessMax"));
+        radioB_BPfullnessMax->setFont(font);
+        radioB_BPfullnessMax->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_fullnessMax, 3, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPfullnessMax, 3, 0, 1, 1);
 
-        spinBox_compactnessMax = new QSpinBox(groupBox_13);
-        spinBox_compactnessMax->setObjectName(QString::fromUtf8("spinBox_compactnessMax"));
+        spinBox_BPcompactnessMax = new QSpinBox(groupBox_13);
+        spinBox_BPcompactnessMax->setObjectName(QString::fromUtf8("spinBox_BPcompactnessMax"));
 
-        gridLayout_2->addWidget(spinBox_compactnessMax, 10, 0, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPcompactnessMax, 10, 0, 1, 1);
 
-        radioB_MaxGray_Min = new QRadioButton(groupBox_13);
-        radioB_MaxGray_Min->setObjectName(QString::fromUtf8("radioB_MaxGray_Min"));
-        radioB_MaxGray_Min->setFont(font);
-        radioB_MaxGray_Min->setAutoExclusive(false);
+        radioB_BPMaxGray_Min = new QRadioButton(groupBox_13);
+        radioB_BPMaxGray_Min->setObjectName(QString::fromUtf8("radioB_BPMaxGray_Min"));
+        radioB_BPMaxGray_Min->setFont(font);
+        radioB_BPMaxGray_Min->setAutoExclusive(false);
 
-        gridLayout_2->addWidget(radioB_MaxGray_Min, 7, 0, 1, 1);
+        gridLayout_2->addWidget(radioB_BPMaxGray_Min, 7, 0, 1, 1);
 
-        lbl_MaxGray_Max = new QLabel(groupBox_13);
-        lbl_MaxGray_Max->setObjectName(QString::fromUtf8("lbl_MaxGray_Max"));
-        lbl_MaxGray_Max->setEnabled(true);
-        lbl_MaxGray_Max->setFont(font);
+        lbl_BPMaxGray_Max = new QLabel(groupBox_13);
+        lbl_BPMaxGray_Max->setObjectName(QString::fromUtf8("lbl_BPMaxGray_Max"));
+        lbl_BPMaxGray_Max->setEnabled(true);
+        lbl_BPMaxGray_Max->setFont(font);
 
-        gridLayout_2->addWidget(lbl_MaxGray_Max, 8, 0, 1, 1);
+        gridLayout_2->addWidget(lbl_BPMaxGray_Max, 8, 0, 1, 1);
 
-        spinBox_elongationMin = new QSpinBox(groupBox_13);
-        spinBox_elongationMin->setObjectName(QString::fromUtf8("spinBox_elongationMin"));
-        spinBox_elongationMin->setMaximum(9999);
+        spinBox_BPelongationMin = new QSpinBox(groupBox_13);
+        spinBox_BPelongationMin->setObjectName(QString::fromUtf8("spinBox_BPelongationMin"));
+        spinBox_BPelongationMin->setMaximum(9999);
 
-        gridLayout_2->addWidget(spinBox_elongationMin, 0, 1, 1, 1);
+        gridLayout_2->addWidget(spinBox_BPelongationMin, 0, 1, 1, 1);
 
         groupBox_14 = new QGroupBox(tab);
         groupBox_14->setObjectName(QString::fromUtf8("groupBox_14"));
         groupBox_14->setGeometry(QRect(270, 20, 241, 601));
         gridLayout_3 = new QGridLayout(groupBox_14);
         gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
-        radioB_elongationMin_3 = new QRadioButton(groupBox_14);
-        radioB_elongationMin_3->setObjectName(QString::fromUtf8("radioB_elongationMin_3"));
-        radioB_elongationMin_3->setFont(font);
-        radioB_elongationMin_3->setAutoExclusive(false);
+        radioB_DPelongationMin = new QRadioButton(groupBox_14);
+        radioB_DPelongationMin->setObjectName(QString::fromUtf8("radioB_DPelongationMin"));
+        radioB_DPelongationMin->setFont(font);
+        radioB_DPelongationMin->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_elongationMin_3, 0, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPelongationMin, 0, 0, 1, 1);
 
-        spinBox_elongationMin_3 = new QSpinBox(groupBox_14);
-        spinBox_elongationMin_3->setObjectName(QString::fromUtf8("spinBox_elongationMin_3"));
+        spinBox_DPelongationMin = new QSpinBox(groupBox_14);
+        spinBox_DPelongationMin->setObjectName(QString::fromUtf8("spinBox_DPelongationMin"));
 
-        gridLayout_3->addWidget(spinBox_elongationMin_3, 0, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPelongationMin, 0, 1, 1, 1);
 
-        radioB_elongationMax_3 = new QRadioButton(groupBox_14);
-        radioB_elongationMax_3->setObjectName(QString::fromUtf8("radioB_elongationMax_3"));
-        radioB_elongationMax_3->setFont(font);
-        radioB_elongationMax_3->setAutoExclusive(false);
+        radioB_DPelongationMax = new QRadioButton(groupBox_14);
+        radioB_DPelongationMax->setObjectName(QString::fromUtf8("radioB_DPelongationMax"));
+        radioB_DPelongationMax->setFont(font);
+        radioB_DPelongationMax->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_elongationMax_3, 1, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPelongationMax, 1, 0, 1, 1);
 
-        spinBox_elongationMax_3 = new QSpinBox(groupBox_14);
-        spinBox_elongationMax_3->setObjectName(QString::fromUtf8("spinBox_elongationMax_3"));
+        spinBox_DPelongationMax = new QSpinBox(groupBox_14);
+        spinBox_DPelongationMax->setObjectName(QString::fromUtf8("spinBox_DPelongationMax"));
 
-        gridLayout_3->addWidget(spinBox_elongationMax_3, 1, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPelongationMax, 1, 1, 1, 1);
 
-        radioB_fullnessMin_3 = new QRadioButton(groupBox_14);
-        radioB_fullnessMin_3->setObjectName(QString::fromUtf8("radioB_fullnessMin_3"));
-        radioB_fullnessMin_3->setFont(font);
-        radioB_fullnessMin_3->setAutoExclusive(false);
+        radioB_DPfullnessMin = new QRadioButton(groupBox_14);
+        radioB_DPfullnessMin->setObjectName(QString::fromUtf8("radioB_DPfullnessMin"));
+        radioB_DPfullnessMin->setFont(font);
+        radioB_DPfullnessMin->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_fullnessMin_3, 2, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPfullnessMin, 2, 0, 1, 1);
 
-        spinBox_fullnessMin_3 = new QSpinBox(groupBox_14);
-        spinBox_fullnessMin_3->setObjectName(QString::fromUtf8("spinBox_fullnessMin_3"));
+        spinBox_DPfullnessMin = new QSpinBox(groupBox_14);
+        spinBox_DPfullnessMin->setObjectName(QString::fromUtf8("spinBox_DPfullnessMin"));
 
-        gridLayout_3->addWidget(spinBox_fullnessMin_3, 2, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPfullnessMin, 2, 1, 1, 1);
 
-        radioB_fullnessMax_3 = new QRadioButton(groupBox_14);
-        radioB_fullnessMax_3->setObjectName(QString::fromUtf8("radioB_fullnessMax_3"));
-        radioB_fullnessMax_3->setFont(font);
-        radioB_fullnessMax_3->setAutoExclusive(false);
+        radioB_DPfullnessMax = new QRadioButton(groupBox_14);
+        radioB_DPfullnessMax->setObjectName(QString::fromUtf8("radioB_DPfullnessMax"));
+        radioB_DPfullnessMax->setFont(font);
+        radioB_DPfullnessMax->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_fullnessMax_3, 3, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPfullnessMax, 3, 0, 1, 1);
 
-        spinBox_fullnessMax_3 = new QSpinBox(groupBox_14);
-        spinBox_fullnessMax_3->setObjectName(QString::fromUtf8("spinBox_fullnessMax_3"));
+        spinBox_DPfullnessMax = new QSpinBox(groupBox_14);
+        spinBox_DPfullnessMax->setObjectName(QString::fromUtf8("spinBox_DPfullnessMax"));
 
-        gridLayout_3->addWidget(spinBox_fullnessMax_3, 3, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPfullnessMax, 3, 1, 1, 1);
 
-        radioB_maxgrayfullnessMin_3 = new QRadioButton(groupBox_14);
-        radioB_maxgrayfullnessMin_3->setObjectName(QString::fromUtf8("radioB_maxgrayfullnessMin_3"));
-        radioB_maxgrayfullnessMin_3->setFont(font);
-        radioB_maxgrayfullnessMin_3->setAutoExclusive(false);
+        radioB_DPmaxgrayfullnessMin = new QRadioButton(groupBox_14);
+        radioB_DPmaxgrayfullnessMin->setObjectName(QString::fromUtf8("radioB_DPmaxgrayfullnessMin"));
+        radioB_DPmaxgrayfullnessMin->setFont(font);
+        radioB_DPmaxgrayfullnessMin->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_maxgrayfullnessMin_3, 4, 0, 1, 2);
+        gridLayout_3->addWidget(radioB_DPmaxgrayfullnessMin, 4, 0, 1, 2);
 
-        spinBox_maxgrayfullnessMin_3 = new QSpinBox(groupBox_14);
-        spinBox_maxgrayfullnessMin_3->setObjectName(QString::fromUtf8("spinBox_maxgrayfullnessMin_3"));
+        spinBox_DPmaxgrayfullnessMin = new QSpinBox(groupBox_14);
+        spinBox_DPmaxgrayfullnessMin->setObjectName(QString::fromUtf8("spinBox_DPmaxgrayfullnessMin"));
 
-        gridLayout_3->addWidget(spinBox_maxgrayfullnessMin_3, 5, 0, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPmaxgrayfullnessMin, 5, 0, 1, 1);
 
-        radioB_GrayMean_Max = new QRadioButton(groupBox_14);
-        radioB_GrayMean_Max->setObjectName(QString::fromUtf8("radioB_GrayMean_Max"));
-        radioB_GrayMean_Max->setFont(font);
-        radioB_GrayMean_Max->setAutoExclusive(false);
+        radioB_DPGrayMean_Max = new QRadioButton(groupBox_14);
+        radioB_DPGrayMean_Max->setObjectName(QString::fromUtf8("radioB_DPGrayMean_Max"));
+        radioB_DPGrayMean_Max->setFont(font);
+        radioB_DPGrayMean_Max->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_GrayMean_Max, 6, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPGrayMean_Max, 6, 0, 1, 1);
 
-        spinBox_GrayMean_Max = new QSpinBox(groupBox_14);
-        spinBox_GrayMean_Max->setObjectName(QString::fromUtf8("spinBox_GrayMean_Max"));
+        spinBox_DPGrayMean_Max = new QSpinBox(groupBox_14);
+        spinBox_DPGrayMean_Max->setObjectName(QString::fromUtf8("spinBox_DPGrayMean_Max"));
 
-        gridLayout_3->addWidget(spinBox_GrayMean_Max, 6, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPGrayMean_Max, 6, 1, 1, 1);
 
-        radioB_MinGray_Max = new QRadioButton(groupBox_14);
-        radioB_MinGray_Max->setObjectName(QString::fromUtf8("radioB_MinGray_Max"));
-        radioB_MinGray_Max->setFont(font);
-        radioB_MinGray_Max->setAutoExclusive(false);
+        radioB_DPMinGray_Max = new QRadioButton(groupBox_14);
+        radioB_DPMinGray_Max->setObjectName(QString::fromUtf8("radioB_DPMinGray_Max"));
+        radioB_DPMinGray_Max->setFont(font);
+        radioB_DPMinGray_Max->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_MinGray_Max, 7, 0, 1, 1);
+        gridLayout_3->addWidget(radioB_DPMinGray_Max, 7, 0, 1, 1);
 
-        spinBox_MinGray_Max = new QSpinBox(groupBox_14);
-        spinBox_MinGray_Max->setObjectName(QString::fromUtf8("spinBox_MinGray_Max"));
+        spinBox_DPMinGray_Max = new QSpinBox(groupBox_14);
+        spinBox_DPMinGray_Max->setObjectName(QString::fromUtf8("spinBox_DPMinGray_Max"));
 
-        gridLayout_3->addWidget(spinBox_MinGray_Max, 7, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPMinGray_Max, 7, 1, 1, 1);
 
         lbl_MinGray_Min = new QLabel(groupBox_14);
         lbl_MinGray_Min->setObjectName(QString::fromUtf8("lbl_MinGray_Min"));
@@ -701,34 +701,34 @@ public:
 
         gridLayout_3->addWidget(lbl_MinGray_Min, 8, 0, 1, 1);
 
-        spinBox_MinGray_Min = new QSpinBox(groupBox_14);
-        spinBox_MinGray_Min->setObjectName(QString::fromUtf8("spinBox_MinGray_Min"));
+        spinBox_DPMinGray_Min = new QSpinBox(groupBox_14);
+        spinBox_DPMinGray_Min->setObjectName(QString::fromUtf8("spinBox_DPMinGray_Min"));
 
-        gridLayout_3->addWidget(spinBox_MinGray_Min, 8, 1, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPMinGray_Min, 8, 1, 1, 1);
 
-        radioB_compactnessMax_3 = new QRadioButton(groupBox_14);
-        radioB_compactnessMax_3->setObjectName(QString::fromUtf8("radioB_compactnessMax_3"));
-        radioB_compactnessMax_3->setFont(font);
-        radioB_compactnessMax_3->setAutoExclusive(false);
+        radioB_DPcompactnessMax = new QRadioButton(groupBox_14);
+        radioB_DPcompactnessMax->setObjectName(QString::fromUtf8("radioB_DPcompactnessMax"));
+        radioB_DPcompactnessMax->setFont(font);
+        radioB_DPcompactnessMax->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_compactnessMax_3, 9, 0, 1, 2);
+        gridLayout_3->addWidget(radioB_DPcompactnessMax, 9, 0, 1, 2);
 
-        spinBox_compactnessMax_3 = new QSpinBox(groupBox_14);
-        spinBox_compactnessMax_3->setObjectName(QString::fromUtf8("spinBox_compactnessMax_3"));
+        spinBox_DPcompactnessMax = new QSpinBox(groupBox_14);
+        spinBox_DPcompactnessMax->setObjectName(QString::fromUtf8("spinBox_DPcompactnessMax"));
 
-        gridLayout_3->addWidget(spinBox_compactnessMax_3, 10, 0, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPcompactnessMax, 10, 0, 1, 1);
 
-        radioB_compactnessMin_3 = new QRadioButton(groupBox_14);
-        radioB_compactnessMin_3->setObjectName(QString::fromUtf8("radioB_compactnessMin_3"));
-        radioB_compactnessMin_3->setFont(font);
-        radioB_compactnessMin_3->setAutoExclusive(false);
+        radioB_DPcompactnessMin = new QRadioButton(groupBox_14);
+        radioB_DPcompactnessMin->setObjectName(QString::fromUtf8("radioB_DPcompactnessMin"));
+        radioB_DPcompactnessMin->setFont(font);
+        radioB_DPcompactnessMin->setAutoExclusive(false);
 
-        gridLayout_3->addWidget(radioB_compactnessMin_3, 11, 0, 1, 2);
+        gridLayout_3->addWidget(radioB_DPcompactnessMin, 11, 0, 1, 2);
 
-        spinBox_compactnessMin_3 = new QSpinBox(groupBox_14);
-        spinBox_compactnessMin_3->setObjectName(QString::fromUtf8("spinBox_compactnessMin_3"));
+        spinBox_DPcompactnessMin = new QSpinBox(groupBox_14);
+        spinBox_DPcompactnessMin->setObjectName(QString::fromUtf8("spinBox_DPcompactnessMin"));
 
-        gridLayout_3->addWidget(spinBox_compactnessMin_3, 12, 0, 1, 1);
+        gridLayout_3->addWidget(spinBox_DPcompactnessMin, 12, 0, 1, 1);
 
         tabWidget->addTab(tab, QString());
         tab_3 = new QWidget();
@@ -847,9 +847,9 @@ public:
         spinBox_BL_threshlodLow = new QSpinBox(groupBox_15);
         spinBox_BL_threshlodLow->setObjectName(QString::fromUtf8("spinBox_BL_threshlodLow"));
         spinBox_BL_threshlodLow->setGeometry(QRect(177, 105, 61, 31));
-        checkBox_DLine_2 = new QCheckBox(tab_3);
-        checkBox_DLine_2->setObjectName(QString::fromUtf8("checkBox_DLine_2"));
-        checkBox_DLine_2->setGeometry(QRect(20, 560, 181, 31));
+        checkBox_HLine = new QCheckBox(tab_3);
+        checkBox_HLine->setObjectName(QString::fromUtf8("checkBox_HLine"));
+        checkBox_HLine->setGeometry(QRect(20, 560, 181, 31));
         checkBox_DLine = new QCheckBox(tab_3);
         checkBox_DLine->setObjectName(QString::fromUtf8("checkBox_DLine"));
         checkBox_DLine->setGeometry(QRect(10, 350, 141, 31));
@@ -883,12 +883,12 @@ public:
         spinBox_DL_threshlodLow = new QSpinBox(groupBox_16);
         spinBox_DL_threshlodLow->setObjectName(QString::fromUtf8("spinBox_DL_threshlodLow"));
         spinBox_DL_threshlodLow->setGeometry(QRect(177, 105, 61, 31));
-        checkBox_DLine_3 = new QCheckBox(tab_3);
-        checkBox_DLine_3->setObjectName(QString::fromUtf8("checkBox_DLine_3"));
-        checkBox_DLine_3->setGeometry(QRect(20, 610, 181, 31));
-        checkBox_DLine_4 = new QCheckBox(tab_3);
-        checkBox_DLine_4->setObjectName(QString::fromUtf8("checkBox_DLine_4"));
-        checkBox_DLine_4->setGeometry(QRect(340, 620, 161, 31));
+        checkBox_VLine = new QCheckBox(tab_3);
+        checkBox_VLine->setObjectName(QString::fromUtf8("checkBox_VLine"));
+        checkBox_VLine->setGeometry(QRect(20, 610, 181, 31));
+        checkBox_checkEnable = new QCheckBox(tab_3);
+        checkBox_checkEnable->setObjectName(QString::fromUtf8("checkBox_checkEnable"));
+        checkBox_checkEnable->setGeometry(QRect(340, 620, 161, 31));
         groupBox_6 = new QGroupBox(tab_3);
         groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
         groupBox_6->setGeometry(QRect(10, 10, 231, 111));
@@ -928,7 +928,7 @@ public:
 
         retranslateUi(FuncPar);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(FuncPar);
@@ -943,20 +943,20 @@ public:
         radioB_checkDP->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245DP", nullptr));
         radioB_checkBP->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245BP", nullptr));
         groupBox_5->setTitle(QApplication::translate("FuncPar", "DPoint", nullptr));
-        radioB_threshlodHigh_2->setText(QApplication::translate("FuncPar", "Threshold High", nullptr));
-        radioB_boundaryHigh_2->setText(QApplication::translate("FuncPar", "Boundary High", nullptr));
-        radioB_boundaryLow_2->setText(QApplication::translate("FuncPar", "Boundary Low", nullptr));
-        radioB_threshlodLow_2->setText(QApplication::translate("FuncPar", "Threshold Low", nullptr));
+        radioB_DPthreshlodHigh->setText(QApplication::translate("FuncPar", "Threshold High", nullptr));
+        radioB_DPboundaryHigh->setText(QApplication::translate("FuncPar", "Boundary High", nullptr));
+        radioB_DPboundaryLow->setText(QApplication::translate("FuncPar", "Boundary Low", nullptr));
+        radioB_DPthreshlodLow->setText(QApplication::translate("FuncPar", "Threshold Low", nullptr));
         groupBox_4->setTitle(QApplication::translate("FuncPar", "BPoint", nullptr));
-        radioB_threshlodHigh->setText(QApplication::translate("FuncPar", "Threshold High", nullptr));
-        radioB_threshlodLow->setText(QApplication::translate("FuncPar", "Threshold Low", nullptr));
-        radioB_boundaryHigh->setText(QApplication::translate("FuncPar", "Boundary High", nullptr));
-        radioB_boundaryLow->setText(QApplication::translate("FuncPar", "Boundary Low", nullptr));
+        radioB_BPthreshlodHigh->setText(QApplication::translate("FuncPar", "Threshold High", nullptr));
+        radioB_BPthreshlodLow->setText(QApplication::translate("FuncPar", "Threshold Low", nullptr));
+        radioB_BPboundaryHigh->setText(QApplication::translate("FuncPar", "Boundary High", nullptr));
+        radioB_BPboundaryLow->setText(QApplication::translate("FuncPar", "Boundary Low", nullptr));
         groupBox_8->setTitle(QApplication::translate("FuncPar", "Point common setting", nullptr));
-        radioB_bpAreaMax->setText(QApplication::translate("FuncPar", "BP Area Max", nullptr));
-        radioB_bpAreaMin->setText(QApplication::translate("FuncPar", "BP Area Min", nullptr));
-        radioB_dpAreaMin->setText(QApplication::translate("FuncPar", "BP Area Min", nullptr));
-        radioB_dpAreaMax->setText(QApplication::translate("FuncPar", "BP Area Max", nullptr));
+        radioB_BPAreaMax->setText(QApplication::translate("FuncPar", "BP Area Max", nullptr));
+        radioB_BPAreaMin->setText(QApplication::translate("FuncPar", "BP Area Min", nullptr));
+        radioB_DPAreaMin->setText(QApplication::translate("FuncPar", "DP Area Min", nullptr));
+        radioB_DPAreaMax->setText(QApplication::translate("FuncPar", "DP Area Max", nullptr));
         radioB_byPassX->setText(QApplication::translate("FuncPar", "ByPass X", nullptr));
         radioB_byPassY->setText(QApplication::translate("FuncPar", "ByPass Y", nullptr));
         radioB_overnum->setText(QApplication::translate("FuncPar", "OverNum", nullptr));
@@ -981,27 +981,27 @@ public:
         checkBox_fixedarea->setText(QApplication::translate("FuncPar", "Fixed Area", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("FuncPar", "Point", nullptr));
         groupBox_13->setTitle(QApplication::translate("FuncPar", "BP Characteristics", nullptr));
-        radioB_elongationMin->setText(QApplication::translate("FuncPar", "Elongation_Min", nullptr));
-        radioB_fullnessMin->setText(QApplication::translate("FuncPar", "fullness_Min", nullptr));
-        radioB_compactnessMin->setText(QApplication::translate("FuncPar", "Compactness_Min", nullptr));
-        radioB_maxgrayfullnessMin->setText(QApplication::translate("FuncPar", "MaxGray Fullness Min", nullptr));
-        radioB_elongationMax->setText(QApplication::translate("FuncPar", "Elongation_Max", nullptr));
-        radioB_compactnessMax->setText(QApplication::translate("FuncPar", "Compactness_Max", nullptr));
-        radioB_GrayMean_Min->setText(QApplication::translate("FuncPar", "GrayMean_Min", nullptr));
-        radioB_fullnessMax->setText(QApplication::translate("FuncPar", "fullness_Max", nullptr));
-        radioB_MaxGray_Min->setText(QApplication::translate("FuncPar", "MaxGray_Min", nullptr));
-        lbl_MaxGray_Max->setText(QApplication::translate("FuncPar", "MaxGray_Max", nullptr));
+        radioB_BPelongationMin->setText(QApplication::translate("FuncPar", "Elongation_Min", nullptr));
+        radioB_BPfullnessMin->setText(QApplication::translate("FuncPar", "fullness_Min", nullptr));
+        radioB_BPcompactnessMin->setText(QApplication::translate("FuncPar", "Compactness_Min", nullptr));
+        radioB_BPmaxgrayfullnessMin->setText(QApplication::translate("FuncPar", "MaxGray Fullness Min", nullptr));
+        radioB_BPelongationMax->setText(QApplication::translate("FuncPar", "Elongation_Max", nullptr));
+        radioB_BPcompactnessMax->setText(QApplication::translate("FuncPar", "Compactness_Max", nullptr));
+        radioB_BPGrayMean_Min->setText(QApplication::translate("FuncPar", "GrayMean_Min", nullptr));
+        radioB_BPfullnessMax->setText(QApplication::translate("FuncPar", "fullness_Max", nullptr));
+        radioB_BPMaxGray_Min->setText(QApplication::translate("FuncPar", "MaxGray_Min", nullptr));
+        lbl_BPMaxGray_Max->setText(QApplication::translate("FuncPar", "MaxGray_Max", nullptr));
         groupBox_14->setTitle(QApplication::translate("FuncPar", "DP Characteristics", nullptr));
-        radioB_elongationMin_3->setText(QApplication::translate("FuncPar", "Elongation_Min", nullptr));
-        radioB_elongationMax_3->setText(QApplication::translate("FuncPar", "Elongation_Max", nullptr));
-        radioB_fullnessMin_3->setText(QApplication::translate("FuncPar", "Fullness_Min", nullptr));
-        radioB_fullnessMax_3->setText(QApplication::translate("FuncPar", "Fullness_Max", nullptr));
-        radioB_maxgrayfullnessMin_3->setText(QApplication::translate("FuncPar", "MaxGray Fullness Min", nullptr));
-        radioB_GrayMean_Max->setText(QApplication::translate("FuncPar", "GrayMean_Max", nullptr));
-        radioB_MinGray_Max->setText(QApplication::translate("FuncPar", "MinGray_Max", nullptr));
+        radioB_DPelongationMin->setText(QApplication::translate("FuncPar", "Elongation_Min", nullptr));
+        radioB_DPelongationMax->setText(QApplication::translate("FuncPar", "Elongation_Max", nullptr));
+        radioB_DPfullnessMin->setText(QApplication::translate("FuncPar", "Fullness_Min", nullptr));
+        radioB_DPfullnessMax->setText(QApplication::translate("FuncPar", "Fullness_Max", nullptr));
+        radioB_DPmaxgrayfullnessMin->setText(QApplication::translate("FuncPar", "MaxGray Fullness Min", nullptr));
+        radioB_DPGrayMean_Max->setText(QApplication::translate("FuncPar", "GrayMean_Max", nullptr));
+        radioB_DPMinGray_Max->setText(QApplication::translate("FuncPar", "MinGray_Max", nullptr));
         lbl_MinGray_Min->setText(QApplication::translate("FuncPar", "MinGray_Min", nullptr));
-        radioB_compactnessMax_3->setText(QApplication::translate("FuncPar", "Compactness_Max", nullptr));
-        radioB_compactnessMin_3->setText(QApplication::translate("FuncPar", "Compactness_Min", nullptr));
+        radioB_DPcompactnessMax->setText(QApplication::translate("FuncPar", "Compactness_Max", nullptr));
+        radioB_DPcompactnessMin->setText(QApplication::translate("FuncPar", "Compactness_Min", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("FuncPar", "Point Characteristics", nullptr));
         groupBox_18->setTitle(QApplication::translate("FuncPar", "Line Common Setting", nullptr));
         radioB_BypassUpH->setText(QApplication::translate("FuncPar", "ByPass Up H", nullptr));
@@ -1019,14 +1019,14 @@ public:
         groupBox_15->setTitle(QApplication::translate("FuncPar", "BLine", nullptr));
         radioB_BL_threshlodHigh->setText(QApplication::translate("FuncPar", "BL_Threshold High", nullptr));
         radioB_BL_threshlodLow->setText(QApplication::translate("FuncPar", "BL_Threshold Low", nullptr));
-        checkBox_DLine_2->setText(QApplication::translate("FuncPar", "H-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
+        checkBox_HLine->setText(QApplication::translate("FuncPar", "H-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
         checkBox_DLine->setText(QApplication::translate("FuncPar", "DLine Enable", nullptr));
         checkBox_halfscreen->setText(QApplication::translate("FuncPar", "Half Screen Enable", nullptr));
         groupBox_16->setTitle(QApplication::translate("FuncPar", "BLine", nullptr));
         radioB_DL_threshlodHigh->setText(QApplication::translate("FuncPar", "DL_threshlodHigh", nullptr));
         radioB_DL_threshlodLow->setText(QApplication::translate("FuncPar", "DL_Threshold Low", nullptr));
-        checkBox_DLine_3->setText(QApplication::translate("FuncPar", "Y-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
-        checkBox_DLine_4->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Enable", nullptr));
+        checkBox_VLine->setText(QApplication::translate("FuncPar", "V-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
+        checkBox_checkEnable->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Enable", nullptr));
         groupBox_6->setTitle(QApplication::translate("FuncPar", "Line Mode\357\274\232", nullptr));
         radioB_checkLine->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Line", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("FuncPar", "Line", nullptr));

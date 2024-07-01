@@ -1736,6 +1736,9 @@ background-color: red;</string>
        <property name="title">
         <string>Defect point</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
        <widget class="QLabel" name="lbl_pic2">
         <property name="geometry">
          <rect>

@@ -587,6 +587,7 @@ public:
         groupBox_7->setObjectName(QString::fromUtf8("groupBox_7"));
         groupBox_7->setGeometry(QRect(810, 40, 481, 471));
         groupBox_7->setFont(font1);
+        groupBox_7->setAlignment(Qt::AlignCenter);
         lbl_pic2 = new QLabel(groupBox_7);
         lbl_pic2->setObjectName(QString::fromUtf8("lbl_pic2"));
         lbl_pic2->setGeometry(QRect(20, 40, 440, 330));

@@ -1,9 +1,7 @@
-
 #include "funcpar.h"
 #include "ui_funcpar.h"
 #include <QDebug>
 #include <QString>
-
 FuncPar::FuncPar(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::FuncPar)
@@ -52,6 +50,7 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", true);
         settings.setValue("checkLine", false);
+
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);
         settings.setValue("BypassLeftY", 0);
@@ -65,38 +64,38 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.setValue("BL_threshlodLow", 0);
         settings.setValue("DL_threshlodHigh", 0);
         settings.setValue("DL_threshlodLow", 0);
-        settings.setValue("maxgrayfullnessMin", 0);
-        settings.setValue("GrayMean_Min", 0);
-        settings.setValue("fullnessMin", 0);
-        settings.setValue("elongationMax", 0);
-        settings.setValue("compactnessMin", 0);
-        settings.setValue("MaxGray_Min", 0);
-        settings.setValue("fullnessMax", 0);
-        settings.setValue("MaxGray_Max", 0);
-        settings.setValue("compactnessMax", 0);
-        settings.setValue("elongationMin", 0);
-        settings.setValue("elongationMin_3", 0);
-        settings.setValue("elongationMax_3", 0);
-        settings.setValue("fullnessMin_3", 0);
-        settings.setValue("fullnessMax_3", 0);
-        settings.setValue("maxgrayfullnessMin_3", 0);
-        settings.setValue("GrayMean_Max", 0);
-        settings.setValue("MinGray_Max", 0);
-        settings.setValue("MinGray_Min", 0);
-        settings.setValue("compactnessMax_3", 0);
-        settings.setValue("compactnessMin_3", 0);
-        settings.setValue("threshlodHigh_2", 0);
-        settings.setValue("boundaryHigh_2", 0);
-        settings.setValue("threshlodLow_2", 0);
-        settings.setValue("boundaryLow_2", 0);
-        settings.setValue("threshlodHigh", 0);
-        settings.setValue("threshlodLow", 0);
-        settings.setValue("boundaryHigh", 0);
-        settings.setValue("boundaryLow", 0);
-        settings.setValue("bpAreaMax", 0);
-        settings.setValue("bpAreaMin", 0);
-        settings.setValue("dpAreaMin_2", 0);
-        settings.setValue("dpAreaMin", 0);
+        settings.setValue("BPmaxgrayfullnessMin", 0);
+        settings.setValue("BPGrayMean_Min", 0);
+        settings.setValue("BPfullnessMin", 0);
+        settings.setValue("BPelongationMax", 0);
+        settings.setValue("BPcompactnessMin", 0);
+        settings.setValue("BPMaxGray_Min", 0);
+        settings.setValue("BPfullnessMax", 0);
+        settings.setValue("BPMaxGray_Max", 0);
+        settings.setValue("BPcompactnessMax", 0);
+        settings.setValue("BPelongationMin", 0);
+        settings.setValue("DPelongationMin", 0);
+        settings.setValue("DPelongationMax", 0);
+        settings.setValue("DPfullnessMin", 0);
+        settings.setValue("DPfullnessMax", 0);
+        settings.setValue("DPmaxgrayfullnessMin", 0);
+        settings.setValue("DPGrayMean_Max", 0);
+        settings.setValue("DPMinGray_Max", 0);
+        settings.setValue("DPMinGray_Min", 0);
+        settings.setValue("DPcompactnessMax", 0);
+        settings.setValue("DPcompactnessMin", 0);
+        settings.setValue("DPthreshlodHigh", 0);
+        settings.setValue("DPboundaryHigh", 0);
+        settings.setValue("DPthreshlodLow", 0);
+        settings.setValue("DPboundaryLow", 0);
+        settings.setValue("BPthreshlodHigh", 0);
+        settings.setValue("BPthreshlodLow", 0);
+        settings.setValue("BPboundaryHigh", 0);
+        settings.setValue("BPboundaryLow", 0);
+        settings.setValue("BPAreaMax", 0);
+        settings.setValue("BPAreaMin", 0);
+        settings.setValue("DPAreaMin", 0);
+        settings.setValue("DPAreaMin", 0);
         settings.setValue("byPassX", 0);
         settings.setValue("byPassY", 0);
         settings.setValue("overnum", 0);
@@ -191,11 +190,11 @@ void FuncPar::on_puB_save_clicked()
                     }else{
                         reviseModelINI(selectedOption,  name, "false");
                     }
-                    qDebug() << "RadioButton Name: " << name <<isChecked;
+//                    qDebug() << "RadioButton Name: " << name <<isChecked;
                 }
 
             } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {
-//                qDebug() << "CheckBox Name: " << checkBox->objectName();
+//                 qDebug() << "CheckBox Name: " << checkBox->objectName();
             }
         }
     }
@@ -255,14 +254,8 @@ void FuncPar::onRadioButtonClicked(bool checked)
     }
 }
 
+
 void FuncPar::on_horizontalSlider_exposureTime_valueChanged(int value)
 {
     ui->spinBox_exposureTime->setValue(value);
-}
-
-
-
-void FuncPar::on_puB_load_clicked()
-{
-
 }
