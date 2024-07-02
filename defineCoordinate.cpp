@@ -10,7 +10,6 @@ void defineCoordinate::defNode(QPoint flaws,int index,bool isHead)
     current = (node*)malloc(sizeof(node));
     current->x = flaws.x();
     current->y = flaws.y();
-
     // definite node pattern number
     current->index = index;
     if(isHead == true){

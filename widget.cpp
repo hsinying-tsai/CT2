@@ -637,7 +637,7 @@ void Widget::recv_label_update(QString message)
                     qDebug()<<"New action";
                     ui->lbl_state->setText("檢測流程結束");
                     str1.clear();
-//                    commandQueue.enqueue("RD R212");
+                    commandQueue.enqueue("RD R212");
                 }
             }else if(parts[0] == "WRS"){
                 //Manual state -> stop the loop.
@@ -654,11 +654,11 @@ void Widget::recv_label_update(QString message)
 
             }else if(parts[1] == "DM202"){
                 commandQueue.dequeue();
-
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀"<<RunPatternName.at(RunPatternIndex-2);
 //                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
-                    on_puB_bigGrab_clicked();
+//                    on_puB_bigGrab_clicked();
+                    qDebug()<<"拍攝巨觀照片";
                 }
                 commandQueue.enqueue("WR R202 1");
             }else if(change_flawPG == true){
@@ -675,7 +675,8 @@ void Widget::recv_label_update(QString message)
                     qDebug()<<"拍攝微觀";
                     qDebug()<<"目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片";
 //                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
-                    on_puB_samllGrab_clicked();
+//                    on_puB_samllGrab_clicked();
+                    qDebug()<<"拍攝微觀照片";
 
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
@@ -1587,14 +1588,14 @@ void Widget::imagesprocess()
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
     tmp.DPenable = true;
-    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(20, 20),QPoint(30, 30)}}};
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(20, 20),QPoint(40, 40)}}};
     Images.push_back(tmp);
 
     tmp.index = 2;
     tmp.patternName = "Black";
     tmp.meanGray = 0.2;
     tmp.LINEenable = true;
-    tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(40, 40),QPoint(50,50)}}};
+    tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(70, 70),QPoint(110,110)}}};
     Images.push_back(tmp);
 
     //for test
@@ -1877,14 +1878,18 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                 ui->table_defectlist->setItem(t, 8, item_Time);
                 defectNumber++;
             }
-            qDebug()<<"-------------";
         }
         for(defectInfo &Pattern : DrawRectangle){
             if(Pattern.PatternName == show_pattern_name.at(num - 1)){
-                ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
-//                QVector<QPoint> test = {QPoint(382,531)};
-//                ui->lbl_pic->setImage(pix_Ini,test);
-
+                if(!pix_Ini.isNull()){
+                    ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
+    //                QVector<QPoint> test = {QPoint(382,531)};
+    //                ui->lbl_pic->setImage(pix_Ini,test);
+                }else{
+                    ui->table_defectlist->clearContents(); // 清除內容
+                    ui->lbl_pic->clear();
+                    ui->lbl_pic->setText("資料夾中無照片.");
+                }
             }
         }
 //        for(defectInfo &Pattern : DrawRectangle){

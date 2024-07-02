@@ -59,7 +59,7 @@ void my_qlabel::drawRectangleOnImage(cv::Mat &image,const QVector<QPoint> Defect
 void my_qlabel::updateRectangle2()
 {
     rectangles2.clear();
-    qDebug()<<"-------------";
+
     for(const QRect &rect:rectangles){
         QRectF tmp_rect;
 
@@ -70,8 +70,6 @@ void my_qlabel::updateRectangle2()
 
         tmp_rect.setWidth(5+0.875*(zoomtime-1));
         tmp_rect.setHeight(5+0.875*(zoomtime-1));
-        qDebug()<<"3840X2160"<<rect;
-        qDebug()<<"768X432"<<tmp_rect;
         addRectangle2(QRectF(tmp_rect.x(),tmp_rect.y(),tmp_rect.width(),tmp_rect.height()));
     }
 }
@@ -79,10 +77,7 @@ void my_qlabel::updateRectangle2()
 QPixmap my_qlabel::mat2pixmap(const cv::Mat &src)
 {
     cv::Mat tmp;
-    qDebug()<<"1";
-
     cv::cvtColor(src, tmp,cv::COLOR_BGR2RGB);
-    qDebug()<<"2";
     QImage dest((const uchar *) tmp.data,tmp.cols,tmp.rows,tmp.step,QImage::Format_RGB888);
     dest.bits();
     return QPixmap::fromImage(dest);
@@ -106,7 +101,6 @@ void my_qlabel::mouseMoveEvent(QMouseEvent *ev)
     if(m_isDragging){
         del.x = ev->x() - press.x;
         del.y = ev->y() - press.y;
-
         if(magnificationFactor>1){
 //            qDebug()<<"delposX"<<del.x<<"delposY"<<del.y;
             if(del.x>zoom.x){
@@ -178,7 +172,7 @@ void my_qlabel::updateMousePosition()
     }else if(zoom.y>2160){
         zoom.y = 2160;
     }
-    qDebug()<<"左上:("<<zoom.x<<","<<zoom.y<<")";
+//    qDebug()<<"左上:("<<zoom.x<<","<<zoom.y<<")";
 }
 
 void my_qlabel::addRectangle(const QRect &rect)
@@ -212,8 +206,6 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
             zoom.x += (3840*zoomfactor)*((x*(3840/labelWidth))/(zoom.width));
             zoom.y += (2160*zoomfactor)*((y*(2160/labelHeight))/(zoom.height));
 
-            deltaX = 0;
-            deltaY = 0;
             deltaX = (3840*zoomfactor)*((x*(3840/labelWidth))/(zoom.width));
             deltaY = (2160*zoomfactor)*((y*(2160/labelHeight))/(zoom.height));
 
