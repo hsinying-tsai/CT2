@@ -20,12 +20,7 @@ uint16_t COORDINATE_PTsX,COORDINATE_PTsY;
 Logger logger;
 void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     switch (type) {
-    case QtDebugMsg:
-        logger.writeLog(Logger::Info, msg);
-        break;
-    case QtWarningMsg:
-        logger.writeLog(Logger::Warning, msg);
-        break;
+
     case QtCriticalMsg:
         logger.writeLog(Logger::Error, msg);
         break;
@@ -62,8 +57,10 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
     Pylon::PylonAutoInitTerm pylonInit;
+    //如果取消註解,會將應用程式輸出的所有訊息寫入log,包含qDebug()<<...
+//    qInstallMessageHandler(customMessageHandler);
     Widget w;
     w.show();
-//    qInstallMessageHandler(customMessageHandler);
+
      return a.exec();
 }

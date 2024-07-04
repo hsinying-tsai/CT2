@@ -5,7 +5,7 @@
 		<Option title="0301_1"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\pylon\;CMake Files\..\..\..\..\opt\pylon\share\;CMake Files\..\..\..\..\opt\pylon\share\pylon\;CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Network\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\;CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Sql\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\pylon\;CMake Files\..\..\..\..\opt\pylon\share\;CMake Files\..\..\..\..\opt\pylon\share\pylon\;CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/home/agx/Desktop/0321_qt/build"/>
@@ -88,6 +88,7 @@
 					<Add option="-DQT_GUI_LIB"/>
 					<Add option="-DQT_CORE_LIB"/>
 					<Add option="-DQT_NETWORK_LIB"/>
+					<Add option="-DQT_SQL_LIB"/>
 					<Add directory="/home/agx/Desktop/0321_qt/build/0301_1_autogen/include"/>
 					<Add directory="/home/agx/Desktop/0321_qt"/>
 					<Add directory="/usr/include/opencv4"/>
@@ -98,6 +99,7 @@
 					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
 					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtNetwork"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtSql"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -124,6 +126,7 @@
 					<Add option="-DQT_GUI_LIB"/>
 					<Add option="-DQT_CORE_LIB"/>
 					<Add option="-DQT_NETWORK_LIB"/>
+					<Add option="-DQT_SQL_LIB"/>
 					<Add directory="/home/agx/Desktop/0321_qt/build/0301_1_autogen/include"/>
 					<Add directory="/home/agx/Desktop/0321_qt"/>
 					<Add directory="/usr/include/opencv4"/>
@@ -134,6 +137,7 @@
 					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtCore"/>
 					<Add directory="/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtNetwork"/>
+					<Add directory="/usr/include/aarch64-linux-gnu/qt5/QtSql"/>
 					<Add directory="/usr/include/c++/9"/>
 					<Add directory="/usr/include/aarch64-linux-gnu/c++/9"/>
 					<Add directory="/usr/include/c++/9/backward"/>
@@ -390,6 +394,12 @@
 		</Unit>
 		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/opencv4/OpenCVModules.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Sql\"/>
+		</Unit>
+		<Unit filename="/home/agx/Desktop/0321_qt/../../../../usr/lib/aarch64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib\aarch64-linux-gnu\cmake\Qt5Sql\"/>
 		</Unit>
 		<Unit filename="/home/agx/Desktop/0321_qt/../../../../opt/pylon/share/pylon/cmake/PylonFinder.cmake">
 			<Option virtualFolder="CMake Files\..\..\..\..\opt\pylon\share\pylon\cmake\"/>

@@ -1120,7 +1120,7 @@
          <property name="title">
           <string>CAM1</string>
          </property>
-         <widget class="QLineEdit" name="CAM1_exposure_Edit_3">
+         <widget class="QLineEdit" name="CAM1_exposure_Edit">
           <property name="geometry">
            <rect>
             <x>160</x>

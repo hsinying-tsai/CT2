@@ -9,7 +9,6 @@
 #include <QWheelEvent>
 #include "./ui_widget.h"
 #include <math.h>
-#include <QVBoxLayout>
 #include <QInputDialog>
 #include <QTableWidget>
 #include <QSettings>
@@ -18,6 +17,11 @@
 #include <QDateTime>
 #include <QGroupBox>
 
+//MySQL
+#include <QApplication>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Widget)
@@ -42,7 +46,7 @@ Widget::Widget(QWidget *parent)
     connect(ui->list_model, &QListWidget::itemEntered, this, &Widget::updateComboBoxModel);
     connect(tc->client, &QTcpSocket::stateChanged, this, &Widget::onStateChanged);
 
-    //    tc = new tcp_client();
+//        tc = new tcp_client();
     tc->moveToThread(&clientThread);
     INI_UI();
 
@@ -123,6 +127,8 @@ Widget::Widget(QWidget *parent)
     timer_command->start(200);
     clientThread.start();
     cameraInit();
+    mySQL();
+
 
 }
 void Widget::INI_UI()
@@ -150,7 +156,7 @@ void Widget::INI_UI()
     ui->DM202_Edit->setPlaceholderText(" Pattern number");
     ui->DM204_Edit->setPlaceholderText(" X");
     ui->DM206_Edit->setPlaceholderText(" Y");
-    ui->CAM1_exposure_Edit_3->setText(QString::number(CAM1_exposureTime));
+    ui->CAM1_exposure_Edit->setText(QString::number(CAM1_exposureTime));
     ui->list_Pattern->setSpacing(5);
 
     //定義comboBox_model下拉式選單
@@ -198,7 +204,8 @@ void Widget::showAlarm(bool isSocketError)
     QMessageBox AlarmCheck;
     //true  -> socket connection error
     //false -> detect flow error
-    if(isSocketError){
+    if(isSocketError){      
+        logger.writeLog(Logger::Warning, "Socket connection error occurred.");
         AlarmCheck.setWindowTitle("通訊異常");
         AlarmCheck.setText("偵測到socket通訊異常,請再嘗試連接或中斷連接.");
         QPushButton *tryButton = AlarmCheck.addButton(tr("Try"), QMessageBox::ActionRole);
@@ -218,6 +225,7 @@ void Widget::showAlarm(bool isSocketError)
             AlarmCheck.exec();
             if (AlarmCheck.clickedButton() == tryButton) {
                 qDebug()<<"try";
+                logger.writeLog(Logger::Info, "User clicked `try` button.");
                 tc->client->abort();
                 tc->address = QHostAddress(ui->AddressEdit->text());
                 tc->port = ui->PortEdit->text().toUShort();
@@ -225,6 +233,7 @@ void Widget::showAlarm(bool isSocketError)
                 ui->lbl_state->setText("等待連接...");
                 timer_connect->start();
             }else if (AlarmCheck.clickedButton() == abortButton) {
+                logger.writeLog(Logger::Warning, "User clicked `abort` button.");
                 everOccurSocketError = false;
                 qDebug()<<"clicked absort";
                 tc->client->abort();
@@ -235,7 +244,6 @@ void Widget::showAlarm(bool isSocketError)
     }else{
         ShowWarning("接收到R215異常訊號,請解除異常再按OK.");
         logger.writeLog(Logger::Warning, "R215 signal detected.");
-
     }
 }
 
@@ -267,9 +275,11 @@ void Widget::onStateChanged()
                 qDebug()<<"Auto";
                 firstTryReconnectsuccess = true;
                 ui->lbl_state->setText("自動重新連接成功");
+                logger.writeLog(Logger::Info, "Auto reconnection successful.");
             }else{
                 qDebug()<<"manual";
-                ui->lbl_state->setText("重新連接成功");
+                ui->lbl_state->setText("重新連接成功");     
+                logger.writeLog(Logger::Info, "Manal reconnection successful.");
                 qDebug()<<"onStateChange:"<<commandQueue;
                 //找出檢測指令
                 QString CurrentStep;
@@ -281,7 +291,6 @@ void Widget::onStateChanged()
                         }
                     }
                 }
-
                 QString message = QString("目前流程為: %1 ，是否要繼續流程？").arg(CurrentStep);
                 QMessageBox::StandardButton checkContinueRun;
                 checkContinueRun = QMessageBox::question(this, "確認", message, QMessageBox::Yes | QMessageBox::No);
@@ -589,7 +598,6 @@ void Widget::recv_label_update(QString message)
                 }else if(parts[1] == "R204"){
                     commandQueue.dequeue();
                     //if change_flawPG == true ->to step.5
-
                     if(!DC.vector_PG_flaw.isEmpty()){
                         change_flawPG = true;
                         QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(DC.current->index);
@@ -657,8 +665,7 @@ void Widget::recv_label_update(QString message)
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀"<<RunPatternName.at(RunPatternIndex-2);
 //                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
-//                    on_puB_bigGrab_clicked();
-                    qDebug()<<"拍攝巨觀照片";
+                    on_puB_bigGrab_clicked();
                 }
                 commandQueue.enqueue("WR R202 1");
             }else if(change_flawPG == true){
@@ -672,12 +679,9 @@ void Widget::recv_label_update(QString message)
                     commandQueue.enqueue(buffer_combined);
                 }else if(parts[1].contains("DM206")){
                     commandQueue.dequeue();
-                    qDebug()<<"拍攝微觀";
                     qDebug()<<"目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片";
-//                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
-//                    on_puB_samllGrab_clicked();
-                    qDebug()<<"拍攝微觀照片";
-
+                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
+                    on_puB_samllGrab_clicked();
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
                     commandQueue.dequeue();
@@ -707,7 +711,6 @@ void Widget::recv_label_update(QString message)
                             }
                         }
                     }
-
                 }
             }
         }else {
@@ -809,9 +812,7 @@ void Widget::connect_label_update()
         if(tc->client->errorString() !="The remote host closed the connection"){
             qDebug() << "--------------Step_1.Connection Successful";
             change_flawPG = false;
-            qDebug()<<"clearCommand:"<<clearCommand;
             if(clearCommand){
-                qDebug()<<"Clear commandQueue:"<<commandQueue;
                 commandQueue.clear();
                 str1.clear();
                 clearCommand = false;
@@ -850,7 +851,6 @@ void Widget::connect_label_update()
                                    "padding:20px;"
                                    "background-color: red;");
         ui->puB_connect->setText("Connect");
-
         ui->AddressEdit->setEnabled(true);
         ui->PortEdit->setEnabled(true);
         ui->puB_runMode->setEnabled(false);
@@ -1048,10 +1048,14 @@ void Widget::on_puB_runMode_clicked()
 
 void Widget::on_puB_saveINI_clicked()
 {
+    // 已將config.ini合併至recipe.ini
     QString PT_width = ui->PT_width_Edit->text();
     QString PT_height = ui->PT_height_Edit->text();
+    QString CAM1_ExposureTime = ui->CAM1_exposure_Edit->text();
     reviseconfigINI("COORDINATE","PT_sizeX",PT_width);
     reviseconfigINI("COORDINATE","PT_sizeY",PT_height);
+    reviseconfigINI("CAM1","exposureTime",CAM1_ExposureTime);
+
     bool conversionSuccess = false;
     unsigned int tempValue = PT_width.toInt(&conversionSuccess);
     if(conversionSuccess && tempValue <= UINT16_MAX){
@@ -1069,6 +1073,8 @@ void Widget::on_puB_saveINI_clicked()
     }else{
         qDebug()<<"Failed_Y";
     }
+
+    qDebug()<<"CAM1_ExposureTime"<<CAM1_ExposureTime;
 }
 
 void Widget::on_puB_remove_p_clicked()
@@ -1588,14 +1594,22 @@ void Widget::imagesprocess()
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
     tmp.DPenable = true;
-    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(20, 20),QPoint(40, 40)}}};
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(30, 30),QPoint(60, 60)}}};
     Images.push_back(tmp);
 
     tmp.index = 2;
     tmp.patternName = "Black";
     tmp.meanGray = 0.2;
-    tmp.LINEenable = true;
-    tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(70, 70),QPoint(110,110)}}};
+    tmp.BLenable = true;
+    tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(100, 100)}}};
+    Images.push_back(tmp);
+
+
+    tmp.index = 3;
+    tmp.patternName = "Gray";
+    tmp.meanGray = 0.3;
+    tmp.BPenable = true;
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(150, 150)}}};
     Images.push_back(tmp);
 
     //for test
@@ -1611,7 +1625,7 @@ void Widget::imagesprocess()
 //    }
 
 
-//    process.process(&Images);
+    process.process(&Images);
 
     bool isHead = true;
     foreach(const ImageProcess &image, Images){
@@ -1672,7 +1686,7 @@ void Widget::CreateMap(QString path)
         qDebug()<<image.patternName;
         int DefectAmount = 1;
         foreach(QPair pairList , image.defectPoint){
-            curDefectType = pairList.first;
+            curDefectType = defectTypes.at(pairList.first);
             foreach(QPoint point , pairList.second){
                 qDebug()<<curDefectType<<point.x()<<point.y();
                 QString tmp = QString("%1_%2_%3").arg(curDefectType).arg("Defect").arg(QString::number(DefectAmount));
@@ -1727,8 +1741,10 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
                         tmp.BPenable = setting.value(key).toBool();
                     }else if(key==group+"/checkDP"){
                         tmp.DPenable = setting.value(key).toBool();
-                    }else if(key==group+"/checkLine"){
-                        tmp.LINEenable = setting.value(key).toBool();
+                    }else if(key==group+"/checkBL"){
+                        tmp.BLenable = setting.value(key).toBool();
+                    }else if(key==group+"/checkDL"){
+                        tmp.DLenable = setting.value(key).toBool();
                     }
                 }
             }
@@ -1883,8 +1899,6 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
             if(Pattern.PatternName == show_pattern_name.at(num - 1)){
                 if(!pix_Ini.isNull()){
                     ui->lbl_pic->setImage(pix_Ini,Pattern.defectPoint);
-    //                QVector<QPoint> test = {QPoint(382,531)};
-    //                ui->lbl_pic->setImage(pix_Ini,test);
                 }else{
                     ui->table_defectlist->clearContents(); // 清除內容
                     ui->lbl_pic->clear();
@@ -1895,6 +1909,20 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
 //        for(defectInfo &Pattern : DrawRectangle){
 //            qDebug()<<Pattern.PatternName<<Pattern.defectPoint;
 //        }
+    }
+}
+
+void Widget::mySQL()
+{
+    //mySQL
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("lacalHost");
+    db.setDatabaseName("agx");
+    db.setUserName("agx");
+    db.setPassword("agx123");
+
+    if(!db.open()){
+        ShowWarning("Database Error");
     }
 }
 

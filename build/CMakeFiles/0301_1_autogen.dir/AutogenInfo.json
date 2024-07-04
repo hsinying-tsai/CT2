@@ -67,7 +67,14 @@
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "/home/agx/Desktop/0321_qt/build/0301_1_autogen/include",
 	"MOC_COMPILATION_FILE" : "/home/agx/Desktop/0321_qt/build/0301_1_autogen/mocs_compilation.cpp",
-	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_NETWORK_LIB", "QT_WIDGETS_LIB" ],
+	"MOC_DEFINITIONS" : 
+	[
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NETWORK_LIB",
+		"QT_SQL_LIB",
+		"QT_WIDGETS_LIB"
+	],
 	"MOC_DEPEND_FILTERS" : 
 	[
 		[
@@ -86,6 +93,7 @@
 		"/usr/include/aarch64-linux-gnu/qt5/QtCore",
 		"/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++",
 		"/usr/include/aarch64-linux-gnu/qt5/QtNetwork",
+		"/usr/include/aarch64-linux-gnu/qt5/QtSql",
 		"/usr/include/c++/9",
 		"/usr/include/aarch64-linux-gnu/c++/9",
 		"/usr/include/c++/9/backward",

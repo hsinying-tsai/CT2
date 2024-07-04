@@ -12,7 +12,6 @@ FuncPar::FuncPar(QWidget *parent) :
     foreach(QWidget *widget, ui->tabWidget->findChildren<QWidget *>()) {
         widget->setEnabled(false);
     }
-
     // 將所有 radioButton 存儲到 radioButtons
     QList<QRadioButton*> radioButtons = findChildren<QRadioButton*>();
     foreach(QRadioButton *radioButton, radioButtons) {
@@ -49,7 +48,8 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.beginGroup(name);     
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", true);
-        settings.setValue("checkLine", false);
+        settings.setValue("checkBL", true);
+        settings.setValue("checkDL", false);
 
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);

@@ -2107,11 +2107,11 @@
      <property name="title">
       <string>Line Mode：</string>
      </property>
-     <widget class="QRadioButton" name="radioB_checkLine">
+     <widget class="QRadioButton" name="radioB_checkBL">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>50</y>
+        <x>20</x>
+        <y>30</y>
         <width>112</width>
         <height>23</height>
        </rect>
@@ -2124,7 +2124,33 @@
        </font>
       </property>
       <property name="text">
-       <string>檢查Line</string>
+       <string>檢查BL</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+      <property name="autoExclusive">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioB_checkDL">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>112</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>檢查DL</string>
       </property>
       <property name="checked">
        <bool>true</bool>

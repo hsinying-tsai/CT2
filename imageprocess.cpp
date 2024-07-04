@@ -33,6 +33,7 @@ void imageprocess::process(QVector<ImageStruct>* x){
         // std::cout << ;
 
         if(it->BPenable){
+            qDebug()<<it->patternName<<"got BP true";
             try{
                 //0628 修改structImage定義
 //                it->defectPoint = calBrightPoint(this->QImageToCvMat(it->image),PerspectiveTransform);
@@ -46,7 +47,14 @@ void imageprocess::process(QVector<ImageStruct>* x){
 
         }
         if(it->DPenable){
+            qDebug()<<it->patternName<<"got DP true";
+        }
 
+        if(it->BLenable){
+            qDebug()<<it->patternName<<"got BL true";
+        }
+        if(it->DLenable){
+            qDebug()<<it->patternName<<"got DL true";
         }
     }
 

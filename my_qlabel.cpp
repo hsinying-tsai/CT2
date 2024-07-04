@@ -1,5 +1,4 @@
 #include "my_qlabel.h"
-#include "widget.h"
 #include<QDebug>
 #include<QCursor>
 #include<QGraphicsScene>

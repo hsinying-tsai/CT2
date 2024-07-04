@@ -1,6 +1,5 @@
 #include "tcp_client.h"
 #include<QDebug>
-#include"widget.h"
 tcp_client::tcp_client(QWidget *parent)
 {
     this->client = new QTcpSocket(this);

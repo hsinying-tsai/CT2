@@ -2,7 +2,7 @@
 #define STRUCTIMAGE_H
 #include <QImage>
 typedef struct ImageStruct{
-    bool BPenable,DPenable,LINEenable,isProcessedFlag;
+    bool BPenable,DPenable,BLenable,DLenable,isProcessedFlag;
     int index;
     double meanGray;
     QString patternName;
@@ -12,7 +12,10 @@ typedef struct ImageStruct{
     enum defectType{BP,DP,HOpen, VOpen, HShort, VShort};
 
     //檢測類別分為BP,DP,BL,DL
+    //widget.cpp Line188左右有定義defectType用於顯示表格
     QVector<QPair<defectType,QVector<QPoint>>> defectPoint;
+
+
 } ImageProcess;
 
 #endif // STRUCTIMAGE_H

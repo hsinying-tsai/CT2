@@ -15,7 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network)
 find_package(OpenCV REQUIRED)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widget REQUIRED)
 find_package(pylon)
-
+find_package(Qt5 REQUIRED COMPONENTS Widgets Sql)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -43,8 +43,8 @@ set(PROJECT_SOURCES
         funcpar.cpp
         funcpar.ui
         structImage.h
-        imageprocess.h imageprocess.cpp
-
+        imageprocess.h
+        imageprocess.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -73,10 +73,14 @@ else()
 endif()
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories("/opt/pylon/include")
+
+include_directories(${MYSQL_INCLUDE_DIR})
+
 message(opencv_INCLUDE_DIRS="${OpenCV_INCLUDE_DIRS}")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(0301_1 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network)
 target_link_libraries(0301_1 PRIVATE ${OpenCV_LIBS})
+target_link_libraries(0301_1 PRIVATE ${MYSQL_LIBRARIES})
 target_link_libraries(0301_1 PRIVATE
     -L"/opt/pylon/lib"
     -lpylonbase
@@ -84,6 +88,7 @@ target_link_libraries(0301_1 PRIVATE
     -lGenApi_gcc_v3_1_Basler_pylon
     -lGCBase_gcc_v3_1_Basler_pylon)
 target_link_libraries(0301_1 PRIVATE pylon::pylon )
+target_link_libraries(0301_1 PRIVATE Qt5::Widgets Qt5::Sql)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.

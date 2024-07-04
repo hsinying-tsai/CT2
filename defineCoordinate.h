@@ -7,7 +7,6 @@
 class defineCoordinate
 {
 public:
-
     int center_posX =0, center_posY = 0;
 
     QVector<QPoint> vector_PG_flaw;

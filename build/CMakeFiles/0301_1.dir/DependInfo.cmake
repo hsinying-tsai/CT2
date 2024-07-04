@@ -25,6 +25,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "QT_CORE_LIB"
   "QT_GUI_LIB"
   "QT_NETWORK_LIB"
+  "QT_SQL_LIB"
   "QT_WIDGETS_LIB"
   )
 
@@ -40,6 +41,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/include/aarch64-linux-gnu/qt5/QtCore"
   "/usr/lib/aarch64-linux-gnu/qt5/mkspecs/linux-g++"
   "/usr/include/aarch64-linux-gnu/qt5/QtNetwork"
+  "/usr/include/aarch64-linux-gnu/qt5/QtSql"
   )
 
 # Targets to which this target links.

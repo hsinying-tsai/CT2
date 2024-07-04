@@ -93,7 +93,7 @@ public:
     };
 
     QList<model_name> modelList;
-    QString cTimeString,picfoldpath;
+    QString picfoldpath;
 
     QVector<ImageProcess> Images;
     ImageProcess tmp;
@@ -105,36 +105,39 @@ public:
     //camera
     void ShowWarning(QString warningText);
 private slots:
+    //關於defect viewer界面
     void on_puB_pre_clicked();
     void on_puB_next_clicked();
-    void on_puB_connect_clicked();
     void MouseCurrentPos();
     void updatelblPic();
-    void WR_command(QString WR_message);
-    void Qtimer();
-    void QtimerError();
     void change_pic2(int index);
 
+    void Qtimer(); //per second clock for DM200
+    void QtimerError(); //per 900ms clock for R215
+
+
+    //關於設置將更改後的內文以紅色標注
     void saveText();
     void comp_text();
-    //TCP/IP
+
+    //關於傳送訊息至PLC
+    void on_puB_connect_clicked();
+    void WR_command(QString WR_message);
     void on_puB_sent_clicked();
     void on_puB_start_clicked();
     void on_puB_read_clicked();
     void on_puB_write_clicked();
     void recv_label_update(QString message);
-    void connect_label_update();
-    void INI_UI();
 
+    void connect_label_update(); //socket通訊狀態改變
+    void INI_UI();
     void on_puB_runMode_clicked();
     void on_puB_saveINI_clicked();
     void on_puB_remove_p_clicked();
-    void reviseconfigINI(QString section, QString key,QString Value);
     void on_puB_add_p_clicked();
     void on_puB_save_p_clicked();
     void updatetextlog(QString type, QString message);
     void prettiertextlog();
-
     void on_checkBox_onlyThisTime_stateChanged(int state);
     void displayLastLog();
     void updatecombopattern();
@@ -145,48 +148,55 @@ private slots:
     void on_list_model_itemDoubleClicked(QListWidgetItem *item);
     void on_puB_setCur_m_clicked();
     void on_table_defectlist_cellClicked(int row, int column);
-    void CreateNReadRecipe();
-    void CreateFolder(QString path,QString FolderName);
-    void on_puB_cameraINI_clicked();
     void updateComboBoxModel();
     void imagesprocess();
+
+    //用於表單顯示
+    void on_comboBox_model_activated(const QString ModelName);
+    void on_comboBox_date_activated(const QString TimeDir);
+
+    //文件儲存
     void CopyRecipe(QString originFilePath,QString CopyFilePath);
     void CreateMap(QString path);
+    void CreateNReadRecipe();
+    void CreateFolder(QString path,QString FolderName);
+    void reviseconfigINI(QString section, QString key,QString Value);
 
     // Slots for GuiCamera signals
     void OnNewGrabResult(int userHint);
     void on_puB_bigGrab_clicked();
     void on_puB_samllGrab_clicked();
     void takeQImagetoList(const QImage &image, int OisBig);
-    void runInit();
-    void on_comboBox_model_activated(const QString ModelName);
-    void on_comboBox_date_activated(const QString TimeDir);
+    void on_puB_cameraINI_clicked();
 
+    void runInit();
+    void mySQL();
 
 private:
 
     Ui::Widget *ui;
     MainDialog MD;
     FuncPar FP;
-    QLabel *label;
     QThread clientThread;
-    QMutex mu;
+
     //camera para
     Pylon::DeviceInfoList_t m_devices;
     static const int MaxCamera = 3;
     CGuiCamera m_camera[MaxCamera];
     void cameraInit();
+
     //About save pic
     QDateTime RunCurrentDateTime;
     QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
     int RunPatternIndex,RunDefectNumber,RunPatternAmount;
     QStringList RunPatternName;
+
     //for command
     QQueue<QString> commandQueue;
-
     QTimer *timer_connect = new QTimer(this);
 
-
+    //用於顯示表格
+    QList<QString> defectTypes = {"BP","DP","HOpen", "VOpen", "HShort", "VShort"};
 
 
 private slots:

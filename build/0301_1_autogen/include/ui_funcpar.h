@@ -187,7 +187,8 @@ public:
     QCheckBox *checkBox_VLine;
     QCheckBox *checkBox_checkEnable;
     QGroupBox *groupBox_6;
-    QRadioButton *radioB_checkLine;
+    QRadioButton *radioB_checkBL;
+    QRadioButton *radioB_checkDL;
     QComboBox *comboBox_pattern;
     QPushButton *puB_load;
     QPushButton *puB_save;
@@ -893,12 +894,18 @@ public:
         groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
         groupBox_6->setGeometry(QRect(10, 10, 231, 111));
         groupBox_6->setFont(font1);
-        radioB_checkLine = new QRadioButton(groupBox_6);
-        radioB_checkLine->setObjectName(QString::fromUtf8("radioB_checkLine"));
-        radioB_checkLine->setGeometry(QRect(10, 50, 112, 23));
-        radioB_checkLine->setFont(font2);
-        radioB_checkLine->setChecked(true);
-        radioB_checkLine->setAutoExclusive(false);
+        radioB_checkBL = new QRadioButton(groupBox_6);
+        radioB_checkBL->setObjectName(QString::fromUtf8("radioB_checkBL"));
+        radioB_checkBL->setGeometry(QRect(20, 30, 112, 23));
+        radioB_checkBL->setFont(font2);
+        radioB_checkBL->setChecked(true);
+        radioB_checkBL->setAutoExclusive(false);
+        radioB_checkDL = new QRadioButton(groupBox_6);
+        radioB_checkDL->setObjectName(QString::fromUtf8("radioB_checkDL"));
+        radioB_checkDL->setGeometry(QRect(20, 70, 112, 23));
+        radioB_checkDL->setFont(font2);
+        radioB_checkDL->setChecked(true);
+        radioB_checkDL->setAutoExclusive(false);
         tabWidget->addTab(tab_3, QString());
         comboBox_pattern = new QComboBox(FuncPar);
         comboBox_pattern->addItem(QString());
@@ -1028,7 +1035,8 @@ public:
         checkBox_VLine->setText(QApplication::translate("FuncPar", "V-Line \344\270\215\345\212\240\345\205\245\350\274\270\345\207\272", nullptr));
         checkBox_checkEnable->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Enable", nullptr));
         groupBox_6->setTitle(QApplication::translate("FuncPar", "Line Mode\357\274\232", nullptr));
-        radioB_checkLine->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245Line", nullptr));
+        radioB_checkBL->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245BL", nullptr));
+        radioB_checkDL->setText(QApplication::translate("FuncPar", "\346\252\242\346\237\245DL", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("FuncPar", "Line", nullptr));
         comboBox_pattern->setItemText(0, QApplication::translate("FuncPar", "select pattern", nullptr));
 

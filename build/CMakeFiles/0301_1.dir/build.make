@@ -259,7 +259,6 @@ CMakeFiles/0301_1.dir/imageprocess.cpp.s: cmake_force
 0301_1: CMakeFiles/0301_1.dir/funcpar.cpp.o
 0301_1: CMakeFiles/0301_1.dir/imageprocess.cpp.o
 0301_1: CMakeFiles/0301_1.dir/build.make
-0301_1: /usr/lib/aarch64-linux-gnu/libQt5Widgets.so.5.12.8
 0301_1: /usr/lib/aarch64-linux-gnu/libQt5Network.so.5.12.8
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_gapi.so.4.5.4
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_highgui.so.4.5.4
@@ -269,8 +268,9 @@ CMakeFiles/0301_1.dir/imageprocess.cpp.s: cmake_force
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_stitching.so.4.5.4
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_video.so.4.5.4
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_videoio.so.4.5.4
+0301_1: /usr/lib/aarch64-linux-gnu/libQt5Widgets.so.5.12.8
+0301_1: /usr/lib/aarch64-linux-gnu/libQt5Sql.so.5.12.8
 0301_1: /usr/lib/aarch64-linux-gnu/libQt5Gui.so.5.12.8
-0301_1: /usr/lib/aarch64-linux-gnu/libQt5Core.so.5.12.8
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_imgcodecs.so.4.5.4
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_dnn.so.4.5.4
 0301_1: /usr/lib/aarch64-linux-gnu/libopencv_calib3d.so.4.5.4
@@ -289,6 +289,7 @@ CMakeFiles/0301_1.dir/imageprocess.cpp.s: cmake_force
 0301_1: /opt/pylon/lib/libGenApi_gcc_v3_1_Basler_pylon.so
 0301_1: /opt/pylon/lib/libGCBase_gcc_v3_1_Basler_pylon.so
 0301_1: /opt/pylon/lib/libpylonc.so.7.2.1
+0301_1: /usr/lib/aarch64-linux-gnu/libQt5Core.so.5.12.8
 0301_1: CMakeFiles/0301_1.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/agx/Desktop/0321_qt/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable 0301_1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/0301_1.dir/link.txt --verbose=$(VERBOSE)

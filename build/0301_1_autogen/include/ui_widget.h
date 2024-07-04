@@ -96,7 +96,7 @@ public:
     QLabel *lbl_modelPT;
     QWidget *tab_4;
     QGroupBox *groupBox_10;
-    QLineEdit *CAM1_exposure_Edit_3;
+    QLineEdit *CAM1_exposure_Edit;
     QLabel *lbl_exposure_7;
     QLineEdit *PT_width_Edit;
     QLabel *lbl_PT_width;
@@ -438,10 +438,10 @@ public:
         groupBox_10 = new QGroupBox(tab_4);
         groupBox_10->setObjectName(QString::fromUtf8("groupBox_10"));
         groupBox_10->setGeometry(QRect(20, 12, 401, 91));
-        CAM1_exposure_Edit_3 = new QLineEdit(groupBox_10);
-        CAM1_exposure_Edit_3->setObjectName(QString::fromUtf8("CAM1_exposure_Edit_3"));
-        CAM1_exposure_Edit_3->setGeometry(QRect(160, 37, 131, 35));
-        CAM1_exposure_Edit_3->setFont(font);
+        CAM1_exposure_Edit = new QLineEdit(groupBox_10);
+        CAM1_exposure_Edit->setObjectName(QString::fromUtf8("CAM1_exposure_Edit"));
+        CAM1_exposure_Edit->setGeometry(QRect(160, 37, 131, 35));
+        CAM1_exposure_Edit->setFont(font);
         lbl_exposure_7 = new QLabel(groupBox_10);
         lbl_exposure_7->setObjectName(QString::fromUtf8("lbl_exposure_7"));
         lbl_exposure_7->setGeometry(QRect(16, 32, 161, 41));
@@ -744,7 +744,7 @@ public:
         lbl_modelPT->setText(QString());
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QApplication::translate("Widget", "Pattern List", nullptr));
         groupBox_10->setTitle(QApplication::translate("Widget", "CAM1", nullptr));
-        CAM1_exposure_Edit_3->setText(QString());
+        CAM1_exposure_Edit->setText(QString());
         lbl_exposure_7->setText(QApplication::translate("Widget", "exposure time :", nullptr));
         PT_width_Edit->setText(QString());
         lbl_PT_width->setText(QApplication::translate("Widget", "The width of pattern:", nullptr));
