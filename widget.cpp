@@ -54,8 +54,7 @@ Widget::Widget(QWidget *parent)
     for (auto lineEdit : lineEdits) {
         new_text.append(lineEdit->text());
         orgi_text.append(lineEdit->text());
-    }
-    for (auto lineEdit : lineEdits) {
+    }    for (auto lineEdit : lineEdits) {
         connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
     }
 
