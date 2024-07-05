@@ -61,10 +61,11 @@ Widget::Widget(QWidget *parent)
 
     //AUO logo
     QPixmap pic_logo;
-    pic_logo.load(QCoreApplication::applicationDirPath()+"/AUO.jpg");
+    QDir currentDir = QDir::currentPath();
+    currentDir.cdUp();
+    pic_logo.load(currentDir.filePath("CT2/build/AUO.jpg"));
     ui->lbl_logo->setPixmap(pic_logo);
     ui->lbl_logo_2->setPixmap(pic_logo);
-
 
     // clock (per second
     QTimer *timer = new QTimer(this);
@@ -127,9 +128,6 @@ Widget::Widget(QWidget *parent)
     timer_command->start(200);
     clientThread.start();
     cameraInit();
-    mySQL();
-
-
 }
 void Widget::INI_UI()
 {
