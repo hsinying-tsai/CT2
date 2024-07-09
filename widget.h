@@ -198,12 +198,12 @@ private:
     //用於顯示表格
     QList<QString> defectTypes = {"BP","DP","HOpen", "VOpen", "HShort", "VShort"};
 
-
 private slots:
     //Alarm
     void showAlarm(bool isSocketError);
     void onConnectTimeout();
     void onStateChanged();
 
+    void on_puB_SQL_clicked();
 };
 #endif // WIDGET_H

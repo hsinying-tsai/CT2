@@ -20,8 +20,8 @@
 //MySQL
 #include <QApplication>
 #include <QSqlDatabase>
-#include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlQuery>
 Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Widget)
@@ -127,6 +127,7 @@ Widget::Widget(QWidget *parent)
     timer_command->start(200);
     clientThread.start();
     cameraInit();
+    mySQL();
 }
 void Widget::INI_UI()
 {
@@ -1913,14 +1914,36 @@ void Widget::mySQL()
 {
     //mySQL
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("lacalHost");
-    db.setDatabaseName("agx");
-    db.setUserName("agx");
-    db.setPassword("agx123");
+    db.setHostName("172.20.10.3");
+    db.setPort(3306);
+    db.setDatabaseName("recipe");
+    db.setUserName("hsinying");
+    db.setPassword("mySQL123");
 
+    qDebug()<<db.database();
     if(!db.open()){
-        ShowWarning("Database Error");
+        QString ms = QString("%1%2").arg("Database Error:\n").arg(db.lastError().text());
+        ShowWarning(ms);
+        ui->lbl_state->setText("未讀到mySQL資料");
+        logger.writeLog(Logger::Warning, "MySQL Databse connection failed.");
+    }else{
+        ui->lbl_state->setText("已讀取mySQL資料");
+        logger.writeLog(Logger::Info, "MySQL Databse connection successful.");
+        QSqlQuery query;
+        query.exec("SELECT * from `model`;");
+        while(query.next()){
+            QString name = query.value(0).toString();
+            QString type = query.value(1).toString();
+            QString pattern = query.value(2).toString();
+            int index = query.value(3).toInt();
+            qDebug()<<name<<type<<pattern<<index;
+        }
     }
 }
 
 
+
+void Widget::on_puB_SQL_clicked()
+{
+    mySQL();
+}
