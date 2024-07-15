@@ -22,6 +22,13 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+
+//JSON
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonParseError>
 Widget::Widget(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Widget)
@@ -1930,13 +1937,27 @@ void Widget::mySQL()
         ui->lbl_state->setText("已讀取mySQL資料");
         logger.writeLog(Logger::Info, "MySQL Databse connection successful.");
         QSqlQuery query;
-        query.exec("SELECT * from `model`;");
+        query.exec("SELECT * from `Cur_model_data`;");
         while(query.next()){
-            QString name = query.value(0).toString();
-            QString type = query.value(1).toString();
-            QString pattern = query.value(2).toString();
-            int index = query.value(3).toInt();
-            qDebug()<<name<<type<<pattern<<index;
+            int id = query.value(0).toInt();
+            QString data = query.value(1).toString();
+            qDebug()<<id<<data;
+            QJsonParseError jsonError;
+            QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonError);
+            if(jsonError.error != QJsonParseError::NoError &&!doc.isNull()){
+                qDebug()<<"JSON格式錯誤"<<jsonError.error;
+            }
+            QJsonObject rootObj = doc.object();
+
+            QJsonValue patternName = rootObj.value("Pattern_Name");
+            qDebug()<<"Pattern_Name:"<<patternName.toString();
+
+            QJsonValue patternIndex = rootObj.value("Pattern_Index");
+            qDebug()<<"patternIndex:"<<patternIndex.toString();
+
+            QJsonValue DetectType = rootObj.value("Detect_Type");
+            qDebug()<<"DetectType:"<<DetectType.toArray();
+            qDebug()<<"--------------------";
         }
     }
 }
