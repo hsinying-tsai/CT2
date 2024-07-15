@@ -1927,7 +1927,8 @@ void Widget::mySQL()
     db.setUserName("hsinying");
     db.setPassword("mySQL123");
 
-    qDebug()<<db.database();
+
+//    qDebug()<<db.database();
     if(!db.open()){
         QString ms = QString("%1%2").arg("Database Error:\n").arg(db.lastError().text());
         ShowWarning(ms);
