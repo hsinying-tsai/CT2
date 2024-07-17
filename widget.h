@@ -199,6 +199,19 @@ private:
     //用於顯示表格
     QList<QString> defectTypes = {"BP","DP","HOpen", "VOpen", "HShort", "VShort"};
 
+    //用於將讀取mySQL的資料存下
+    struct patterns{
+      QString patternName;
+      int patternIndex;
+      bool checkBP;
+      bool checkDP;
+      bool checkBL;
+      bool checkDL;
+      bool checkMura;
+    };
+    QList<patterns> CurModel;
+
+
 private slots:
     //Alarm
     void showAlarm(bool isSocketError);

@@ -1929,7 +1929,8 @@ void Widget::mySQL()
     db.setUserName("agxCT2");
     db.setPassword("agx");
     qDebug()<<db.database();
-    
+
+    CurModel.clear();
     if(!db.open()){
         QString ms = QString("%1%2").arg("Database Error:\n").arg(db.lastError().text());
         ShowWarning(ms);
@@ -1953,31 +1954,24 @@ void Widget::mySQL()
                 qDebug()<<"JSON格式錯誤"<<jsonError.error;
             }
             QJsonObject rootObj = doc.object();
-
-            QJsonValue patternName = rootObj.value("patternName");
-            qDebug()<<"PatternName:"<<patternName.toString();
-
-            QJsonValue patternIndex = rootObj.value("patternIndex");
-            qDebug()<<"patternIndex:"<<patternIndex.toInt();
-
-            QJsonValue checkBP = rootObj.value("BP");
-            qDebug()<<"BP:"<<checkBP.toBool();
-            QJsonValue checkDP = rootObj.value("DP");
-            qDebug()<<"DP:"<<checkDP.toBool();
-            QJsonValue checkBL = rootObj.value("BL");
-            qDebug()<<"BL:"<<checkBL.toBool();
-            QJsonValue checkDL = rootObj.value("DP");
-            qDebug()<<"DL:"<<checkDL.toBool();
-            QJsonValue checkMura = rootObj.value("Mura");
-            qDebug()<<"Mura:"<<checkMura.toBool();
-
             QJsonValue pixels = rootObj.value("pixels");
-            qDebug()<<"pixels:"<<pixels.toObject();
-
             QJsonValue dimensions = rootObj.value("dimensions");
+
+            qDebug()<<"pixels:"<<pixels.toObject();
             qDebug()<<"dimensions:"<<dimensions.toObject();
+
+            patterns NewPattern;
+            NewPattern.patternName = rootObj.value("patternName").toString();
+            NewPattern.patternIndex = rootObj.value("patternIndex").toInt();
+            NewPattern.checkBP = rootObj.value("BP").toBool();
+            NewPattern.checkDP = rootObj.value("DP").toBool();
+            NewPattern.checkBL = rootObj.value("BL").toBool();
+            NewPattern.checkDL = rootObj.value("DL").toBool();
+            NewPattern.checkMura = rootObj.value("Mura").toBool();
+            CurModel.append(NewPattern);
+
             //RUN
-            RunPatternName.append(patternName.toString());
+            RunPatternName.append(rootObj.value("patternName").toString());
             qDebug()<<"--------------------";
 
         }
@@ -2004,6 +1998,8 @@ void Widget::addNewModel(QString ModelName)
 
    CreateNReadRecipe();
    updateComboBoxModel();
+
+
 }
 
 
