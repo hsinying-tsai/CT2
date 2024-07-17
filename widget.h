@@ -70,7 +70,7 @@ public:
     QStringList parts,run_pattern_name,show_pattern_name;
     QString configFilePath;
 
-    //save thew defect point and pattern in order to draw rectangle,[0]->patternName,[...]->defectPoint
+    //save the defect point and pattern in order to draw rectangle,[0]->patternName,[...]->defectPoint
     struct defectInfo{
       QString PatternName;
       QVector<QPoint> defectPoint;
@@ -171,6 +171,7 @@ private slots:
 
     void runInit();
     void mySQL();
+    void addNewModel(QString ModelName);//由mySQL建立新model
 
 private:
 

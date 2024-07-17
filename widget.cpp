@@ -55,7 +55,7 @@ Widget::Widget(QWidget *parent)
 
 //        tc = new tcp_client();
     tc->moveToThread(&clientThread);
-    INI_UI();
+
 
     lineEdits = QWidget::findChildren<QLineEdit *>();
     for (auto lineEdit : lineEdits) {
@@ -69,7 +69,8 @@ Widget::Widget(QWidget *parent)
     QPixmap pic_logo;
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
-    pic_logo.load(currentDir.filePath("CT2/build/AUO.jpg"));
+    //路徑可能要改
+    pic_logo.load(currentDir.filePath("CT2_mySQL/build/AUO.jpg"));
     ui->lbl_logo->setPixmap(pic_logo);
     ui->lbl_logo_2->setPixmap(pic_logo);
 
@@ -135,10 +136,10 @@ Widget::Widget(QWidget *parent)
     clientThread.start();
     cameraInit();
     mySQL();
+    INI_UI();
 }
 void Widget::INI_UI()
 {
-
     CreateNReadRecipe();
     connect(&clientThread, &QThread::finished, tc, &QWidget::deleteLater);
     connect(tc, SIGNAL(recv_update(QString)), this, SLOT(recv_label_update(QString)));
@@ -1350,38 +1351,38 @@ void Widget::on_puB_func_clicked()
 void Widget::on_puB_add_m_clicked()
 {
     revisePatternList = true;
-        bool ok;
-        QString newItemText = QInputDialog::getText(this,"Add Model",
-                                                    "Enter new model:",
-                                                    QLineEdit::Normal,
-                                                    QString(),&ok);
+    bool ok;
+    QString newItemText = QInputDialog::getText(this,"Add Model",
+                                                "Enter new model:",
+                                                QLineEdit::Normal,
+                                                QString(),&ok);
 
-        QString inputModel = newItemText;
-        QString modelPath = "/Model/";
-        QStringList createNewPattern;
-        QDir modelFolder("Model/"+inputModel);
-        QMessageBox::StandardButton doublecheck;
-        if (ok == true) {
-            doublecheck = QMessageBox::question(this, "確認", "創建model:"+inputModel+"？", QMessageBox::Yes|QMessageBox::No);
-            if(doublecheck == QMessageBox::Yes){
-                // 檢查Model是否存在
-               if (!modelFolder.exists()) {
-                   CreateFolder(modelPath, inputModel);
-                   CreateNReadRecipe();
-               }else{
-                   ShowWarning("Model:"+inputModel+" 已存在");
-                   qDebug() << "配置文件已存在： " << modelPath;
-                   FP.INI(createNewPattern,modelPath,inputModel,false);
-               }
-            }else{
-                ui->lbl_state->setText("取消創建新model:"+inputModel);
-                qDebug() << "取消創建配置文件。";
-            }
+    QString inputModel = newItemText;
+    QString modelPath = "/Model/";
+    QStringList createNewPattern;
+    QDir modelFolder("Model/"+inputModel);
+    QMessageBox::StandardButton doublecheck;
+    if (ok == true) {
+        doublecheck = QMessageBox::question(this, "確認", "創建model:"+inputModel+"？", QMessageBox::Yes|QMessageBox::No);
+        if(doublecheck == QMessageBox::Yes){
+            // 檢查Model是否存在
+           if (!modelFolder.exists()) {
+               CreateFolder(modelPath, inputModel);
+               CreateNReadRecipe();
+           }else{
+               ShowWarning("Model:"+inputModel+" 已存在");
+               qDebug() << "配置文件已存在： " << modelPath;
+               FP.INI(createNewPattern,modelPath,inputModel,false);
+           }
         }else{
             ui->lbl_state->setText("取消創建新model:"+inputModel);
             qDebug() << "取消創建配置文件。";
         }
-        updateComboBoxModel();
+    }else{
+        ui->lbl_state->setText("取消創建新model:"+inputModel);
+        qDebug() << "取消創建配置文件。";
+    }
+    updateComboBoxModel();
 }
 void Widget::on_puB_remove_m_clicked()
 {
@@ -1465,7 +1466,6 @@ void Widget::on_puB_setCur_m_clicked()
                 RunPatternName.append(group);
             }
         }
-        runInit();
     }else{
         ui->lbl_state->setText("尚未選擇model！");
     }
@@ -1776,6 +1776,7 @@ void Widget::runInit()
             }
          }
     }
+
     RunPatternAmount = RunPatternName.size();
     QString List2String;
     foreach(QString pattern, RunPatternName){
@@ -1783,6 +1784,7 @@ void Widget::runInit()
     }
     ui->lbl_state->setText("已將"+runModelname+"設為當前運轉model , 檢測順序為"+List2String);
     qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
+
 }
 
 
@@ -1924,11 +1926,10 @@ void Widget::mySQL()
     db.setHostName("172.20.10.3");
     db.setPort(3306);
     db.setDatabaseName("recipe");
-    db.setUserName("hsinying");
-    db.setPassword("mySQL123");
-
-
-//    qDebug()<<db.database();
+    db.setUserName("agxCT2");
+    db.setPassword("agx");
+    qDebug()<<db.database();
+    
     if(!db.open()){
         QString ms = QString("%1%2").arg("Database Error:\n").arg(db.lastError().text());
         ShowWarning(ms);
@@ -1938,11 +1939,14 @@ void Widget::mySQL()
         ui->lbl_state->setText("已讀取mySQL資料");
         logger.writeLog(Logger::Info, "MySQL Databse connection successful.");
         QSqlQuery query;
+        QString modelName;
         query.exec("SELECT * from `Cur_model_data`;");
         while(query.next()){
             int id = query.value(0).toInt();
-            QString data = query.value(1).toString();
-            qDebug()<<id<<data;
+            int site = query.value(1).toInt();
+            modelName = query.value(2).toString();
+            QString data = query.value(3).toString();
+            qDebug()<<id<<site<<modelName<<data;
             QJsonParseError jsonError;
             QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8(), &jsonError);
             if(jsonError.error != QJsonParseError::NoError &&!doc.isNull()){
@@ -1950,17 +1954,56 @@ void Widget::mySQL()
             }
             QJsonObject rootObj = doc.object();
 
-            QJsonValue patternName = rootObj.value("Pattern_Name");
-            qDebug()<<"Pattern_Name:"<<patternName.toString();
+            QJsonValue patternName = rootObj.value("patternName");
+            qDebug()<<"PatternName:"<<patternName.toString();
 
-            QJsonValue patternIndex = rootObj.value("Pattern_Index");
-            qDebug()<<"patternIndex:"<<patternIndex.toString();
+            QJsonValue patternIndex = rootObj.value("patternIndex");
+            qDebug()<<"patternIndex:"<<patternIndex.toInt();
 
-            QJsonValue DetectType = rootObj.value("Detect_Type");
-            qDebug()<<"DetectType:"<<DetectType.toArray();
+            QJsonValue checkBP = rootObj.value("BP");
+            qDebug()<<"BP:"<<checkBP.toBool();
+            QJsonValue checkDP = rootObj.value("DP");
+            qDebug()<<"DP:"<<checkDP.toBool();
+            QJsonValue checkBL = rootObj.value("BL");
+            qDebug()<<"BL:"<<checkBL.toBool();
+            QJsonValue checkDL = rootObj.value("DP");
+            qDebug()<<"DL:"<<checkDL.toBool();
+            QJsonValue checkMura = rootObj.value("Mura");
+            qDebug()<<"Mura:"<<checkMura.toBool();
+
+            QJsonValue pixels = rootObj.value("pixels");
+            qDebug()<<"pixels:"<<pixels.toObject();
+
+            QJsonValue dimensions = rootObj.value("dimensions");
+            qDebug()<<"dimensions:"<<dimensions.toObject();
+            //RUN
+            RunPatternName.append(patternName.toString());
             qDebug()<<"--------------------";
+
         }
+        ui->lbl_state->setText(modelName);
+        addNewModel(modelName);
     }
+}
+
+void Widget::addNewModel(QString ModelName)
+{
+   //判斷recipe是否存在,如果存在->刪除,創建最新內容
+   QString modelPath = QCoreApplication::applicationDirPath()+"/Model/"+ModelName+"/recipe.ini";
+   QFile modelRecipe(modelPath);
+
+   if (modelRecipe.exists()) {
+       modelRecipe.remove();
+       qDebug()<<"刪除recipe";
+   }else{
+      CreateFolder("/Model/", ModelName);
+   }
+   qDebug()<<"<addNewModel>"<<ModelName<<RunPatternName;
+   //create recipe
+   FP.INI(RunPatternName,modelPath,ModelName,false);
+
+   CreateNReadRecipe();
+   updateComboBoxModel();
 }
 
 

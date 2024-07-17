@@ -29,7 +29,7 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
 
 void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString ModelName,bool isNew)
 {
-    if(isNew == true){
+    if(isNew){
         patternName = defalutPattern;
     }
     recipeFilePath = recipetFilePath;
@@ -43,13 +43,16 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
     settings.setValue("PT_sizeX", 1152);
     settings.setValue("PT_sizeY", 648);
     settings.endGroup();
+    qDebug()<<recipetFilePath;
     foreach(const QString &name, patternName) {
+        qDebug()<<name;
         ui->comboBox_pattern->addItem(name);
         settings.beginGroup(name);     
-        settings.setValue("checkDP", false);
+        settings.setValue("checkDP", true);
         settings.setValue("checkBP", true);
-        settings.setValue("checkBL", true);
+        settings.setValue("checkBL", false);
         settings.setValue("checkDL", false);
+        settings.setValue("checkMura", false);
 
         settings.setValue("BypassUpH", 0);
         settings.setValue("BypassDownH", 0);
@@ -107,7 +110,6 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         settings.setValue("maxvalue", 0);
         settings.setValue("minvalue", 0);
         settings.endGroup();
-
     }
 }
 void FuncPar::reviseModelINI(QString section, QString key ,QString Value)
