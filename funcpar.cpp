@@ -48,8 +48,8 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
         qDebug()<<name;
         ui->comboBox_pattern->addItem(name);
         settings.beginGroup(name);     
-        settings.setValue("checkDP", true);
-        settings.setValue("checkBP", true);
+        settings.setValue("checkDP", false);
+        settings.setValue("checkBP", false);
         settings.setValue("checkBL", false);
         settings.setValue("checkDL", false);
         settings.setValue("checkMura", false);
@@ -163,43 +163,46 @@ FuncPar::~FuncPar()
 void FuncPar::on_puB_save_clicked()
 {
     QString selectedOption = ui->comboBox_pattern->currentText();
-    qDebug()<<selectedOption;
-    spinBoxNames.clear();
-    for (int tabIndex = 0; tabIndex < ui->tabWidget->count(); ++tabIndex) {
-        QWidget *currentTab = ui->tabWidget->widget(tabIndex);
-        QString tmp_text;
-        foreach(QWidget *widget, currentTab->findChildren<QWidget *>()) {
-            // 判斷子控件是否是QSpinBox、QRadioButton或者QCheckBox
-            if (QSpinBox *spinBox = qobject_cast<QSpinBox*>(widget)) {
-                QString name = spinBox->objectName();
-                // 去除名稱中的"spinBox_"並只保留後半部分
-                name.remove("spinBox_");
-                spinBoxNames.append(name);
-                if(spinBox->text()==""){
-                    tmp_text = "0";
-                }else{
-                    tmp_text = spinBox->text();
-                }
-//                qDebug()<<selectedOption<<name<<tmp_text;
-                reviseModelINI(selectedOption, name , tmp_text);
-            } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
-                if(radioButton->objectName().contains("check")){
-                    bool isChecked = radioButton->isChecked();
-                    QString name = radioButton->objectName();
-                    name.remove("radioB_");
-                    if(isChecked == true){
-                        reviseModelINI(selectedOption,  name, "true");
+    if(!selectedOption.contains("select")){
+        qDebug()<<selectedOption;
+        spinBoxNames.clear();
+        for (int tabIndex = 0; tabIndex < ui->tabWidget->count(); ++tabIndex) {
+            QWidget *currentTab = ui->tabWidget->widget(tabIndex);
+            QString tmp_text;
+            foreach(QWidget *widget, currentTab->findChildren<QWidget *>()) {
+                // 判斷子控件是否是QSpinBox、QRadioButton或者QCheckBox
+                if (QSpinBox *spinBox = qobject_cast<QSpinBox*>(widget)) {
+                    QString name = spinBox->objectName();
+                    // 去除名稱中的"spinBox_"並只保留後半部分
+                    name.remove("spinBox_");
+                    spinBoxNames.append(name);
+                    if(spinBox->text()==""){
+                        tmp_text = "0";
                     }else{
-                        reviseModelINI(selectedOption,  name, "false");
+                        tmp_text = spinBox->text();
                     }
-//                    qDebug() << "RadioButton Name: " << name <<isChecked;
-                }
+    //                qDebug()<<selectedOption<<name<<tmp_text;
+                    reviseModelINI(selectedOption, name , tmp_text);
+                } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
+                    if(radioButton->objectName().contains("check")){
+                        bool isChecked = radioButton->isChecked();
+                        QString name = radioButton->objectName();
+                        name.remove("radioB_");
+                        if(isChecked == true){
+                            reviseModelINI(selectedOption,  name, "true");
+                        }else{
+                            reviseModelINI(selectedOption,  name, "false");
+                        }
+    //                    qDebug() << "RadioButton Name: " << name <<isChecked;
+                    }
 
-            } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {
-//                 qDebug() << "CheckBox Name: " << checkBox->objectName();
+                } else if (QCheckBox *checkBox = qobject_cast<QCheckBox*>(widget)) {
+    //                 qDebug() << "CheckBox Name: " << checkBox->objectName();
+                }
             }
         }
     }
+
 }
 
 void FuncPar::on_comboBox_pattern_activated(const QString &patternName)

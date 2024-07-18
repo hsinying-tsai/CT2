@@ -1429,7 +1429,6 @@ void Widget::on_puB_remove_m_clicked()
 
 void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
 {
-    revisePatternList = true;
     QString currentModel = item->text();
     CreateNReadRecipe();
     foreach (const model_name &model, modelList) {
@@ -1969,6 +1968,7 @@ void Widget::mySQL()
             NewPattern.checkDL = rootObj.value("DL").toBool();
             NewPattern.checkMura = rootObj.value("Mura").toBool();
             CurModel.append(NewPattern);
+            qDebug()<<NewPattern.patternName<<NewPattern.checkBP<<NewPattern.checkDP<<NewPattern.checkBL<<NewPattern.checkDL;
 
             //RUN
             RunPatternName.append(rootObj.value("patternName").toString());
@@ -1990,16 +1990,25 @@ void Widget::addNewModel(QString ModelName)
        modelRecipe.remove();
        qDebug()<<"刪除recipe";
    }else{
-      CreateFolder("/Model/", ModelName);
+       CreateFolder("/Model/", ModelName);
    }
    qDebug()<<"<addNewModel>"<<ModelName<<RunPatternName;
    //create recipe
    FP.INI(RunPatternName,modelPath,ModelName,false);
-
-   CreateNReadRecipe();
    updateComboBoxModel();
-
-
+   foreach(patterns p,CurModel){
+       qDebug()<<p.patternName<<p.checkBP<<p.checkDP<<p.checkBL<<p.checkDL<<p.checkMura;
+       QString PcheckBP = p.checkBP ? "true" : "false";
+       QString PcheckDP = p.checkDP ? "true" : "false";
+       QString PcheckBL = p.checkBL ? "true" : "false";
+       QString PcheckDL = p.checkDL ? "true" : "false";
+       QString PcheckMura = p.checkMura ? "true" : "false";
+       FP.reviseModelINI(p.patternName, "checkBP" ,PcheckBP);
+       FP.reviseModelINI(p.patternName, "checkDP" ,PcheckDP);
+       FP.reviseModelINI(p.patternName, "checkBL" ,PcheckBL);
+       FP.reviseModelINI(p.patternName, "checkDL" ,PcheckDL);
+       FP.reviseModelINI(p.patternName, "checkMura" ,PcheckMura);
+   }
 }
 
 
