@@ -27,10 +27,15 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
     ui->comboBox_pattern->addItem(item->text());
 }
 
-void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString ModelName,bool isNew)
+void FuncPar::INI(QList<QPair<int,QString>>patternList, QString recipetFilePath, QString ModelName,bool isNew)
 {
     if(isNew){
-        patternName = defalutPattern;
+        int dafalutIndex = 1;
+        foreach(QPair p,patternList){
+            p.first = dafalutIndex;
+            p.second = defalutPattern[dafalutIndex-1];
+            dafalutIndex++;
+        }
     }
     recipeFilePath = recipetFilePath;
     QSettings settings(recipetFilePath, QSettings::IniFormat);
@@ -43,11 +48,13 @@ void FuncPar::INI(QStringList patternName, QString recipetFilePath, QString Mode
     settings.setValue("PT_sizeX", 1152);
     settings.setValue("PT_sizeY", 648);
     settings.endGroup();
-    qDebug()<<recipetFilePath;
-    foreach(const QString &name, patternName) {
-        qDebug()<<name;
+    qDebug()<<"FuncPar::INI"<<recipetFilePath;
+    foreach(const QPair p, patternList) {
+        int index = p.first;
+        QString name = p.second;
         ui->comboBox_pattern->addItem(name);
-        settings.beginGroup(name);     
+        settings.beginGroup(name);
+        settings.setValue("Index",index);
         settings.setValue("checkDP", false);
         settings.setValue("checkBP", false);
         settings.setValue("checkBL", false);

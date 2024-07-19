@@ -171,7 +171,7 @@ private slots:
 
     void runInit();
     void mySQL();
-    void addNewModel(QString ModelName);//由mySQL建立新model
+    void addNewModel(QString ModelName, QList<QPair<int,QString>> patternList);//由mySQL建立新model
 
 private:
 
@@ -210,6 +210,7 @@ private:
       bool checkMura;
     };
     QList<patterns> CurModel;
+    patterns NewPattern;
 
 
 private slots:
@@ -220,4 +221,5 @@ private slots:
 
     void on_puB_SQL_clicked();
 };
+
 #endif // WIDGET_H

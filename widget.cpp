@@ -1184,10 +1184,11 @@ void Widget::on_puB_save_p_clicked()
                 }
             }
         }
-        QStringList tmpStringList;
-        tmpStringList.append(tmp);
+        qDebug()<<"ui->list_Pattern->size()"<<ui->list_Pattern->count();
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
-        FP.INI(tmpStringList, tmpModePath, currentModel,false);
+        QList<QPair<int,QString>> tmpList;
+        tmpList.append({8,tmp});
+        FP.INI(tmpList, tmpModePath, currentModel,false);
         updatecombopattern();
         if(addPattern == true){
             FP.show();
@@ -1372,7 +1373,7 @@ void Widget::on_puB_add_m_clicked()
            }else{
                ShowWarning("Model:"+inputModel+" 已存在");
                qDebug() << "配置文件已存在： " << modelPath;
-               FP.INI(createNewPattern,modelPath,inputModel,false);
+//               FP.INI(createNewPattern,modelPath,inputModel,false);
            }
         }else{
             ui->lbl_state->setText("取消創建新model:"+inputModel);
@@ -1512,7 +1513,7 @@ void Widget::CreateNReadRecipe()
                 configFilePath = QCoreApplication::applicationDirPath() + "/Model/"+modelnamefolder+"/recipe.ini";
                 QFile configFile(configFilePath);
                 if (!configFile.exists()) {
-                    QStringList tmp;
+                    QList<QPair<int,QString>> tmp;
                     FP.INI(tmp, configFilePath, modelnamefolder,true);
                     qDebug()<< "Create"<<modelnamefolder<<"'s recipe";
                 } else {
@@ -1539,6 +1540,10 @@ void Widget::CreateNReadRecipe()
                         foreach (QString group, groups) {
                             if(group != "COORDINATE" && group != "CAM1"){
                                 QStringList patternName = group.split(" ");
+
+                                qDebug()<<settings.value(group+"/Index").toInt();
+                                qDebug()<<patternName;
+                                qDebug()<<group;
                                 newModel.pattern_names.append(patternName);
                             }
                         }
@@ -1767,14 +1772,18 @@ void Widget::runInit()
     Images.clear();
     DC.current = DC.first;
     RunPatternIndex = 1;
+    qDebug()<<"PRE:"<<RunPatternName;
     QString runModelname = ui->lbl_CurModel->text();
     for(model_name &model : modelList) {
         if(model.modelName == runModelname){
             for(QString &patternName : model.pattern_names){
                 RunPatternName.append(patternName);
+
             }
          }
     }
+
+    qDebug()<<"NOW:"<<RunPatternName;
 
     RunPatternAmount = RunPatternName.size();
     QString List2String;
@@ -1940,6 +1949,7 @@ void Widget::mySQL()
         logger.writeLog(Logger::Info, "MySQL Databse connection successful.");
         QSqlQuery query;
         QString modelName;
+        QList<QPair<int,QString>> singlePattern; //將patternName,patternIndex存下,用於創recipe.ini
         query.exec("SELECT * from `Cur_model_data`;");
         while(query.next()){
             int id = query.value(0).toInt();
@@ -1959,7 +1969,6 @@ void Widget::mySQL()
             qDebug()<<"pixels:"<<pixels.toObject();
             qDebug()<<"dimensions:"<<dimensions.toObject();
 
-            patterns NewPattern;
             NewPattern.patternName = rootObj.value("patternName").toString();
             NewPattern.patternIndex = rootObj.value("patternIndex").toInt();
             NewPattern.checkBP = rootObj.value("BP").toBool();
@@ -1972,15 +1981,16 @@ void Widget::mySQL()
 
             //RUN
             RunPatternName.append(rootObj.value("patternName").toString());
-            qDebug()<<"--------------------";
 
+            singlePattern.append({NewPattern.patternIndex,NewPattern.patternName});
+            qDebug()<<"--------------------";
         }
-        ui->lbl_state->setText(modelName);
-        addNewModel(modelName);
+        ui->lbl_CurModel->setText(modelName);
+        addNewModel(modelName,singlePattern);
     }
 }
 
-void Widget::addNewModel(QString ModelName)
+void Widget::addNewModel(QString ModelName, QList<QPair<int, QString> > patternList)
 {
    //判斷recipe是否存在,如果存在->刪除,創建最新內容
    QString modelPath = QCoreApplication::applicationDirPath()+"/Model/"+ModelName+"/recipe.ini";
@@ -1994,7 +2004,7 @@ void Widget::addNewModel(QString ModelName)
    }
    qDebug()<<"<addNewModel>"<<ModelName<<RunPatternName;
    //create recipe
-   FP.INI(RunPatternName,modelPath,ModelName,false);
+   FP.INI(patternList,modelPath,ModelName,false);
    updateComboBoxModel();
    foreach(patterns p,CurModel){
        qDebug()<<p.patternName<<p.checkBP<<p.checkDP<<p.checkBL<<p.checkDL<<p.checkMura;
