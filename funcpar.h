@@ -30,7 +30,6 @@ public:
       BorDpoint DPoint;
       int exposureT;
     };
-    QStringList defalutPattern = {"White","Black"};
     QString recipeFilePath;
     void INI(QList<QPair<int,QString>>patternList, QString recipetFilePath, QString ModelName, bool isNew);
     void reviseModelINI(QString section, QString key ,QString Value);

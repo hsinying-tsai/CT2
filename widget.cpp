@@ -560,11 +560,11 @@ void Widget::recv_label_update(QString message)
                 if(parts[1]== "R200"){
                     commandQueue.dequeue();
                     qDebug()<<"dequeue WRS R200 2 0 0";
-                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
+                    QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(patternIndexNname.at(RunPatternNumber).first);
                     commandQueue.enqueue(buffer_combined);
-                    qDebug()<<"--------------Step_3.1巨觀change PG_num to"<<RunPatternIndex;
-                    ui->lbl_state->setText("｜巨觀｜切換pattern至"+RunPatternName.at(RunPatternIndex-1));
-                    RunPatternIndex++;
+                    qDebug()<<"--------------Step_3.1巨觀change PG_num to"<<patternIndexNname.at(RunPatternNumber).first;
+                    ui->lbl_state->setText("｜巨觀｜切換pattern至"+patternIndexNname.at(RunPatternNumber).second);
+                    RunPatternNumber++;
                 }else if(parts[1] == "R202"){
                     commandQueue.dequeue();
                     if(change_flawPG == true){
@@ -585,16 +585,14 @@ void Widget::recv_label_update(QString message)
                     }else{
                         Images.push_back(tmp);
                         qDebug()<<"push";
-                        if(RunPatternIndex<(RunPatternAmount+1)){
+                        if(RunPatternNumber<RunPatternAmount){
                             //To the next PG_num
                             qDebug() << "--------------Step_3.server已回應OK.\n";
-                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(RunPatternIndex);
-
+                            QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(patternIndexNname.at(RunPatternNumber).first);
                             commandQueue.enqueue(buffer_combined);
-
-                            qDebug()<<"--------------Step_3.2巨觀change PG_num to"<<RunPatternIndex;
-                            ui->lbl_state->setText("｜巨觀｜切換pattern至"+RunPatternName.at(RunPatternIndex-1));
-                            RunPatternIndex++;
+                            qDebug()<<"--------------Step_3.2巨觀change PG_num to"<<patternIndexNname.at(RunPatternNumber).first;
+                            ui->lbl_state->setText("｜巨觀｜切換pattern至"+patternIndexNname.at(RunPatternNumber).second);
+                            RunPatternNumber++;
                         }else{
                             imagesprocess();
                             qDebug() << "--------------Step_3.All pattern was changed.";
@@ -606,8 +604,8 @@ void Widget::recv_label_update(QString message)
                     //if change_flawPG == true ->to step.5
                     if(!DC.vector_PG_flaw.isEmpty()){
                         change_flawPG = true;
-                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(DC.current->index);
-                        ui->lbl_state->setText("｜微觀｜切換至 "+RunPatternName.at(DC.current->index-1)+" Pattern");
+                        qDebug()<<"微觀"<<DC.current->index;
+                        QString buffer_combined = QString("%1 %2").arg("WR DM202").arg(DC.current->index);  
                         commandQueue.enqueue(buffer_combined);
                     }else{
                         qDebug()<<"no flaws";
@@ -641,7 +639,8 @@ void Widget::recv_label_update(QString message)
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
                             commandQueue.enqueue(buffer_combined);
                         }     
-                        ui->lbl_state->setText("|微觀|已將pattern切換至"+RunPatternName.at(DC.current->index-1));
+                        ui->lbl_state->setText("｜微觀｜切換至 "+patternIndexNname.at(DC.current->index-1).second+" Pattern");
+
                     }
                 }else{
                     //receive OK from "WRS DM201 6 0 0 0 0 0 0
@@ -669,8 +668,7 @@ void Widget::recv_label_update(QString message)
             }else if(parts[1] == "DM202"){
                 commandQueue.dequeue();
                 if(change_flawPG == false){
-                    qDebug()<<"拍攝巨觀"<<RunPatternName.at(RunPatternIndex-2);
-//                    ui->lbl_state->setText("目前在拍攝"+RunPatternName.at(RunPatternIndex-2)+"巨觀照片");
+                    qDebug()<<"拍攝巨觀"<<patternIndexNname.at(RunPatternNumber-1).second+" Pattern";
                     on_puB_bigGrab_clicked();
                 }
                 commandQueue.enqueue("WR R202 1");
@@ -681,12 +679,18 @@ void Widget::recv_label_update(QString message)
                     commandQueue.dequeue();
                     qDebug() << "--------------Step_6.Sending y = " << ARM_posY;
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM206").arg(ARM_posY);
-                    ui->lbl_state->setText("｜微觀｜移動至Y="+QString::number(ARM_posY));
+                    ui->lbl_state->setText("｜微觀｜移動至Y="+QString::number(ARM_posY));          
                     commandQueue.enqueue(buffer_combined);
                 }else if(parts[1].contains("DM206")){
                     commandQueue.dequeue();
-                    qDebug()<<"目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片";
-                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+RunPatternName.at(DC.current->index-1)+" 微觀照片");
+                    QString patternName;
+                    foreach(QPair pattern,patternIndexNname){
+                        if(pattern.first == DC.current->index){
+                            patternName = pattern.second;
+                        }
+                    }
+                    ui->lbl_state->setText("｜微觀｜目前在拍攝"+patternName+" 微觀照片");
+                    qDebug()<<"目前在拍攝"+patternName+" 微觀照片";
                     on_puB_samllGrab_clicked();
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
@@ -811,7 +815,7 @@ void Widget::connect_label_update()
     if (tc->connnect_state == 1) {
         if(firstTryReconnectsuccess){
             firstTryReconnectsuccess = false;
-            qDebug()<<"Auto"<<RunPatternName;
+            qDebug()<<"Auto"<<patternIndexNname;
             return ;
         }
         firstTryReconnect = true;
@@ -846,7 +850,7 @@ void Widget::connect_label_update()
             ui->puB_sent->setEnabled(true);
         }
     } else if (tc->connnect_state == 0) {
-        RunPatternIndex = 1;
+        RunPatternNumber = 1;
         //連線失敗
         ui->textRecv->clear();
         ui->textSend->clear();
@@ -1137,14 +1141,14 @@ void Widget::on_puB_add_p_clicked()
            addPattern = true;
            for(model_name &model : modelList) {
                if(model.modelName == ui->lbl_modelPT->text()){
-                    for(QString &patternName:model.pattern_names){
-                        if(newItemText == patternName){
-                            addPattern = false;
-                            ShowWarning("Pattern:"+newItemText+" 已存在");
-                            ui->lbl_state->setText("輸入的"+newItemText+" 已存在");
-                        }
-                    }
-
+                   for(QPair pattern : model.patternsInfo){
+                       if(newItemText == pattern.second){
+                           qDebug()<<"pattern.second"<<pattern.second;
+                           ShowWarning("Pattern:"+newItemText+" 已存在");
+                           addPattern = false;
+                           ui->lbl_state->setText("輸入的"+newItemText+" 已存在");
+                       }
+                   }
                }
            }
 
@@ -1172,22 +1176,22 @@ void Widget::on_puB_save_p_clicked()
         ui->lbl_state->setText("pattern list不能為空，，請先選擇Model！");
     }else{
         QString currentModel = ui->lbl_modelPT->text();
-        QString tmp;
-
+        QList<QPair<int,QString>> tmpList;
         for(model_name &model : modelList) {
              if(model.modelName == currentModel){
-                model.pattern_names.clear();
+                model.patternsInfo.clear();
+                int defalutIndex = 1;
                 for(int i=0; i<ui->list_Pattern->count();i++){
-                    qDebug()<<i<<":"<<ui->list_Pattern->item(i)->text();
-                    model.pattern_names.append(ui->list_Pattern->item(i)->text());
-                    tmp = ui->list_Pattern->item(i)->text();
+                    qDebug()<<defalutIndex<<":"<<ui->list_Pattern->item(i)->text();
+                    model.patternsInfo.append({defalutIndex,ui->list_Pattern->item(i)->text()});
+                    tmpList.append({{defalutIndex,ui->list_Pattern->item(i)->text()}});
+                    defalutIndex++;
                 }
             }
         }
         qDebug()<<"ui->list_Pattern->size()"<<ui->list_Pattern->count();
+        qDebug()<<"tmpList"<<tmpList;
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
-        QList<QPair<int,QString>> tmpList;
-        tmpList.append({8,tmp});
         FP.INI(tmpList, tmpModePath, currentModel,false);
         updatecombopattern();
         if(addPattern == true){
@@ -1370,6 +1374,7 @@ void Widget::on_puB_add_m_clicked()
            if (!modelFolder.exists()) {
                CreateFolder(modelPath, inputModel);
                CreateNReadRecipe();
+               qDebug()<<"1234";
            }else{
                ShowWarning("Model:"+inputModel+" 已存在");
                qDebug() << "配置文件已存在： " << modelPath;
@@ -1435,8 +1440,8 @@ void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
     foreach (const model_name &model, modelList) {
         if(model.modelName == currentModel){
             ui->list_Pattern->clear();
-            foreach (const QString &pattern, model.pattern_names) {
-                ui->list_Pattern->addItem(pattern);
+            foreach (const QPair pattern, model.patternsInfo) {
+                ui->list_Pattern->addItem(pattern.second);
             }
         }
     }
@@ -1463,7 +1468,9 @@ void Widget::on_puB_setCur_m_clicked()
         // 逐一讀取每個組的內容
         foreach (QString group, groups) {
             if(group != "COORDINATE" && group != "CAM1"){
-                RunPatternName.append(group);
+                int patternIndex = setting.value(group+"/Index").toInt();
+                QString patternName = group;
+                patternIndexNname.append({patternIndex,patternName});
             }
         }
     }else{
@@ -1539,12 +1546,10 @@ void Widget::CreateNReadRecipe()
                         // 逐一讀取每個組的內容
                         foreach (QString group, groups) {
                             if(group != "COORDINATE" && group != "CAM1"){
-                                QStringList patternName = group.split(" ");
-
-                                qDebug()<<settings.value(group+"/Index").toInt();
-                                qDebug()<<patternName;
-                                qDebug()<<group;
-                                newModel.pattern_names.append(patternName);
+                                int patternIndex = settings.value(group+"/Index").toInt();
+                                QString patternName = group;
+//                                qDebug()<<"CreateNread:"<<patternIndex<<patternName;
+                                newModel.patternsInfo.append({patternIndex,patternName});
                             }
                         }
                         modelList.append(newModel);
@@ -1615,8 +1620,15 @@ void Widget::imagesprocess()
 
 
     tmp.index = 3;
-    tmp.patternName = "Gray";
+    tmp.patternName = "Red";
     tmp.meanGray = 0.3;
+    tmp.BPenable = true;
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(150, 150)}}};
+    Images.push_back(tmp);
+
+    tmp.index = 4;
+    tmp.patternName = "Green";
+    tmp.meanGray = 0.4;
     tmp.BPenable = true;
     tmp.defectPoint = {{ImageProcess::BP,{QPoint(150, 150)}}};
     Images.push_back(tmp);
@@ -1718,7 +1730,7 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
     if(OisBig == 0){
         qDebug()<<"got big";
         imageVectorBig.append(image);
-        imgName = QString("%1%2").arg(QString::number(RunPatternIndex-1)).arg(".bmp");
+        imgName = QString("%1%2").arg(QString::number(patternIndexNname.at(RunPatternNumber-1).first)).arg(".bmp");
     }else{
         qDebug()<<"got small";
         imageVectorSmall.append(image);
@@ -1732,9 +1744,9 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
         qWarning() << "Failed to save image at:" << imagePath;
     }
     if(OisBig == 0){
-        tmp.index = RunPatternIndex-1;
+        tmp.index =  patternIndexNname.at(RunPatternNumber).first;
         tmp.image = image;
-        tmp.patternName = RunPatternName.at(RunPatternIndex-2);
+        tmp.patternName = patternIndexNname.at(RunPatternNumber).second;
         tmp.meanGray = calculateMean(imagePath);
         QString runModelname = ui->lbl_CurModel->text();
         QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
@@ -1754,6 +1766,8 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
                         tmp.BLenable = setting.value(key).toBool();
                     }else if(key==group+"/checkDL"){
                         tmp.DLenable = setting.value(key).toBool();
+                    }else if(key==group+"/checkMura"){
+                        tmp.Muraeable = setting.value(key).toBool();
                     }
                 }
             }
@@ -1767,31 +1781,30 @@ void Widget::runInit()
     qDebug()<<"|Initial|Initial Run parameter";
     //initial
     clearCommand = true;
-    RunPatternName.clear();
     change_flawPG = false;
     Images.clear();
     DC.current = DC.first;
-    RunPatternIndex = 1;
-    qDebug()<<"PRE:"<<RunPatternName;
+    RunPatternNumber = 0;
     QString runModelname = ui->lbl_CurModel->text();
     for(model_name &model : modelList) {
         if(model.modelName == runModelname){
-            for(QString &patternName : model.pattern_names){
-                RunPatternName.append(patternName);
-
+            RunPatternAmount = model.patternsInfo.size();
+            patternIndexNname.clear();
+            for(QPair pattern : model.patternsInfo){
+                patternIndexNname.append(pattern);
             }
          }
     }
 
-    qDebug()<<"NOW:"<<RunPatternName;
-
-    RunPatternAmount = RunPatternName.size();
-    QString List2String;
-    foreach(QString pattern, RunPatternName){
-        List2String += pattern + ",";
+    qDebug()<<"NOW:"<<RunPatternAmount<<patternIndexNname;
+    QString showPatterns;
+    foreach(QPair pattern, patternIndexNname){
+        showPatterns.append(QString("%1->%2, ").arg(pattern.first).arg(pattern.second));
     }
-    ui->lbl_state->setText("已將"+runModelname+"設為當前運轉model , 檢測順序為"+List2String);
-    qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
+    qDebug()<<"檢測："<<showPatterns;
+    ui->lbl_state->setText("檢測："+showPatterns);
+
+//    qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
 
 }
 
@@ -1951,6 +1964,7 @@ void Widget::mySQL()
         QString modelName;
         QList<QPair<int,QString>> singlePattern; //將patternName,patternIndex存下,用於創recipe.ini
         query.exec("SELECT * from `Cur_model_data`;");
+        patternIndexNname.clear();
         while(query.next()){
             int id = query.value(0).toInt();
             int site = query.value(1).toInt();
@@ -1980,8 +1994,8 @@ void Widget::mySQL()
             qDebug()<<NewPattern.patternName<<NewPattern.checkBP<<NewPattern.checkDP<<NewPattern.checkBL<<NewPattern.checkDL;
 
             //RUN
-            RunPatternName.append(rootObj.value("patternName").toString());
-
+//            RunPatternName.append(rootObj.value("patternName").toString());
+            patternIndexNname.append({NewPattern.patternIndex,NewPattern.patternName});
             singlePattern.append({NewPattern.patternIndex,NewPattern.patternName});
             qDebug()<<"--------------------";
         }
@@ -2002,7 +2016,6 @@ void Widget::addNewModel(QString ModelName, QList<QPair<int, QString> > patternL
    }else{
        CreateFolder("/Model/", ModelName);
    }
-   qDebug()<<"<addNewModel>"<<ModelName<<RunPatternName;
    //create recipe
    FP.INI(patternList,modelPath,ModelName,false);
    updateComboBoxModel();

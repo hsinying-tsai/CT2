@@ -89,7 +89,7 @@ public:
     //find model name and pattern name
     struct model_name{
       QString modelName;
-      QStringList pattern_names;
+      QList<QPair<int,QString>> patternsInfo; //{patternIndex, patternName}
     };
 
     QList<model_name> modelList;
@@ -189,8 +189,9 @@ private:
     //About save pic
     QDateTime RunCurrentDateTime;
     QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
-    int RunPatternIndex,RunDefectNumber,RunPatternAmount;
-    QStringList RunPatternName;
+    int RunDefectNumber,RunPatternAmount,RunPatternNumber = 0;
+    //RunPatternNumber用於切換下張pattern
+    QList<QPair<int,QString>> patternIndexNname;
 
     //for command
     QQueue<QString> commandQueue;

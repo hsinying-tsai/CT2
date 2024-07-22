@@ -30,12 +30,9 @@ void FuncPar::fpupdatecombopattern(QListWidgetItem *item,int i)
 void FuncPar::INI(QList<QPair<int,QString>>patternList, QString recipetFilePath, QString ModelName,bool isNew)
 {
     if(isNew){
-        int dafalutIndex = 1;
-        foreach(QPair p,patternList){
-            p.first = dafalutIndex;
-            p.second = defalutPattern[dafalutIndex-1];
-            dafalutIndex++;
-        }
+        //預設檢測patterns
+        patternList.append({1,"White"});
+        patternList.append({2,"Black"});
     }
     recipeFilePath = recipetFilePath;
     QSettings settings(recipetFilePath, QSettings::IniFormat);
@@ -48,7 +45,6 @@ void FuncPar::INI(QList<QPair<int,QString>>patternList, QString recipetFilePath,
     settings.setValue("PT_sizeX", 1152);
     settings.setValue("PT_sizeY", 648);
     settings.endGroup();
-    qDebug()<<"FuncPar::INI"<<recipetFilePath;
     foreach(const QPair p, patternList) {
         int index = p.first;
         QString name = p.second;
