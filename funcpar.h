@@ -18,27 +18,18 @@ class FuncPar : public QDialog
 public:
     Ui::FuncPar *ui;
     explicit FuncPar(QWidget *parent = nullptr);
-    void fpupdatecombopattern(QListWidgetItem *item, int i);
-    struct BorDpoint{
-        int threshlodHigh,threshlodLow,boundaryHigh,boundaryLow;
-    };
-    struct pattern_name{
-      QString name;
-      int index;
-      bool BP = false,DP = false;
-      BorDpoint BPoint;
-      BorDpoint DPoint;
-      int exposureT;
-    };
     QString recipeFilePath;
-    void INI(QList<QPair<int,QString>>patternList, QString recipetFilePath, QString ModelName, bool isNew);
-    void reviseModelINI(QString section, QString key ,QString Value);
     QStringList spinBoxNames;
     QList<int> spinBoxValues;
-    void removePattern(QString patternName,QString ModelPath);
     ~FuncPar();
 
-private slots:
+public slots:
+    void fpupdatecombopattern(QListWidgetItem *item, int i);
+    void INI(QList<QPair<int,QString>>patternList, QString recipetFilePath, QString ModelName, bool isNew);
+    void reviseRecipeINI(QString section, QString key ,QString Value);
+    void removePattern(QString patternName,QString ModelPath);
+
+private slots:    
     void on_puB_save_clicked();
     void on_comboBox_pattern_activated(const QString &patternName);
     void on_horizontalSlider_exposureTime_valueChanged(int value);

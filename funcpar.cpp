@@ -115,7 +115,7 @@ void FuncPar::INI(QList<QPair<int,QString>>patternList, QString recipetFilePath,
         settings.endGroup();
     }
 }
-void FuncPar::reviseModelINI(QString section, QString key ,QString Value)
+void FuncPar::reviseRecipeINI(QString section, QString key ,QString Value)
 {
     QSettings settings(recipeFilePath, QSettings::IniFormat);
     int currentValue = settings.value(section + "/" + key).toInt();
@@ -185,16 +185,16 @@ void FuncPar::on_puB_save_clicked()
                         tmp_text = spinBox->text();
                     }
     //                qDebug()<<selectedOption<<name<<tmp_text;
-                    reviseModelINI(selectedOption, name , tmp_text);
+                    reviseRecipeINI(selectedOption, name , tmp_text);
                 } else if (QRadioButton *radioButton = qobject_cast<QRadioButton*>(widget)) {
                     if(radioButton->objectName().contains("check")){
                         bool isChecked = radioButton->isChecked();
                         QString name = radioButton->objectName();
                         name.remove("radioB_");
                         if(isChecked == true){
-                            reviseModelINI(selectedOption,  name, "true");
+                            reviseRecipeINI(selectedOption,  name, "true");
                         }else{
-                            reviseModelINI(selectedOption,  name, "false");
+                            reviseRecipeINI(selectedOption,  name, "false");
                         }
     //                    qDebug() << "RadioButton Name: " << name <<isChecked;
                     }

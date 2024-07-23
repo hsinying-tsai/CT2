@@ -29,7 +29,7 @@ void my_qlabel::setImage(const QPixmap &image,const QVector<QPoint> DefectCoordi
     zoom.height = 2160;
     zoom.x = 0;
     zoom.y = 0;
-    orig_pic = image;
+    QPixmap orig_pic = image;
 
     //Qpixmap to QImage
     qImage = image.toImage();
@@ -190,6 +190,7 @@ void my_qlabel::wheelEvent(QWheelEvent *ev)
 {
     updateMousePosition();
     qDebug()<<"magnificationFactor"<<magnificationFactor;
+    QPoint numDegrees;
     numDegrees = ev->angleDelta();
     if(numDegrees.y()>0){
         if(zoomtime > 39){

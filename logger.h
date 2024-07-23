@@ -15,21 +15,18 @@ class Logger : public QObject
 public:
     explicit Logger(QObject *parent = nullptr);
     enum LogType{Info, Warning, Error, null};
-    void writeLog(LogType type, const QString &message);
-    void populateCombowithFileName(QComboBox *combobox, const QString directoryPath);
-    void on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
-    void create_file();
-    void autoUpdateLog(QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
     QString filePath,logFileName,timestamp,comboText,formattedMessage,currentDate;
     QTextStream m_textstream;
     QDir logDir;
     QString dataTimeString;
     QString m_lastDateChecked;
-
-
-
-private:
     QString logTypeToString(LogType type);
+    void create_file();
+    void writeLog(LogType type, const QString &message);
+    void on_comboBox_currentIndexChanged(int index, QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
+    void populateCombowithFileName(QComboBox *combobox, const QString directoryPath);
+    void autoUpdateLog(QTextBrowser *textBrowser,QComboBox *combobox, const QString &directoryPath);
+
 signals:
     void updateUILog(QString type, QString message);
 

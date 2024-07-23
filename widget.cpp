@@ -739,9 +739,9 @@ void Widget::recv_label_update(QString message)
                 logger.writeLog(Logger::Info, "Edge reset R200 and R201.");
                 qDebug() << "--------------Step_2.server已回應OK，並將R200、R201歸零\n";
                 qDebug()<< "創Pic資料夾";
-                RunCurrentDateTime = QDateTime::currentDateTime();
+                QDateTime RunCurrentDateTime = QDateTime::currentDateTime();
                 RundataTimeString = RunCurrentDateTime.toString("yyyyMMdd_hhmm");
-                RunCurrentModel = ui->lbl_CurModel->text();
+                QString RunCurrentModel = ui->lbl_CurModel->text();
                 RunTimefolderpath = "/Model/"+RunCurrentModel+"/";
                 CreateFolder(RunTimefolderpath, RundataTimeString);
                 CopyRecipe(RunTimefolderpath,"/"+RundataTimeString+"/");
@@ -925,7 +925,6 @@ void Widget::Qtimer()
         }
     }
     if(timer_connect->isActive()){
-        qDebug()<<"----------";
         tc->initClent();
     }
 }
@@ -1043,9 +1042,9 @@ void Widget::on_puB_saveINI_clicked()
     QString PT_width = ui->PT_width_Edit->text();
     QString PT_height = ui->PT_height_Edit->text();
     QString CAM1_ExposureTime = ui->CAM1_exposure_Edit->text();
-    reviseconfigINI("COORDINATE","PT_sizeX",PT_width);
-    reviseconfigINI("COORDINATE","PT_sizeY",PT_height);
-    reviseconfigINI("CAM1","exposureTime",CAM1_ExposureTime);
+    FP.reviseRecipeINI("COORDINATE","PT_sizeX",PT_width);
+    FP.reviseRecipeINI("COORDINATE","PT_sizeY",PT_height);
+    FP.reviseRecipeINI("CAM1","exposureTime",CAM1_ExposureTime);
 
     bool conversionSuccess = false;
     unsigned int tempValue = PT_width.toInt(&conversionSuccess);
@@ -1093,17 +1092,6 @@ void Widget::on_puB_remove_p_clicked()
         ui->lbl_state->setText("尚未選擇要刪除的pattern！");
     }
 }
-
-void Widget::reviseconfigINI(QString section, QString key ,QString Value)
-{
-    qDebug()<<configFilePath;
-    QSettings settings(configFilePath, QSettings::IniFormat);
-    int currentValue = settings.value(section + "/" + key).toInt();
-    qDebug()<<"Current:"<< currentValue;
-    settings.setValue(section+"/"+key,Value);
-    settings.sync();
-}
-
 
 void Widget::on_puB_add_p_clicked()
 {
@@ -1406,7 +1394,6 @@ void Widget::on_puB_remove_m_clicked()
 }
 
 
-
 void Widget::on_list_model_itemDoubleClicked(QListWidgetItem *item)
 {
     QString currentModel = item->text();
@@ -1491,7 +1478,7 @@ void Widget::CreateNReadRecipe()
             foreach(QString modelnamefolder,FilesinModelfolders){
 //                qDebug()<<modelnamefolder;
                 // recipe.ini配置文件是否存在
-                configFilePath = QCoreApplication::applicationDirPath() + "/Model/"+modelnamefolder+"/recipe.ini";
+                QString configFilePath = QCoreApplication::applicationDirPath() + "/Model/"+modelnamefolder+"/recipe.ini";
                 QFile configFile(configFilePath);
                 if (!configFile.exists()) {
                     QList<QPair<int,QString>> tmp;
@@ -1872,9 +1859,9 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
                         stringValue = MapSetting.value(mapgroupName+"/"+mapkey).toString();
                         defectList.append(stringValue);
                         QString trimmedStr = stringValue.mid(1, stringValue.length() - 2);
-                        QStringList parts = trimmedStr.split(',');
-                        int x = parts[0].toInt();
-                        int y = parts[1].toInt();
+                        QStringList part = trimmedStr.split(',');
+                        int x = part[0].toInt();
+                        int y = part[1].toInt();
                         QPoint coordinate =QPoint(x, y);
                         newPattern.defectPoint.append(coordinate);
                     }else if(mapkey == "MeanGray"){
@@ -2020,11 +2007,11 @@ void Widget::addNewModel(QString ModelName, QList<QPair<int, QString> > patternL
        QString PcheckBL = p.checkBL ? "true" : "false";
        QString PcheckDL = p.checkDL ? "true" : "false";
        QString PcheckMura = p.checkMura ? "true" : "false";
-       FP.reviseModelINI(p.patternName, "checkBP" ,PcheckBP);
-       FP.reviseModelINI(p.patternName, "checkDP" ,PcheckDP);
-       FP.reviseModelINI(p.patternName, "checkBL" ,PcheckBL);
-       FP.reviseModelINI(p.patternName, "checkDL" ,PcheckDL);
-       FP.reviseModelINI(p.patternName, "checkMura" ,PcheckMura);
+       FP.reviseRecipeINI(p.patternName, "checkBP" ,PcheckBP);
+       FP.reviseRecipeINI(p.patternName, "checkDP" ,PcheckDP);
+       FP.reviseRecipeINI(p.patternName, "checkBL" ,PcheckBL);
+       FP.reviseRecipeINI(p.patternName, "checkDL" ,PcheckDL);
+       FP.reviseRecipeINI(p.patternName, "checkMura" ,PcheckMura);
    }
 }
 

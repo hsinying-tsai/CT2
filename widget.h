@@ -49,26 +49,21 @@ class Widget : public QMainWindow
 
 public:
     Widget(QWidget *parent = nullptr);
-    int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0,count = 1;
-    double factor_X=1,factor_Y=1;
+    int count_num = 0,num = 1, time = 0,ARM_posX = 0,ARM_posY = 0,count_runModeclickedtime=1,runMode = 0,LightBlink = 0;
+    double factor_X = 1,factor_Y = 1;
     bool ReadpuB_isPressed = false, WritepuB_isPressed=false,change_flawPG = false,checkbox_onlyThisTime = false
             , revisePatternList = false,addPattern = false,error = false,everOccurSocketError = false
             , clearCommand = true, firstTryReconnect = true,firstTryReconnectsuccess = false;
-    Logger logger;
-    defineCoordinate DC;
-    INI ini;
-    imageprocess process;
-    my_qlabel MQ;
+
     tcp_client *tc= new tcp_client(nullptr);
     QPixmap pix_Ini,pix2;
-    QString rev_text, new_send_data, str1;
+    QString new_send_data, str1;
     const QByteArray send_data;
     QList<QLineEdit*> lineEdits;
     QVector<QString> orgi_text,new_text;
     QRegularExpression regex;
     QRegularExpressionMatch match;
-    QStringList parts,run_pattern_name,show_pattern_name;
-    QString configFilePath;
+    QStringList parts,show_pattern_name;
 
     //save the defect point and pattern in order to draw rectangle,[0]->patternName,[...]->defectPoint
     struct defectInfo{
@@ -106,11 +101,15 @@ public:
     void ShowWarning(QString warningText);
 
 private:
-
     Ui::Widget *ui;
     MainDialog MD;
     FuncPar FP;
     QThread clientThread;
+    Logger logger;
+    defineCoordinate DC;
+    INI ini;
+    imageprocess process;
+    my_qlabel MQ;
 
     //camera para
     Pylon::DeviceInfoList_t m_devices;
@@ -119,9 +118,9 @@ private:
     void cameraInit();
 
     //About save pic
-    QDateTime RunCurrentDateTime;
-    QString RunCurrentModel,RundataTimeString,RunTimefolderpath;
+    QString RundataTimeString,RunTimefolderpath;
     int RunDefectNumber,RunPatternAmount,RunPatternNumber = 0;
+
     //RunPatternNumber用於切換下張pattern
     QList<QPair<int,QString>> patternIndexNname;
 
@@ -204,7 +203,6 @@ private slots:
     void CreateMap(QString path);
     void CreateNReadRecipe();
     void CreateFolder(QString path,QString FolderName);
-    void reviseconfigINI(QString section, QString key,QString Value);
 
     // Slots for GuiCamera signals
     void OnNewGrabResult(int userHint);

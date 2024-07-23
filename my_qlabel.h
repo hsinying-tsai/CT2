@@ -27,10 +27,10 @@ public:
     QRectF tmp_rect;
     QImage qImage;
     cv::Mat cvImage;
-    QPixmap orig_pic;
     QPixmap mat2pixmap(cv::Mat const& src);
-    QPoint numDegrees;
+
     bool m_isDragging = false;
+
     void setImage(const QPixmap &image,const QVector<QPoint> DefectCoordinates);
     void mouseMoveEvent(QMouseEvent *ev);
     void mousePressEvent(QMouseEvent *ev);
@@ -39,9 +39,8 @@ public:
     void updateMousePosition();
     void MouseCurrentPos();
     void updatelblPic();
-    void addRectangle(const QRect &rect);
-    void addRectangle2(const QRectF &rect);
-    void updateBoxPosition();
+    void addRectangle(const QRect &rect); //定義畫框線的區域
+    void addRectangle2(const QRectF &rect); //定義可點擊的區域
     void drawRectangleOnImage(cv::Mat& image,const QVector<QPoint> DefectVectors);
     void updateRectangle2();
 
