@@ -2,7 +2,7 @@
 #define STRUCTIMAGE_H
 #include <QImage>
 typedef struct ImageStruct{
-    bool BPenable,DPenable,BLenable,DLenable,Muraeable,isProcessedFlag;
+    bool BPenable,DPenable,BLenable,DLenable,Muraenable,isProcessedFlag;
     int index;
     double meanGray;
     QString patternName;

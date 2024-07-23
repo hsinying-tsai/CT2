@@ -221,6 +221,8 @@ private slots:
     void onStateChanged();
 
     void on_puB_SQL_clicked();
+
+    void showDetectFlow(QLabel *label);
 };
 
 #endif // WIDGET_H

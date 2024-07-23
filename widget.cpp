@@ -560,6 +560,7 @@ void Widget::recv_label_update(QString message)
                 if(parts[1]== "R200"){
                     commandQueue.dequeue();
                     qDebug()<<"dequeue WRS R200 2 0 0";
+                    showDetectFlow(ui->lbl_step2);
                     QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(patternIndexNname.at(RunPatternNumber).first);
                     commandQueue.enqueue(buffer_combined);
                     qDebug()<<"--------------Step_3.1巨觀change PG_num to"<<patternIndexNname.at(RunPatternNumber).first;
@@ -623,7 +624,6 @@ void Widget::recv_label_update(QString message)
                     }else{
                         DC.current = DC.current->next;
                         //如果只有定義一個node,會在這crashed,DC.current->next = 0X18
-                        qDebug()<<"change pattern";
 
                         if(DC.current->index == DC.current->prev->index){
                             //don't change pattern
@@ -635,6 +635,7 @@ void Widget::recv_label_update(QString message)
                             commandQueue.enqueue(buffer_combined);
                         }else{
                             // change pattern
+                            qDebug()<<"change pattern";
                             RunDefectNumber = 1;
                             QString buffer_combined = QString("%1 %2 %3").arg("WR").arg("DM202").arg(DC.current->index);
                             commandQueue.enqueue(buffer_combined);
@@ -648,7 +649,8 @@ void Widget::recv_label_update(QString message)
                     runInit();
                     commandQueue.dequeue();
                     qDebug()<<"New action";
-                    ui->lbl_state->setText("檢測流程結束");
+                    showDetectFlow(ui->lbl_step5);
+                    ui->lbl_state->setText("檢測流程結束"); 
                     str1.clear();
                     commandQueue.enqueue("RD R212");
                 }
@@ -669,6 +671,7 @@ void Widget::recv_label_update(QString message)
                 commandQueue.dequeue();
                 if(change_flawPG == false){
                     qDebug()<<"拍攝巨觀"<<patternIndexNname.at(RunPatternNumber-1).second+" Pattern";
+                    ui->lbl_text2->setText("拍攝巨觀->"+patternIndexNname.at(RunPatternNumber-1).second);
                     on_puB_bigGrab_clicked();
                 }
                 commandQueue.enqueue("WR R202 1");
@@ -691,6 +694,7 @@ void Widget::recv_label_update(QString message)
                     }
                     ui->lbl_state->setText("｜微觀｜目前在拍攝"+patternName+" 微觀照片");
                     qDebug()<<"目前在拍攝"+patternName+" 微觀照片";
+                    ui->lbl_text4->setText("拍攝微觀->"+patternName);
                     on_puB_samllGrab_clicked();
                     commandQueue.enqueue("WR R206 1");
                 }else if(parts[1] == "R206"){
@@ -776,6 +780,7 @@ void Widget::recv_label_update(QString message)
                 qDebug() << "--------------Step_4.server已回應OK，並將R204、R205歸零\n";
                 ui->lbl_state->setText("開始拍攝微觀");
                 commandQueue.enqueue("WRS R204 2 0 0");
+                showDetectFlow(ui->lbl_step4);
             }
             if(buffer[11] == "1"){
                 //R207 1
@@ -908,6 +913,7 @@ void Widget::on_puB_connect_clicked()
     } else if (tc->client->state() == QAbstractSocket::UnconnectedState) {
         tc->address = QHostAddress(ui->AddressEdit->text());
         tc->port = ui->PortEdit->text().toUShort();
+        showDetectFlow(ui->lbl_step1);
     }
     tc->initClent();
 }
@@ -991,6 +997,7 @@ void Widget::on_puB_start_clicked()
             if(runMode == 1){
                runInit();
                commandQueue.enqueue("WR R200 1");
+
             }
         }
     }
@@ -1599,7 +1606,7 @@ void Widget::updateComboBoxModel()
 void Widget::imagesprocess()
 {
     qDebug()<<"全部巨觀照片一起做image process";
-
+    showDetectFlow(ui->lbl_step3);
     //for test
     Images.clear();
 
@@ -1607,29 +1614,43 @@ void Widget::imagesprocess()
     tmp.patternName = "White";
     tmp.meanGray = 0.1;
     tmp.BPenable = true;
-    tmp.DPenable = true;
-    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::DP,{QPoint(30, 30),QPoint(60, 60)}}};
+    tmp.DPenable = false;
+    tmp.BLenable = true;
+    tmp.DLenable = false;
+    tmp.Muraenable = false;
+    tmp.defectPoint = {{ImageProcess::BP,{QPoint(10, 10)}},{ImageProcess::VOpen,{QPoint(30, 30),QPoint(60, 60)}}};
     Images.push_back(tmp);
 
     tmp.index = 2;
     tmp.patternName = "Black";
     tmp.meanGray = 0.2;
-    tmp.BLenable = true;
+    tmp.BPenable = false;
+    tmp.DPenable = true;
+    tmp.BLenable = false;
+    tmp.DLenable = true;
+    tmp.Muraenable = false;
     tmp.defectPoint = {{ImageProcess::HOpen,{QPoint(100, 100)}}};
     Images.push_back(tmp);
-
 
     tmp.index = 3;
     tmp.patternName = "Red";
     tmp.meanGray = 0.3;
     tmp.BPenable = true;
+    tmp.DPenable = true;
+    tmp.BLenable = true;
+    tmp.DLenable = true;
+    tmp.Muraenable = false;
     tmp.defectPoint = {{ImageProcess::BP,{QPoint(150, 150)}}};
     Images.push_back(tmp);
 
     tmp.index = 4;
     tmp.patternName = "Green";
     tmp.meanGray = 0.4;
-    tmp.BPenable = true;
+    tmp.BPenable = false;
+    tmp.DPenable = false;
+    tmp.BLenable = false;
+    tmp.DLenable = false;
+    tmp.Muraenable = true;
     tmp.defectPoint = {{ImageProcess::BP,{QPoint(150, 150)}}};
     Images.push_back(tmp);
 
@@ -1698,8 +1719,6 @@ void Widget::CreateMap(QString path)
     QSettings settings(path, QSettings::IniFormat);
     //save all info
     QString curDefectType;
-    qDebug()<<"SAVE";
-
     foreach(const ImageProcess &image, Images){
         settings.beginGroup(image.patternName);
         settings.setValue("index",image.index);
@@ -1724,7 +1743,6 @@ void Widget::CreateMap(QString path)
 
 void Widget::takeQImagetoList(const QImage &image, int OisBig)
 {
-
     QString folderpath = QCoreApplication::applicationDirPath()+RunTimefolderpath+RundataTimeString;
     QString imgName;
     if(OisBig == 0){
@@ -1744,9 +1762,9 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
         qWarning() << "Failed to save image at:" << imagePath;
     }
     if(OisBig == 0){
-        tmp.index =  patternIndexNname.at(RunPatternNumber).first;
+        tmp.index = patternIndexNname.at(RunPatternNumber-1).first;
         tmp.image = image;
-        tmp.patternName = patternIndexNname.at(RunPatternNumber).second;
+        tmp.patternName = patternIndexNname.at(RunPatternNumber-1).second;
         tmp.meanGray = calculateMean(imagePath);
         QString runModelname = ui->lbl_CurModel->text();
         QString filePath = QCoreApplication::applicationDirPath()+"/Model/"+runModelname+"/recipe.ini";
@@ -1767,7 +1785,7 @@ void Widget::takeQImagetoList(const QImage &image, int OisBig)
                     }else if(key==group+"/checkDL"){
                         tmp.DLenable = setting.value(key).toBool();
                     }else if(key==group+"/checkMura"){
-                        tmp.Muraeable = setting.value(key).toBool();
+                        tmp.Muraenable = setting.value(key).toBool();
                     }
                 }
             }
@@ -1805,7 +1823,16 @@ void Widget::runInit()
     ui->lbl_state->setText("檢測："+showPatterns);
 
 //    qDebug()<<"RUN->"<<runModelname<<":"<<RunPatternName<<","<<RunPatternAmount;
+    //將流程label初始化
+    for (int i = 1; i <= 5; ++i) {
+        QLabel *lbl = findChild<QLabel *>(QString("lbl_step%1").arg(i));
+        if (lbl) {
+            lbl->setStyleSheet("margin:10px;"
+                               "border-width: 3px;"
+                               "background-color: gray;");
 
+        }
+    }
 }
 
 
@@ -2039,4 +2066,32 @@ void Widget::addNewModel(QString ModelName, QList<QPair<int, QString> > patternL
 void Widget::on_puB_SQL_clicked()
 {
     mySQL();
+}
+
+void Widget::showDetectFlow(QLabel *label)
+{
+    label->setStyleSheet("margin:10px;"
+                         "border-width: 3px;"
+                         "background-color: darkblue;");
+    QRegExp getNumber("(\\d+)");
+    QString number;
+    if (getNumber.indexIn(label->objectName()) != -1) {
+        number = getNumber.cap(1);
+    }
+    for (int i = 1; i <= 5; ++i) {
+        if (i != number.toInt()) {
+            QLabel *lbl = findChild<QLabel *>(QString("lbl_step%1").arg(i));
+            if (lbl) {
+                lbl->setStyleSheet("margin:10px;"
+                                   "border-width: 3px;"
+                                   "background-color: gray;");
+            }
+            if(i == 3){
+                ui->lbl_text2->setText("拍攝巨觀->(色)");
+            }
+            if(i == 5){
+                ui->lbl_text4->setText("拍攝微觀->(色)");
+            }
+        }
+    }
 }

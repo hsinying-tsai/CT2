@@ -56,6 +56,9 @@ void imageprocess::process(QVector<ImageStruct>* x){
         if(it->DLenable){
             qDebug()<<it->patternName<<"got DL true";
         }
+        if(it->Muraenable){
+            qDebug()<<it->patternName<<"got Mura true";
+        }
     }
 
     // std::cout<<x;
