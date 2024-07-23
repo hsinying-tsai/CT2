@@ -56,12 +56,12 @@ Widget::Widget(QWidget *parent)
 //        tc = new tcp_client();
     tc->moveToThread(&clientThread);
 
-
     lineEdits = QWidget::findChildren<QLineEdit *>();
     for (auto lineEdit : lineEdits) {
         new_text.append(lineEdit->text());
         orgi_text.append(lineEdit->text());
-    }    for (auto lineEdit : lineEdits) {
+    }
+    for (auto lineEdit : lineEdits) {
         connect(lineEdit, &QLineEdit::textChanged, this, &Widget::comp_text);
     }
 
@@ -69,8 +69,7 @@ Widget::Widget(QWidget *parent)
     QPixmap pic_logo;
     QDir currentDir = QDir::currentPath();
     currentDir.cdUp();
-    //路徑可能要改
-    pic_logo.load(currentDir.filePath("CT2_mySQL/build/AUO.jpg"));
+    pic_logo.load(currentDir.filePath("CT2_mySQL/build/AUO.jpg"));//路徑可能要改
     ui->lbl_logo->setPixmap(pic_logo);
     ui->lbl_logo_2->setPixmap(pic_logo);
 
@@ -82,7 +81,7 @@ Widget::Widget(QWidget *parent)
     // clock (per second
     QTimer *timer_error = new QTimer(this);
     connect(timer_error,SIGNAL(timeout()),this,SLOT(QtimerError()));
-    timer_error->start(1000);
+    timer_error->start(900);
 
     // clock to check socket connect alarm
     timer_connect->setInterval(5000);
@@ -167,7 +166,6 @@ void Widget::INI_UI()
 
     //定義comboBox_model下拉式選單
     updateComboBoxModel();
-
 }
 
 void Widget::cameraInit()
@@ -308,9 +306,9 @@ void Widget::onStateChanged()
                     QString message = QString("將重新運行檢測流程");
                     checkClearCommand = QMessageBox::question(this, "重新運行" , message, QMessageBox::Yes| QMessageBox::No);
                     if (checkClearCommand == QMessageBox::Yes) {
+                        //去刪除comandQueue
                         ui->lbl_state->setText("｜重新運行檢測流程｜");
                         clearCommand = true;
-                        //去刪除comandQueue
                         connect_label_update();
                     }else{
                         //回到上個問題
@@ -413,7 +411,6 @@ void Widget::on_puB_sent_clicked()
 }
 void Widget::on_puB_pre_clicked()
 {
-    //    qDebug()<<CAM1_parm1;
     logger.writeLog(Logger::Info, "User clicled Button puB_pre.");
     //上一張照片
     num--;
@@ -428,7 +425,6 @@ void Widget::on_puB_next_clicked()
     num++;
     updatelblPic();
     logger.writeLog(Logger::Info, "User changed pattern to " + QString::number(num) + ".");
-
 }
 
 void Widget::recv_label_update(QString message)
@@ -539,19 +535,16 @@ void Widget::recv_label_update(QString message)
                                                   .arg(200 + count_num)
                                                   .arg(".S")
                                                   .arg(buffer[count_num / 2]);
-
                     commandQueue.enqueue(buffer_combined);
-                    count_num += 2;
                 }else{
                     QString buffer_combined = QString("%1 %2%3 %4")
                                                   .arg("WR")
                                                   .arg("DM")
                                                   .arg(200 + count_num)
                                                   .arg(buffer[count_num / 2]);
-                    commandQueue.enqueue(buffer_combined);
-                    count_num += 2;
+                    commandQueue.enqueue(buffer_combined);             
                 }
-
+                count_num += 2;
             }
         } else if (message == "OK"){
             // WR事件
@@ -613,7 +606,6 @@ void Widget::recv_label_update(QString message)
                         ui->lbl_state->setText("未檢測出瑕疵點");
                         commandQueue.enqueue("WR R214 1");
                     }
-
                 }else if(parts[1] == "R206"){
                     commandQueue.dequeue();
                     if(DC.current->next == NULL){
@@ -624,7 +616,6 @@ void Widget::recv_label_update(QString message)
                     }else{
                         DC.current = DC.current->next;
                         //如果只有定義一個node,會在這crashed,DC.current->next = 0X18
-
                         if(DC.current->index == DC.current->prev->index){
                             //don't change pattern
                             ARM_posX = (DC.current->x - DC.current->prev->x)*factor_X;
@@ -641,7 +632,6 @@ void Widget::recv_label_update(QString message)
                             commandQueue.enqueue(buffer_combined);
                         }     
                         ui->lbl_state->setText("｜微觀｜切換至 "+patternIndexNname.at(DC.current->index-1).second+" Pattern");
-
                     }
                 }else{
                     //receive OK from "WRS DM201 6 0 0 0 0 0 0
@@ -659,14 +649,12 @@ void Widget::recv_label_update(QString message)
             }else if(parts[1]=="R214"){
                 commandQueue.dequeue();
                 commandQueue.enqueue("WRS DM201 6 0 0 0 0 0 0");
-
             }else if(parts[1]=="DM200"){
                 commandQueue.dequeue();
 //              qDebug()<<"alive";
             }else if(parts[1] == "R202"){
                 commandQueue.dequeue();
                 commandQueue.enqueue("RD R203");
-
             }else if(parts[1] == "DM202"){
                 commandQueue.dequeue();
                 if(change_flawPG == false){
@@ -721,13 +709,12 @@ void Widget::recv_label_update(QString message)
                             if(commandQueue[i] == str1){
                                 qDebug()<<"remove"<<commandQueue[i];
                                 commandQueue.removeAt(i);
-
                             }
                         }
                     }
                 }
             }
-        }else {
+        }else{
             // RD事件
             parts = message.split(" ");
             if (message == "1" || message == "0") {
@@ -854,7 +841,7 @@ void Widget::connect_label_update()
             ui->textSend->setEnabled(true);
             ui->puB_sent->setEnabled(true);
         }
-    } else if (tc->connnect_state == 0) {
+    }else if (tc->connnect_state == 0) {
         RunPatternNumber = 1;
         //連線失敗
         ui->textRecv->clear();
@@ -920,8 +907,8 @@ void Widget::on_puB_connect_clicked()
 
 void Widget::Qtimer()
 {
-    //檢測日期是否有更改
-    //日期改變,需創建新的.log(writeLog->改路徑, 需更新comboBox->logger選單)以及model需創建新的資料夾
+    //判斷檢測日期是否有更改
+    //日期改變->需創建新的.log(writeLog->改路徑, 需更新comboBox->logger選單)以及model需創建新的資料夾
     QString currentDate = QDateTime::currentDateTime().toString("yyyyMMdd");
     if(currentDate!=logger.m_lastDateChecked){
         qDebug()<<"<隔天>";
@@ -997,7 +984,6 @@ void Widget::on_puB_start_clicked()
             if(runMode == 1){
                runInit();
                commandQueue.enqueue("WR R200 1");
-
             }
         }
     }
@@ -1032,21 +1018,9 @@ void Widget::on_puB_write_clicked()
             buffer[i]="0";
         }
     }
-    QString buffer_combined = QString("%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11 %12 %13")
-                                  .arg("WRS")
-                                  .arg("R200")
-                                  .arg("10")
-                                  .arg(buffer[4])
-                                  .arg(buffer[5])
-                                  .arg(buffer[6])
-                                  .arg(buffer[7])
-                                  .arg(buffer[8])
-                                  .arg(buffer[9])
-                                  .arg(buffer[10])
-                                  .arg(buffer[11])
-                                  .arg(buffer[12])
-                                  .arg(buffer[13]);
-
+    QString buffer_combined = QString("%1 %2 %3 %4 %5 %6 %7 %8 %9 %10 %11").arg("WRS R200 10")
+         .arg(buffer[4]).arg(buffer[5]).arg(buffer[6]).arg(buffer[7]).arg(buffer[8])
+         .arg(buffer[9]).arg(buffer[10]).arg(buffer[11]).arg(buffer[12]).arg(buffer[13]);
     commandQueue.enqueue(buffer_combined);
 }
 
@@ -1081,7 +1055,6 @@ void Widget::on_puB_saveINI_clicked()
     }else{
         qDebug()<<"Failed_X";
     }
-
     conversionSuccess = false;
     tempValue = PT_height.toInt(&conversionSuccess);
     if(conversionSuccess && tempValue <= UINT16_MAX){
@@ -1090,7 +1063,6 @@ void Widget::on_puB_saveINI_clicked()
     }else{
         qDebug()<<"Failed_Y";
     }
-
     qDebug()<<"CAM1_ExposureTime"<<CAM1_ExposureTime;
 }
 
@@ -1135,7 +1107,6 @@ void Widget::reviseconfigINI(QString section, QString key ,QString Value)
 
 void Widget::on_puB_add_p_clicked()
 {
-
     revisePatternList = true;
     if(!ui->lbl_modelPT->text().isEmpty()){
         bool ok;
@@ -1196,12 +1167,11 @@ void Widget::on_puB_save_p_clicked()
                 }
             }
         }
-        qDebug()<<"ui->list_Pattern->size()"<<ui->list_Pattern->count();
         qDebug()<<"tmpList"<<tmpList;
         QString tmpModePath = QString("%1%2").arg(QCoreApplication::applicationDirPath()+"/Model/"+currentModel+"/").arg("recipe.ini");
         FP.INI(tmpList, tmpModePath, currentModel,false);
         updatecombopattern();
-        if(addPattern == true){
+        if(addPattern){
             FP.show();
             addPattern = false;
         }
@@ -1371,10 +1341,9 @@ void Widget::on_puB_add_m_clicked()
 
     QString inputModel = newItemText;
     QString modelPath = "/Model/";
-    QStringList createNewPattern;
     QDir modelFolder("Model/"+inputModel);
     QMessageBox::StandardButton doublecheck;
-    if (ok == true) {
+    if (ok) {
         doublecheck = QMessageBox::question(this, "確認", "創建model:"+inputModel+"？", QMessageBox::Yes|QMessageBox::No);
         if(doublecheck == QMessageBox::Yes){
             // 檢查Model是否存在
@@ -1385,7 +1354,6 @@ void Widget::on_puB_add_m_clicked()
            }else{
                ShowWarning("Model:"+inputModel+" 已存在");
                qDebug() << "配置文件已存在： " << modelPath;
-//               FP.INI(createNewPattern,modelPath,inputModel,false);
            }
         }else{
             ui->lbl_state->setText("取消創建新model:"+inputModel);
@@ -1406,10 +1374,9 @@ void Widget::on_puB_remove_m_clicked()
         removeCheck = QMessageBox::question(this, "確認", "確定要刪除model:"+selectedItem->text()+" ？", QMessageBox::Yes|QMessageBox::No);
         if (removeCheck == QMessageBox::Yes) {
             QString deleDirPath = QCoreApplication::applicationDirPath() + "/Model/" + selectedItem->text();
-//            qDebug() << "欲刪除資料夾路徑：" << deleDirPath;
+            qDebug() << "欲刪除資料夾路徑：" << deleDirPath;
             // 創建 QDir 物件
             QDir dir(deleDirPath);
-
             // 檢查資料夾是否存在
             if (dir.exists()) {
                 // 刪除資料夾及其內容
