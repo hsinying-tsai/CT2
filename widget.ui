@@ -34,7 +34,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -1669,7 +1669,7 @@ background-color: red;</string>
          <x>10</x>
          <y>290</y>
          <width>761</width>
-         <height>79</height>
+         <height>61</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1704,7 +1704,7 @@ background-color: red;</string>
              </font>
             </property>
             <property name="text">
-             <string>拍攝巨觀-&gt; (色)</string>
+             <string>拍攝巨觀-&gt; (pattern)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1734,7 +1734,7 @@ background-color: red;</string>
              </font>
             </property>
             <property name="text">
-             <string>拍攝微觀-&gt; (色)</string>
+             <string>拍攝微觀-&gt; (pattern)</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -2343,7 +2343,7 @@ background-color: gray;</string>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>defect viewer</string>
+       <string>Defect Viewer</string>
       </attribute>
       <widget class="QPushButton" name="puB_pre">
        <property name="geometry">

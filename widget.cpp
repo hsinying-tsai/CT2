@@ -446,6 +446,9 @@ void Widget::recv_label_update(QString message)
         }
     }else if(str1 == "RD R215"){
         commandQueue.dequeue();
+        ui->textRecv->append("received:"+message+"\tfrom: "+str1);
+        qDebug()<<"received:"<<message<<"\tfrom"<<str1;
+        logger.writeLog(Logger::Info, "Received message " + message + ".");
         if(message == "1"){
             error = true;
             ui->lbl_state->setText("！！出現異常事件,檢測流程暫停！！");
@@ -1441,20 +1444,24 @@ void Widget::on_puB_setCur_m_clicked()
 
 void Widget::on_table_defectlist_cellClicked(int row, int column)
 {
-    QString CurrentDateDir = ui->table_defectlist->item(row, 7)->text();
-    QString CurrentTimeDir = ui->table_defectlist->item(row, 8)->text();
-    QString CurrentModel = ui->table_defectlist->item(row, 1)->text();
-    QString patternIndex =ui->table_defectlist->item(row, 2)->text();
-    QString Number = ui->table_defectlist->item(row, 0)->text();
-    QPixmap pic2;
-    QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".bmp";
-    pic2.load(pic2Path);
-    qDebug()<<"pic2Path"<<pic2Path;
-    ui->lbl_pic2->setPixmap(pic2);
-    QString DF_XY = ui->table_defectlist->item(row, 4)->text();
-    QString DF_type = ui->table_defectlist->item(row, 5)->text();
-    ui->lbl_DFcoodinate->setText(DF_XY);
-    ui->lbl_DFtype->setText(DF_type);
+    if(!ui->lbl_pic->text().contains("資料夾")){
+        QString CurrentDateDir = ui->table_defectlist->item(row, 7)->text();
+        QString CurrentTimeDir = ui->table_defectlist->item(row, 8)->text();
+        QString CurrentModel = ui->table_defectlist->item(row, 1)->text();
+        QString patternIndex =ui->table_defectlist->item(row, 2)->text();
+        QString Number = ui->table_defectlist->item(row, 0)->text();
+        QPixmap pic2;
+        QString pic2Path = QCoreApplication::applicationDirPath()+"/Model/"+CurrentModel+"/"+CurrentDateDir+"_"+CurrentTimeDir+"/"+patternIndex+"_"+Number+".bmp";
+        pic2.load(pic2Path);
+        if(!pic2.isNull()){
+            qDebug()<<"pic2Path"<<pic2Path;
+            ui->lbl_pic2->setPixmap(pic2);
+            QString DF_XY = ui->table_defectlist->item(row, 4)->text();
+            QString DF_type = ui->table_defectlist->item(row, 5)->text();
+            ui->lbl_DFcoodinate->setText(DF_XY);
+            ui->lbl_DFtype->setText(DF_type);
+        }
+    }
 }
 
 void Widget::CreateNReadRecipe()
@@ -1768,7 +1775,7 @@ void Widget::runInit()
          }
     }
 
-    qDebug()<<"NOW:"<<RunPatternAmount<<patternIndexNname;
+    qDebug()<<"檢測"<<RunPatternAmount<<"張patterns,{Index,Name} :"<<patternIndexNname;
     QString showPatterns;
     foreach(QPair pattern, patternIndexNname){
         showPatterns.append(QString("%1->%2, ").arg(pattern.first).arg(pattern.second));
@@ -1824,6 +1831,7 @@ void Widget::on_comboBox_date_activated(const QString TimeDir)
         qDebug()<<MapPath<<"->invalid";
         ui->table_defectlist->insertRow(0);
         QTableWidgetItem *item_model = new QTableWidgetItem("NULL");
+        ui->lbl_pic->setText("資料夾無瑕疵資訊(map.ini)");
         ui->table_defectlist->setItem(0, 0, item_model);
     }else{
         qDebug()<<"on_comboBox_date_activated";
@@ -2026,7 +2034,7 @@ void Widget::showDetectFlow(QLabel *label)
 {
     label->setStyleSheet("margin:10px;"
                          "border-width: 3px;"
-                         "background-color: darkblue;");
+                         "background-color: gold;");
     QRegExp getNumber("(\\d+)");
     QString number;
     if (getNumber.indexIn(label->objectName()) != -1) {
@@ -2041,10 +2049,10 @@ void Widget::showDetectFlow(QLabel *label)
                                    "background-color: gray;");
             }
             if(i == 3){
-                ui->lbl_text2->setText("拍攝巨觀->(色)");
+                ui->lbl_text2->setText("拍攝巨觀->(pattern)");
             }
             if(i == 5){
-                ui->lbl_text4->setText("拍攝微觀->(色)");
+                ui->lbl_text4->setText("拍攝微觀->(pattern)");
             }
         }
     }
